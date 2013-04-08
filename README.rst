@@ -11,3 +11,6 @@ Buildbot is really hairy.
 **Sloth** is simple.
 
 Just put it in your repository (or outside—you decide!), get some tuning, and just let it run.
+
+.. image:: napoleon_sloth.jpg
+    :align: center
