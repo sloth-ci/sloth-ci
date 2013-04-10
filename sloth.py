@@ -1,11 +1,11 @@
 from subprocess import call
 from datetime import datetime
+from argparse import ArgumentParser
 
 import cherrypy
 import requests
 import configs
 
-import  sloth_conf
 
 def log(func):
     """Logger decorator"""
@@ -35,8 +35,8 @@ def execute(action):
     """
 
     action = action.format(
-        work_dir = sloth_conf.work_dir,
-        branch = sloth_conf.branch
+        work_dir = config['work_dir'],
+        branch = config['branch']
     )
 
     try:
@@ -70,19 +70,26 @@ def listen(payload):
     if not cherrypy.request.method == 'POST':
             raise cherrypy.HTTPError(405)
 
-    for action in sloth_conf.actions:
+    for action in config['actions']:
         execute(action)
 
-    for node in sloth_conf.nodes:
+    for node in config['nodes']:
         transmit(payload, node)
 
 
 if __name__ == '__main__':
     """Runs main loop"""
 
+    parser = ArgumentParser()
+    parser.add_argument('-c', '--config')
+
+    config_file = parser.parse_args().config or 'sloth.conf'
+
+    config = configs.load(config_file)
+
     cherrypy.config.update({
-        'server.socket_host': sloth_conf.host,
-        'server.socket_port': sloth_conf.port,
+        'server.socket_host': config['host'],
+        'server.socket_port': config['port'],
     })
 
     cherrypy.quickstart(listen, '/sloth')
