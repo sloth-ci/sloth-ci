@@ -12,5 +12,6 @@ Buildbot is really hairy.
 
 Just put it in your repository (or outside—you decide!), get some tuning, and just let it run.
 
-.. image:: napoleon_sloth.jpg
+.. image:: https://dl.dropbox.com/u/43859367/napoleon_sloth.jpg
     :align: center
+    :width: 200
