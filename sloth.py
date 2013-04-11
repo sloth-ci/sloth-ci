@@ -64,7 +64,7 @@ def transmit(payload, node):
 def validate_bb_payload(payload):
     try:
         payload = loads(payload)
-        
+        print payload
         repo = payload['repository']['owner'] + '/' + payload['repository']['name']
         branch = payload['repository']['commits'][0]['branch']
         print repo, config['repo']
