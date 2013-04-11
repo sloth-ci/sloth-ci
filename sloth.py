@@ -14,6 +14,13 @@ def log(func):
     def logged(*args, **kwargs):
         result = func(*args, **kwargs)
         
+        try:
+            with open('sloth.log', 'r') as log:
+                pass
+        except:
+            with open('sloth.log', 'w') as log:
+                pass
+        
         with open('sloth.log', 'a') as log:
             log.writelines(
                 '%s -- %s(%s, %s): %s\n' % (
