@@ -66,6 +66,12 @@ def transmit(payload, node):
 
 @log
 def validate_bb_payload(payload):
+    """Validate Bitbucket payload against repo name and branch.
+    
+    :param payload: payload to be validated
+    
+    :returns: True of the payload is valid, False otherwise
+    """
     try:
         payload = loads(payload)
 
@@ -75,7 +81,7 @@ def validate_bb_payload(payload):
         return repo == config['repo'] and branch == config['branch']
     except:
         return False
-        
+
 
 @cherrypy.expose
 def listen(payload, orig=True):
