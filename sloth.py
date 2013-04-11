@@ -65,6 +65,9 @@ def validate_bb_payload(payload):
     try:
         payload = loads(payload)
 
+        if payload['repository']['absolute_url'] == config['repo'] and set([__['branch'] for __ in payload['commits']]).intersection(config['branches']):
+            return True
+
         repo = payload['repository']['owner'] + '/' + payload['repository']['slug']
         branch = payload['commits'][0]['branch']
 
