@@ -59,8 +59,16 @@ def transmit(payload, node):
     return requests.post('%s/sloth' % node, data={'payload': payload, orig: False})
 
 
+@log
 def validate_bb_payload(payload):
-    pass
+    try:
+        repo = payload['repository']['owner'] + '/' + payload['repository']['slug']
+        branch = payload['repository']['commits'][0]['branch']
+        
+        return repo == config['repo'] and branch == config['branch']
+    except:
+        return False
+        
 
 @cherrypy.expose
 def listen(payload, orig=True):
@@ -71,9 +79,10 @@ def listen(payload, orig=True):
 
     #only POST requests are considered valid
     if not cherrypy.request.method == 'POST':
-            raise cherrypy.HTTPError(405)
+        raise cherrypy.HTTPError(405)
 
-    print(payload)
+    if not validate_bb_payload(payload):
+        raise ValueError('Invalid payload')
 
     if config['actions']:
         for action in config['actions']:
