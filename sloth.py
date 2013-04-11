@@ -65,7 +65,7 @@ def validate_bb_payload(payload):
     try:
         payload = loads(payload)
 
-        repo = payload['owner'] + '/' + payload['slug']
+        repo = payload['repository']['owner'] + '/' + payload['repository']['slug']
         branch = payload['commits'][0]['branch']
 
         return repo == config['repo'] and branch == config['branch']
