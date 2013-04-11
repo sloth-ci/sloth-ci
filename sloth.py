@@ -56,11 +56,14 @@ def transmit(payload, node):
     :returns: response code
     """
 
-    return requests.post('%s/sloth' % node, data={'payload': payload})
+    return requests.post('%s/sloth' % node, data={'payload': payload, orig: False})
 
+
+def validate_bb_payload(payload):
+    pass
 
 @cherrypy.expose
-def listen(payload):
+def listen(payload, orig=True):
     """Listens to Bitbucket commit payloads.
 
     :param payload: BitBucket commit payload
@@ -70,11 +73,15 @@ def listen(payload):
     if not cherrypy.request.method == 'POST':
             raise cherrypy.HTTPError(405)
 
-    for action in config['actions']:
-        execute(action)
+    print(payload)
 
-    for node in config['nodes']:
-        transmit(payload, node)
+    if config['actions']:
+        for action in config['actions']:
+            execute(action)
+
+    if orig and config['nodes']:
+        for node in config['nodes']:
+            transmit(payload, node)
 
 
 if __name__ == '__main__':
