@@ -12,6 +12,8 @@ def log(func):
     """Logger decorator"""
 
     def logged(*args, **kwargs):
+        result = func(*args, **kwargs)
+        
         with open('sloth.log', 'a') as log:
             log.writelines(
                 '%s -- %s(%s, %s): %s\n' % (
@@ -19,9 +21,11 @@ def log(func):
                     func.__name__,
                     args,
                     kwargs,
-                    func(*args, **kwargs)
+                    result
                 )
             )
+        
+        return result
 
     return logged
 
@@ -68,8 +72,7 @@ def validate_bb_payload(payload):
         repo = payload['repository']['owner'] + '/' + payload['repository']['slug']
         branch = payload['commits'][0]['branch']
 
-        #return repo == config['repo'] and branch == config['branch']
-        return True
+        return repo == config['repo'] and branch == config['branch']
     except:
         return False
         
