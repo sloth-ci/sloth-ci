@@ -85,8 +85,9 @@ def listen(payload, orig=True):
         raise cherrypy.HTTPError(405)
 
     if not validate_bb_payload(payload):
+        print('qwe')
         raise ValueError('Invalid payload')
-
+    print('asd')
     if config['actions']:
         for action in config['actions']:
             execute(action)
