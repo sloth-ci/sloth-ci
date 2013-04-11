@@ -83,7 +83,7 @@ def listen(payload, orig=True):
     #only POST requests are considered valid
     if not cherrypy.request.method == 'POST':
         raise cherrypy.HTTPError(405)
-    
+    print('asd', payload)
     v = validate_bb_payload(payload)
     
     print('qwe', v)
