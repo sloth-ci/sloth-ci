@@ -64,11 +64,10 @@ def transmit(payload, node):
 def validate_bb_payload(payload):
     try:
         payload = loads(payload)
-        print payload
-        repo = payload['repository']['owner'] + '/' + payload['repository']['name']
-        branch = payload['repository']['commits'][0]['branch']
-        print repo, config['repo']
-        print branch, config['branch']
+
+        repo = payload['owner'] + '/' + payload['slug']
+        branch = payload['commits'][0]['branch']
+
         return repo == config['repo'] and branch == config['branch']
     except:
         return False
