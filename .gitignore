@@ -4,3 +4,5 @@ include
 lib
 *.kdev4
 *.pyc
+my.conf
+sloth.log
