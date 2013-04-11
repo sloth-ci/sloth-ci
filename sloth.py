@@ -65,9 +65,6 @@ def validate_bb_payload(payload):
     try:
         payload = loads(payload)
 
-        if payload['repository']['absolute_url'] == config['repo'] and set([__['branch'] for __ in payload['commits']]).intersection(config['branches']):
-            return True
-
         repo = payload['repository']['owner'] + '/' + payload['repository']['slug']
         branch = payload['commits'][0]['branch']
 
@@ -86,8 +83,12 @@ def listen(payload, orig=True):
     #only POST requests are considered valid
     if not cherrypy.request.method == 'POST':
         raise cherrypy.HTTPError(405)
-
-    if not validate_bb_payload(payload):
+    
+    v = validate_bb_payload(payload)
+    
+    print('qwe', v)
+    
+    if not v:
         raise ValueError('Invalid payload')
 
     if config['actions']:
