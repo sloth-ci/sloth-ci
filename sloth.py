@@ -1,6 +1,7 @@
 from subprocess import call
 from datetime import datetime
 from argparse import ArgumentParser
+from json import loads
 
 import cherrypy
 import requests
@@ -62,6 +63,8 @@ def transmit(payload, node):
 @log
 def validate_bb_payload(payload):
     try:
+        payload = loads(payload)
+        
         repo = payload['repository']['owner'] + '/' + payload['repository']['slug']
         branch = payload['repository']['commits'][0]['branch']
         
