@@ -143,6 +143,4 @@ if __name__ == '__main__':
 
     config = configs.load(config_file)
 
-    sloth = Sloth(config)
-
-    sloth.listen()
+    Sloth(config).listen()
