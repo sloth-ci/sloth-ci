@@ -109,7 +109,7 @@ class Sloth:
             if not cherrypy.request.method == 'POST':
                 raise cherrypy.HTTPError(405)
 
-            if not self.validate_bb_payload(payload):
+            if cherrypy.request.headers['User-Agent'] != 'Bitbucket.org' or not self.validate_bb_payload(payload):
                 raise cherrypy.HTTPError(400)
 
             if self.config['actions']:
@@ -126,7 +126,6 @@ class Sloth:
         """Runs CherryPy loop to listen for payload."""
 
         cherrypy.config.update({
-            #'environment': 'production',
             'server.socket_host': self.config['host'],
             'server.socket_port': self.config['port'],
         })
