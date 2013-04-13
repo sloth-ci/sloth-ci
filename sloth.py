@@ -13,14 +13,14 @@ def log(func):
 
     def logged(*args, **kwargs):
         result = func(*args, **kwargs)
-        
+
         try:
             with open('sloth.log', 'r') as log:
                 pass
         except:
             with open('sloth.log', 'w') as log:
                 pass
-        
+
         with open('sloth.log', 'a') as log:
             log.writelines(
                 '%s -- %s(%s, %s): %s\n' % (
@@ -31,86 +31,105 @@ def log(func):
                     result
                 )
             )
-        
+
         return result
 
     return logged
 
 
-@log
-def execute(action):
-    """Executes command line command.
+class Sloth:
+    def __init__(self, config):
+        self.config = config
 
-    :param action: action to be executed
+    @log
+    def validate_bb_payload(self, payload):
+        """Validate Bitbucket payload against repo name and branch.
 
-    :returns: 'OK' if successful, Exception otherwise
-    """
+        :param payload: payload to be validated
 
-    action = action.format(
-        work_dir = config['work_dir'],
-        branch = config['branch']
-    )
+        :returns: True of the payload is valid, False otherwise
+        """
 
-    try:
-        call(action.split())
-        return 'OK'
-    except Exception as e:
-        return e
+        try:
+            payload = loads(payload)
 
+            repo = payload['repository']['owner'] + '/' + payload['repository']['slug']
+            branch = payload['commits'][0]['branch']
 
-@log
-def transmit(payload, node):
-    """Transmit payload to a node.
+            return repo == self.config['repo'] and branch == self.config['branch']
+        except:
+            return False
 
-    :param payload: payload to be transmitted
-    :param node: complete node URL (with protocol and port, **without** the ``/sloth`` suffix)
+    @log
+    def execute(self, action):
+        """Executes command line command.
 
-    :returns: response code
-    """
+        :param action: action to be executed
 
-    return requests.post('%s/sloth' % node, data={'payload': payload, orig: False})
+        :returns: 'OK' if successful, Exception otherwise
+        """
 
+        action = action.format(
+            work_dir = self.config['work_dir'],
+            branch = self.config['branch']
+        )
 
-@log
-def validate_bb_payload(payload):
-    """Validate Bitbucket payload against repo name and branch.
-    
-    :param payload: payload to be validated
-    
-    :returns: True of the payload is valid, False otherwise
-    """
-    try:
-        payload = loads(payload)
-
-        repo = payload['repository']['owner'] + '/' + payload['repository']['slug']
-        branch = payload['commits'][0]['branch']
-
-        return repo == config['repo'] and branch == config['branch']
-    except:
-        return False
+        try:
+            call(action.split())
+            return 'OK'
+        except Exception as e:
+            return e
 
 
-@cherrypy.expose
-def listen(payload, orig=True):
-    """Listens to Bitbucket commit payloads.
+    @log
+    def transmit(self, payload, node):
+        """Transmit payload to a node.
 
-    :param payload: BitBucket commit payload
-    """
+        :param payload: payload to be transmitted
+        :param node: complete node URL (with protocol and port, **without** the ``/sloth`` suffix)
 
-    #only POST requests are considered valid
-    if not cherrypy.request.method == 'POST':
-        raise cherrypy.HTTPError(405)
+        :returns: response code
+        """
 
-    if not validate_bb_payload(payload):
-        raise ValueError('Invalid payload')
+        return requests.post('%s/sloth' % node, data={'payload': payload, 'orig': False})
 
-    if config['actions']:
-        for action in config['actions']:
-            execute(action)
+    def get_listener(self):
+        """Create listener for the CherryPy main loop."""
 
-    if orig and config['nodes']:
-        for node in config['nodes']:
-            transmit(payload, node)
+        @cherrypy.expose
+        def listener(payload, orig=True):
+            """Listens to Bitbucket commit payloads.
+
+            :param payload: BitBucket commit payload
+            """
+
+            #only POST requests are considered valid
+            if not cherrypy.request.method == 'POST':
+                raise cherrypy.HTTPError(405)
+
+            if not self.validate_bb_payload(payload):
+                raise cherrypy.HTTPError(400)
+
+            if self.config['actions']:
+                for action in self.config['actions']:
+                    self.execute(action)
+
+            if orig and self.config['nodes']:
+                for node in self.config['nodes']:
+                    self.transmit(payload, node)
+
+        return listener
+
+    def listen(self, path='/sloth'):
+        """Runs CherryPy loop to listen for payload."""
+
+        cherrypy.config.update({
+            #'environment': 'production',
+            'server.socket_host': self.config['host'],
+            'server.socket_port': self.config['port'],
+        })
+
+        cherrypy.quickstart(self.get_listener(), path)
 
 
 if __name__ == '__main__':
@@ -123,9 +142,6 @@ if __name__ == '__main__':
 
     config = configs.load(config_file)
 
-    cherrypy.config.update({
-        'server.socket_host': config['host'],
-        'server.socket_port': config['port'],
-    })
+    sloth = Sloth(config)
 
-    cherrypy.quickstart(listen, '/sloth')
+    sloth.listen()
