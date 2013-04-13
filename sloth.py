@@ -2,6 +2,7 @@ from subprocess import call
 from datetime import datetime
 from argparse import ArgumentParser
 from json import loads
+from functools import wraps
 
 import cherrypy
 import requests
@@ -11,6 +12,7 @@ import configs
 def log(func):
     """Logger decorator"""
 
+    @wraps(func)
     def logged(*args, **kwargs):
         result = func(*args, **kwargs)
 
