@@ -175,8 +175,8 @@ if __name__ == '__main__':
     parser = ArgumentParser()
     parser.add_argument('-c', '--config')
 
-    config_file = parser.parse_args().config or 'sloth.conf'
+    config_file = parser.parse_args().config
 
-    config = configs.load(config_file)
+    config = configs.load(config_file, 'sloth.conf')
 
     Sloth(config).run()
