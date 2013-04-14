@@ -134,6 +134,8 @@ class Sloth:
         db_connection = sqlite3.connect(self.config['db'])
         db_cursor = db_connection.cursor()
 
+        db_cursor.execute('CREATE TABLE IF NOT EXISTS Users(Id INTEGER PRIMARY KEY, Login TEXT, Hash TEXT)')
+
         hash = db_cursor.execute('SELECT Hash from Users WHERE Login=?', (login,)).fetchone()
 
         if not hash:
