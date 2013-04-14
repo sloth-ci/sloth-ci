@@ -3,6 +3,8 @@ from datetime import datetime
 from argparse import ArgumentParser
 from json import loads
 from functools import wraps
+from hashlib import md5
+import sqlite3
 
 import cherrypy
 import requests
@@ -84,7 +86,7 @@ class Sloth:
 
 
     @log
-    def transmit(self, payload, node):
+    def broadcast(self, payload, node):
         """Transmit payload to a node.
 
         :param payload: payload to be transmitted
@@ -95,34 +97,66 @@ class Sloth:
 
         return requests.post('%s/sloth' % node, data={'payload': payload, 'orig': False})
 
-    def get_listener(self):
-        """Create listener for the CherryPy main loop."""
+    @cherrypy.expose
+    def listener(self, payload, orig=True):
+        """Listens to Bitbucket commit payloads.
 
-        @cherrypy.expose
-        def listener(payload, orig=True):
-            """Listens to Bitbucket commit payloads.
+        :param payload: Bitbucket commit payload
+        """
 
-            :param payload: BitBucket commit payload
-            """
+        #only POST requests are considered valid
+        if not cherrypy.request.method == 'POST':
+            raise cherrypy.HTTPError(405)
 
-            #only POST requests are considered valid
-            if not cherrypy.request.method == 'POST':
-                raise cherrypy.HTTPError(405)
+        if cherrypy.request.headers['User-Agent'] != 'Bitbucket.org' or not self.validate_bb_payload(payload):
+            raise cherrypy.HTTPError(400)
 
-            if cherrypy.request.headers['User-Agent'] != 'Bitbucket.org' or not self.validate_bb_payload(payload):
-                raise cherrypy.HTTPError(400)
+        if self.config['actions']:
+            for action in self.config['actions']:
+                self.execute(action)
 
-            if self.config['actions']:
-                for action in self.config['actions']:
-                    self.execute(action)
+        if orig and self.config['nodes']:
+            for node in self.config['nodes']:
+                self.broadcast(payload, node)
 
-            if orig and self.config['nodes']:
-                for node in self.config['nodes']:
-                    self.transmit(payload, node)
+    def validate_credentials(self, login, password):
+        """Validate webface login credentials.
 
-        return listener
+        :param login: login
+        :param password: password
 
-    def listen(self, path='/sloth'):
+        :returns: True if the credentials are valid, False otherwise
+        """
+
+        if not login or not password:
+            return False
+
+        db_connection = sqlite3.connect(self.config['db'])
+        db_cursor = db_connection.cursor()
+
+        hash = db_cursor.execute('SELECT Hash from Users WHERE Login=?', (login,)).fetchone()
+
+        if not hash:
+            return False
+
+        if md5(password.encode()).hexdigest() != hash[0]:
+            return False
+
+        return True
+
+    @cherrypy.expose
+    def webface(self, login=None, password=None):
+        if cherrypy.request.method == 'GET':
+            return open('webface/login.html', 'r')
+        elif cherrypy.request.method == 'POST':
+            if self.validate_credentials(login, password):
+                return open('sloth.log', 'r')
+            else:
+                raise cherrypy.HTTPRedirect(self.config['path'] + '/webface')
+        else:
+            raise cherrypy.HTTPError(405)
+
+    def run(self):
         """Runs CherryPy loop to listen for payload."""
 
         cherrypy.config.update({
@@ -130,12 +164,14 @@ class Sloth:
             'server.socket_port': self.config['port'],
         })
 
-        cherrypy.quickstart(self.get_listener(), path)
+        cherrypy.tree.mount(self.listener, self.config['path'])
+        cherrypy.tree.mount(self.webface, self.config['path'] + '/webface')
+
+        cherrypy.engine.start()
+        cherrypy.engine.block()
 
 
 if __name__ == '__main__':
-    """Runs main loop"""
-
     parser = ArgumentParser()
     parser.add_argument('-c', '--config')
 
@@ -143,4 +179,4 @@ if __name__ == '__main__':
 
     config = configs.load(config_file)
 
-    Sloth(config).listen()
+    Sloth(config).run()
