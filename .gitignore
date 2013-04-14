@@ -6,3 +6,4 @@ lib
 *.pyc
 my.conf
 sloth.log
+sloth.db
