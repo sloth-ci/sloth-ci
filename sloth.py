@@ -58,7 +58,7 @@ class Sloth:
             payload = loads(payload)
 
             repo = payload['repository']['owner'] + '/' + payload['repository']['slug']
-            branch = payload['commits'][0]['branch']
+            branch = payload['commits'][-1]['branch']
 
             return repo == self.config['repo'] and branch == self.config['branch']
         except:
