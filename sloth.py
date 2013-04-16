@@ -154,7 +154,7 @@ class Sloth:
             if self.validate_credentials(login, password):
                 return open('sloth.log', 'r')
             else:
-                raise cherrypy.HTTPRedirect(self.config['path'] + '/webface')
+                raise cherrypy.HTTPRedirect(self.config['server']['path'] + '/webface')
         else:
             raise cherrypy.HTTPError(405)
 
@@ -162,12 +162,12 @@ class Sloth:
         """Runs CherryPy loop to listen for payload."""
 
         cherrypy.config.update({
-            'server.socket_host': self.config['host'],
-            'server.socket_port': self.config['port'],
+            'server.socket_host': self.config['server']['host'],
+            'server.socket_port': self.config['server']['port'],
         })
 
-        cherrypy.tree.mount(self.listener, self.config['path'])
-        cherrypy.tree.mount(self.webface, self.config['path'] + '/webface')
+        cherrypy.tree.mount(self.listener, self.config['server']['path'])
+        cherrypy.tree.mount(self.webface, self.config['server']['path'] + '/webface')
 
         cherrypy.engine.start()
         cherrypy.engine.block()
