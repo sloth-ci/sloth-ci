@@ -5,6 +5,7 @@ from json import loads
 from functools import wraps
 from hashlib import md5
 import sqlite3
+import os.path
 
 import cherrypy
 import requests
@@ -167,7 +168,17 @@ class Sloth:
         })
 
         cherrypy.tree.mount(self.listener, self.config['server']['path'])
-        cherrypy.tree.mount(self.webface, self.config['server']['path'] + '/webface')
+        cherrypy.tree.mount(
+            self.webface,
+            self.config['server']['path'] + '/webface',
+            {
+                '/': {
+                    'tools.staticdir.root': '/home/moigagoo/projects/sloth/webface',
+                    'tools.staticdir.on': True,
+                    'tools.staticdir.dir': ''
+                }
+            }
+        )
 
         cherrypy.engine.start()
         cherrypy.engine.block()

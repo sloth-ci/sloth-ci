@@ -1,9 +1,22 @@
 <html>
-    <body>
-        <form action="" method="POST">
-            <input name="login" type="text" /><br/>
-            <input name="password" type="password" />
-            <input type="submit">
-        </form>
-    </body>
+  <head>
+    <title>Sign in to Sloth Webface</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
+    <link href="css/login.css" rel="stylesheet" media="screen">
+  </head>
+  <body>
+    <div class="container">
+      <form action="" method="POST" class="form-signin">
+        <h2>Please sign in</h2>
+        <input name="login" type="text" class="input-block-level" placeholder="Login">
+        <input name="password" type="password" class="input-block-level" placeholder="Password">
+        <button class="btn btn-primary" type="submit">Sign in</button>
+      </form>
+    </div>
+
+    <script src="http://code.jquery.com/jquery.js"></script>
+    <script src="/bootstrap/js/bootstrap.min.js"></script>
+  </body>
 </html>
