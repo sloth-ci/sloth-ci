@@ -5,7 +5,7 @@ from json import loads
 from functools import wraps
 from hashlib import md5
 import sqlite3
-from os import getcwd
+import os
 
 import cherrypy
 import requests
@@ -173,7 +173,7 @@ class Sloth:
             self.config['server']['path'] + '/webface',
             {
                 '/': {
-                    'tools.staticdir.root': getcwd() + '/webface',
+                    'tools.staticdir.root': os.path.join(os.getcwd(), 'webface'),
                     'tools.staticdir.on': True,
                     'tools.staticdir.dir': ''
                 }
