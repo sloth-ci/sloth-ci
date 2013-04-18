@@ -6,4 +6,5 @@ lib
 *.pyc
 my.conf
 sloth.log
+webface/log.html
 sloth.db

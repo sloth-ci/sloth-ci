@@ -19,18 +19,20 @@ class Sloth:
         self.config = config
         self.lookup = TemplateLookup(directories=['webface'])
 
+        #Check if log file exists; if not, create it
         try:
-            with open(self.config['log'], 'r') as log:
+            with open(self.config['log'], 'r') as _:
                 pass
         except:
-            with open(self.config['log'], 'w') as log:
+            with open(self.config['log'], 'w') as _:
                 pass
 
+        #Check if log html template exists; if not, create it
         try:
-            with open('webface/log.html', 'r') as log:
+            with open('webface/log.html', 'r') as _:
                 pass
         except:
-            with open('webface/log.html', 'w') as log:
+            with open('webface/log.html', 'w') as _:
                 pass
 
 
