@@ -77,12 +77,17 @@ class Sloth:
             repo = payload['repository']['owner'] + '/' + payload['repository']['slug']
             branch = payload['commits'][-1]['branch']
 
-            self.log('Payload validated', payload, html=True)
-
-            return repo == self.config['repo'] and branch == self.config['branch']
+            if repo == self.config['repo'] and branch == self.config['branch']:
+                self.log('Payload validated', None, html=True)
+                return True
+            elif repo != self.config['repo']:
+                self.log('Payload validation failed', 'Wrong repo', html=True)
+                return False
+            elif branch != self.config['branch']:
+                return False
+                self.log('Payload validation failed', 'Wrong branch', html=True)
         except:
-            self.log('Payload validation failed', payload, html=True)
-
+            self.log('Payload validation failed', None, html=True)
             return False
 
     def execute(self, action):
