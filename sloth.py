@@ -145,10 +145,10 @@ class Sloth:
                 self.broadcast(payload, node)
 
     def validate_credentials(self, login, password):
-        """Validate webface login credentials.
+        """Validates webface login credentials.
 
-        :param login: login
-        :param password: password
+        :param login: Login
+        :param password: Password
 
         :returns: True if the credentials are valid, False otherwise
         """
@@ -156,12 +156,12 @@ class Sloth:
         if not login or not password:
             return False
 
-        db_connection = sqlite3.connect(self.config['db'])
-        db_cursor = db_connection.cursor()
+        with sqlite3.connect(self.config['db']) as db_connection:
+            db_cursor = db_connection.cursor()
 
-        db_cursor.execute('CREATE TABLE IF NOT EXISTS Users(Id INTEGER PRIMARY KEY, Login TEXT, Hash TEXT)')
+            db_cursor.execute('CREATE TABLE IF NOT EXISTS Users(Id INTEGER PRIMARY KEY, Login TEXT, Hash TEXT)')
 
-        hash = db_cursor.execute('SELECT Hash from Users WHERE Login=?', (login,)).fetchone()
+            hash = db_cursor.execute('SELECT Hash from Users WHERE Login=?', (login,)).fetchone()
 
         if not hash:
             return False
@@ -171,17 +171,39 @@ class Sloth:
 
         return True
 
+    def register(self, r_login, r_password):
+        """Registers new webface user.
+
+        :param r_login: Login
+        :param r_password: Password
+        """
+
+        with sqlite3.connect(self.config['db']) as db_connection:
+            db_cursor = db_connection.cursor()
+
+            r_hash = md5(r_password.encode()).hexdigest()
+
+            db_cursor.execute('INSERT INTO Users(Login, Hash) values (?, ?)', (r_login, r_hash))
+
+            db_connection.commit()
+
     @cherrypy.expose
-    def webface(self, login=None, password=None):
+    def webface(self, login=None, password=None, r_login=None, r_password=None, r_password2=None):
         if cherrypy.request.method == 'GET':
             return open('webface/login.html', 'r')
         elif cherrypy.request.method == 'POST':
-            if self.validate_credentials(login, password):
+            if self.validate_credentials(login, password) or self.validate_credentials(r_login, r_password):
                 tmpl = self.lookup.get_template('index.html')
 
                 return tmpl.render(login=login)
+            elif r_login and r_password == r_password2:
+                self.register(r_login, r_password)
+
+                tmpl = self.lookup.get_template('index.html')
+
+                return tmpl.render(login=r_login)
             else:
-                raise cherrypy.HTTPRedirect(self.config['server']['path'] + '/webface')
+                raise cherrypy.HTTPRedirect(self.config['server']['path'] + '/webface/')
         else:
             raise cherrypy.HTTPError(405)
 
@@ -199,6 +221,7 @@ class Sloth:
             self.config['server']['path'] + '/webface',
             {
                 '/': {
+                    'tools.trailing_slash.missing': True,
                     'tools.staticdir.root': os.path.join(os.getcwd(), 'webface'),
                     'tools.staticdir.on': True,
                     'tools.staticdir.dir': ''

@@ -9,16 +9,34 @@
     </head>
     <body>
         <div class="container-fluid">
-            <form action="" method="POST" class="form-signin">
+            <ul class="nav nav-tabs">
+                <li class="active">
+                    <a id="tab_login" href="#">Log in</a>
+                </li>
+                <li>
+                    <a id="tab_register" href="#">Register</a>
+                </li>
+            </ul>
+
+            <form id="form_login" action="" method="POST" class="form-signin">
                 <h2>Please sign in</h2>
                 <input name="login" type="text" class="input-block-level" placeholder="Login">
                 <input name="password" type="password" class="input-block-level" placeholder="Password">
                 <button class="btn btn-primary" type="submit">Sign in</button>
             </form>
+
+            <form id="form_register" action="" method="POST" class="form-signin" hidden>
+                <h2>Register</h2>
+                <input name="r_login" type="text" class="input-block-level" placeholder="Login">
+                <input name="r_password" type="password" class="input-block-level" placeholder="Password">
+                <input name="r_password2" type="password" class="input-block-level" placeholder="Password again">
+                <button class="btn btn-primary" type="submit">Register</button>
+            </form>
         </div>
 
         <script src="http://code.jquery.com/jquery.js"></script>
-        <script src="/bootstrap/js/bootstrap.min.js"></script>
+        <script src="bootstrap/js/bootstrap.min.js"></script>
+        <script src="js/login.js"></script>
 
     </body>
 </html>
