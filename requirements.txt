@@ -1,3 +1,4 @@
 CherryPy
+Mako
 requests
 configs>=1.7

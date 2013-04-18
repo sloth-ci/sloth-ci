@@ -2,7 +2,6 @@ from subprocess import call
 from datetime import datetime
 from argparse import ArgumentParser
 from json import loads
-from functools import wraps
 from hashlib import md5
 import sqlite3
 import os
@@ -11,42 +10,56 @@ import cherrypy
 import requests
 import configs
 
-
-def log(func):
-    """Logger decorator"""
-
-    @wraps(func)
-    def logged(*args, **kwargs):
-        result = func(*args, **kwargs)
-
-        try:
-            with open('sloth.log', 'r') as log:
-                pass
-        except:
-            with open('sloth.log', 'w') as log:
-                pass
-
-        with open('sloth.log', 'a') as log:
-            log.writelines(
-                '%s -- %s(%s, %s): %s\n' % (
-                    datetime.now().ctime(),
-                    func.__name__,
-                    args,
-                    kwargs,
-                    result
-                )
-            )
-
-        return result
-
-    return logged
+from mako.template import Template
+from mako.lookup import TemplateLookup
 
 
 class Sloth:
     def __init__(self, config):
         self.config = config
+        self.lookup = TemplateLookup(directories=['webface'])
 
-    @log
+    def log(self, descr, data, html=False):
+        """Logs a message to the log file.
+
+        :param descr: Description
+        :param data: Data
+        :param html: If True, a record is also added to the html log template
+        """
+
+        try:
+            with open(self.config['log'], 'r') as log:
+                pass
+        except:
+            with open(self.config['log'], 'w') as log:
+                pass
+
+        with open(self.config['log'], 'a') as log:
+            log.writelines(
+                '%s\t%s\t\t%s\n' % (
+                    datetime.now().ctime(),
+                    descr,
+                    data
+                )
+            )
+
+        if html:
+            try:
+                with open('webface/log.html', 'r') as log:
+                    pass
+            except:
+                with open('webface/log.html', 'w') as log:
+                    pass
+
+            with open('webface/log.html', 'a') as log:
+                log.writelines(
+                    '<tr><td>%s</td><td>%s</td><td>%s</td></tr>' % (
+                        datetime.now().ctime(),
+                        descr,
+                        data
+                    )
+                )
+
     def validate_bb_payload(self, payload):
         """Validate Bitbucket payload against repo name and branch.
 
@@ -65,7 +78,6 @@ class Sloth:
         except:
             return False
 
-    @log
     def execute(self, action):
         """Executes command line command.
 
@@ -86,7 +98,6 @@ class Sloth:
             return e
 
 
-    @log
     def broadcast(self, payload, node):
         """Transmit payload to a node.
 
@@ -153,7 +164,9 @@ class Sloth:
             return open('webface/login.html', 'r')
         elif cherrypy.request.method == 'POST':
             if self.validate_credentials(login, password):
-                return open('sloth.log', 'r')
+                tmpl = self.lookup.get_template('index.html')
+
+                return tmpl.render(login=login)
             else:
                 raise cherrypy.HTTPRedirect(self.config['server']['path'] + '/webface')
         else:
