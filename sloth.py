@@ -77,11 +77,11 @@ class Sloth:
             repo = payload['repository']['owner'] + '/' + payload['repository']['slug']
             branch = payload['commits'][-1]['branch']
 
-            self.log('Payload validated', payload)
+            self.log('Payload validated', payload, html=True)
 
             return repo == self.config['repo'] and branch == self.config['branch']
         except:
-            self.log('Payload validation failed', payload)
+            self.log('Payload validation failed', payload, html=True)
 
             return False
 
