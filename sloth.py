@@ -19,6 +19,21 @@ class Sloth:
         self.config = config
         self.lookup = TemplateLookup(directories=['webface'])
 
+        try:
+            with open(self.config['log'], 'r') as log:
+                pass
+        except:
+            with open(self.config['log'], 'w') as log:
+                pass
+
+        try:
+            with open('webface/log.html', 'r') as log:
+                pass
+        except:
+            with open('webface/log.html', 'w') as log:
+                pass
+
+
     def log(self, descr, data, html=False):
         """Logs a message to the log file.
 
@@ -26,13 +41,6 @@ class Sloth:
         :param data: Data
         :param html: If True, a record is also added to the html log template
         """
-
-        try:
-            with open(self.config['log'], 'r') as log:
-                pass
-        except:
-            with open(self.config['log'], 'w') as log:
-                pass
 
         with open(self.config['log'], 'a') as log:
             log.writelines(
@@ -44,13 +52,6 @@ class Sloth:
             )
 
         if html:
-            try:
-                with open('webface/log.html', 'r') as log:
-                    pass
-            except:
-                with open('webface/log.html', 'w') as log:
-                    pass
-
             with open('webface/log.html', 'a') as log:
                 log.writelines(
                     '<tr><td>%s</td><td>%s</td><td>%s</td></tr>' % (
@@ -74,8 +75,12 @@ class Sloth:
             repo = payload['repository']['owner'] + '/' + payload['repository']['slug']
             branch = payload['commits'][-1]['branch']
 
+            self.log('Payload validated', payload)
+
             return repo == self.config['repo'] and branch == self.config['branch']
         except:
+            self.log('Payload validation failed', payload)
+
             return False
 
     def execute(self, action):
@@ -93,10 +98,14 @@ class Sloth:
 
         try:
             call(action.split())
-            return 'OK'
-        except Exception as e:
-            return e
 
+            self.log('Action executed', action, html=True)
+
+            return True
+        except Exception as e:
+            self.log('Execution failed', e, html=True)
+
+            return e
 
     def broadcast(self, payload, node):
         """Transmit payload to a node.
@@ -106,6 +115,8 @@ class Sloth:
 
         :returns: response code
         """
+
+        self.log('Payload broadcasted', node)
 
         return requests.post('%s/sloth' % node, data={'payload': payload, 'orig': False})
 
