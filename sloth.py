@@ -36,29 +36,35 @@ class Sloth:
                 pass
 
 
-    def log(self, descr, data, html=False):
+    def log(self, status, description, data, html=False):
         """Logs a message to the log file.
 
-        :param descr: Description
+        :param status: Status, True for success, False for fail
+        :param description: Description
         :param data: Data
         :param html: If True, a record is also added to the html log template
         """
 
         with open(self.config['log'], 'a') as log:
             log.writelines(
-                '%s\t%s\t\t%s\n' % (
+                '%s\t%s\t%s\t\t%s\n' % (
+                    status,
                     datetime.now().ctime(),
-                    descr,
+                    description,
                     data
                 )
             )
 
         if html:
             with open('webface/log.html', 'a') as log:
+                if status:
+                    line = '<tr><td><i class="icon-ok"></i></td>'
+                else:
+                    line = '<tr><td><i class="icon-remove"></i></td>'
                 log.writelines(
-                    '<tr><td>%s</td><td>%s</td><td>%s</td></tr>' % (
+                    line + '<td>%s</td><td>%s</td><td>%s</td></tr>' % (
                         datetime.now().ctime(),
-                        descr,
+                        description,
                         data
                     )
                 )
@@ -78,16 +84,16 @@ class Sloth:
             branch = payload['commits'][-1]['branch']
 
             if repo == self.config['repo'] and branch == self.config['branch']:
-                self.log('Payload validated', None, html=True)
+                self.log(True, 'Payload validated', None, html=True)
                 return True
             elif repo != self.config['repo']:
-                self.log('Payload validation failed', 'Wrong repo', html=True)
+                self.log(True, 'Payload validation failed', 'Wrong repo', html=True)
                 return False
             elif branch != self.config['branch']:
                 return False
-                self.log('Payload validation failed', 'Wrong branch', html=True)
+                self.log(False, 'Payload validation failed', 'Wrong branch', html=True)
         except:
-            self.log('Payload validation failed', None, html=True)
+            self.log(False, 'Payload validation failed', None, html=True)
             return False
 
     def execute(self, action):
@@ -106,11 +112,11 @@ class Sloth:
         try:
             call(action.split())
 
-            self.log('Action executed', action, html=True)
+            self.log(True, 'Action executed', action, html=True)
 
             return True
         except Exception as e:
-            self.log('Execution failed', e, html=True)
+            self.log(False, 'Execution failed', e, html=True)
 
             return e
 
@@ -123,7 +129,7 @@ class Sloth:
         :returns: response code
         """
 
-        self.log('Payload broadcasted', node)
+        self.log(True, 'Payload broadcasted', node, html=True)
 
         return requests.post('%s/sloth' % node, data={'payload': payload, 'orig': False})
 
