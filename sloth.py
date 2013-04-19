@@ -19,7 +19,6 @@ class Sloth:
         self.config = config
         self.lookup = TemplateLookup(directories=['webface'])
 
-        #Check if log file exists; if not, create it
         try:
             with open(self.config['log'], 'r') as _:
                 pass
@@ -27,7 +26,6 @@ class Sloth:
             with open(self.config['log'], 'w') as _:
                 pass
 
-        #Check if log html template exists; if not, create it
         try:
             with open('webface/log.html', 'r') as _:
                 pass
@@ -129,7 +127,6 @@ class Sloth:
         :returns: response code
         """
 
-
         try:
             requests.post('%s' % node, data={'payload': payload, 'orig': False})
             self.log(True, 'Payload broadcasted', node, html=True)
@@ -145,7 +142,6 @@ class Sloth:
         :param payload: Bitbucket commit payload
         """
 
-        #only POST requests are considered valid
         if not cherrypy.request.method == 'POST':
             raise cherrypy.HTTPError(405)
 
