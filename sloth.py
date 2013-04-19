@@ -129,9 +129,14 @@ class Sloth:
         :returns: response code
         """
 
-        self.log(True, 'Payload broadcasted', node, html=True)
 
-        return requests.post('%s' % node, data={'payload': payload, 'orig': False})
+        try:
+            requests.post('%s' % node, data={'payload': payload, 'orig': False})
+            self.log(True, 'Payload broadcasted', node, html=True)
+            return True
+        except Exception as e:
+            self.log(False, 'Payload broadcasting failed', node, html=True)
+            return e
 
     @cherrypy.expose
     def listener(self, payload, orig=True):
