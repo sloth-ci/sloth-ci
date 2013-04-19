@@ -4,7 +4,7 @@ from argparse import ArgumentParser
 from json import loads
 from hashlib import md5
 import sqlite3
-import os
+import os.path
 
 import cherrypy
 import requests
@@ -233,7 +233,7 @@ class Sloth:
             {
                 '/': {
                     'tools.trailing_slash.missing': True,
-                    'tools.staticdir.root': os.path.join(os.getcwd(), 'webface'),
+                    'tools.staticdir.root': os.path.abspath(self.config['server']['webface_dir']),
                     'tools.staticdir.on': True,
                     'tools.staticdir.dir': ''
                 }
