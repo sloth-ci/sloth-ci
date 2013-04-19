@@ -51,7 +51,7 @@ class Sloth:
                     status,
                     datetime.now().ctime(),
                     description,
-                    data
+                    (data or '')
                 )
             )
 
@@ -65,7 +65,7 @@ class Sloth:
                     line + '<td>%s</td><td>%s</td><td>%s</td></tr>' % (
                         datetime.now().ctime(),
                         description,
-                        data
+                        (data or '')
                     )
                 )
 
