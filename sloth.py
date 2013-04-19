@@ -60,7 +60,7 @@ class Sloth:
                 else:
                     line = '<tr class="error">'
                 log.writelines(
-                    line + '<td>%s</td><td>%s</td><td>%s</td></tr>' % (
+                    line + '<td>%s</td><td>%s</td><td>%s</td></tr>\n' % (
                         datetime.now().ctime(),
                         description,
                         (data or '')
