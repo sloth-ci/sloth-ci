@@ -124,14 +124,14 @@ class Sloth:
         """Transmit payload to a node.
 
         :param payload: payload to be transmitted
-        :param node: complete node URL (with protocol and port, **without** the ``/sloth`` suffix)
+        :param node: complete node URL (with protocol and port, **with** the path to the sloth listener)
 
         :returns: response code
         """
 
         self.log(True, 'Payload broadcasted', node, html=True)
 
-        return requests.post('%s/sloth' % node, data={'payload': payload, 'orig': False})
+        return requests.post('%s' % node, data={'payload': payload, 'orig': False})
 
     @cherrypy.expose
     def listener(self, payload, orig=True):
