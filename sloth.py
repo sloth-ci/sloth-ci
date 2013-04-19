@@ -56,9 +56,9 @@ class Sloth:
         if html:
             with open('webface/log.html', 'a') as log:
                 if status:
-                    line = '<tr><td><i class="icon-ok"></i></td>'
+                    line = '<tr>'
                 else:
-                    line = '<tr><td><i class="icon-remove"></i></td>'
+                    line = '<tr class="error">'
                 log.writelines(
                     line + '<td>%s</td><td>%s</td><td>%s</td></tr>' % (
                         datetime.now().ctime(),
