@@ -175,7 +175,7 @@ class Sloth:
         with sqlite3.connect(self.config['db']) as db_connection:
             db_cursor = db_connection.cursor()
 
-            db_cursor.execute('CREATE TABLE IF NOT EXISTS Users(Id INTEGER PRIMARY KEY, Login TEXT, Hash TEXT)')
+            db_cursor.execute('CREATE TABLE IF NOT EXISTS Users(Id INTEGER PRIMARY KEY, Login TEXT, Hash TEXT, Status TEXT)')
 
             hash = db_cursor.execute('SELECT Hash from Users WHERE Login=?', (login,)).fetchone()
 
@@ -199,7 +199,7 @@ class Sloth:
 
             r_hash = md5(r_password.encode()).hexdigest()
 
-            db_cursor.execute('INSERT INTO Users(Login, Hash) values (?, ?)', (r_login, r_hash))
+            db_cursor.execute('INSERT INTO Users(Login, Hash, Status) values (?, ?, ?)', (r_login, r_hash, 'Pending'))
 
             db_connection.commit()
 
