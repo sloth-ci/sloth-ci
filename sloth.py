@@ -37,7 +37,7 @@ class Sloth:
     def log(self, status, description, data, html=False):
         """Logs a message to the log file.
 
-        :param status: Status, True for success, False for fail
+        :param status: Status: ``success``, ``error``, ``warning``, or ``info``—values correspond to the Bootstrap table row classes
         :param description: Description
         :param data: Data
         :param html: If True, a record is also added to the html log template
@@ -55,12 +55,9 @@ class Sloth:
 
         if html:
             with open('webface/log.html', 'a') as log:
-                if status:
-                    line = '<tr>'
-                else:
-                    line = '<tr class="error">'
                 log.writelines(
-                    line + '<td>%s</td><td>%s</td><td>%s</td></tr>\n' % (
+                    '<tr class="%s"><td>%s</td><td>%s</td><td>%s</td></tr>\n' % (
+                        status,
                         datetime.now().ctime(),
                         description,
                         (data or '')
@@ -82,16 +79,16 @@ class Sloth:
             branch = payload['commits'][-1]['branch']
 
             if repo == self.config['repo'] and branch == self.config['branch']:
-                self.log(True, 'Payload validated', None, html=True)
+                self.log('success', 'Payload validated', None, html=True)
                 return True
             elif repo != self.config['repo']:
-                self.log(True, 'Payload validation failed', 'Wrong repo', html=True)
+                self.log('success', 'Payload validation failed', 'Wrong repo', html=True)
                 return False
             elif branch != self.config['branch']:
                 return False
-                self.log(False, 'Payload validation failed', 'Wrong branch', html=True)
+                self.log('error', 'Payload validation failed', 'Wrong branch', html=True)
         except:
-            self.log(False, 'Payload validation failed', None, html=True)
+            self.log('error', 'Payload validation failed', None, html=True)
             return False
 
     def execute(self, action):
@@ -110,11 +107,11 @@ class Sloth:
         try:
             call(action.split())
 
-            self.log(True, 'Action executed', action, html=True)
+            self.log('success', 'Action executed', action, html=True)
 
             return True
         except Exception as e:
-            self.log(False, 'Execution failed', e, html=True)
+            self.log('error', 'Execution failed', e, html=True)
 
             return e
 
@@ -129,10 +126,10 @@ class Sloth:
 
         try:
             requests.post('%s' % node, data={'payload': payload, 'orig': False})
-            self.log(True, 'Payload broadcasted', node, html=True)
+            self.log('success', 'Payload broadcasted', node, html=True)
             return True
         except Exception as e:
-            self.log(False, 'Payload broadcasting failed', node, html=True)
+            self.log('error', 'Payload broadcasting failed', node, html=True)
             return e
 
     @cherrypy.expose
@@ -145,7 +142,9 @@ class Sloth:
         if not cherrypy.request.method == 'POST':
             raise cherrypy.HTTPError(405)
 
-        if cherrypy.request.headers['User-Agent'] != 'Bitbucket.org' or not self.validate_bb_payload(payload):
+        self.log('info', 'Received payload', None, html=True)
+
+        if not self.validate_bb_payload(payload):
             raise cherrypy.HTTPError(400)
 
         if self.config['actions']:
@@ -228,6 +227,7 @@ class Sloth:
         })
 
         cherrypy.tree.mount(self.listener, self.config['server']['path'])
+
         cherrypy.tree.mount(
             self.webface,
             self.config['server']['path'] + '/webface',
