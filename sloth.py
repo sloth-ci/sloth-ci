@@ -73,10 +73,10 @@ class Sloth:
         """
 
         try:
-            payload = loads(payload)
+            parsed_payload = loads(payload)
 
-            repo = payload['repository']['owner'] + '/' + payload['repository']['slug']
-            branch = payload['commits'][-1]['branch']
+            repo = parsed_payload['repository']['owner'] + '/' + parsed_payload['repository']['slug']
+            branch = parsed_payload['commits'][-1]['branch']
 
             if repo == self.config['repo'] and branch == self.config['branch']:
                 self.log('success', 'Payload validated', None, html=True)
@@ -125,11 +125,16 @@ class Sloth:
         """
 
         try:
-            requests.post('%s' % node, data={'payload': payload, 'orig': False})
-            self.log('success', 'Payload broadcasted', node, html=True)
+            r = requests.post('%s' % node, data={'payload': payload, 'orig': False})
+
+            if r.status_code == 200:
+                self.log('success', 'Payload broadcasted', node, html=True)
+            else:
+                self.log('error', 'Broadcasting to %s failed' % node, r.status, html=True)
+
             return True
         except Exception as e:
-            self.log('error', 'Payload broadcasting failed', node, html=True)
+            self.log('error', 'Broadcasting to %s failed' % node, e, html=True)
             return e
 
     @cherrypy.expose
