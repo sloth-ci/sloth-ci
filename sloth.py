@@ -245,6 +245,8 @@ class Sloth:
             }
         )
 
+        cherrypy.engine.autoreload.files.add(self.config.config_file)
+
         cherrypy.engine.start()
         cherrypy.engine.block()
 
