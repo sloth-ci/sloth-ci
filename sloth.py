@@ -238,7 +238,6 @@ class Sloth:
             self.config['server']['path'] + '/webface',
             {
                 '/': {
-                    'tools.trailing_slash.missing': True,
                     'tools.staticdir.root': os.path.abspath(self.config['server']['webface_dir']),
                     'tools.staticdir.on': True,
                     'tools.staticdir.dir': ''
