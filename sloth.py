@@ -5,6 +5,7 @@ from json import loads
 from hashlib import md5
 import sqlite3
 import os.path
+import logging
 
 import cherrypy
 import requests
@@ -17,52 +18,17 @@ from mako.lookup import TemplateLookup
 class Sloth:
     def __init__(self, config):
         self.config = config
-        self.lookup = TemplateLookup(directories=['webface'])
+        self.lookup = TemplateLookup(directories=self.config['server']['webface_dir'])
 
-        try:
-            with open(self.config['log'], 'r') as _:
-                pass
-        except:
-            with open(self.config['log'], 'w') as _:
-                pass
+        file_handler = logging.FileHandler(self.config['log'], 'a+')
+        formatter = logging.Formatter('%(asctime)s | %(name)20s | %(levelname)10s | %(message)s')
+        file_handler.setFormatter(formatter)
 
-        try:
-            with open('webface/log.html', 'r') as _:
-                pass
-        except:
-            with open('webface/log.html', 'w') as _:
-                pass
+        self.logger = logging.getLogger('sloth')
+        self.logger.setLevel(logging.INFO)
+        self.logger.addHandler(file_handler)
 
-
-    def log(self, status, description, data, html=False):
-        """Logs a message to the log file.
-
-        :param status: Status: ``success``, ``error``, ``warning``, or ``info``—values correspond to the Bootstrap table row classes
-        :param description: Description
-        :param data: Data
-        :param html: If True, a record is also added to the html log template
-        """
-
-        with open(self.config['log'], 'a') as log:
-            log.writelines(
-                '%s\t%s\t%s\t\t%s\n' % (
-                    status,
-                    datetime.now().ctime(),
-                    description,
-                    (data or '')
-                )
-            )
-
-        if html:
-            with open('webface/log.html', 'a') as log:
-                log.writelines(
-                    '<tr class="%s"><td>%s</td><td>%s</td><td>%s</td></tr>\n' % (
-                        status,
-                        datetime.now().ctime(),
-                        description,
-                        (data or '')
-                    )
-                )
+        self.processing_logger = self.logger.getChild('processing')
 
     def validate_bb_payload(self, payload):
         """Validate Bitbucket payload against repo name and branch.
@@ -72,6 +38,9 @@ class Sloth:
         :returns: True of the payload is valid, False otherwise
         """
 
+        self.processing_logger.info('Payload validated')
+        return True
+
         try:
             parsed_payload = loads(payload)
 
@@ -79,16 +48,16 @@ class Sloth:
             branch = parsed_payload['commits'][-1]['branch']
 
             if repo == self.config['repo'] and branch == self.config['branch']:
-                self.log('success', 'Payload validated', None, html=True)
+                self.processing_logger.info('Payload validated')
                 return True
             elif repo != self.config['repo']:
-                self.log('success', 'Payload validation failed', 'Wrong repo', html=True)
+                self.processing_logger.info('Payload validation failed: repo mismatch.')
                 return False
             elif branch != self.config['branch']:
+                self.processing_logger.info('Payload validation failed: branch mismatch.')
                 return False
-                self.log('error', 'Payload validation failed', 'Wrong branch', html=True)
         except:
-            self.log('error', 'Payload validation failed', None, html=True)
+            self.processing_logger.info('Payload validation failed.')
             return False
 
     def execute(self, action):
@@ -107,11 +76,11 @@ class Sloth:
         try:
             call(action.split())
 
-            self.log('success', 'Action executed', action, html=True)
+            self.processing_logger.info('Action executed: %s', action)
 
             return True
         except Exception as e:
-            self.log('error', 'Execution failed', e, html=True)
+            self.processing_logger.critical('Action failed: %s', e)
 
             return e
 
@@ -128,13 +97,13 @@ class Sloth:
             r = requests.post('%s' % node, data={'payload': payload, 'orig': False})
 
             if r.status_code == 200:
-                self.log('success', 'Payload broadcasted', node, html=True)
+                self.processing_logger.info('Payload broadcasted to %s', node)
             else:
-                self.log('error', 'Broadcasting to %s failed' % node, r.status, html=True)
+                self.processing_logger.warning('Broadcasting to %s failed: %s', node, r.status)
 
             return True
         except Exception as e:
-            self.log('error', 'Broadcasting to %s failed' % node, e, html=True)
+            self.processing_logger.warning('Broadcasting to %s failed: %s', node, e)
             return e
 
     @cherrypy.expose
@@ -147,7 +116,7 @@ class Sloth:
         if not cherrypy.request.method == 'POST':
             raise cherrypy.HTTPError(405)
 
-        self.log('info', 'Received payload', None, html=True)
+        self.logger.info('Payload received')
 
         if not self.validate_bb_payload(payload):
             raise cherrypy.HTTPError(400)
@@ -228,7 +197,7 @@ class Sloth:
 
         cherrypy.config.update({
             'server.socket_host': self.config['server']['host'],
-            'server.socket_port': self.config['server']['port'],
+            'server.socket_port': self.config['server']['port']
         })
 
         cherrypy.tree.mount(self.listener, self.config['server']['path'])
