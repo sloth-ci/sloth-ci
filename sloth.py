@@ -216,7 +216,11 @@ class Sloth:
 
     @cherrypy.expose
     def webface(self, login=None, password=None, r_login=None, r_password=None, r_password2=None, **user_statuses):
+        """Renders webface.
 
+        Handles signins and signups, user status updating.
+
+        """
         if cherrypy.request.method == 'GET':
             tmpl = self.lookup.get_template('login.html')
 
