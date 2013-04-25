@@ -21,10 +21,13 @@ class Sloth:
         self.lookup = TemplateLookup(directories=self.config['server']['webface_dir'])
 
         file_handler = logging.FileHandler(self.config['log'], 'a+')
-        formatter = logging.Formatter('%(asctime)s | %(name)20s | %(levelname)10s | %(message)s')
+        formatter = logging.Formatter(
+            '%(asctime)s | %(name)20s | %(levelname)10s | %(message)s',
+            '%Y-%m-%d %H:%M:%S'
+        )
         file_handler.setFormatter(formatter)
 
-        self.logger = logging.getLogger('sloth')
+        self.logger = logging.getLogger('__name__')
         self.logger.setLevel(logging.INFO)
         self.logger.addHandler(file_handler)
 
@@ -37,9 +40,6 @@ class Sloth:
 
         :returns: True of the payload is valid, False otherwise
         """
-
-        self.processing_logger.info('Payload validated')
-        return True
 
         try:
             parsed_payload = loads(payload)
@@ -67,11 +67,6 @@ class Sloth:
 
         :returns: 'OK' if successful, Exception otherwise
         """
-
-        action = action.format(
-            work_dir = self.config['work_dir'],
-            branch = self.config['branch']
-        )
 
         try:
             call(action.split())
@@ -129,7 +124,7 @@ class Sloth:
             for node in self.config['nodes']:
                 self.broadcast(payload, node)
 
-    def validate_credentials(self, login, password):
+    def user_validate_credentials(self, login, password):
         """Validates webface login credentials.
 
         :param login: Login
@@ -144,19 +139,19 @@ class Sloth:
         with sqlite3.connect(self.config['db']) as db_connection:
             db_cursor = db_connection.cursor()
 
-            db_cursor.execute('CREATE TABLE IF NOT EXISTS Users(Id INTEGER PRIMARY KEY, Login TEXT, Hash TEXT, Status TEXT)')
+            db_cursor.execute('CREATE TABLE IF NOT EXISTS Users(Id INTEGER PRIMARY KEY, Login TEXT, Hash TEXT, Status CHAR)')
 
-            hash = db_cursor.execute('SELECT Hash from Users WHERE Login=?', (login,)).fetchone()
+            try:
+                hash, status = db_cursor.execute('SELECT Hash, Status from Users WHERE Login = ?', (login,)).fetchone()
+            except:
+                return False
 
-        if not hash:
-            return False
+        if status == 'A' and md5(password.encode()).hexdigest() == hash:
+            return True
 
-        if md5(password.encode()).hexdigest() != hash[0]:
-            return False
+        return False
 
-        return True
-
-    def register(self, r_login, r_password):
+    def user_register(self, r_login, r_password):
         """Registers new webface user.
 
         :param r_login: Login
@@ -168,27 +163,82 @@ class Sloth:
 
             r_hash = md5(r_password.encode()).hexdigest()
 
-            db_cursor.execute('INSERT INTO Users(Login, Hash, Status) values (?, ?, ?)', (r_login, r_hash, 'Pending'))
+            db_cursor.execute('INSERT INTO Users(Login, Hash, Status) VALUES (?, ?, ?)', (r_login, r_hash, 'P'))
 
             db_connection.commit()
 
+    def user_update(self, user_statuses):
+        """Updates user statuses.
+
+        :param user_statuses: Dictionary of user ID and status to set
+        """
+
+        with sqlite3.connect(self.config['db']) as db_connection:
+            db_cursor = db_connection.cursor()
+
+            for uid, status in user_statuses.items():
+                db_cursor.execute('UPDATE Users SET Status = ? WHERE Id = ?', (status, uid))
+
+            db_connection.commit()
+
+    def get_log_lines(self):
+        """Read lines from the log file in reverse and format them to a dictionaries.
+
+        :yields: {'timestamp': timestamp, 'name': logger name, 'level': message level, 'message': message text}
+        """
+
+        for line in reversed(open(self.config['log']).readlines()):
+            yield dict(
+                zip(
+                    [
+                        'timestamp',
+                        'name',
+                        'level',
+                        'message'
+                    ],
+                    list(map(lambda __: __.strip(), line.split('|')))
+                )
+            )
+
+    def get_users(self):
+        """Gets users and formats them to dictionaries
+
+        :yields: {'id': uid, 'login': login, 'status', status ('A' or 'P')}
+        """
+
+        with sqlite3.connect(self.config['db']) as db_connection:
+            db_cursor = db_connection.cursor()
+
+            db_cursor.execute('CREATE TABLE IF NOT EXISTS Users(Id INTEGER PRIMARY KEY, Login TEXT, Hash TEXT, Status CHAR)')
+
+            for uid, login, status in db_cursor.execute('SELECT Id, Login, Status from Users'):
+                yield {'id': uid, 'login': login, 'status': status}
+
     @cherrypy.expose
-    def webface(self, login=None, password=None, r_login=None, r_password=None, r_password2=None):
+    def webface(self, login=None, password=None, r_login=None, r_password=None, r_password2=None, **user_statuses):
+
         if cherrypy.request.method == 'GET':
-            return open('webface/login.html', 'r')
+            tmpl = self.lookup.get_template('login.html')
+
+            return tmpl.render()
+
         elif cherrypy.request.method == 'POST':
-            if self.validate_credentials(login, password) or self.validate_credentials(r_login, r_password):
+            if self.user_validate_credentials(login, password) or self.user_validate_credentials(r_login, r_password):
                 tmpl = self.lookup.get_template('index.html')
 
-                return tmpl.render(login=login)
+                lines = self.get_log_lines()
+
+                users = self.get_users()
+
+                return tmpl.render(login=login, lines=lines, users=users)
+
             elif r_login and r_password == r_password2:
-                self.register(r_login, r_password)
+                self.user_register(r_login, r_password)
 
-                tmpl = self.lookup.get_template('index.html')
+            elif user_statuses:
+                self.user_update(user_statuses)
 
-                return tmpl.render(login=r_login)
-            else:
-                raise cherrypy.HTTPRedirect(self.config['server']['path'] + '/webface/')
+            raise cherrypy.HTTPRedirect(self.config['server']['path'] + '/webface/')
         else:
             raise cherrypy.HTTPError(405)
 
