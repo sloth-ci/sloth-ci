@@ -163,7 +163,9 @@ class Sloth:
 
             r_hash = md5(r_password.encode()).hexdigest()
 
-            db_cursor.execute('INSERT INTO Users(Login, Hash, Status) VALUES (?, ?, ?)', (r_login, r_hash, 'P'))
+            r_status = db_cursor.execute('SELECT * FROM Users').fetchone() and 'P' or 'A'
+
+            db_cursor.execute('INSERT INTO Users(Login, Hash, Status) VALUES (?, ?, ?)', (r_login, r_hash, r_status))
 
             db_connection.commit()
 
@@ -221,6 +223,7 @@ class Sloth:
         Handles signins and signups, user status updating.
 
         """
+
         if cherrypy.request.method == 'GET':
             tmpl = self.lookup.get_template('login.html')
 
