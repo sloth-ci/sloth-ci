@@ -21,7 +21,11 @@
     <tr class="success">
         <td>${user['login']}</td>
         <td>
+            % if user['login'] == login:
+            <select name="${user['id']}" class="span2" disabled>
+            % else:
             <select name="${user['id']}" class="span2">
+            % endif
                 <option value="A" selected>Active</option>
                 <option value="P">Pending</option>
             </select>
@@ -31,7 +35,11 @@
     <tr class="error">
         <td>${user['login']}</td>
         <td>
+            % if user['login'] == login:
+            <select name="${user['id']}" class="span2" disabled>
+            % else:
             <select name="${user['id']}" class="span2">
+            % endif
                 <option value="A">Active</option>
                 <option value="P" selected>Pending</option>
             </select>
