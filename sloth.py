@@ -22,8 +22,7 @@ class Sloth:
 
         file_handler = logging.FileHandler(self.config['log'], 'a+')
         formatter = logging.Formatter(
-            '%(asctime)s | %(name)20s | %(levelname)10s | %(message)s',
-            '%Y-%m-%d %H:%M:%S'
+            '%(asctime)s | %(name)20s | %(levelname)10s | %(message)s'
         )
         file_handler.setFormatter(formatter)
 
