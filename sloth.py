@@ -16,7 +16,7 @@ class Sloth:
     def __init__(self, config):
         self.config = config
 
-        file_handler = logging.FileHandler(self.config['log'], 'a+')
+        file_handler = logging.FileHandler(self.config['prefs']['log_file'], 'a+')
         formatter = logging.Formatter(
             '%(asctime)s | %(name)20s | %(levelname)10s | %(message)s'
         )
