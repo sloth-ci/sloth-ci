@@ -60,7 +60,7 @@ class Sloth:
 
         :param action: action to be executed
 
-        :returns: 'OK' if successful, Exception otherwise
+        :returns: True if successful, Exception otherwise
         """
 
         try:
@@ -119,28 +119,28 @@ class Sloth:
             for node in self.config['nodes']:
                 self.broadcast(payload, node)
 
-    def run(self):
-        """Runs CherryPy loop to listen for payload."""
+def run(sloths):
+    """Runs CherryPy loop to listen for payload."""
 
-        cherrypy.config.update({
-            'server.socket_host': self.config['server']['host'],
-            'server.socket_port': self.config['server']['port']
-        })
+    cherrypy.config.update({
+        'server.socket_host': sloths[0].config['server']['host'],
+        'server.socket_port': sloths[0].config['server']['port']
+    })
 
-        cherrypy.tree.mount(self.listener, self.config['server']['path'])
+    for sloth in sloths:
+        cherrypy.tree.mount(sloth.listener, sloth.config['server']['path'])
+        cherrypy.engine.autoreload.files.add(sloth.config.config_file)
 
-        cherrypy.engine.autoreload.files.add(self.config.config_file)
-
-        cherrypy.engine.start()
-        cherrypy.engine.block()
+    cherrypy.engine.start()
+    cherrypy.engine.block()
 
 
 if __name__ == '__main__':
     parser = ArgumentParser()
-    parser.add_argument('-c', '--config')
+    parser.add_argument('-c', '--config', nargs='+')
 
-    config_file = parser.parse_args().config
+    config_files = parser.parse_args().config
 
-    config = configs.load(config_file, 'sloth.conf')
+    sloths = [Sloth(configs.load(config_file, 'sloth.conf')) for config_file in config_files]
 
-    Sloth(config).run()
+    run(sloths)
