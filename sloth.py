@@ -22,7 +22,7 @@ class Sloth:
         )
         file_handler.setFormatter(formatter)
 
-        self.logger = logging.getLogger(__name__)
+        self.logger = logging.getLogger(self.config.config_file)
         self.logger.setLevel(logging.INFO)
         self.logger.addHandler(file_handler)
 
@@ -129,6 +129,8 @@ def run(sloths):
 
     for sloth in sloths:
         cherrypy.tree.mount(sloth.listener, sloth.config['server']['path'])
+        sloth.logger.info('Listener mounted')
+
         cherrypy.engine.autoreload.files.add(sloth.config.config_file)
 
     cherrypy.engine.start()
