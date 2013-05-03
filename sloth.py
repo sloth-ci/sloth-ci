@@ -119,6 +119,7 @@ class Sloth:
             for node in self.config['nodes']:
                 self.broadcast(payload, node)
 
+
 def run(sloths):
     """Runs CherryPy loop to listen for payload."""
 
@@ -129,7 +130,7 @@ def run(sloths):
 
     for sloth in sloths:
         cherrypy.tree.mount(sloth.listener, sloth.config['server']['path'])
-        sloth.logger.info('Listener mounted')
+        sloth.logger.info('Mounted')
 
         cherrypy.engine.autoreload.files.add(sloth.config.config_file)
 
