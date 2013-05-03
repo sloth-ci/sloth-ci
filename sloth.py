@@ -139,7 +139,7 @@ if __name__ == '__main__':
     parser = ArgumentParser()
     parser.add_argument('-c', '--config', nargs='+')
 
-    config_files = parser.parse_args().config
+    config_files = parser.parse_args().config or ['sloth.conf']
 
     sloths = [Sloth(configs.load(config_file, 'sloth.conf')) for config_file in config_files]
 
