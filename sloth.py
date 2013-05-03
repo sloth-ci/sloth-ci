@@ -22,7 +22,7 @@ class Sloth:
         )
         file_handler.setFormatter(formatter)
 
-        self.logger = logging.getLogger('__name__')
+        self.logger = logging.getLogger(__name__)
         self.logger.setLevel(logging.INFO)
         self.logger.addHandler(file_handler)
 
