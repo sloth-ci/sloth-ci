@@ -1,0 +1,4 @@
+CherryPy
+Mako
+requests
+configs>=1.9.5

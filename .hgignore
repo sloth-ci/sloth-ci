@@ -1,0 +1,13 @@
+syntax: glob
+
+bin
+build
+include
+lib
+*.kdev4
+*.pyc
+my.conf
+my2.conf
+sloth.log
+webface/log.html
+sloth.db
