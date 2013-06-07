@@ -1,4 +1,4 @@
-from subprocess import Popen
+from subprocess import Popen, TimeoutExpired
 from datetime import datetime
 from argparse import ArgumentParser
 from json import loads
@@ -34,7 +34,7 @@ class Sloth:
 
         :returns: True of the payload is valid, False otherwise
         """
-
+        
         try:
             parsed_payload = loads(payload)
 
@@ -62,10 +62,17 @@ class Sloth:
         :returns: True if successful, Exception otherwise
         """
 
+        self.processing_logger.info('Executing action: %s', action)
+
         try:
-            with Popen(action.split(), cwd=self.config['work_dir']) as p:
-                self.processing_logger.info('Action executed: %s', action)
-                return True
+            process = Popen(action.split(), cwd=self.config['work_dir']).wait()
+
+            self.processing_logger.info('Action executed: %s', action)
+            return True
+
+        except TimeoutExpired as e:
+            self.processing_logger.critical('Action timed out: %s', e)
+            return e
 
         except Exception as e:
             self.processing_logger.critical('Action failed: %s', e)
@@ -142,7 +149,7 @@ if __name__ == '__main__':
     parser.add_argument('--server-config')
 
     config_files = parser.parse_args().configs
-    sloths = [Sloth(configs.load(_)) for _ in config_files]
+    sloths = [Sloth(configs.load(_, 'default.conf')) for _ in config_files]
 
     server_config_file = parser.parse_args().server_config or 'server.conf'
     server_config = configs.load(server_config_file)
