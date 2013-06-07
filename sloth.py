@@ -2,9 +2,7 @@ from subprocess import call
 from datetime import datetime
 from argparse import ArgumentParser
 from json import loads
-from hashlib import md5
-import sqlite3
-import os.path
+
 import logging
 
 import cherrypy
@@ -16,13 +14,13 @@ class Sloth:
     def __init__(self, config):
         self.config = config
 
-        file_handler = logging.FileHandler(self.config['prefs']['log_file'], 'a+')
+        file_handler = logging.FileHandler(self.config.config_file.split('.')[0] + '.log', 'a+')
         formatter = logging.Formatter(
             '%(asctime)s | %(name)20s | %(levelname)10s | %(message)s'
         )
         file_handler.setFormatter(formatter)
 
-        self.logger = logging.getLogger(self.config.config_file)
+        self.logger = logging.getLogger(self.config.config_file.split('.')[0])
         self.logger.setLevel(logging.INFO)
         self.logger.addHandler(file_handler)
 
@@ -120,16 +118,16 @@ class Sloth:
                 self.broadcast(payload, node)
 
 
-def run(sloths):
+def run(server_config, sloths):
     """Runs CherryPy loop to listen for payload."""
 
     cherrypy.config.update({
-        'server.socket_host': sloths[0].config['server']['host'],
-        'server.socket_port': sloths[0].config['server']['port']
+        'server.socket_host': server_config['host'],
+        'server.socket_port': server_config['port']
     })
 
     for sloth in sloths:
-        cherrypy.tree.mount(sloth.listener, sloth.config['server']['path'])
+        cherrypy.tree.mount(sloth.listener, sloth.config['listen_to'])
         sloth.logger.info('Mounted')
 
         cherrypy.engine.autoreload.files.add(sloth.config.config_file)
@@ -139,11 +137,15 @@ def run(sloths):
 
 
 if __name__ == '__main__':
+
     parser = ArgumentParser()
-    parser.add_argument('-c', '--config', nargs='+')
+    parser.add_argument('configs', nargs='+')
+    parser.add_argument('--server-config')
 
-    config_files = parser.parse_args().config or ['sloth.conf']
+    config_files = parser.parse_args().configs
+    sloths = [Sloth(configs.load(_)) for _ in config_files]
 
-    sloths = [Sloth(configs.load(config_file, 'sloth.conf')) for config_file in config_files]
+    server_config_file = parser.parse_args().server_config or 'server.conf'
+    server_config = configs.load(server_config_file)
 
-    run(sloths)
+    run(server_config, sloths)
