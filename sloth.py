@@ -1,4 +1,4 @@
-from subprocess import call
+from subprocess import Popen
 from datetime import datetime
 from argparse import ArgumentParser
 from json import loads
@@ -11,6 +11,7 @@ import configs
 
 
 class Sloth:
+
     def __init__(self, config):
         self.config = config
 
@@ -62,14 +63,12 @@ class Sloth:
         """
 
         try:
-            call(action.split())
+            with Popen(action.split(), cwd=self.config['work_dir']) as p:
+                self.processing_logger.info('Action executed: %s', action)
+                return True
 
-            self.processing_logger.info('Action executed: %s', action)
-
-            return True
         except Exception as e:
             self.processing_logger.critical('Action failed: %s', e)
-
             return e
 
     def broadcast(self, payload, node):
