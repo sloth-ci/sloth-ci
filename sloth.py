@@ -38,10 +38,10 @@ class Sloth:
         self.processing_logger = self.logger.getChild('processing')
 
         self.queue = []
-        self.queue_lock = False
+        self._queue_lock = False
 
         self.queue_processor = Thread(target=self.process_queue, name=self.name)
-        self.processor_lock = False
+        self._processor_lock = False
 
         self.queue_processor.start()
 
@@ -126,7 +126,7 @@ class Sloth:
     def process_queue(self):
         """Processes execution queue in a separate thread."""
 
-        while not self.processor_lock:
+        while not self._processor_lock:
             if self.queue:
                 payload, orig = self.queue.pop(0)
 
@@ -138,8 +138,8 @@ class Sloth:
                     for node in self.config['nodes']:
                         self.broadcast(payload, node)
 
-            elif self.queue_lock:
-                self.kill()
+            elif self._queue_lock:
+                return True
 
             else:
                 pass
@@ -149,16 +149,16 @@ class Sloth:
 
         New payloads are not added to the queue, existing actions will be finished.
         """
-        self.queue_lock = True
-        self.logger.info('Queue locked.')
+        self._queue_lock = True
+        self.logger.info('Stopped.')
 
     def kill(self):
         """Immediatelly stops the queue processor and clears the queue."""
 
         self.stop()
 
-        self.processor_lock = True
-        self.logger.warning('Queue processor killed.')
+        self._processor_lock = True
+        self.logger.warning('Killed.')
 
     @cherrypy.expose
     def listener(self, payload, orig=True):
@@ -175,7 +175,7 @@ class Sloth:
 
         self.logger.info('Payload received')
 
-        if not self.queue_lock:
+        if not self._queue_lock:
             self.queue.append((payload, orig))
 
 
@@ -199,7 +199,7 @@ def run(server_config, sloths):
     cherrypy.engine.block()
 
 
-if __name__ == '__main__':
+def main():
 
     parser = ArgumentParser()
     parser.add_argument('configs', nargs='+')
@@ -210,3 +210,7 @@ if __name__ == '__main__':
     server_config = configs.load('server.conf')
 
     run(server_config, sloths)
+
+if __name__ == '__main__':
+
+    main()
