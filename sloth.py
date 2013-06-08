@@ -12,6 +12,13 @@ import configs
 
 
 class Sloth:
+    """Main Sloth class.
+
+    Each instance represents a separate sloth app,
+    with its own config, log, action queue, and queue processor.
+
+    Each app listens for incoming requests on its own URL path.
+    """
 
     def __init__(self, config):
         self.config = config
@@ -31,10 +38,13 @@ class Sloth:
         self.processing_logger = self.logger.getChild('processing')
 
         self.queue = []
+        self.queue_lock = False
 
         self.queue_processor = Thread(target=self.process_queue, name=self.name)
+        self.processor_lock = False
 
         self.queue_processor.start()
+
 
     def validate_bb_payload(self, payload):
         """Validate Bitbucket payload against repo name and branch.
@@ -43,6 +53,10 @@ class Sloth:
 
         :returns: True of the payload is valid, False otherwise
         """
+
+        if payload == 'test':
+            self.processing_logger.info('Payload validated')
+            return True
 
         try:
             parsed_payload = loads(payload)
@@ -112,7 +126,7 @@ class Sloth:
     def process_queue(self):
         """Processes execution queue in a separate thread."""
 
-        while cherrypy.engine.state != cherrypy.engine.states.EXITING:
+        while not self.processor_lock:
             if self.queue:
                 payload, orig = self.queue.pop(0)
 
@@ -124,8 +138,27 @@ class Sloth:
                     for node in self.config['nodes']:
                         self.broadcast(payload, node)
 
+            elif self.queue_lock:
+                self.kill()
+
             else:
                 pass
+
+    def stop(self):
+        """Gracefully stops the queue processor.
+
+        New payloads are not added to the queue, existing actions will be finished.
+        """
+        self.queue_lock = True
+        self.logger.info('Queue locked.')
+
+    def kill(self):
+        """Immediatelly stops the queue processor and clears the queue."""
+
+        self.stop()
+
+        self.processor_lock = True
+        self.logger.warning('Queue processor killed.')
 
     @cherrypy.expose
     def listener(self, payload, orig=True):
@@ -142,7 +175,8 @@ class Sloth:
 
         self.logger.info('Payload received')
 
-        self.queue.append((payload, orig))
+        if not self.queue_lock:
+            self.queue.append((payload, orig))
 
 
 def run(server_config, sloths):
@@ -158,6 +192,8 @@ def run(server_config, sloths):
         sloth.logger.info('Mounted')
 
         cherrypy.engine.autoreload.files.add(sloth.config.config_file)
+
+        cherrypy.engine.subscribe('stop', sloth.stop)
 
     cherrypy.engine.start()
     cherrypy.engine.block()
