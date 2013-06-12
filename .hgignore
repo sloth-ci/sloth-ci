@@ -1,0 +1,9 @@
+syntax: glob
+
+bin
+build
+include
+lib
+*.kdev4
+*.pyc
+*.log
