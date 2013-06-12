@@ -200,7 +200,8 @@ def run(server_config, sloths):
 
 
 def main():
-
+    """Main API function"""
+    
     parser = ArgumentParser()
     parser.add_argument('configs', nargs='+')
 
