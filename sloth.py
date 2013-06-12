@@ -1,10 +1,9 @@
-from subprocess import call
+from subprocess import Popen, TimeoutExpired
 from datetime import datetime
 from argparse import ArgumentParser
 from json import loads
-from hashlib import md5
-import sqlite3
-import os.path
+from threading import Thread
+
 import logging
 
 import cherrypy
@@ -13,20 +12,39 @@ import configs
 
 
 class Sloth:
+    """Main Sloth class.
+
+    Each instance represents a separate sloth app,
+    with its own config, log, action queue, and queue processor.
+
+    Each app listens for incoming requests on its own URL path.
+    """
+
     def __init__(self, config):
         self.config = config
 
-        file_handler = logging.FileHandler(self.config['prefs']['log_file'], 'a+')
+        self.name = self.config.config_file.split('.')[0]
+
+        file_handler = logging.FileHandler(self.name + '.log', 'a+')
         formatter = logging.Formatter(
             '%(asctime)s | %(name)20s | %(levelname)10s | %(message)s'
         )
         file_handler.setFormatter(formatter)
 
-        self.logger = logging.getLogger(self.config.config_file)
+        self.logger = logging.getLogger(self.name)
         self.logger.setLevel(logging.INFO)
         self.logger.addHandler(file_handler)
 
         self.processing_logger = self.logger.getChild('processing')
+
+        self.queue = []
+        self._queue_lock = False
+
+        self.queue_processor = Thread(target=self.process_queue, name=self.name)
+        self._processor_lock = False
+
+        self.queue_processor.start()
+
 
     def validate_bb_payload(self, payload):
         """Validate Bitbucket payload against repo name and branch.
@@ -35,6 +53,10 @@ class Sloth:
 
         :returns: True of the payload is valid, False otherwise
         """
+
+        if payload == 'test':
+            self.processing_logger.info('Payload validated')
+            return True
 
         try:
             parsed_payload = loads(payload)
@@ -63,15 +85,20 @@ class Sloth:
         :returns: True if successful, Exception otherwise
         """
 
+        self.processing_logger.info('Executing action: %s', action)
+
         try:
-            call(action.split())
+            process = Popen(action.split(), cwd=self.config['work_dir']).wait()
 
             self.processing_logger.info('Action executed: %s', action)
-
             return True
+
+        except TimeoutExpired as e:
+            self.processing_logger.critical('Action timed out: %s', e)
+            return e
+
         except Exception as e:
             self.processing_logger.critical('Action failed: %s', e)
-
             return e
 
     def broadcast(self, payload, node):
@@ -96,6 +123,43 @@ class Sloth:
             self.processing_logger.warning('Broadcasting to %s failed: %s', node, e)
             return e
 
+    def process_queue(self):
+        """Processes execution queue in a separate thread."""
+
+        while not self._processor_lock:
+            if self.queue:
+                payload, orig = self.queue.pop(0)
+
+                if self.config['actions']:
+                    for action in self.config['actions']:
+                        self.execute(action)
+
+                if orig and self.config['nodes']:
+                    for node in self.config['nodes']:
+                        self.broadcast(payload, node)
+
+            elif self._queue_lock:
+                return True
+
+            else:
+                pass
+
+    def stop(self):
+        """Gracefully stops the queue processor.
+
+        New payloads are not added to the queue, existing actions will be finished.
+        """
+        self._queue_lock = True
+        self.logger.info('Stopped.')
+
+    def kill(self):
+        """Immediatelly stops the queue processor and clears the queue."""
+
+        self.stop()
+
+        self._processor_lock = True
+        self.logger.warning('Killed.')
+
     @cherrypy.expose
     def listener(self, payload, orig=True):
         """Listens to Bitbucket commit payloads.
@@ -106,44 +170,48 @@ class Sloth:
         if not cherrypy.request.method == 'POST':
             raise cherrypy.HTTPError(405)
 
-        self.logger.info('Payload received')
-
         if not self.validate_bb_payload(payload):
             raise cherrypy.HTTPError(400)
 
-        if self.config['actions']:
-            for action in self.config['actions']:
-                self.execute(action)
+        self.logger.info('Payload received')
 
-        if orig and self.config['nodes']:
-            for node in self.config['nodes']:
-                self.broadcast(payload, node)
+        if not self._queue_lock:
+            self.queue.append((payload, orig))
 
 
-def run(sloths):
+def run(server_config, sloths):
     """Runs CherryPy loop to listen for payload."""
 
     cherrypy.config.update({
-        'server.socket_host': sloths[0].config['server']['host'],
-        'server.socket_port': sloths[0].config['server']['port']
+        'server.socket_host': server_config['host'],
+        'server.socket_port': server_config['port']
     })
 
     for sloth in sloths:
-        cherrypy.tree.mount(sloth.listener, sloth.config['server']['path'])
+        cherrypy.tree.mount(sloth.listener, sloth.config['listen_to'])
         sloth.logger.info('Mounted')
 
         cherrypy.engine.autoreload.files.add(sloth.config.config_file)
+
+        cherrypy.engine.subscribe('stop', sloth.stop)
 
     cherrypy.engine.start()
     cherrypy.engine.block()
 
 
-if __name__ == '__main__':
+def main():
+    """Main API function"""
+
     parser = ArgumentParser()
-    parser.add_argument('-c', '--config', nargs='+')
+    parser.add_argument('configs', nargs='+')
 
-    config_files = parser.parse_args().config or ['sloth.conf']
+    config_files = parser.parse_args().configs
+    sloths = [Sloth(configs.load(_, 'default.conf')) for _ in config_files]
 
-    sloths = [Sloth(configs.load(config_file, 'sloth.conf')) for config_file in config_files]
+    server_config = configs.load('server.conf')
 
-    run(sloths)
+    run(server_config, sloths)
+
+if __name__ == '__main__':
+
+    main()
