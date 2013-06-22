@@ -199,19 +199,18 @@ def run(server_config, sloths):
     cherrypy.engine.block()
 
 
-def main():
+def main(server_config_file, default_config_file):
     """Main API function"""
 
     parser = ArgumentParser()
     parser.add_argument('configs', nargs='+')
 
     config_files = parser.parse_args().configs
-    sloths = [Sloth(configs.load(_, 'default.conf')) for _ in config_files]
+    sloths = [Sloth(configs.load(_, default_config_file)) for _ in config_files]
 
-    server_config = configs.load('server.conf')
+    server_config = configs.load(server_config_file)
 
     run(server_config, sloths)
 
 if __name__ == '__main__':
-
-    main()
+    main('/etc/sloth/server.conf', '/etc/sloth/default.conf')
