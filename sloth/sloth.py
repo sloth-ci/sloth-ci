@@ -5,7 +5,7 @@ from threading import Thread
 
 import logging
 
-import cherrypy
+from cherrypy import expose
 import requests
 
 
@@ -158,7 +158,7 @@ class Sloth:
         self._processor_lock = True
         self.logger.warning('Killed.')
 
-    @cherrypy.expose
+    @expose
     def listener(self, payload, orig=True):
         """Listens to Bitbucket commit payloads.
 

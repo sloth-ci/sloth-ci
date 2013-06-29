@@ -1,7 +1,7 @@
 from argparse import ArgumentParser
 
 import cherrypy
-import configs
+from configs import load
 
 from .sloth import Sloth
 
@@ -33,8 +33,8 @@ def main(server_config_file, default_config_file):
     parser.add_argument('configs', nargs='+')
 
     config_files = parser.parse_args().configs
-    sloths = [Sloth(configs.load(_, default_config_file)) for _ in config_files]
+    sloths = [Sloth(load(_, default_config_file)) for _ in config_files]
 
-    server_config = configs.load(server_config_file)
+    server_config = load(server_config_file)
 
     run(server_config, sloths)
