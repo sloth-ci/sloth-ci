@@ -1,2 +1,2 @@
 from .api import main
-from sloth import Sloth
+from .sloth import Sloth

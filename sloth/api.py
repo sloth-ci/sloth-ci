@@ -1,3 +1,11 @@
+"""
+***********
+sloth.api
+***********
+
+This module implements the sloth API.
+"""
+
 from argparse import ArgumentParser
 
 import cherrypy
@@ -26,15 +34,17 @@ def run(server_config, sloths):
         cherrypy.engine.block()
 
 
-def main(server_config_file, default_config_file):
+def main(default_server_config_file, default_config_file):
     """Main API function"""
 
     parser = ArgumentParser()
     parser.add_argument('configs', nargs='+')
+    parser.add_argument('-s', '--server_config', required=False)
 
     config_files = parser.parse_args().configs
     sloths = [Sloth(load(_, default_config_file)) for _ in config_files]
 
+    server_config_file = parser.parse_args().server_config or default_server_config_file
     server_config = load(server_config_file)
 
     run(server_config, sloths)
