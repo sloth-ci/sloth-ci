@@ -9,7 +9,7 @@ The repo is at `bitbucket.org/moigagoo/configs <https://bitbucket.org/moigagoo/c
 """
 
 __title__ = 'sloth-ci'
-__version__ = '0.1.1'
+__version__ = '0.1.2'
 __author__ = 'Konstantin Molchanov'
 __license__ = 'MIT'
 
