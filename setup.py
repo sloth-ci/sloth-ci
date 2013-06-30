@@ -14,7 +14,7 @@ setup(
     package_dir={'sloth': 'sloth'},
     package_data={'sloth': ['server.conf', 'default.conf']},
     include_package_data = True,
-    requires = ['CherryPy', 'requests', 'configs>=2.0.2'],
+    requires = ['CherryPy', 'requests', 'configs'],
     license=sloth.__license__,
     classifiers=[
         'Development Status :: 4 - Beta',
