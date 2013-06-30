@@ -2,7 +2,7 @@ from distutils.core import setup
 
 setup(
     name='sloth-ci',
-    version='0.1.4',
+    version='0.1.5',
     author='Konstantin Molchanov',
     description='CI for humans',
     long_description='CI is a simple script to perform push-based actions.',
@@ -12,7 +12,7 @@ setup(
     package_dir={'sloth': 'sloth'},
     package_data={'sloth': ['server.conf', 'default.conf']},
     include_package_data = True,
-    requires = ['CherryPy', 'requests', 'configs'],
+    install_requires = ['CherryPy', 'requests', 'configs'],
     license='MIT',
     classifiers=[
         'Development Status :: 4 - Beta',
