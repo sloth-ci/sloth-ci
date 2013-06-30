@@ -14,7 +14,7 @@ setup(
     package_dir={'sloth': 'sloth'},
     package_data={'sloth': ['server.conf', 'default.conf']},
     include_package_data = True,
-    license=configs.__license__,
+    license=sloth.__license__,
     classifiers=[
         'Development Status :: 5 - Production/Development',
         'Intended Audience :: Developers',
