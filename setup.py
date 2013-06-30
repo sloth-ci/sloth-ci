@@ -1,12 +1,11 @@
 from distutils.core import setup
 
-import sloth
+from sloth import __title__, __version__, __author__, __license__
 
 setup(
-    requires = ['CherryPy', 'requests', 'configs'],
-    name=sloth.__title__,
-    version=sloth.__version__,
-    author=sloth.__author__,
+    name=__title__,
+    version=__version__,
+    author=__author__,
     description='CI for humans',
     long_description='CI is a simple script to perform push-based actions.',
     author_email='moigagoo@myopera.com',
@@ -15,7 +14,8 @@ setup(
     package_dir={'sloth': 'sloth'},
     package_data={'sloth': ['server.conf', 'default.conf']},
     include_package_data = True,
-    license=sloth.__license__,
+    requires = ['CherryPy', 'requests', 'configs'],
+    license=__license__,
     classifiers=[
         'Development Status :: 4 - Beta',
         'Intended Audience :: Developers',
