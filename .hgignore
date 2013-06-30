@@ -7,3 +7,5 @@ lib
 *.kdev4
 *.pyc
 *.log
+MANIFEST
+dist/
