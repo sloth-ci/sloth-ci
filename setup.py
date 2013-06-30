@@ -3,6 +3,7 @@ from distutils.core import setup
 import sloth
 
 setup(
+    requires = ['CherryPy', 'requests', 'configs'],
     name=sloth.__title__,
     version=sloth.__version__,
     author=sloth.__author__,
@@ -14,7 +15,6 @@ setup(
     package_dir={'sloth': 'sloth'},
     package_data={'sloth': ['server.conf', 'default.conf']},
     include_package_data = True,
-    requires = ['CherryPy', 'requests', 'configs'],
     license=sloth.__license__,
     classifiers=[
         'Development Status :: 4 - Beta',
