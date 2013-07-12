@@ -5,9 +5,10 @@ from threading import Thread
 
 import logging
 
-from cherrypy import expose
+import cherrypy
 import requests
 
+from .validators import validate
 
 class Sloth:
     """Main Sloth class.
@@ -42,38 +43,6 @@ class Sloth:
         self._processor_lock = False
 
         self.queue_processor.start()
-
-
-    def validate_bb_payload(self, payload):
-        """Validate Bitbucket payload against repo name and branch.
-
-        :param payload: payload to be validated
-
-        :returns: True of the payload is valid, False otherwise
-        """
-
-        if payload == 'test':
-            self.processing_logger.info('Payload validated')
-            return True
-
-        try:
-            parsed_payload = loads(payload)
-
-            repo = parsed_payload['repository']['owner'] + '/' + parsed_payload['repository']['slug']
-            branch = parsed_payload['commits'][-1]['branch']
-
-            if repo == self.config['repo'] and branch == self.config['branch']:
-                self.processing_logger.info('Payload validated')
-                return True
-            elif repo != self.config['repo']:
-                self.processing_logger.info('Payload validation failed: repo mismatch.')
-                return False
-            elif branch != self.config['branch']:
-                self.processing_logger.info('Payload validation failed: branch mismatch.')
-                return False
-        except:
-            self.processing_logger.info('Payload validation failed.')
-            return False
 
     def execute(self, action):
         """Executes command line command.
@@ -148,7 +117,7 @@ class Sloth:
         New payloads are not added to the queue, existing actions will be finished.
         """
         self._queue_lock = True
-        self.logger.info('Stopped.')
+        self.logger.info('Stopped')
 
     def kill(self):
         """Immediatelly stops the queue processor and clears the queue."""
@@ -158,7 +127,7 @@ class Sloth:
         self._processor_lock = True
         self.logger.warning('Killed.')
 
-    @expose
+    @cherrypy.expose
     def listener(self, payload, orig=True):
         """Listens to Bitbucket commit payloads.
 
@@ -168,10 +137,14 @@ class Sloth:
         if not cherrypy.request.method == 'POST':
             raise cherrypy.HTTPError(405)
 
-        if not self.validate_bb_payload(payload):
+        self.logger.info('Payload received')
+
+        payload_valid, validation_message = validate[self.config['request_source']](payload, self.config)
+
+        if not payload_valid:
             raise cherrypy.HTTPError(400)
 
-        self.logger.info('Payload received')
+        self.logger.info(validation_message)
 
         if not self._queue_lock:
             self.queue.append((payload, orig))
