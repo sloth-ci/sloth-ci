@@ -8,7 +8,6 @@ import logging
 import cherrypy
 import requests
 
-from .validators import validate
 
 class Sloth:
     """Main Sloth class.
@@ -37,7 +36,7 @@ class Sloth:
         self.processing_logger = self.logger.getChild('processing')
 
         self.queue = []
-        self._queue_lock = False
+        self.queue_lock = False
 
         self.queue_processor = Thread(target=self.process_queue, name=self.name)
         self._processor_lock = False
@@ -105,7 +104,7 @@ class Sloth:
                     for node in self.config['nodes']:
                         self.broadcast(payload, node)
 
-            elif self._queue_lock:
+            elif self.queue_lock:
                 return True
 
             else:
@@ -116,7 +115,7 @@ class Sloth:
 
         New payloads are not added to the queue, existing actions will be finished.
         """
-        self._queue_lock = True
+        self.queue_lock = True
         self.logger.info('Stopped')
 
     def kill(self):
@@ -126,25 +125,3 @@ class Sloth:
 
         self._processor_lock = True
         self.logger.warning('Killed.')
-
-    @cherrypy.expose
-    def listener(self, payload, orig=True):
-        """Listens to Bitbucket commit payloads.
-
-        :param payload: Bitbucket commit payload
-        """
-
-        if not cherrypy.request.method == 'POST':
-            raise cherrypy.HTTPError(405)
-
-        self.logger.info('Payload received')
-
-        payload_valid, validation_message = validate[self.config['request_source']](payload, self.config)
-
-        if not payload_valid:
-            raise cherrypy.HTTPError(400)
-
-        self.logger.info(validation_message)
-
-        if not self._queue_lock:
-            self.queue.append((payload, orig))
