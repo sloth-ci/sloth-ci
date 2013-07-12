@@ -2,7 +2,7 @@ from distutils.core import setup
 
 setup(
     name='sloth-ci',
-    version='0.1.5',
+    version='0.1.6',
     author='Konstantin Molchanov',
     description='CI for humans',
     long_description='CI is a simple script to perform push-based actions.',
