@@ -12,6 +12,33 @@ import cherrypy
 from configs import load
 
 from .sloth import Sloth
+from .validators import validate
+
+def make_listener(sloth):
+
+    @cherrypy.expose
+    def listener(payload, orig=True):
+        """Listens to Bitbucket commit payloads.
+
+        :param payload: Bitbucket commit payload
+        """
+
+        if not cherrypy.request.method == 'POST':
+            raise cherrypy.HTTPError(405)
+
+        sloth.logger.info('Payload received')
+
+        payload_valid, validation_message = validate[sloth.config['request_source']](payload, sloth.config)
+
+        if not payload_valid:
+            raise cherrypy.HTTPError(400)
+
+        sloth.logger.info(validation_message)
+
+        if not sloth.queue_lock:
+            sloth.queue.append((payload, orig))
+
+    return listener
 
 
 def run(server_config, sloths):
@@ -23,7 +50,7 @@ def run(server_config, sloths):
         })
 
     for sloth in sloths:
-        cherrypy.tree.mount(sloth.listener, sloth.config['listen_to'])
+        cherrypy.tree.mount(make_listener(sloth), sloth.config['listen_to'])
         sloth.logger.info('Mounted')
 
         cherrypy.engine.autoreload.files.add(sloth.config.config_file)
