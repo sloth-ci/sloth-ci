@@ -27,7 +27,7 @@ def make_listener(sloth):
             raise cherrypy.HTTPError(405)
         sloth.logger.info('Payload received from %s - %s' % (cherrypy.request.headers['Remote-Addr'], cherrypy.request.headers['User-Agent']))
 
-        payload_valid, validation_message = validate[sloth.config['request_source']](payload, sloth.config)
+        payload_valid, validation_message = validate[sloth.config['provider']](payload, sloth.config['provider_data'])
 
         if not payload_valid:
             raise cherrypy.HTTPError(400)

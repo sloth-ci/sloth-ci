@@ -99,6 +99,8 @@ class Sloth:
                 if self.config['actions']:
                     for action in self.config['actions']:
                         self.execute(action)
+                    else:
+                        self.processing_logger.info('Execution queue is empty')
 
                 if orig and self.config['nodes']:
                     for node in self.config['nodes']:

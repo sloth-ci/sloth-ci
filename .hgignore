@@ -9,4 +9,4 @@ lib
 *.log
 MANIFEST
 dist/
-test*.conf
+test_server.conf
