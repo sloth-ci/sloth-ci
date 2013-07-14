@@ -1,6 +1,5 @@
 from subprocess import Popen, TimeoutExpired
 from datetime import datetime
-from json import loads
 from threading import Thread
 
 import logging
