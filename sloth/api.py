@@ -65,8 +65,8 @@ def main(default_server_config_file, default_config_file):
 
     parser = ArgumentParser()
     parser.add_argument('configs', nargs='+')
-    parser.add_argument('-h', '--host', required=False)
-    parser.add_argument('-p', '--port', required=False)
+    parser.add_argument('--host', required=False)
+    parser.add_argument('--port', required=False)
 
     config_files = parser.parse_args().configs
     sloths = [Sloth(load(config_file, default_config_file)) for config_file in config_files]
