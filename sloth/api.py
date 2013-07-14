@@ -71,8 +71,7 @@ def main(default_server_config_file, default_config_file):
     config_files = parser.parse_args().configs
     sloths = [Sloth(load(config_file, default_config_file)) for config_file in config_files]
 
-    server_config_file = parser.parse_args().server_config or default_server_config_file
-    server_config = load(server_config_file)
+    server_config = load(default_server_config_file)
 
     host, port = parser.parse_args().host, parser.parse_args().port
 
