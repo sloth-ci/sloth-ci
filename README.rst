@@ -4,13 +4,11 @@ sloth
 
 CI can be a bitch.
 
-Jenkins is nice, but it's Java, thus memory consumption is *not* acceptible if you're hosting on a VPS.
+Jenkins is nice, but it's Java, thus the memory consumption.
 
-Buildbot is really hairy.
+Buildbot is really hairy and weird.
 
-**Sloth** is simple.
-
-Just put it in your repository (or outside—you decide!), get some tuning, and just let it run.
+**Sloth** is simple. Try it!
 
 .. image:: https://dl.dropbox.com/u/43859367/napoleon_sloth.jpg
     :align: center
