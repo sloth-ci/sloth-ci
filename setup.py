@@ -2,10 +2,10 @@ from distutils.core import setup
 
 setup(
     name='sloth-ci',
-    version='0.1.7',
+    version='0.1.8',
     author='Konstantin Molchanov',
     description='CI for humans',
-    long_description='CI is a simple script to perform push-based actions.',
+    long_description='Sloth is a simple script to perform push-based actions.',
     author_email='moigagoo@myopera.com',
     url='https://bitbucket.org/moigagoo/sloth',
     packages=['sloth'],
