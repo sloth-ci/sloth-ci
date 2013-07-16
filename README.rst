@@ -75,13 +75,13 @@ It may be a good idea to put your app Sloth config in the app repo.
 ``listen_to``
 -------------
 
-Each Sloth instance listens on its own path on the server and port defined in the server config (see above.)
+Each Sloth instance listens on its own path on the host and port defined in the server config.
 
 For example, if the ``listen_to`` param is "my_app" and the default ``server.conf`` is used, the Sloth instance will listen to ``http://127.0.0.1:8080/my_app/``.
 
 ``work_dir`` and ``actions``
 ----------------------------
-The ``actions`` section contains the list of actions to be performed when a request comes to the SLoth instance.
+The ``actions`` section contains the list of actions to be performed when a request comes to the Sloth instance.
 
 The directory, in which Sloth must operate is declared in ``work_dir``. This is your application directory.
 
@@ -92,6 +92,8 @@ For example, if you have an Mercurial-driven app in ``/home/user/app/my_app/`` a
     [actions]
     hg pull
     hg up
+
+Note that the branch may not be specified in the actions since it is validated earlier.
 
 ``provider`` and ``provider_data``
 ----------------------------------
