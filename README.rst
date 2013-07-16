@@ -66,7 +66,7 @@ Each Sloth instance is fully defined by its **config**. A config is a simple INI
 
     ;Nodes to broadcast the message to.
     [nodes]
-    ;htts://example.com/sloth
+    ;http://example.com/sloth
 
 .. note:: Pay attention that unsectioned params *must* be declared first.
 
