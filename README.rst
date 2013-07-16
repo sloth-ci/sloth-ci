@@ -100,9 +100,9 @@ Note that the branch may not be specified in the actions since it is validated e
 
 The ``provider`` param declares what kind of request the Sloth instance must expect or, in other words, what the origin and nature of the expected requests are.
 
-A provider can use additional data to validated the incoming payload; these data are declared in the ``provider_data`` section.
+A provider can use additional data to validate the incoming payload; these data are declared in the ``provider_data`` section.
 
-Currently (v. 0.1.7,) two providers are supported: **dummy** and **bitbucket**.
+Currently (v. 0.1.8,) two providers are supported: **dummy** and **bitbucket**.
 
 The ``dummy`` provider serves for testing purposes. Its only ``provider_data`` param is ``message``, and the payload is considered valid if it equals the message.
 
