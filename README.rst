@@ -30,10 +30,10 @@ Run ``install.sh`` as root (the root priveleges are required to copy the default
 Usage
 =====
 
-run-sloth [-h] [--host HOST] [--port PORT] configs [configs ...]
+run-sloth [-h] [--host HOST] [--port PORT] config [config ...]
 
 positional arguments:
-  configs
+  config
 
 optional arguments:
   -h, --help   show this help message and exit
