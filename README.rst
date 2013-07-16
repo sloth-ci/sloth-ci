@@ -25,7 +25,7 @@ Buildbot is really hairy and weird.
 Installation
 ============
 
-Run ``install.sh`` as root (the roo priveleges are required to copy the default configs to ``/etc/sloth/`` and to copy the ``run-sloth`` executable to ``/usr/bin/``.)
+Run ``install.sh`` as root (the root priveleges are required to copy the default configs to ``/etc/sloth/`` and to copy the ``run-sloth`` executable to ``/usr/bin/``.)
 
 Usage
 =====
