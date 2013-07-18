@@ -35,12 +35,15 @@ class Sloth:
         self.processing_logger = self.logger.getChild('processing')
 
         self.queue = []
-        self.queue_lock = False
+        self._queue_lock = False
 
         self.queue_processor = Thread(target=self.process_queue, name=self.name)
         self._processor_lock = False
 
         self.queue_processor.start()
+
+    def is_queue_locked(self):
+        return self._queue_lock
 
     def execute(self, action):
         """Executes command line command.
@@ -105,7 +108,7 @@ class Sloth:
                     for node in self.config['nodes']:
                         self.broadcast(payload, node)
 
-            elif self.queue_lock:
+            elif self._queue_lock:
                 return True
 
             else:
@@ -116,7 +119,7 @@ class Sloth:
 
         New payloads are not added to the queue, existing actions will be finished.
         """
-        self.queue_lock = True
+        self._queue_lock = True
         self.logger.info('Stopped')
 
     def kill(self):

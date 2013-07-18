@@ -34,7 +34,7 @@ def make_listener(sloth):
 
         sloth.logger.info(validation_message)
 
-        if not sloth.queue_lock:
+        if not sloth.is_queue_locked():
             sloth.queue.append((payload, orig))
 
     return listener
