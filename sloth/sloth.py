@@ -1,10 +1,8 @@
 from subprocess import Popen, TimeoutExpired
-from datetime import datetime
 from threading import Thread
 
 import logging
 
-import cherrypy
 import requests
 
 
