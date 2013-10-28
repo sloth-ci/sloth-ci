@@ -40,45 +40,39 @@ def make_listener(sloth):
     return listener
 
 
-def run(server_config, sloths):
+def run(host, port, sloths):
     """Runs CherryPy loop to listen for payload."""
 
     cherrypy.config.update({
-        'server.socket_host': server_config['host'],
-        'server.socket_port': server_config['port']
+        'server.socket_host': host,
+        'server.socket_port': port
         })
 
     for sloth in sloths:
         cherrypy.tree.mount(make_listener(sloth), sloth.config['listen_to'])
+
         sloth.logger.info('Mounted')
 
         cherrypy.engine.autoreload.files.add(sloth.config.config_file)
 
         cherrypy.engine.subscribe('stop', sloth.stop)
 
-        cherrypy.engine.start()
-        cherrypy.engine.block()
+    cherrypy.engine.start()
+    cherrypy.engine.block()
 
 
-def main(default_server_config_file, default_config_file):
+def main():
     """Main API function"""
 
     parser = ArgumentParser()
-    parser.add_argument('config', nargs='+')
-    parser.add_argument('--host', required=False)
-    parser.add_argument('--port', type=int, required=False)
+    parser.add_argument('--host', required=True)
+    parser.add_argument('--port', type=int, required=True)
+    parser.add_argument('--config', nargs='+', required=True)
 
     config_files = parser.parse_args().config
-    sloths = [Sloth(load(config_file, default_config_file)) for config_file in config_files]
 
-    server_config = load(default_server_config_file)
+    sloths = [Sloth(load(config_file)) for config_file in config_files]
 
     host, port = parser.parse_args().host, parser.parse_args().port
 
-    if host:
-        server_config['host'] = host
-
-    if port:
-        server_config['port'] = port
-
-    run(server_config, sloths)
+    run(host, port, sloths)

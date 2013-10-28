@@ -1,6 +1,0 @@
-from sloth.api import main
-
-default_server_config_file = 'server.conf'
-default_config_file = 'default.conf'
-
-main(default_server_config_file, default_config_file)
