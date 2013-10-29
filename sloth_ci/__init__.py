@@ -8,5 +8,4 @@ Sloth
 The repo is at `bitbucket.org/moigagoo/configs <https://bitbucket.org/moigagoo/configs>`_.
 """
 
-from .api import main
 from .sloth import Sloth

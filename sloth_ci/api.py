@@ -1,10 +1,13 @@
 """
-***********
-sloth.api
-***********
+************
+sloth_ci.api
+************
 
 This module implements the sloth API.
 """
+
+
+from importlib import import_module
 
 from argparse import ArgumentParser
 
@@ -12,7 +15,7 @@ import cherrypy
 from configs import load
 
 from .sloth import Sloth
-from .validators import validate
+
 
 def make_listener(sloth):
 
@@ -27,7 +30,17 @@ def make_listener(sloth):
             raise cherrypy.HTTPError(405)
         sloth.logger.info('Payload received from %s - %s' % (cherrypy.request.headers['Remote-Addr'], cherrypy.request.headers['User-Agent']))
 
-        payload_valid, validation_message = validate[sloth.config['provider']](payload, sloth.config['provider_data'])
+        try:
+            validator = import_module(
+                '.validators.%s' % sloth.config['provider'],
+                package=__package__
+            )
+        
+        except ImportError as e:
+            sloth.logger.critical('No matching validator found: %s' % e)
+            raise cherrypy.HTTPError(500)
+
+        payload_valid, validation_message = validator.validate(payload, sloth.config['provider_data'])
 
         if not payload_valid:
             raise cherrypy.HTTPError(400)
@@ -67,7 +80,7 @@ def main():
     parser = ArgumentParser()
     parser.add_argument('--host', required=True)
     parser.add_argument('--port', type=int, required=True)
-    parser.add_argument('--config', nargs='+', required=True)
+    parser.add_argument('config', nargs='+')
 
     config_files = parser.parse_args().config
 

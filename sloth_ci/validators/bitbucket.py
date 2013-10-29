@@ -1,16 +1,8 @@
-"""
-****************
-sloth.validators
-****************
-
-Validator collection for Sloth.
-"""
-
-def bitbucket(payload, data):
+def validate(payload, data):
     """Validate Bitbucket payload against repo name and branch (obtained from the Sloth instance config.)
 
     :param payload: payload to validate
-    :param data: dictionary with the keys ``repo`` (in form “username/repo”) and ``branch``
+    :param data: dictionary with the keys ``repo`` (in form "??username/repo"??) and ``branch``
 
     :returns: (True, success message) of the payload is valid, (False, error message) otherwise
     """
@@ -29,23 +21,5 @@ def bitbucket(payload, data):
             return (False, 'Payload validation failed: repo mismatch')
         elif branch != data['branch']:
             return (False, 'Payload validation failed: branch mismatch')
-    except:
-        return (False, 'Payload validation failed')
-
-
-def dummy(payload, data):
-    """Dummy validator.
-
-    :param payload: payload to validate
-    :param data: dictionary with the key ``message``
-    """
-
-    if payload == data['message']:
-        return (True, 'Payload validated')
-    else:
-        return (False, 'Payload validation failed')
-
-validate = {
-    'dummy': dummy,
-    'bitbucket': bitbucket
-}
+    except Exception as e:
+        return (False, 'Payload validation failed: %s' % e)
