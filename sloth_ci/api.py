@@ -66,7 +66,7 @@ def run(host, port, sloths):
 
         sloth.logger.info('Mounted')
 
-        cherrypy.engine.autoreload.files.add(sloth.config.config_file)
+        cherrypy.engine.autoreload.files.add(sloth.config.config_full_path)
 
         cherrypy.engine.subscribe('stop', sloth.stop)
 
