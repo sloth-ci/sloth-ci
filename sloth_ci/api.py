@@ -53,13 +53,21 @@ def make_listener(sloth):
     return listener
 
 
-def run(host, port, sloths):
+def run(host, port, log_dir, sloths):
     """Runs CherryPy loop to listen for payload."""
 
-    cherrypy.config.update({
-        'server.socket_host': host,
-        'server.socket_port': port
-        })
+
+    from os.path import abspath, join
+
+    cherrypy.config.update(
+        {   
+            'environment': 'production',
+            'server.socket_host': host,
+            'server.socket_port': port,
+            'log.access_file': abspath(join(log_dir, 'access.log')),
+            'log.error_file': abspath(join(log_dir, 'error.log'))
+        }
+    )
 
     for sloth in sloths:
         cherrypy.tree.mount(make_listener(sloth), sloth.config['listen_to'])
@@ -80,12 +88,18 @@ def main():
     parser = ArgumentParser()
     parser.add_argument('--host', required=True)
     parser.add_argument('--port', type=int, required=True)
+    parser.add_argument('--log_dir', required=True)
     parser.add_argument('config', nargs='+')
+
+    host, port, log_dir = parser.parse_args().host, parser.parse_args().port, parser.parse_args().log_dir
 
     config_files = parser.parse_args().config
 
-    sloths = [Sloth(load(config_file)) for config_file in config_files]
+    sloths = []
 
-    host, port = parser.parse_args().host, parser.parse_args().port
+    for config_file in config_files:
+        config = load(config_file)
+        config['log_dir'] = log_dir
+        sloths.append(Sloth(config))
 
-    run(host, port, sloths)
+    run(host, port, log_dir, sloths)
