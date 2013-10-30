@@ -95,11 +95,6 @@ def main():
 
     config_files = parser.parse_args().config
 
-    sloths = []
-
-    for config_file in config_files:
-        config = load(config_file)
-        config['log_dir'] = log_dir
-        sloths.append(Sloth(config))
+    sloths = [Sloth(load(config_file, defaults={'log_dir': log_dir})) for config_file in config_files]
 
     run(host, port, log_dir, sloths)
