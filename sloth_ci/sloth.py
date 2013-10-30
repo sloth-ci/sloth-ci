@@ -1,6 +1,6 @@
 from subprocess import Popen, TimeoutExpired
 from threading import Thread
-from os.path import splitext, basename, join
+from os.path import splitext, basename, abspath, join
 
 import logging
 
@@ -21,7 +21,7 @@ class Sloth:
 
         self.name = splitext(basename(self.config.config_full_path))[0]
 
-        file_handler = logging.FileHandler(join(self.config['log_dir'], self.name + '.log'), 'a+')
+        file_handler = logging.FileHandler(abspath(join(self.config['log_dir'], self.name + '.log')), 'a+')
         formatter = logging.Formatter(
             '%(asctime)s | %(name)20s | %(levelname)10s | %(message)s'
         )
