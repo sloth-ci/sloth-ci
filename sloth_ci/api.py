@@ -60,9 +60,6 @@ def run(host, port, log_dir, sloths):
 
     from os.path import abspath, join
 
-    from cherrypy.process.plugins import Daemonizer
-    d = Daemonizer(cherrypy.engine).subscribe()
-
     cherrypy.config.update(
         {
             'environment': 'production',
@@ -88,6 +85,9 @@ def run(host, port, log_dir, sloths):
 
 def main():
     """Main API function"""
+
+    from cherrypy.process.plugins import Daemonizer
+    Daemonizer(cherrypy.engine).subscribe()
 
     parser = ArgumentParser()
     parser.add_argument('--host', required=True)
