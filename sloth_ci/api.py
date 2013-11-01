@@ -21,9 +21,9 @@ def make_listener(sloth):
 
     @cherrypy.expose
     def listener(payload, orig=True):
-        """Listens to Bitbucket commit payloads.
+        """Listens to payloads.
 
-        :param payload: Bitbucket commit payload
+        :param payload: payload
         """
 
         if not cherrypy.request.method == 'POST':
@@ -35,17 +35,18 @@ def make_listener(sloth):
                 '.validators.%s' % sloth.config['provider'],
                 package=__package__
             )
-        
+
         except ImportError as e:
             sloth.logger.critical('No matching validator found: %s' % e)
             raise cherrypy.HTTPError(500)
 
         payload_valid, validation_message = validator.validate(payload, sloth.config['provider_data'])
 
+        sloth.logger.info(validation_message)
+
         if not payload_valid:
             raise cherrypy.HTTPError(400)
 
-        sloth.logger.info(validation_message)
 
         if not sloth.is_queue_locked():
             sloth.queue.append((payload, orig))
@@ -60,7 +61,7 @@ def run(host, port, log_dir, sloths):
     from os.path import abspath, join
 
     cherrypy.config.update(
-        {   
+        {
             'environment': 'production',
             'server.socket_host': host,
             'server.socket_port': port,
@@ -72,7 +73,7 @@ def run(host, port, log_dir, sloths):
     for sloth in sloths:
         cherrypy.tree.mount(make_listener(sloth), sloth.config['listen_to'])
 
-        sloth.logger.info('Mounted')
+        sloth.logger.info('Mounted at %s' % sloth.config['listen_to'])
 
         cherrypy.engine.autoreload.files.add(sloth.config.config_full_path)
 
