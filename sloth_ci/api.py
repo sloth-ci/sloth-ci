@@ -60,6 +60,9 @@ def run(host, port, log_dir, sloths):
 
     from os.path import abspath, join
 
+    from cherrypy.process.plugins import Daemonizer
+    d = Daemonizer(cherrypy.engine).subscribe()
+
     cherrypy.config.update(
         {
             'environment': 'production',
