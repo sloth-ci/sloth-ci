@@ -86,9 +86,6 @@ def run(host, port, log_dir, sloths):
 def main():
     """Main API function"""
 
-    from cherrypy.process.plugins import Daemonizer
-    Daemonizer(cherrypy.engine).subscribe()
-
     parser = ArgumentParser()
     parser.add_argument('--host', required=True)
     parser.add_argument('--port', type=int, required=True)
