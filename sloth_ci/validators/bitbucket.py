@@ -15,11 +15,10 @@ def validate(payload, data):
         repo = parsed_payload['repository']['owner'] + '/' + parsed_payload['repository']['slug']
         branch = parsed_payload['commits'][-1]['branch']
 
-        if repo == data['repo'] and branch == data['branch']:
-            return (True, 'Payload validated')
-        elif repo != data['repo']:
-            return (False, 'Payload validation failed: repo mismatch')
-        elif branch != data['branch']:
-            return (False, 'Payload validation failed: branch mismatch')
+        if repo != data['repo']:
+            return (False, 'Payload validation failed: repo mismatch. Repo: {repo}', {'repo': repo})
+        
+        return (True, 'Payload validated. Branch: {branch}', {'branch': branch})
+    
     except Exception as e:
-        return (False, 'Payload validation failed: %s' % e)
+        return (False, 'Payload validation failed: %s' % e, {})

@@ -6,6 +6,6 @@ def validate(payload, data):
     """
 
     if payload == data['message']:
-        return (True, 'Payload validated')
+        return (True, 'Payload validated. Message: {message}', {'message': payload})
     else:
-        return (False, 'Payload validation failed')
+        return (False, 'Payload validation failed. Message: {message}', {'message': payload})
