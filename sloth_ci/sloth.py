@@ -44,7 +44,7 @@ class Sloth:
     def is_queue_locked(self):
         return self._queue_lock
 
-    def execute(self, action):
+    def execute(self, action, data={}):
         """Executes command line command.
 
         :param action: action to be executed
@@ -95,11 +95,11 @@ class Sloth:
 
         while not self._processor_lock:
             if self.queue:
-                payload, orig = self.queue.pop(0)
+                payload, params, orig = self.queue.pop(0)
 
                 if self.config['actions']:
                     for action in self.config['actions']:
-                        self.execute(action)
+                        self.execute(action.format_map(params))
                     else:
                         self.processing_logger.info('Execution queue is empty')
 
