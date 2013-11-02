@@ -1,8 +1,8 @@
 def validate(payload, data):
-    """Validate Bitbucket payload against repo name and branch (obtained from the Sloth instance config.)
+    """Validate Bitbucket payload against repo name (obtained from the Sloth instance config).
 
     :param payload: payload to validate
-    :param data: dictionary with the keys ``repo`` (in form "??username/repo"??) and ``branch``
+    :param data: dictionary with the keys ``repo`` (in the form "username/repo") and ``branch``
 
     :returns: (True, success message) of the payload is valid, (False, error message) otherwise
     """
