@@ -25,8 +25,7 @@ def make_listener(sloth):
 
         :param payload: payload
         """
-        print(args)
-        print(kwargs)
+
         sloth.logger.info('Payload received from %s - %s' % (cherrypy.request.headers['Remote-Addr'], cherrypy.request.headers['User-Agent']))
 
         try:
@@ -38,7 +37,7 @@ def make_listener(sloth):
             sloth.logger.critical('No matching validator found: %s' % e)
             raise cherrypy.HTTPError(500)
 
-        payload_valid, validation_message, params = validator.validate(cherrypy.request.params, sloth.config['provider_data'])
+        payload_valid, validation_message, params = validator.validate(cherrypy.request, sloth.config['provider_data'])
 
         sloth.logger.info(validation_message.format_map(params))
 
