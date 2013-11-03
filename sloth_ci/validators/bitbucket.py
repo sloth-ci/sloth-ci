@@ -1,15 +1,20 @@
-def validate(payload, data):
+def validate(request, validation_data):
     """Validate Bitbucket payload against repo name (obtained from the Sloth instance config).
 
-    :param payload: payload to validate
-    :param data: dictionary with the keys ``repo`` (in the form "username/repo") and ``branch``
+    :param request_params: payload to validate
+    :param validation_data: dictionary with the key ``repo`` (in the form "username/repo")
 
-    :returns: (True, success message) of the payload is valid, (False, error message) otherwise
+    :returns: (True, success message, extracted data dict) of the payload is valid, (False, error message, extracted data dict) otherwise
     """
 
     from json import loads
 
+    if request.method != 'POST':
+        return (False, 'Payload validation failed: Wrong method, POST expected, got {method}.', {'method': request.method})
+
     try:
+        payload = request.params.get('payload')
+
         parsed_payload = loads(payload)
 
         repo = parsed_payload['repository']['owner'] + '/' + parsed_payload['repository']['slug']
