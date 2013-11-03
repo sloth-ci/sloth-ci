@@ -1,11 +1,10 @@
-def validate(request_params, validation_data):
+def validate(request, validation_data):
     """Dummy validator.
 
     :param request_params: payload to validate
     :param validation_data: dictionary with the key ``message``
     """
-
-    message = request_params.get('message')
+    message = request.params.get('message')
 
     if message == validation_data['message']:
         return (True, 'Payload validated. Message: {message}', {'message': message})
