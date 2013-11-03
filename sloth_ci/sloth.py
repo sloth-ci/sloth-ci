@@ -73,7 +73,7 @@ class Sloth:
 
         while not self._processor_lock:
             if self.queue:
-                payload, params = self.queue.pop(0)
+                params = self.queue.pop(0)
 
                 if self.config['actions']:
                     for action in self.config['actions']:
