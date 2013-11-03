@@ -82,15 +82,26 @@ def main():
     """Main API function"""
 
     parser = ArgumentParser()
-    parser.add_argument('--host', required=True)
-    parser.add_argument('--port', type=int, required=True)
-    parser.add_argument('--log_dir', required=True)
+    parser.add_argument('--sconfig')
+    parser.add_argument('--host')
+    parser.add_argument('--port', type=int)
+    parser.add_argument('--log_dir')
     parser.add_argument('config', nargs='+')
 
-    host, port, log_dir = parser.parse_args().host, parser.parse_args().port, parser.parse_args().log_dir
+    parsed_args = parser.parse_args()
 
-    config_files = parser.parse_args().config
+    sconfig_file = parsed_args.sconfig
+    sconfig = load(sconfig_file)
+
+    host = parsed_args.host or sconfig.get('host')
+    port = parsed_args.port or sconfig.get('port')
+    log_dir = parsed_args.log_dir or sconfig.get('log_dir')
+
+    config_files = parsed_args.config
 
     sloths = [Sloth(load(config_file, defaults={'log_dir': log_dir})) for config_file in config_files]
+
+    if not (host or port or log_dir):
+        raise RuntimeError('Missing server param.')
 
     run(host, port, log_dir, sloths)
