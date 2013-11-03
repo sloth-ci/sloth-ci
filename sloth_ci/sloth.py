@@ -99,7 +99,10 @@ class Sloth:
 
                 if self.config['actions']:
                     for action in self.config['actions']:
-                        self.execute(action.format_map(params))
+                        try:
+                            self.execute(action.format_map(params))
+                        except KeyError as e:
+                            self.processing_logger.critical('Wrong params: %s' % e)
                     else:
                         self.processing_logger.info('Execution queue is empty')
 
