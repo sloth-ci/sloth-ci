@@ -68,34 +68,12 @@ class Sloth:
             self.processing_logger.critical('Action failed: %s', e)
             return e
 
-    def broadcast(self, payload, node):
-        """Transmit payload to a node.
-
-        :param payload: payload to be transmitted
-        :param node: complete node URL (with protocol and port, **with** the path to the sloth listener)
-
-        :returns: response code
-        """
-
-        try:
-            r = requests.post('%s' % node, data={'payload': payload, 'orig': False})
-
-            if r.status_code == 200:
-                self.processing_logger.info('Payload broadcasted to %s', node)
-            else:
-                self.processing_logger.warning('Broadcasting to %s failed: %s', node, r.status)
-
-            return True
-        except Exception as e:
-            self.processing_logger.warning('Broadcasting to %s failed: %s', node, e)
-            return e
-
     def process_queue(self):
         """Processes execution queue in a separate thread."""
 
         while not self._processor_lock:
             if self.queue:
-                payload, params, orig = self.queue.pop(0)
+                params = self.queue.pop(0)
 
                 if self.config['actions']:
                     for action in self.config['actions']:
@@ -105,10 +83,6 @@ class Sloth:
                             self.processing_logger.critical('Wrong params: %s' % e)
                     else:
                         self.processing_logger.info('Execution queue is empty')
-
-                if orig and self.config['nodes']:
-                    for node in self.config['nodes']:
-                        self.broadcast(payload, node)
 
             elif self._queue_lock:
                 return True

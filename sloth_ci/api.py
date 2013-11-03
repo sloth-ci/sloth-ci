@@ -20,14 +20,12 @@ from .sloth import Sloth
 def make_listener(sloth):
 
     @cherrypy.expose
-    def listener(payload, orig=True):
-        """Listens to payloads.
+    def listener(*args, **kwargs):
+        """Listens to requests.
 
         :param payload: payload
         """
 
-        if not cherrypy.request.method == 'POST':
-            raise cherrypy.HTTPError(405)
         sloth.logger.info('Payload received from %s - %s' % (cherrypy.request.headers['Remote-Addr'], cherrypy.request.headers['User-Agent']))
 
         try:
@@ -35,12 +33,11 @@ def make_listener(sloth):
                 '.validators.%s' % sloth.config['provider'],
                 package=__package__
             )
-
         except ImportError as e:
             sloth.logger.critical('No matching validator found: %s' % e)
             raise cherrypy.HTTPError(500)
 
-        payload_valid, validation_message, params = validator.validate(payload, sloth.config['provider_data'])
+        payload_valid, validation_message, params = validator.validate(cherrypy.request, sloth.config['provider_data'])
 
         sloth.logger.info(validation_message.format_map(params))
 
@@ -48,7 +45,7 @@ def make_listener(sloth):
             raise cherrypy.HTTPError(400)
 
         if not sloth.is_queue_locked():
-            sloth.queue.append((payload, params, orig))
+            sloth.queue.append(params)
 
     return listener
 
@@ -61,7 +58,6 @@ def run(host, port, log_dir, sloths):
 
     cherrypy.config.update(
         {
-            'environment': 'production',
             'server.socket_host': host,
             'server.socket_port': port,
             'log.access_file': abspath(join(log_dir, 'access.log')),
