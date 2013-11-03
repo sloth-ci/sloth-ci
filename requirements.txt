@@ -1,2 +1,2 @@
 CherryPy
-configs>=2.0.5
+configs>=2.0.7
