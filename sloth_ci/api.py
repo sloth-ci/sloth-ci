@@ -20,7 +20,7 @@ from .sloth import Sloth
 def make_listener(sloth):
 
     @cherrypy.expose
-    def listener(payload, orig=True):
+    def listener(payload):
         """Listens to payloads.
 
         :param payload: payload
@@ -48,7 +48,7 @@ def make_listener(sloth):
             raise cherrypy.HTTPError(400)
 
         if not sloth.is_queue_locked():
-            sloth.queue.append((payload, params, orig))
+            sloth.queue.append((payload, params))
 
     return listener
 
