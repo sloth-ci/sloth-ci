@@ -1,6 +1,7 @@
 from subprocess import Popen, TimeoutExpired
 from threading import Thread
 from os.path import splitext, basename, abspath, join
+from time import sleep
 
 import logging
 
@@ -88,7 +89,7 @@ class Sloth:
                 return True
 
             else:
-                pass
+                sleep(.25)
 
     def stop(self):
         """Gracefully stops the queue processor.
