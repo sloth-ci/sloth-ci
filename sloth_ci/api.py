@@ -82,11 +82,11 @@ def main():
     """Main API function"""
 
     parser = ArgumentParser()
-    parser.add_argument('--sconfig')
-    parser.add_argument('--host')
-    parser.add_argument('--port', type=int)
-    parser.add_argument('--log_dir')
-    parser.add_argument('config', nargs='+')
+    parser.add_argument('--sconfig', help='Server config')
+    parser.add_argument('--host', help='Host for the Sloth server (overrides value in sconfig)')
+    parser.add_argument('--port', type=int, help='Port for the Sloth server (overrides value in sconfig)')
+    parser.add_argument('--log_dir', help='Where the log files should be stored.')
+    parser.add_argument('config', nargs='+', help='Sloth app config(s); config per app.')
 
     parsed_args = parser.parse_args()
 
