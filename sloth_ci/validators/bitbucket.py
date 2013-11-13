@@ -1,5 +1,5 @@
 def validate(request, validation_data):
-    """Validate Bitbucket payload against repo name (obtained from the Sloth instance config).
+    """Validate Bitbucket payload against repo name (obtained from the Sloth app config).
 
     :param request_params: payload to validate
     :param validation_data: dictionary with the key ``repo`` (in the form "username/repo")

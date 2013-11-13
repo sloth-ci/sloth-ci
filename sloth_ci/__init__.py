@@ -14,4 +14,3 @@ __author__ = 'Konstantin Molchanov'
 __license__ = 'MIT'
 
 from .sloth import Sloth
-from .api import main
