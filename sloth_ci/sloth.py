@@ -5,8 +5,6 @@ from time import sleep
 
 import logging
 
-import requests
-
 
 class Sloth:
     """Main Sloth class.

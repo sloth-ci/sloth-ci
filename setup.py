@@ -1,12 +1,21 @@
 from distutils.core import setup
 
+import sloth_ci
+
+
+try:
+    readme = open('README.rst').read()
+except:
+    readme = 'Sloth CI: CI for Humans.'
+
+
 setup(
-    name='sloth-ci',
-    version='0.3.1',
-    author='Konstantin Molchanov',
+    name=sloth_ci.__title__,
+    version=sloth_ci.__version__,
+    author=sloth_ci.__author__,
     description='CI for humans',
-    long_description='Sloth is a simple script to perform push-based actions.',
-    author_email='moigagoo@myopera.com',
+    long_description=readme,
+    author_email='moigagoo@live.com',
     url='https://bitbucket.org/moigagoo/sloth-ci',
     packages=[
         'sloth_ci',
