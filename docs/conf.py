@@ -48,7 +48,7 @@ copyright = '2013, Konstantin Molchanov'
 # built documents.
 #
 # The short X.Y version.
-from sloth_ci import __version__
+from .sloth_ci import __version__
 
 version = __version__
 
