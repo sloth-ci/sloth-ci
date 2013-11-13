@@ -3,7 +3,7 @@
 sloth_ci.api
 ************
 
-This module implements the sloth API.
+This module implements the Sloth CI API.
 """
 
 
