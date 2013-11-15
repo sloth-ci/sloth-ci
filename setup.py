@@ -34,6 +34,6 @@ setup(
         'Programming Language :: Python :: 3'],
     entry_points={
         'console_scripts':
-            ['sloth-ci-start = sloth_ci.api:main']
+            ['sloth-ci = sloth_ci.api:main']
         }
     )
