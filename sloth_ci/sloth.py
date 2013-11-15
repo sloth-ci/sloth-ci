@@ -1,4 +1,4 @@
-from subprocess import Popen, TimeoutExpired
+from subprocess import Popen
 from threading import Thread
 from os.path import splitext, basename, abspath, join
 from time import sleep
@@ -58,10 +58,6 @@ class Sloth:
 
             self.processing_logger.info('Action executed: %s', action)
             return True
-
-        except TimeoutExpired as e:
-            self.processing_logger.critical('Action timed out: %s', e)
-            return e
 
         except Exception as e:
             self.processing_logger.critical('Action failed: %s', e)
