@@ -9,6 +9,8 @@ This module implements the Sloth CI API.
 
 from importlib import import_module
 
+from sys import exit
+
 from argparse import ArgumentParser
 
 import cherrypy
@@ -91,17 +93,21 @@ def main():
     parsed_args = parser.parse_args()
 
     sconfig_file = parsed_args.sconfig
-    sconfig = load(sconfig_file)
+
+    if sconfig_file:
+        sconfig = load(sconfig_file)
+    else:
+        sconfig = {}
 
     host = parsed_args.host or sconfig.get('host')
     port = parsed_args.port or sconfig.get('port')
     log_dir = parsed_args.log_dir or sconfig.get('log_dir')
 
+    if not (host and port and log_dir):
+        exit('Missing server param.')
+
     config_files = parsed_args.config
 
     sloths = [Sloth(load(config_file, defaults={'log_dir': log_dir})) for config_file in config_files]
-
-    if not (host or port or log_dir):
-        raise RuntimeError('Missing server param.')
 
     run(host, port, log_dir, sloths)
