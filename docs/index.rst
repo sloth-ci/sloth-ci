@@ -34,6 +34,10 @@ Sloth CI can be installed with pip::
 
     pip install sloth-ci
 
+.. note::
+
+    Sloth CI will work only in Python 3. It *could have been* ported to Python 2 with minimal effort, but the priorities are on the functionality now. Python 3 is better anyway.
+
 This will install the Python package and add the ``sloth-ci`` shell command.
 
 Usage
