@@ -90,6 +90,7 @@ class Sloth:
 
         New payloads are not added to the queue, existing actions will be finished.
         """
+        
         self._queue_lock = True
         self.logger.info('Stopped')
 
