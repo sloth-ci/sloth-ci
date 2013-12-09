@@ -12,3 +12,4 @@ MANIFEST
 dist/
 test_server.conf
 docs/_build
+.kateproject*
