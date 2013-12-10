@@ -40,9 +40,9 @@ This will install the Python package and add the ``sloth-ci-start`` shell comman
 Usage
 =====
 
-Use the ``sloth-ci-start`` command to launch Sloth CI::
+Use the ``sloth-ci`` command to launch Sloth CI::
 
-    sloth-ci-start [-h] [--sconfig SCONFIG] [--host HOST] [--port PORT] [--log_dir LOG_DIR] config [config ...]
+    sloth-ci [-h] [--sconfig SCONFIG] [--host HOST] [--port PORT] [--log_dir LOG_DIR] config [config ...]
 
     positional arguments:
         config             Sloth app config(s); config per app.
