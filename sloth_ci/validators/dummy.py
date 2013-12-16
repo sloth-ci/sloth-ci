@@ -10,7 +10,9 @@ def validate(request, validation_data):
 
     message = request.params.get('message')
 
-    if message == validation_data['message']:
+    valid_message = validation_data.get('message')
+
+    if message and message == valid_message:
         return (True, 'Payload validated. Message: {message}', {'message': message})
     else:
         return (False, 'Payload validation failed. Message: {message}', {'message': message})

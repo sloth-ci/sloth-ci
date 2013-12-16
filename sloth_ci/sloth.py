@@ -59,9 +59,8 @@ class Sloth:
             self.processing_logger.info('Action executed: %s', action)
             return True
 
-        except Exception as e:
-            self.processing_logger.critical('Action failed: %s', e)
-            return e
+        except Exception:
+            raise
 
     def process_queue(self):
         """Processes execution queue in a separate thread."""
@@ -74,8 +73,18 @@ class Sloth:
                     for action in self.config['actions']:
                         try:
                             self.execute(action.format_map(params))
+
                         except KeyError as e:
-                            self.processing_logger.critical('Wrong params: %s' % e)
+                            self.processing_logger.critical('Unknown param in action: %s' % e)
+
+                            if self.config.get('stop_on_first_fail'):
+                                break
+
+                        except Exception as e:
+                            self.processing_logger.critical('Action failed: %s', e)
+
+                            if self.config.get('stop_on_first_fail'):
+                                break
                     else:
                         self.processing_logger.info('Execution queue is empty')
 
@@ -90,7 +99,7 @@ class Sloth:
 
         New payloads are not added to the queue, existing actions will be finished.
         """
-        
+
         self._queue_lock = True
         self.logger.info('Stopped')
 
