@@ -77,11 +77,17 @@ Sloth App Config Example
 
     provider = bitbucket
 
+    stop_on_first_fail = True
+
     [provider_data]
     repo = moigagoo/sloth-ci
 
     [actions]
     echo Got a commit to {branch}
+
+.. versionadded:: 0.3.6
+
+Optional param `stop_on_first_fail` defined if the queue processing should stop on the first fail action execution.
 
 Concept
 =======
