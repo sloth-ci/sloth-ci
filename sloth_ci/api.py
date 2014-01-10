@@ -53,7 +53,13 @@ def make_listener(sloth):
 
 
 def run(host, port, log_dir, sloths):
-    """Runs CherryPy loop to listen for payload."""
+    """Runs CherryPy loop to listen for payload.
+    
+    :param host: host
+    :param port: port
+    :param log_dir: directory to store logs (absolute or relative)
+    :param sloths: list of Sloth apps to run
+    """
 
 
     from os.path import abspath, join
