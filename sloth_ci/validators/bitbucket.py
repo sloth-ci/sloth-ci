@@ -4,7 +4,7 @@ def validate(request, validation_data):
     :param request_params: payload to validate
     :param validation_data: dictionary with the key ``repo`` (in the form "username/repo")
 
-    :returns: (True, success message, extracted data dict) of the payload is valid, (False, error message, extracted data dict) otherwise
+    :returns: (True, success message, extracted data dict) if the payload is valid, (False, error message, extracted data dict) otherwise
     """
 
     from json import loads
