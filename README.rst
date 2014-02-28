@@ -36,7 +36,9 @@ Sloth CI can be installed with pip::
 
 This will install the Python package and add the ``sloth-ci`` shell command.
 
-See the complete docs on `<Read the Docs> http://sloth-ci.rtfd.org`_.
+The repo is at `bitbucket.org/moigagoo/sloth-ci <https://bitbucket.org/moigagoo/sloth-ci>`_.
+
+Read the full documentation at `sloth-ci.rtfd.org <http://sloth-ci.rtfd.org>`_
 
 Usage
 =====
