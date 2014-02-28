@@ -2,12 +2,12 @@
 Sloth CI
 ********
 
-.. image:: http://img.shields.io/pypi/v/sloth-ci.svg
-    :target: http://pypi.python.org/pypi/sloth-ci/
+.. image:: https://img.shields.io/pypi/v/sloth-ci.svg
+    :target: https://pypi.python.org/pypi/sloth-ci/
     :alt: Latest PyPI version
 
-.. image:: http://img.shields.io/pypi/dm/sloth-ci.svg
-    :target: http://pypi.python.org/pypi/sloth-ci/
+.. image:: https://img.shields.io/pypi/dm/sloth-ci.svg
+    :target: https://pypi.python.org/pypi/sloth-ci/
     :alt: Number of PyPI downloads
 
 
