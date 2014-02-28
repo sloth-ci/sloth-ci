@@ -2,12 +2,12 @@
 Sloth CI: CI for Humans
 ***********************
 
-.. image:: https://pypip.in/v/sloth-ci/badge.png
-    :target: https://crate.io/packages/sloth-ci/
+.. image:: http://img.shields.io/pypi/v/sloth-ci.svg
+    :target: http://pypi.python.org/pypi/sloth-ci/
     :alt: Latest PyPI version
 
-.. image:: https://pypip.in/d/sloth-ci/badge.png
-    :target: https://crate.io/packages/sloth-ci/
+.. image:: http://img.shields.io/pypi/dm/sloth-ci.svg
+    :target: http://pypi.python.org/pypi/sloth-ci/
     :alt: Number of PyPI downloads
 
 
@@ -17,6 +17,7 @@ Sloth CI: CI for Humans
 
     apidocs/index
 
+
 CI can be a bitch.
 
 Jenkins is nice, but it's Java, thus the memory consumption.
@@ -25,7 +26,6 @@ Buildbot is really hairy and weird.
 
 **Sloth CI** is simple. Try it!
 
-Sloth CI is CI for humans.
 
 Installation
 ============
