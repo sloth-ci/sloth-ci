@@ -2,13 +2,14 @@
 Sloth CI
 ********
 
-.. image:: https://pypip.in/v/sloth-ci/badge.png
-    :target: https://crate.io/packages/sloth-ci/
+.. image:: http://img.shields.io/pypi/v/sloth-ci.svg
+    :target: http://pypi.python.org/pypi/sloth-ci/
     :alt: Latest PyPI version
 
-.. image:: https://pypip.in/d/sloth-ci/badge.png
-    :target: https://crate.io/packages/sloth-ci/
+.. image:: http://img.shields.io/pypi/dm/sloth-ci.svg
+    :target: http://pypi.python.org/pypi/sloth-ci/
     :alt: Number of PyPI downloads
+
 
 CI can be a bitch.
 
@@ -17,8 +18,6 @@ Jenkins is nice, but it's Java, thus the memory consumption.
 Buildbot is really hairy and weird.
 
 **Sloth CI** is simple. Try it!
-
-Sloth CI is CI for humans.
 
 .. image:: https://dl.dropbox.com/u/43859367/napoleon_sloth.jpg
     :align: center
@@ -35,7 +34,9 @@ Sloth CI can be installed with pip::
 
     Sloth CI will work only in Python 3. It *could have been* ported to Python 2 with minimal effort, but the priorities are on the functionality now. Python 3 is better anyway.
 
-This will install the Python package and add the ``sloth-ci-start`` shell command.
+This will install the Python package and add the ``sloth-ci`` shell command.
+
+See the complete docs on `<Read the Docs> http://sloth-ci.rtfd.org`_.
 
 Usage
 =====
