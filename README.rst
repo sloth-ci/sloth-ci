@@ -2,14 +2,17 @@
 Sloth CI
 ********
 
-.. image:: https://img.shields.io/pypi/v/sloth-ci.svg
+.. image:: https://pypip.in/v/sloth-ci/badge.png
     :target: https://pypi.python.org/pypi/sloth-ci/
-    :alt: Latest PyPI version
+    :alt: Latest Version
 
-.. image:: https://img.shields.io/pypi/dm/sloth-ci.svg
+.. image:: https://pypip.in/d/sloth-ci/badge.png
     :target: https://pypi.python.org/pypi/sloth-ci/
-    :alt: Number of PyPI downloads
+    :alt: Downloads
 
+.. image:: https://pypip.in/wheel/sloth-ci/badge.png
+    :target: https://pypi.python.org/pypi/sloth-ci/
+    :alt: Wheel Status
 
 CI can be a bitch.
 
