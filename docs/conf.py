@@ -231,7 +231,7 @@ man_pages = [
 #  dir menu entry, description, category)
 texinfo_documents = [
   ('index', 'SlothCI', 'Sloth CI Documentation',
-   'Konstantin Molchanov', 'SlothCI', 'One line description of project.',
+   'Konstantin Molchanov', 'SlothCI', 'CI for Humans.',
    'Miscellaneous'),
 ]
 
