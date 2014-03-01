@@ -1,29 +1,5 @@
-sloth_ci Package
+sloth_ci package
 ================
-
-:mod:`sloth_ci` Package
------------------------
-
-.. automodule:: sloth_ci.__init__
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
-:mod:`api` Module
------------------
-
-.. automodule:: sloth_ci.api
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
-:mod:`sloth` Module
--------------------
-
-.. automodule:: sloth_ci.sloth
-    :members:
-    :undoc-members:
-    :show-inheritance:
 
 Subpackages
 -----------
@@ -32,3 +8,30 @@ Subpackages
 
     sloth_ci.validators
 
+Submodules
+----------
+
+sloth_ci.api module
+-------------------
+
+.. automodule:: sloth_ci.api
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+sloth_ci.sloth module
+---------------------
+
+.. automodule:: sloth_ci.sloth
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+
+Module contents
+---------------
+
+.. automodule:: sloth_ci
+    :members:
+    :undoc-members:
+    :show-inheritance:
