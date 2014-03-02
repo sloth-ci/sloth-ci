@@ -12,6 +12,13 @@ def validate(request, validation_data):
     if request.method != 'POST':
         return (False, 'Payload validation failed: Wrong method, POST expected, got {method}.', {'method': request.method})
 
+    trusted_ips = ['131.103.20.165', '131.103.20.166']
+
+    remote_ip = request.headers['Remote-Addr']
+
+    if remote_ip not in trusted_ips:
+        return (False, 'Payload validation failed: Unverified remote IP: {ip}.', {'ip': remote_ip})
+
     try:
         payload = request.params.get('payload')
 
