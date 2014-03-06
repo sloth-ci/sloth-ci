@@ -75,7 +75,7 @@ class Sloth:
                             self.execute(action.format_map(params))
 
                         except KeyError as e:
-                            self.processing_logger.critical('Unknown param in action: %s' % e)
+                            self.processing_logger.critical('Unknown param in action: %s', e)
 
                             if self.config.get('stop_on_first_fail'):
                                 break
