@@ -52,7 +52,7 @@ Use the ``sloth-ci`` command to launch Sloth CI::
     sloth-ci [-h] [--sconfig SCONFIG] [--host HOST] [--port PORT] [--log_dir LOG_DIR] config [config ...]
 
     positional arguments:
-        config             Sloth app config(s); config per app.
+        config             Sloth app config files or dirs.
 
     optional arguments:
         -h, --help         show help message and exit
@@ -60,6 +60,11 @@ Use the ``sloth-ci`` command to launch Sloth CI::
         --host HOST        Host for the Sloth server (overrides value in sconfig)
         --port PORT        Port for the Sloth server (overrides value in sconfig)
         --log_dir LOG_DIR  Where the log files should be stored (overrides value in sconfig)
+
+
+.. versionadded:: 0.5.1
+
+The ``config`` param can point either to a file or a directory. In the latter case, all the config files within the directory will be used.
 
 Server Config Example
 ---------------------
