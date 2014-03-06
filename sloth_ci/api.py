@@ -11,12 +11,37 @@ from importlib import import_module
 
 from sys import exit
 
+from os.path import isdir, isfile, abspath, join
+from os import listdir
+
 from argparse import ArgumentParser
 
 import cherrypy
 from configs import load
 
 from .sloth import Sloth
+
+
+def get_config_files(config_locations):
+    """Generate a list of config files for Sloth apps.
+
+    :param config_locations: file and dir paths to config files.
+    """
+
+    config_files = []
+    config_dirs = []
+
+    for location in config_locations:
+        if isfile(location):
+            config_files.append(location)
+        elif isdir(location):
+            config_dirs.append(location)
+
+            for item in (join(location, _) for _ in listdir(location)):
+                if isfile(item):
+                    config_files.append(item)                
+
+    return config_files, config_dirs
 
 
 def make_listener(sloth):
@@ -52,7 +77,7 @@ def make_listener(sloth):
     return listener
 
 
-def run(host, port, log_dir, sloths):
+def run(host, port, log_dir, config_dirs, sloths):
     """Runs CherryPy loop to listen for payload.
     
     :param host: host
@@ -72,6 +97,9 @@ def run(host, port, log_dir, sloths):
             'log.error_file': abspath(join(log_dir, 'error.log'))
         }
     )
+
+    for dir in config_dirs:
+        cherrypy.engine.autoreload.files.add(abspath(dir))
 
     for sloth in sloths:
         cherrypy.tree.mount(make_listener(sloth), sloth.config['listen_to'])
@@ -112,8 +140,10 @@ def main():
     if not (host and port and log_dir):
         exit('Missing server param.')
 
-    config_files = parsed_args.config
+    config_locations = parsed_args.config
 
-    sloths = [Sloth(load(config_file, defaults={'log_dir': log_dir})) for config_file in config_files]
+    config_files, config_dirs = get_config_files(config_locations)
 
-    run(host, port, log_dir, sloths)
+    sloths = (Sloth(load(config_file, defaults={'log_dir': log_dir})) for config_file in config_files)
+
+    run(host, port, log_dir, config_dirs, sloths)
