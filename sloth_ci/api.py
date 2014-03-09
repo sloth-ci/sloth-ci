@@ -91,7 +91,6 @@ def run(host, port, log_dir, config_dirs, sloths):
 
     cherrypy.config.update(
         {
-            'environment': 'production',
             'server.socket_host': host,
             'server.socket_port': port,
             'log.access_file': abspath(join(log_dir, 'access.log')),
