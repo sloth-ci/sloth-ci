@@ -1,26 +1,25 @@
+****************
 sloth_ci package
-================
+****************
 
-Subpackages
------------
+:mod:`sloth_ci` Package
+=======================
 
-.. toctree::
+.. automodule:: sloth_ci
+    :members:
+    :undoc-members:
+    :show-inheritance:
 
-    sloth_ci.validators
-
-Submodules
-----------
-
-sloth_ci.api module
--------------------
+:mod:`sloth_ci.api` Module
+--------------------------
 
 .. automodule:: sloth_ci.api
     :members:
     :undoc-members:
     :show-inheritance:
 
-sloth_ci.sloth module
----------------------
+:mod:`sloth_ci.sloth` Module
+----------------------------
 
 .. automodule:: sloth_ci.sloth
     :members:
@@ -28,10 +27,9 @@ sloth_ci.sloth module
     :show-inheritance:
 
 
-Module contents
----------------
+:mod:`sloth_ci.validators` Subpackage
+=====================================
 
-.. automodule:: sloth_ci
-    :members:
-    :undoc-members:
-    :show-inheritance:
+.. toctree::
+
+    sloth_ci.validators

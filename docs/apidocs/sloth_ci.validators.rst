@@ -1,38 +1,35 @@
+***************************
 sloth_ci.validators package
-===========================
+***************************
 
-Submodules
-----------
+:mod:`sloth_ci.validators` Package
+==================================
 
-sloth_ci.validators.bitbucket module
-------------------------------------
+.. automodule:: sloth_ci.validators
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+:mod:`sloth_ci.validators.bitbucket` Module
+-------------------------------------------
 
 .. automodule:: sloth_ci.validators.bitbucket
     :members:
     :undoc-members:
     :show-inheritance:
 
-sloth_ci.validators.dummy module
---------------------------------
+:mod:`sloth_ci.validators.dummy` Module
+---------------------------------------
 
 .. automodule:: sloth_ci.validators.dummy
     :members:
     :undoc-members:
     :show-inheritance:
 
-sloth_ci.validators.github module
----------------------------------
+:mod:`sloth_ci.validators.github` Module
+----------------------------------------
 
 .. automodule:: sloth_ci.validators.github
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
-
-Module contents
----------------
-
-.. automodule:: sloth_ci.validators
     :members:
     :undoc-members:
     :show-inheritance:
