@@ -1,12 +1,3 @@
-"""
-************
-sloth_ci.api
-************
-
-This module implements the Sloth CI API.
-"""
-
-
 from importlib import import_module
 
 from sys import exit
@@ -45,6 +36,10 @@ def get_config_files(config_locations):
 
 
 def make_listener(sloth):
+    """Creates a listener function for a Sloth app.
+
+    :param sloth: Sloth app.
+    """
 
     @cherrypy.expose
     def listener(*args, **kwargs):
@@ -115,7 +110,7 @@ def run(host, port, log_dir, config_dirs, sloths):
 
 
 def main():
-    """Main API function"""
+    """Main API function."""
 
     parser = ArgumentParser()
     parser.add_argument('--sconfig', help='Server config.')
