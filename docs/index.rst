@@ -30,6 +30,10 @@ Buildbot is really hairy and weird.
 
 **Sloth CI** is simple. Try it!
 
+.. image:: ../napoleon_sloth.jpg
+    :align: center
+    :width: 200
+
 
 Installation
 ============
