@@ -1,1 +1,2 @@
 sloth-ci
+sphinx_rtd_theme
