@@ -115,7 +115,7 @@ Here is how this whole thing works:
 
 #.  The validator checks the incoming payload against the *provider data* defined in the app's config. For example, the ``bitbucket`` validator checks whether the payload has come from BitBucket and the repository name is the one we want to listen to.
 
-A validator can also extract valuable data to be later used during action execution. For example, the ``bitbucket`` validator extracts the ``branch`` name from the incoming payload.
+    A validator can also extract valuable data to be later used during action execution. For example, the ``bitbucket`` validator extracts the ``branch`` name from the incoming payload.
 
 #.  If the payload is validated, the Sloth app proceeds with executing *actions* defined in its config. An action is a single shell command; actions are executed one by one.
 
