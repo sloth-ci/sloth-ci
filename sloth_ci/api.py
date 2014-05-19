@@ -13,10 +13,12 @@ from configs import load
 from .sloth import Sloth
 
 
-def get_config_files(config_locations):
+def get_config_files(config_locations: list) -> tuple:
     """Generate a list of config files for Sloth apps.
 
     :param config_locations: file and dir paths to config files.
+
+    :returns: tuple of config file list and config directory list
     """
 
     config_files = []
@@ -35,7 +37,7 @@ def get_config_files(config_locations):
     return config_files, config_dirs
 
 
-def make_listener(sloth):
+def make_listener(sloth: Sloth) -> type(lambda: _):
     """Creates a listener function for a Sloth app.
 
     :param sloth: Sloth app.
