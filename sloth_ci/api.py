@@ -85,13 +85,18 @@ def run(host, port, log_dir, config_dirs, sloths):
 
 
     from os.path import abspath, join
+    from os import makedirs
+
+    makedirs(abspath(log_dir))
 
     cherrypy.config.update(
         {
             'server.socket_host': host,
             'server.socket_port': port,
             'log.access_file': abspath(join(log_dir, 'access.log')),
-            'log.error_file': abspath(join(log_dir, 'error.log'))
+            'log.error_file': abspath(join(log_dir, 'error.log')),
+            'request.show_tracebacks': False,
+            'request.show_mismatched_params': False
         }
     )
 
