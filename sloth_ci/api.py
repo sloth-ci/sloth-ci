@@ -13,7 +13,7 @@ from configs import load
 from .sloth import Sloth
 
 
-def get_config_files(config_locations: list) -> tuple:
+def get_config_files(config_locations):
     """Generate a list of config files for Sloth apps.
 
     :param config_locations: file and dir paths to config files.
@@ -32,12 +32,12 @@ def get_config_files(config_locations: list) -> tuple:
 
             for item in (join(location, _) for _ in listdir(location)):
                 if isfile(item):
-                    config_files.append(item)                
+                    config_files.append(item)
 
     return config_files, config_dirs
 
 
-def make_listener(sloth: Sloth) -> type(lambda: _):
+def make_listener(sloth):
     """Creates a listener function for a Sloth app.
 
     :param sloth: Sloth app.
@@ -76,17 +76,16 @@ def make_listener(sloth: Sloth) -> type(lambda: _):
 
 def run(host, port, log_dir, config_dirs, sloths):
     """Runs CherryPy loop to listen for payload.
-    
+
     :param host: host
     :param port: port
     :param log_dir: directory to store logs (absolute or relative)
     :param sloths: list of Sloth apps to run
     """
 
-
     from os.path import abspath, join, exists
     from os import makedirs
-    
+
     if not exists(abspath(log_dir)):
         makedirs(abspath(log_dir))
 
@@ -94,8 +93,8 @@ def run(host, port, log_dir, config_dirs, sloths):
         {
             'server.socket_host': host,
             'server.socket_port': port,
-            'log.access_file': abspath(join(log_dir, 'access.log')),
-            'log.error_file': abspath(join(log_dir, 'error.log')),
+            'log.access_file': abspath(join(log_dir, '_access.log')),
+            'log.error_file': abspath(join(log_dir, '_error.log')),
             'request.show_tracebacks': False,
             'request.show_mismatched_params': False
         }
@@ -141,7 +140,7 @@ def main():
     log_dir = parsed_args.log_dir or sconfig.get('log_dir')
 
     if not (host and port and log_dir):
-        exit('Missing server param.')
+        exit('Missing server param(s).')
 
     config_locations = parsed_args.config
 
