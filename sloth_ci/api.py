@@ -84,10 +84,11 @@ def run(host, port, log_dir, config_dirs, sloths):
     """
 
 
-    from os.path import abspath, join
+    from os.path import abspath, join, exists
     from os import makedirs
-
-    makedirs(abspath(log_dir))
+    
+    if not exists(abspath(log_dir)):
+        makedirs(abspath(log_dir))
 
     cherrypy.config.update(
         {
