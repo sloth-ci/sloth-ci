@@ -1,3 +1,2 @@
 sloth-ci
 sphinx_rtd_theme
-sphinx-autodoc-annotation
