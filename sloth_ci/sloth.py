@@ -54,7 +54,7 @@ class Sloth:
         self.processing_logger.info('Executing action: %s', action)
 
         try:
-            process = Popen(action.split(), cwd=self.config['work_dir']).wait()
+            process = Popen(action.split(), cwd=self.config['work_dir']).wait(60)
 
             self.processing_logger.info('Action executed: %s', action)
             return True
