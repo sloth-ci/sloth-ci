@@ -74,7 +74,7 @@ def make_listener(sloth):
     return listener
 
 
-def run(host, port, log_dir, config_dirs, sloths):
+def run(host, port, log_dir, config_dirs, sconfig_file, sloths):
     """Runs CherryPy loop to listen for payload.
 
     :param host: host
@@ -99,6 +99,8 @@ def run(host, port, log_dir, config_dirs, sloths):
             'request.show_mismatched_params': False
         }
     )
+     
+    cherrypy.engine.autoreload.files.add(abspath(sconfig_file))
 
     for dir in config_dirs:
         cherrypy.engine.autoreload.files.add(abspath(dir))
@@ -148,4 +150,4 @@ def main():
 
     sloths = (Sloth(load(config_file, defaults={'log_dir': log_dir})) for config_file in config_files)
 
-    run(host, port, log_dir, config_dirs, sloths)
+    run(host, port, log_dir, config_dirs, sconfig_file, sloths)
