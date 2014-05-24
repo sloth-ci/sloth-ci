@@ -120,13 +120,17 @@ def run(host, port, log_dir, config_dirs, sconfig_file, sloths):
         cherrypy.engine.autoreload.files.add(abspath(dir))
 
     for sloth in sloths:
-        cherrypy.tree.mount(make_listener(sloth), sloth.config['listen_to'])
+        try:
+            cherrypy.tree.mount(make_listener(sloth), sloth.config['listen_to'])
 
-        sloth.logger.info('Mounted at %s' % sloth.config['listen_to'])
+            sloth.logger.info('Mounted at %s' % sloth.config['listen_to'])
 
-        cherrypy.engine.autoreload.files.add(sloth.config.config_full_path)
+            cherrypy.engine.autoreload.files.add(sloth.config.config_full_path)
 
-        cherrypy.engine.subscribe('stop', sloth.stop)
+            cherrypy.engine.subscribe('stop', sloth.stop)
+
+        except:
+            pass
 
     cherrypy.engine.start()
     cherrypy.engine.block()
