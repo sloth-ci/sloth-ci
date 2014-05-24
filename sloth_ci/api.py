@@ -63,7 +63,13 @@ def make_listener(sloth):
 
         payload_valid, validation_message, validator_params = validator.validate(cherrypy.request, sloth.config['provider_data'])
 
-        custom_params = sloth.config['params'].dict_props
+        custom_params = sloth.config.get('params')
+
+        if custom_params:
+            custom_params = custom_params.dict_props
+
+        else:
+            custom_params = {}
 
         custom_params.update(validator_params)
 
