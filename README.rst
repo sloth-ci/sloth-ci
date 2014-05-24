@@ -83,5 +83,9 @@ Sloth App Config Example
     [provider_data]
     repo = moigagoo/sloth-ci
 
+    [params]
+    foo = bar
+
     [actions]
     echo Got a commit to {branch}
+    echo {foo}

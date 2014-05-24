@@ -95,12 +95,21 @@ Sloth App Config Example
     [provider_data]
     repo = moigagoo/sloth-ci
 
+    [params]
+    foo = bar
+
     [actions]
     echo Got a commit to {branch}
+    echo {foo}
 
 .. versionadded:: 0.3.6
 
 Optional param `stop_on_first_fail` defined if the queue processing should stop on the first fail action execution.
+
+.. versionadded:: 0.5.8
+
+The `params` section added.
+
 
 Concept
 =======
