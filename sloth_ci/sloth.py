@@ -43,7 +43,7 @@ class Sloth:
     def is_queue_locked(self):
         return self._queue_lock
 
-    def execute(self, action, data={}):
+    def execute(self, action):
         """Executes command line command.
 
         :param action: action to be executed
