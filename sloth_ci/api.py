@@ -77,10 +77,10 @@ def make_listener(sloth):
 
         params = custom_params
 
-        sloth.logger.info(validation_message.format_map(params))
+        sloth.logger.info(validation_message.format_map(validator_params))
 
         if not payload_valid:
-            raise cherrypy.HTTPError(400)
+            raise cherrypy.HTTPError(400, validation_message.format_map(validator_params))
 
         if not sloth.is_queue_locked():
             sloth.queue.append(params)
