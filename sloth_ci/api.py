@@ -28,7 +28,6 @@ def make_extended_sloth(extensions):
     return ExtendedSloth
 
 
-
 def get_config_files(config_locations):
     """Generate a list of config files for Sloth apps.
 
