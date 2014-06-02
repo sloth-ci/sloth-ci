@@ -13,6 +13,22 @@ from configs import load
 from .sloth import Sloth
 
 
+def make_extended_sloth(extensions):
+    ExtendedSloth = Sloth
+
+    for extension in extensions:
+        try:
+            extension_module = import_module('.ext.%s' % extension, package=__package__)
+            
+            ExtendedSloth = extension_module.Sloth
+
+        except ImportError as e:
+            sloth.logger.critical('No matching extension found: %s' % e)
+
+    return ExtendedSloth
+
+
+
 def get_config_files(config_locations):
     """Generate a list of config files for Sloth apps.
 
@@ -166,6 +182,15 @@ def main():
 
     config_files, config_dirs = get_config_files(config_locations)
 
-    sloths = (Sloth(load(config_file, defaults={'log_dir': log_dir})) for config_file in config_files)
+    sloths = []
+
+    for config_file in config_files:
+        try:
+            config = load(config_file, defaults={'log_dir': log_dir})
+
+            sloths.append(make_extended_sloth(config['extensions'])(config))
+        
+        except:
+            print('Invalid config: %s' % config_file)
 
     run(host, port, log_dir, config_dirs, sconfig_file, sloths)

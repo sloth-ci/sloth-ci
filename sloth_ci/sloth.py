@@ -7,9 +7,9 @@ import logging
 
 
 class Sloth:
-    """Main Sloth class.
+    """Base Sloth class.
 
-    Each instance represents a separate sloth app,
+    Each instance represents a separate Sloth app,
     with its own config, log, action queue, and queue processor.
 
     Each app listens for incoming requests on its own URL path.
