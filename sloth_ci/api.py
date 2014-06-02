@@ -23,7 +23,7 @@ def make_extended_sloth(extensions):
             ExtendedSloth = extension_module.Sloth
 
         except ImportError as e:
-            sloth.logger.critical('No matching extension found: %s' % e)
+            print('No matching extension found: %s' % e)
 
     return ExtendedSloth
 
@@ -188,9 +188,11 @@ def main():
         try:
             config = load(config_file, defaults={'log_dir': log_dir})
 
-            sloths.append(make_extended_sloth(config['extensions'])(config))
+            ExtendedSloth = make_extended_sloth(config['extensions'])
+
+            sloths.append(ExtendedSloth(config))
         
-        except:
-            print('Invalid config: %s' % config_file)
+        except Exception as e:
+            print('Could not create Sloth app: %s' % e)
 
     run(host, port, log_dir, config_dirs, sconfig_file, sloths)
