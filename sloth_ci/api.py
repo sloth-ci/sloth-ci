@@ -18,9 +18,9 @@ def make_extended_sloth(extensions):
 
     for extension in extensions:
         try:
-            extension_module = import_module('.ext.%s' % extension, package=__package__)
+            ext = import_module('.ext.%s' % extension, package=__package__)
             
-            ExtendedSloth = extension_module.Sloth
+            ExtendedSloth = ext.extend(ExtendedSloth)
 
         except ImportError as e:
             print('No matching extension found: %s' % e)
