@@ -22,8 +22,8 @@ def make_extended_sloth(extensions):
             
             ExtendedSloth = ext.extend(ExtendedSloth)
 
-        except ImportError as e:
-            print('No matching extension found: %s' % e)
+        except Exception as e:
+            print('Could not load extension %s: %s' % (extension, e))
 
     return ExtendedSloth
 
