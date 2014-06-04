@@ -1,4 +1,4 @@
-from subprocess import Popen
+﻿from subprocess import Popen
 from threading import Thread
 from os.path import splitext, basename, abspath, join
 from time import sleep

@@ -1,5 +1,5 @@
 __title__ = 'sloth-ci'
-__version__ = '0.6.1'
+__version__ = '0.6.2'
 __author__ = 'Konstantin Molchanov'
 __license__ = 'MIT'
 

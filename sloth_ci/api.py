@@ -1,4 +1,4 @@
-from importlib import import_module
+﻿from importlib import import_module
 
 from sys import exit
 
@@ -14,7 +14,17 @@ from .sloth import Sloth
 
 
 def make_extended_sloth(extensions):
+    """Sequentially chain-inherit Sloth classes from extensions.
+    
+    The first extension's Sloth class inherits from the base Sloth class and becomes the base class, then the second one inherits from it, and so on.
+
+    :params extensions: list of extensions to load.
+    
+    :returns: ExtendedSloth—a Sloth class inherited from all extensions' Sloth classes; errors—list of errors raised during the extensions loading.
+    """
+    
     ExtendedSloth = Sloth
+    errors = []
 
     for extension in extensions:
         try:
@@ -23,9 +33,9 @@ def make_extended_sloth(extensions):
             ExtendedSloth = ext.extend(ExtendedSloth)
 
         except Exception as e:
-            print('Could not load extension %s: %s' % (extension, e))
+            errors.append('Could not load extension %s: %s' % (extension, e))
 
-    return ExtendedSloth
+    return ExtendedSloth, errors
 
 
 def get_config_files(config_locations):
@@ -187,11 +197,16 @@ def main():
         try:
             config = load(config_file, defaults={'log_dir': log_dir})
 
-            ExtendedSloth = make_extended_sloth(config['extensions'])
+            ExtendedSloth, errors = make_extended_sloth(config['extensions'])
 
-            sloths.append(ExtendedSloth(config))
+            extended_sloth = ExtendedSloth(config)
+
+            for error in errors:
+                extended_sloth.logger.error(error)
+
+            sloths.append(extended_sloth)
         
         except Exception as e:
-            print('Could not create Sloth app: %s' % e)
+            print('Something went wrong during Sloth app creation: %s' % e)
 
     run(host, port, log_dir, config_dirs, sconfig_file, sloths)
