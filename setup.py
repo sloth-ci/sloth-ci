@@ -1,4 +1,4 @@
-from setuptools import setup
+﻿from setuptools import setup
 
 import sloth_ci
 
@@ -19,8 +19,7 @@ setup(
     url='https://bitbucket.org/moigagoo/sloth-ci',
     packages=[
         'sloth_ci',
-        'sloth_ci.validators',
-        'sloth_ci.ext'
+        'sloth_ci.validators'
     ],
     install_requires = [
         'CherryPy',
