@@ -26,14 +26,15 @@ def make_extended_sloth(extensions):
     ExtendedSloth = Sloth
     errors = []
 
-    for extension in extensions:
-        try:
-            ext = import_module('.ext.%s' % extension, package=__package__)
+    if extensions:
+        for extension in extensions:
+            try:
+                ext = import_module('.ext.%s' % extension, package=__package__)
             
-            ExtendedSloth = ext.extend(ExtendedSloth)
+                ExtendedSloth = ext.extend(ExtendedSloth)
 
-        except Exception as e:
-            errors.append('Could not load extension %s: %s' % (extension, e))
+            except Exception as e:
+                errors.append('Could not load extension %s: %s' % (extension, e))
 
     return ExtendedSloth, errors
 
@@ -197,7 +198,7 @@ def main():
         try:
             config = load(config_file, defaults={'log_dir': log_dir})
 
-            ExtendedSloth, errors = make_extended_sloth(config['extensions'])
+            ExtendedSloth, errors = make_extended_sloth(config.get('extensions'))
 
             extended_sloth = ExtendedSloth(config)
 
