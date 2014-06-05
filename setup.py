@@ -18,8 +18,7 @@ setup(
     author_email='moigagoo@live.com',
     url='https://bitbucket.org/moigagoo/sloth-ci',
     packages=[
-        'sloth_ci',
-        'sloth_ci.validators'
+        'sloth_ci'
     ],
     install_requires = [
         'CherryPy',
