@@ -208,6 +208,6 @@ def main():
             sloths.append(extended_sloth)
         
         except Exception as e:
-            print('Something went wrong during Sloth app creation: %s' % e)
+            print('Could not load Sloth app config %s: %s' % (config_file, e))
 
     run(host, port, log_dir, config_dirs, sconfig_file, sloths)
