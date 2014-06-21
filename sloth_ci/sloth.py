@@ -38,9 +38,14 @@ class Sloth:
         self.queue_processor = Thread(target=self.process_queue, name=self.name)
         self._processor_lock = False
 
+    def start(self):
+        """Starts the queue processor."""
+
         self.queue_processor.start()
 
     def is_queue_locked(self):
+        """Tells if the processing queue is locked."""
+
         return self._queue_lock
 
     def execute(self, action):
