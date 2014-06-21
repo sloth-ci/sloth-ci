@@ -2,8 +2,8 @@
 
 from sys import exit
 
-from os.path import isdir, isfile, abspath, join
-from os import listdir
+from os.path import isdir, isfile, abspath, join, exists
+from os import listdir, makedirs
 
 from argparse import ArgumentParser
 
@@ -123,12 +123,6 @@ def run(host, port, log_dir, config_dirs, sconfig_file, sloths):
     :param sloths: list of Sloth apps to run
     """
 
-    from os.path import abspath, join, exists
-    from os import makedirs
-
-    if not exists(abspath(log_dir)):
-        makedirs(abspath(log_dir))
-
     cherrypy.config.update(
         {
             'server.socket_host': host,
@@ -147,6 +141,8 @@ def run(host, port, log_dir, config_dirs, sconfig_file, sloths):
 
     for sloth in sloths:
         try:
+            sloth.start()
+
             cherrypy.tree.mount(make_listener(sloth), sloth.config['listen_to'])
 
             sloth.logger.info('Mounted at %s' % sloth.config['listen_to'])
@@ -191,6 +187,9 @@ def main():
     config_locations = parsed_args.config
 
     config_files, config_dirs = get_config_files(config_locations)
+
+    if not exists(abspath(log_dir)):
+        makedirs(abspath(log_dir))
 
     sloths = []
 
