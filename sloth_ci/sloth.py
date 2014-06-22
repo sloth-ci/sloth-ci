@@ -20,23 +20,14 @@ class Sloth:
 
         self.name = splitext(basename(self.config.config_full_path))[0]
 
-        file_handler = logging.FileHandler(abspath(join(self.config['log_dir'], self.name + '.log')), 'a+')
-        formatter = logging.Formatter(
-            '%(asctime)s | %(name)30s | %(levelname)10s | %(message)s'
-        )
-        file_handler.setFormatter(formatter)
-
-        self.logger = logging.getLogger(self.name)
-        self.logger.setLevel(logging.INFO)
-        self.logger.addHandler(file_handler)
-
-        self.processing_logger = self.logger.getChild('processing')
-
         self.queue = []
         self._queue_lock = False
 
         self.queue_processor = Thread(target=self.process_queue, name=self.name)
         self._processor_lock = False
+
+        self.logger = logging.getLogger(self.name)
+        self.processing_logger = self.logger.getChild('processing')
 
     def start(self):
         """Starts the queue processor."""
