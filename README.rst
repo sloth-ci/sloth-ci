@@ -43,6 +43,25 @@ The repo is at `bitbucket.org/moigagoo/sloth-ci <https://bitbucket.org/moigagoo/
 
 Read the full documentation at `sloth-ci.rtfd.org <http://sloth-ci.rtfd.org>`_
 
+Install provider(s)
+===================
+
+Sloth CI listens to "providers" in order to trigger your "actions".
+
+Validators can be installed with pip::
+
+    pip install sloth-ci.validators.bitbucket
+
+...or::
+
+    pip install sloth-ci.validators.github
+
+...or roll-your-own with::
+
+    pip install sloth-ci.validators.dummy
+
+Providers are maintained in a separate repo at  `bitbucket.org/moigagoo/sloth-ci-validators <https://bitbucket.org/moigagoo/sloth-ci-validators>`_.
+
 Usage
 =====
 
