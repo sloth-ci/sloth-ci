@@ -6,16 +6,16 @@ import sloth_ci
 try:
     readme = open('README.rst').read()
 except:
-    readme = 'Sloth CI: CI for Humans.'
+    readme = sloth_ci.__long_description__
 
 
 setup(
     name=sloth_ci.__title__,
     version=sloth_ci.__version__,
     author=sloth_ci.__author__,
-    description='CI for humans',
+    description=sloth_ci.__description__,
     long_description=readme,
-    author_email='moigagoo@live.com',
+    author_email=sloth_ci.__author_email__,
     url='https://bitbucket.org/moigagoo/sloth-ci',
     packages=[
         'sloth_ci'
