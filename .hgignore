@@ -17,3 +17,4 @@ docs/_build
 *.egg-info/*
 _build
 logs
+Thumbs.db
