@@ -27,6 +27,7 @@ class Sloth:
         self._processor_lock = False
 
         self.logger = logging.getLogger(self.name)
+        self.logger.setLevel(logging.INFO)
         self.processing_logger = self.logger.getChild('processing')
 
     def start(self):
