@@ -46,7 +46,9 @@ Read the full documentation at `sloth-ci.rtfd.org <http://sloth-ci.rtfd.org>`_
 Install provider(s)
 ===================
 
-Sloth CI listens to "providers" in order to trigger your "actions".
+Sloth CI listens to payload from *providers* to trigger your actions.
+
+Invcoming payload form a particular provider is valiadated by the respective *validator*.
 
 Validators can be installed with pip::
 
@@ -60,7 +62,22 @@ Validators can be installed with pip::
 
     pip install sloth-ci.validators.dummy
 
-Providers are maintained in a separate repo at  `bitbucket.org/moigagoo/sloth-ci-validators <https://bitbucket.org/moigagoo/sloth-ci-validators>`_.
+Validators are maintained in a separate repo at  https://bitbucket.org/moigagoo/sloth-ci-validators.
+
+Install app extensions
+======================
+
+Additional functions like logging to a file and non-default executors are available via *extensions*.
+
+Extensions are installed via pip::
+
+	pip install sloth-ci.ext.logs
+
+Dummy extension  (just like the Dummy validator) can be referred to while developing your own extensions::
+
+	pip install sloth-ci.ext.dummy
+
+Extensions are maintained in a separate repo at  https://bitbucket.org/moigagoo/sloth-ci-extensions.
 
 Usage
 =====
