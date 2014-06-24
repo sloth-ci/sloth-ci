@@ -25,3 +25,17 @@ sloth_ci package
     :members:
     :undoc-members:
     :show-inheritance:
+
+:mod:`sloth_ci.validators` Subpackage
+=====================================
+
+.. toctree::
+
+	sloth_ci.validators
+
+:mod:`sloth_ci.ext` Subpackage
+==============================
+
+.. toctree::
+
+	sloth_ci.ext
