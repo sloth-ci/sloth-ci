@@ -195,7 +195,7 @@ def main():
 
     for config_file in config_files:
         try:
-            config = load(config_file, defaults={'log_dir': log_dir})
+            config = load(config_file)
 
             ExtendedSloth, errors = make_extended_sloth(config.get('extensions'))
 
