@@ -7,13 +7,13 @@ import logging
 
 
 class Sloth:
-    """Base Sloth class.
+    '''Base Sloth class.
 
     Each instance represents a separate Sloth app,
     with its own config, log, action queue, and queue processor.
 
     Each app listens for incoming requests on its own URL path.
-    """
+    '''
 
     def __init__(self, config):
         self.config = config
@@ -31,22 +31,22 @@ class Sloth:
         self.processing_logger = self.logger.getChild('processing')
 
     def start(self):
-        """Starts the queue processor."""
+        '''Starts the queue processor.'''
 
         self.queue_processor.start()
 
     def is_queue_locked(self):
-        """Tells if the processing queue is locked."""
+        '''Tells if the processing queue is locked.'''
 
         return self._queue_lock
 
     def execute(self, action):
-        """Executes command line command.
+        '''Executes command line command.
 
         :param action: action to be executed
 
         :returns: True if successful, Exception otherwise
-        """
+        '''
 
         self.processing_logger.info('Executing action: %s', action)
 
@@ -60,7 +60,7 @@ class Sloth:
             raise
 
     def process_queue(self):
-        """Processes execution queue in a separate thread."""
+        '''Processes execution queue in a separate thread.'''
 
         while not self._processor_lock:
             if self.queue:
@@ -92,16 +92,16 @@ class Sloth:
                 sleep(.25)
 
     def stop(self):
-        """Gracefully stops the queue processor.
+        '''Gracefully stops the queue processor.
 
         New payloads are not added to the queue, existing actions will be finished.
-        """
+        '''
 
         self._queue_lock = True
         self.logger.info('Stopped')
 
     def kill(self):
-        """Immediatelly stops the queue processor and clears the queue."""
+        '''Immediatelly stops the queue processor and clears the queue.'''
 
         self.stop()
 
