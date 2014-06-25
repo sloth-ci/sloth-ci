@@ -85,11 +85,11 @@ def make_listener(sloth):
             )
         except ImportError as e:
             sloth.logger.critical('No matching validator found: %s' % e)
-            raise cherrypy.HTTPError(500)
+            raise cherrypy.HTTPError(500, 'No matching validator found: %s' % e)
 
         provider_data = sloth.config.get('provider_data') or {}
 
-        payload_valid, validation_message, validator_params = validator.validate(cherrypy.request, provider_data)
+        validation_status, validation_message, validator_params = validator.validate(cherrypy.request, provider_data)
 
         custom_params = sloth.config.get('params')
 
@@ -105,8 +105,8 @@ def make_listener(sloth):
 
         sloth.logger.info(validation_message.format_map(validator_params))
 
-        if not payload_valid:
-            raise cherrypy.HTTPError(400, validation_message.format_map(validator_params))
+        if validation_status != 200:
+            raise cherrypy.HTTPError(validation_status, validation_message.format_map(validator_params))
 
         if not sloth.is_queue_locked():
             sloth.queue.append(params)
