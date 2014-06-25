@@ -14,14 +14,14 @@ from .sloth import Sloth
 
 
 def make_extended_sloth(extensions):
-    """Sequentially chain-inherit Sloth classes from extensions.
+    '''Sequentially chain-inherit Sloth classes from extensions.
     
     The first extension's Sloth class inherits from the base Sloth class and becomes the base class, then the second one inherits from it, and so on.
 
     :params extensions: list of extensions to load.
     
     :returns: ExtendedSloth—a Sloth class inherited from all extensions' Sloth classes; errors—list of errors raised during the extensions loading.
-    """
+    '''
     
     ExtendedSloth = Sloth
     errors = []
@@ -40,12 +40,12 @@ def make_extended_sloth(extensions):
 
 
 def get_config_files(config_locations):
-    """Generate a list of config files for Sloth apps.
+    '''Generate a list of config files for Sloth apps.
 
     :param config_locations: file and dir paths to config files.
 
     :returns: tuple of config file list and config directory list
-    """
+    '''
 
     config_files = []
     config_dirs = []
@@ -64,17 +64,17 @@ def get_config_files(config_locations):
 
 
 def make_listener(sloth):
-    """Creates a listener function for a Sloth app.
+    '''Creates a listener function for a Sloth app.
 
     :param sloth: Sloth app.
-    """
+    '''
 
     @cherrypy.expose
     def listener(*args, **kwargs):
-        """Listens to requests.
+        '''Listens to requests.
 
         :param payload: payload
-        """
+        '''
 
         sloth.logger.info('Payload received from %s - %s' % (cherrypy.request.headers['Remote-Addr'], cherrypy.request.headers['User-Agent']))
 
@@ -115,13 +115,13 @@ def make_listener(sloth):
 
 
 def run(host, port, log_dir, config_dirs, sconfig_file, sloths):
-    """Runs CherryPy loop to listen for payload.
+    '''Runs CherryPy loop to listen for payload.
 
     :param host: host
     :param port: port
     :param log_dir: directory to store logs (absolute or relative)
     :param sloths: list of Sloth apps to run
-    """
+    '''
 
     cherrypy.config.update(
         {
@@ -159,7 +159,7 @@ def run(host, port, log_dir, config_dirs, sconfig_file, sloths):
 
 
 def main():
-    """Main API function."""
+    '''Main API function.'''
 
     parser = ArgumentParser()
     parser.add_argument('--sconfig', help='Server config.')
