@@ -3,7 +3,7 @@
 from sys import exit
 
 from os.path import isdir, isfile, abspath, join, exists
-from os import listdir, makedirs
+from os import listdir, makedirs, stat
 
 from argparse import ArgumentParser
 
@@ -44,21 +44,21 @@ def get_config_files(config_locations):
 
     :param config_locations: file and dir paths to config files.
 
-    :returns: tuple of config file list and config directory list
+    :returns: tuple of config file set and config directory set
     '''
 
-    config_files = []
-    config_dirs = []
+    config_files = set()
+    config_dirs = set()
 
     for location in config_locations:
         if isfile(location):
-            config_files.append(location)
+            config_files.add(location)
         elif isdir(location):
-            config_dirs.append(location)
+            config_dirs.add(location)
 
             for item in (join(location, _) for _ in listdir(location)):
                 if isfile(item):
-                    config_files.append(item)
+                    config_files.add(item)
 
     return config_files, config_dirs
 
@@ -114,7 +114,54 @@ def make_listener(sloth):
     return listener
 
 
-def run(host, port, log_dir, config_dirs, sconfig_file, sloths):
+class ConfigChecker(cherrypy.process.plugins.Monitor):
+    def __init__(self, bus, config_files, config_dirs, frequency=5):
+        self.config_files = config_files
+        self.config_dirs = config_dirs
+
+        print('self.config_files, self.config_dirs ', self.config_files, self.config_dirs)
+
+        super().__init__(bus, self.check, frequency)
+
+    def start(self):
+        if not self.thread:
+            self.mtimes = {}
+        self.mtimes = {}
+
+        print('mtimes', self.mtimes)
+
+        super().start()
+
+    def check(self):
+        print('Check')
+
+        config_files, config_dirs = get_config_files(self.config_files | self.config_dirs)
+
+        print('oldfiles', self.config_files)
+        print('newfiles', config_files)
+
+        for config_file in config_files - self.config_files:
+            cherrypy.engine.publish('app-add', config_file)
+
+        for config_file in self.config_files - config_files:
+            cherrypy.engine.publish('app-remove', config_file)
+            self.mtimes.pop(config_file)
+
+        for config_file in config_files:
+            mtime = stat(config_file).st_mtime
+            print(mtime)
+
+            if not config_file in self.mtimes:
+                self.mtimes[config_file] = mtime
+
+            elif mtime > self.mtimes[config_file]:
+                cherrypy.engine.publish('app-update', config_file)
+                self.mtimes[config_file] = mtime
+
+        self.config_files, self.config_dirs = config_files, config_dirs
+
+
+def run(host, port, log_dir, config_files, config_dirs, sconfig_file, sloths):
     '''Runs CherryPy loop to listen for payload.
 
     :param host: host
@@ -136,8 +183,8 @@ def run(host, port, log_dir, config_dirs, sconfig_file, sloths):
      
     cherrypy.engine.autoreload.files.add(abspath(sconfig_file))
 
-    for dir in config_dirs:
-        cherrypy.engine.autoreload.files.add(abspath(dir))
+    #for dir in config_dirs:
+    #    cherrypy.engine.autoreload.files.add(abspath(dir))
 
     for sloth in sloths:
         try:
@@ -147,15 +194,27 @@ def run(host, port, log_dir, config_dirs, sconfig_file, sloths):
 
             sloth.logger.info('Mounted at %s' % sloth.config['listen_to'])
 
-            cherrypy.engine.autoreload.files.add(sloth.config.config_full_path)
+            #cherrypy.engine.autoreload.files.add(sloth.config.config_full_path)
 
             cherrypy.engine.subscribe('stop', sloth.stop)
 
         except:
             pass
 
+    config_checker = ConfigChecker(cherrypy.engine, config_files, config_dirs)
+
+    config_checker.subscribe()
+
+    cherrypy.engine.subscribe('app-add', test_subscriber)
+    cherrypy.engine.subscribe('app-remove', test_subscriber)
+    cherrypy.engine.subscribe('app-update', test_subscriber)
+
     cherrypy.engine.start()
     cherrypy.engine.block()
+
+
+def test_subscriber(config_file):
+    print('Received ', config_file)
 
 
 def main():
@@ -209,4 +268,4 @@ def main():
         except Exception as e:
             print('Could not load Sloth app config %s: %s' % (config_file, e))
 
-    run(host, port, log_dir, config_dirs, sconfig_file, sloths)
+    run(host, port, log_dir, config_files, config_dirs, sconfig_file, sloths)
