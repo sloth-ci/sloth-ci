@@ -205,17 +205,22 @@ def run(host, port, log_dir, config_files, config_dirs, sconfig_file, sloths):
 
     config_checker.subscribe()
 
-    cherrypy.engine.subscribe('app-add', test_subscriber)
-    cherrypy.engine.subscribe('app-remove', test_subscriber)
-    cherrypy.engine.subscribe('app-update', test_subscriber)
+    cherrypy.engine.subscribe('app-add', test_add)
+    cherrypy.engine.subscribe('app-remove', test_remove)
+    cherrypy.engine.subscribe('app-update', test_update)
 
     cherrypy.engine.start()
     cherrypy.engine.block()
 
 
-def test_subscriber(config_file):
-    print('Received ', config_file)
+def test_add(config_file):
+    print('Add ', config_file)
 
+def test_remove(config_file):
+    print('Remove ', config_file)
+
+def test_update(config_file):
+    print('Update ', config_file)
 
 def main():
     '''Main API function.'''
