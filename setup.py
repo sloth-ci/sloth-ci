@@ -22,7 +22,7 @@ setup(
     ],
     install_requires = [
         'CherryPy',
-        'configs>=2.0.8'
+        'configs>=3.0.2'
     ],
     license='MIT',
     classifiers=[
