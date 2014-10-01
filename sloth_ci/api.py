@@ -63,19 +63,17 @@ def get_config_files(config_locations):
     return config_files, config_dirs
 
 
-def make_listener(sloth):
-    '''Creates a listener function for a Sloth app.
-
-    :param sloth: Sloth app.
+@cherrypy.expose
+@cherrypy.popargs('listen_to')
+def listen(listen_to):
+    '''Listens for payload to a particular Sloth app.
+    
+    :param app_name: Sloth app name (part of the URL after /) 
     '''
 
-    @cherrypy.expose
-    def listener(*args, **kwargs):
-        '''Listens to requests.
+    sloth = SLOTHS.get(listen_to)
 
-        :param payload: payload
-        '''
-
+    if sloth:
         sloth.logger.info('Payload received from %s - %s' % (cherrypy.request.headers['Remote-Addr'], cherrypy.request.headers['User-Agent']))
 
         try:
@@ -111,10 +109,13 @@ def make_listener(sloth):
         if not sloth.is_queue_locked():
             sloth.queue.append(params)
 
-    return listener
-
 
 class ConfigChecker(cherrypy.process.plugins.Monitor):
+    '''Monitor-based CherryPy plugin that tracks file and directory modifications, additions, and deletions.
+
+    On each event, it publishes a respective signal.
+    '''
+
     def __init__(self, bus, config_files, config_dirs, frequency=5):
         self.config_files = config_files
         self.config_dirs = config_dirs
@@ -124,27 +125,18 @@ class ConfigChecker(cherrypy.process.plugins.Monitor):
         super().__init__(bus, self.check, frequency)
 
     def start(self):
-        if not self.thread:
-            self.mtimes = {}
         self.mtimes = {}
-
-        print('mtimes', self.mtimes)
 
         super().start()
 
     def check(self):
-        print('Check')
-
         config_files, config_dirs = get_config_files(self.config_files | self.config_dirs)
 
-        print('oldfiles', self.config_files)
-        print('newfiles', config_files)
-
         for config_file in config_files - self.config_files:
-            cherrypy.engine.publish('app-add', config_file)
+            cherrypy.engine.publish('sloth-add', config_file)
 
         for config_file in self.config_files - config_files:
-            cherrypy.engine.publish('app-remove', config_file)
+            cherrypy.engine.publish('sloth-remove', config_file)
             self.mtimes.pop(config_file)
 
         for config_file in config_files:
@@ -155,13 +147,13 @@ class ConfigChecker(cherrypy.process.plugins.Monitor):
                 self.mtimes[config_file] = mtime
 
             elif mtime > self.mtimes[config_file]:
-                cherrypy.engine.publish('app-update', config_file)
+                cherrypy.engine.publish('sloth-update', config_file)
                 self.mtimes[config_file] = mtime
 
         self.config_files, self.config_dirs = config_files, config_dirs
 
 
-def run(host, port, log_dir, config_files, config_dirs, sconfig_file, sloths):
+def run(host, port, log_dir, config_files, config_dirs):
     '''Runs CherryPy loop to listen for payload.
 
     :param host: host
@@ -172,55 +164,18 @@ def run(host, port, log_dir, config_files, config_dirs, sconfig_file, sloths):
 
     cherrypy.config.update(
         {
+            'environment': 'production',
             'server.socket_host': host,
             'server.socket_port': port,
             'log.access_file': abspath(join(log_dir, '_access.log')),
-            'log.error_file': abspath(join(log_dir, '_error.log')),
-            'request.show_tracebacks': False,
-            'request.show_mismatched_params': False
+            'log.error_file': abspath(join(log_dir, '_error.log'))
         }
     )
-     
-    cherrypy.engine.autoreload.files.add(abspath(sconfig_file))
 
-    #for dir in config_dirs:
-    #    cherrypy.engine.autoreload.files.add(abspath(dir))
+    ConfigChecker(cherrypy.engine, config_files, config_dirs).subscribe()
 
-    for sloth in sloths:
-        try:
-            sloth.start()
+    cherrypy.quickstart(listen)
 
-            cherrypy.tree.mount(make_listener(sloth), sloth.config['listen_to'])
-
-            sloth.logger.info('Mounted at %s' % sloth.config['listen_to'])
-
-            #cherrypy.engine.autoreload.files.add(sloth.config.config_full_path)
-
-            cherrypy.engine.subscribe('stop', sloth.stop)
-
-        except:
-            pass
-
-    config_checker = ConfigChecker(cherrypy.engine, config_files, config_dirs)
-
-    config_checker.subscribe()
-
-    cherrypy.engine.subscribe('app-add', test_add)
-    cherrypy.engine.subscribe('app-remove', test_remove)
-    cherrypy.engine.subscribe('app-update', test_update)
-
-    cherrypy.engine.start()
-    cherrypy.engine.block()
-
-
-def test_add(config_file):
-    print('Add ', config_file)
-
-def test_remove(config_file):
-    print('Remove ', config_file)
-
-def test_update(config_file):
-    print('Update ', config_file)
 
 def main():
     '''Main API function.'''
@@ -273,4 +228,4 @@ def main():
         except Exception as e:
             print('Could not load Sloth app config %s: %s' % (config_file, e))
 
-    run(host, port, log_dir, config_files, config_dirs, sconfig_file, sloths)
+    run(host, port, log_dir, config_files, config_dirs)
