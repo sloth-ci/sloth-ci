@@ -1,4 +1,4 @@
-﻿from subprocess import Popen
+﻿from subprocess import Popen, PIPE, TimeoutExpired
 from threading import Thread
 from os.path import splitext, basename, abspath, join
 from time import sleep
@@ -51,10 +51,30 @@ class Sloth:
         self.processing_logger.info('Executing action: %s', action)
 
         try:
-            process = Popen(action.split(), cwd=self.config.get('work_dir') or '.').wait(60)
+            process = Popen(
+                action.split(),
+                cwd=self.config.get('work_dir') or '.',
+                stdout=PIPE,
+                stderr=PIPE)
+
+            stdout, stderr = process.communicate(timeout=self.config.get('exec_timeout'))
+            
+            self.processing_logger.debug(bytes.decode(stdout))
+            self.processing_logger.debug(bytes.decode(stderr))
 
             self.processing_logger.info('Action executed: %s', action)
+            
             return True
+
+        except TimeoutExpired:
+            process.kill()
+
+            stdout, stderr = process.communicate()
+            
+            self.processing_logger.debug(bytes.decode(stdout))
+            self.processing_logger.debug(bytes.decode(stderr))
+
+            raise
 
         except Exception:
             raise
