@@ -73,8 +73,6 @@ def listen(listen_to, *args, **kwargs):
     :param app_name: Sloth app name (part of the URL after /) 
     '''
 
-    print('Sloths: %s' % SLOTHS)
-
     sloth = LISTENERS.get(listen_to)
 
     if sloth:
@@ -135,15 +133,9 @@ class ConfigChecker(cherrypy.process.plugins.Monitor):
         config_files, config_dirs = get_config_files(self.config_files | self.config_dirs)
 
         for config_file in config_files - self.config_files:
-
-            print('New config file detected %s' % config_file)
-            
             cherrypy.engine.publish('sloth-add', config_file)
 
         for config_file in self.config_files - config_files:
-
-            print('Config file removed %s' % config_file)
-
             cherrypy.engine.publish('sloth-remove', config_file)
             self.mtimes.pop(config_file)
 
@@ -154,9 +146,6 @@ class ConfigChecker(cherrypy.process.plugins.Monitor):
                 self.mtimes[config_file] = mtime
 
             elif mtime > self.mtimes[config_file]:
-
-                print('Config file updated %s' % config_file)
-
                 cherrypy.engine.publish('sloth-update', config_file)
                 self.mtimes[config_file] = mtime
 
@@ -198,8 +187,6 @@ def add_sloth(config_file):
     :param config_file: Sloth app config file
     '''
 
-    print('Add Sloth app from config file %s' % config_file)
-
     try:
         config = load(config_file)
 
@@ -222,7 +209,7 @@ def add_sloth(config_file):
 
         
     except Exception as e:
-        print('Could not load Sloth app config %s: %s' % (config_file, e))
+        cherrypy.log.error('Could not load Sloth app config %s: %s' % (config_file, e))
 
 
 def update_sloth(config_file):
@@ -230,8 +217,6 @@ def update_sloth(config_file):
     
     :param config_file: Sloth app config file
     '''
-
-    print('Update Sloth app config because the config file changed %s' % config_file)
 
     SLOTHS[config_file].update_config(load(config_file))
 
@@ -242,8 +227,6 @@ def remove_sloth(config_file):
     :param config_file: Sloth app config file
     '''
 
-    print('Remove Sloth app config because the config file removed %s' % config_file)
-    
     SLOTHS[config_file].stop()
     SLOTHS.pop(config_file)
 
