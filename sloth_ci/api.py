@@ -13,6 +13,9 @@ from configs import load
 from .sloth import Sloth
 
 
+SLOTHS = {}
+LISTENERS = {}
+
 def make_extended_sloth(extensions):
     '''Sequentially chain-inherit Sloth classes from extensions.
     
@@ -64,14 +67,15 @@ def get_config_files(config_locations):
 
 
 @cherrypy.expose
-@cherrypy.popargs('listen_to')
-def listen(listen_to):
+def listen(listen_to, *args, **kwargs):
     '''Listens for payload to a particular Sloth app.
     
     :param app_name: Sloth app name (part of the URL after /) 
     '''
 
-    sloth = SLOTHS.get(listen_to)
+    print('Sloths: %s' % SLOTHS)
+
+    sloth = LISTENERS.get(listen_to)
 
     if sloth:
         sloth.logger.info('Payload received from %s - %s' % (cherrypy.request.headers['Remote-Addr'], cherrypy.request.headers['User-Agent']))
@@ -120,8 +124,6 @@ class ConfigChecker(cherrypy.process.plugins.Monitor):
         self.config_files = config_files
         self.config_dirs = config_dirs
 
-        print('self.config_files, self.config_dirs ', self.config_files, self.config_dirs)
-
         super().__init__(bus, self.check, frequency)
 
     def start(self):
@@ -133,20 +135,28 @@ class ConfigChecker(cherrypy.process.plugins.Monitor):
         config_files, config_dirs = get_config_files(self.config_files | self.config_dirs)
 
         for config_file in config_files - self.config_files:
+
+            print('New config file detected %s' % config_file)
+            
             cherrypy.engine.publish('sloth-add', config_file)
 
         for config_file in self.config_files - config_files:
+
+            print('Config file removed %s' % config_file)
+
             cherrypy.engine.publish('sloth-remove', config_file)
             self.mtimes.pop(config_file)
 
         for config_file in config_files:
             mtime = stat(config_file).st_mtime
-            print(mtime)
 
             if not config_file in self.mtimes:
                 self.mtimes[config_file] = mtime
 
             elif mtime > self.mtimes[config_file]:
+
+                print('Config file updated %s' % config_file)
+
                 cherrypy.engine.publish('sloth-update', config_file)
                 self.mtimes[config_file] = mtime
 
@@ -159,7 +169,8 @@ def run(host, port, log_dir, config_files, config_dirs):
     :param host: host
     :param port: port
     :param log_dir: directory to store logs (absolute or relative)
-    :param sloths: list of Sloth apps to run
+    :param config_files: Sloth app config files
+    :param config_dirs: directories to look for Sloth app config files in
     '''
 
     cherrypy.config.update(
@@ -174,7 +185,67 @@ def run(host, port, log_dir, config_files, config_dirs):
 
     ConfigChecker(cherrypy.engine, config_files, config_dirs).subscribe()
 
+    cherrypy.engine.subscribe('sloth-add', add_sloth)
+    cherrypy.engine.subscribe('sloth-update', update_sloth)
+    cherrypy.engine.subscribe('sloth-remove', remove_sloth)
+
     cherrypy.quickstart(listen)
+
+
+def add_sloth(config_file):
+    '''Create a Sloth app from a config file and app it to the Sloth app list.
+    
+    :param config_file: Sloth app config file
+    '''
+
+    print('Add Sloth app from config file %s' % config_file)
+
+    try:
+        config = load(config_file)
+
+        ExtendedSloth, errors = make_extended_sloth(config.get('extensions'))
+
+        extended_sloth = ExtendedSloth(config)
+
+        for error in errors:
+            extended_sloth.logger.error(error)
+
+        SLOTHS[config_file] = extended_sloth
+
+        extended_sloth.start()
+        extended_sloth.logger.info('--- Queue processor started ---')
+
+        listen_to = extended_sloth.config['listen_to']
+
+        LISTENERS[listen_to] = extended_sloth
+        extended_sloth.logger.info('Listening on %s' % listen_to)
+
+        
+    except Exception as e:
+        print('Could not load Sloth app config %s: %s' % (config_file, e))
+
+
+def update_sloth(config_file):
+    '''Update Sloth app config when the config file changes.
+    
+    :param config_file: Sloth app config file
+    '''
+
+    print('Update Sloth app config because the config file changed %s' % config_file)
+
+    SLOTHS[config_file].update_config(load(config_file))
+
+
+def remove_sloth(config_file):
+    '''Stop Sloth app and remove it from the Sloth app list.
+    
+    :param config_file: Sloth app config file
+    '''
+
+    print('Remove Sloth app config because the config file removed %s' % config_file)
+    
+    SLOTHS[config_file].stop()
+    SLOTHS.pop(config_file)
 
 
 def main():
@@ -209,23 +280,5 @@ def main():
 
     if not exists(abspath(log_dir)):
         makedirs(abspath(log_dir))
-
-    sloths = []
-
-    for config_file in config_files:
-        try:
-            config = load(config_file)
-
-            ExtendedSloth, errors = make_extended_sloth(config.get('extensions'))
-
-            extended_sloth = ExtendedSloth(config)
-
-            for error in errors:
-                extended_sloth.logger.error(error)
-
-            sloths.append(extended_sloth)
-        
-        except Exception as e:
-            print('Could not load Sloth app config %s: %s' % (config_file, e))
 
     run(host, port, log_dir, config_files, config_dirs)
