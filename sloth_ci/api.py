@@ -16,6 +16,7 @@ from .sloth import Sloth
 SLOTHS = {}
 LISTENERS = {}
 
+
 def make_extended_sloth(extensions):
     '''Sequentially chain-inherit Sloth classes from extensions.
     
@@ -23,7 +24,7 @@ def make_extended_sloth(extensions):
 
     :params extensions: list of extensions to load.
     
-    :returns: ExtendedSloth—a Sloth class inherited from all extensions' Sloth classes; errors—list of errors raised during the extensions loading.
+    :returns: ExtendedSloth is a Sloth class inherited from all extensions' Sloth classes; errors—list of errors raised during the extensions loading.
     '''
     
     ExtendedSloth = Sloth
@@ -43,11 +44,11 @@ def make_extended_sloth(extensions):
 
 
 def get_config_files(config_locations):
-    '''Generate a list of config files for Sloth apps.
+    '''Generate a set of config files and config directories for Sloth apps.
 
     :param config_locations: file and dir paths to config files.
 
-    :returns: tuple of config file set and config directory set
+    :returns: tuple of a config file set and a config directory set
     '''
 
     config_files = set()
@@ -62,8 +63,116 @@ def get_config_files(config_locations):
             for item in (join(location, _) for _ in listdir(location)):
                 if isfile(item):
                     config_files.add(item)
-
+    
+    print(config_files, config_dirs)
+    print(SLOTHS, LISTENERS)
     return config_files, config_dirs
+
+
+class ConfigChecker(cherrypy.process.plugins.Monitor):
+    '''Monitor-based CherryPy plugin that tracks file and directory modifications, additions, and deletions.
+
+    On each event, it publishes a respective signal.
+    '''
+
+    def __init__(self, bus, config_locations, frequency=1):
+        self.config_locations = config_locations
+
+        self.config_files, self.config_dirs = set(), set()
+
+        super().__init__(bus, self.check, frequency)
+
+    def start(self):
+        self.mtimes = {}
+
+        super().start()
+
+    def check(self):
+        new_config_files, new_config_dirs = get_config_files(self.config_locations)
+
+        for config_file in new_config_files - self.config_files:
+            cherrypy.engine.publish('sloth-add', config_file)
+
+        for config_file in self.config_files - new_config_files:
+            cherrypy.engine.publish('sloth-remove', config_file)
+            self.mtimes.pop(config_file)
+
+        for config_file in new_config_files:
+            mtime = stat(config_file).st_mtime
+
+            if not config_file in self.mtimes:
+                self.mtimes[config_file] = mtime
+
+            elif mtime > self.mtimes[config_file]:
+                cherrypy.engine.publish('sloth-update', config_file)
+                self.mtimes[config_file] = mtime
+
+        self.config_files, self.config_dirs = new_config_files, new_config_dirs
+        self.config_locations = self.config_files | self.config_dirs
+
+
+def add_sloth(config_file):
+    '''Create a Sloth app from a config file and app it to the Sloth app list.
+    
+    :param config_file: Sloth app config file
+    '''
+
+    try:
+        config = load(config_file)
+
+        ExtendedSloth, errors = make_extended_sloth(config.get('extensions'))
+
+        extended_sloth = ExtendedSloth(config)
+
+        for error in errors:
+            extended_sloth.logger.error(error)
+
+        SLOTHS[config_file] = extended_sloth
+
+        extended_sloth.start()
+        extended_sloth.logger.info('--- Queue processor started ---')
+
+        listen_to = extended_sloth.config['listen_to']
+
+        LISTENERS[listen_to] = extended_sloth
+        extended_sloth.logger.info('Listening on %s' % listen_to)
+
+
+    except Exception as e:
+        cherrypy.log.error('Could not load Sloth app config %s: %s' % (config_file, e))
+
+
+def update_sloth(config_file):
+    '''Update Sloth app config when the config file changes.
+    
+    :param config_file: Sloth app config file
+    '''
+
+    SLOTHS[config_file].update_config(load(config_file))
+
+
+def remove_sloth(config_file):
+    '''Stop Sloth app and remove it from the Sloth app list.
+    
+    :param config_file: Sloth app config file
+    '''
+
+    LISTENERS.pop(SLOTHS[config_file].config['listen_to'])
+    
+    SLOTHS[config_file].stop()
+
+    SLOTHS.pop(config_file)
+
+
+def remove_all_sloths():
+    '''Stop all active Sloth apps.'''
+    
+    while SLOTHS:
+        sloth = SLOTHS.popitem()[1]
+
+        LISTENERS.pop(sloth.config['listen_to'])
+
+        sloth.stop()
 
 
 @cherrypy.expose
@@ -112,47 +221,7 @@ def listen(listen_to, *args, **kwargs):
             sloth.queue.append(params)
 
 
-class ConfigChecker(cherrypy.process.plugins.Monitor):
-    '''Monitor-based CherryPy plugin that tracks file and directory modifications, additions, and deletions.
-
-    On each event, it publishes a respective signal.
-    '''
-
-    def __init__(self, bus, config_files, config_dirs, frequency=5):
-        self.config_files = config_files
-        self.config_dirs = config_dirs
-
-        super().__init__(bus, self.check, frequency)
-
-    def start(self):
-        self.mtimes = {}
-
-        super().start()
-
-    def check(self):
-        config_files, config_dirs = get_config_files(self.config_files | self.config_dirs)
-
-        for config_file in config_files - self.config_files:
-            cherrypy.engine.publish('sloth-add', config_file)
-
-        for config_file in self.config_files - config_files:
-            cherrypy.engine.publish('sloth-remove', config_file)
-            self.mtimes.pop(config_file)
-
-        for config_file in config_files:
-            mtime = stat(config_file).st_mtime
-
-            if not config_file in self.mtimes:
-                self.mtimes[config_file] = mtime
-
-            elif mtime > self.mtimes[config_file]:
-                cherrypy.engine.publish('sloth-update', config_file)
-                self.mtimes[config_file] = mtime
-
-        self.config_files, self.config_dirs = config_files, config_dirs
-
-
-def run(host, port, log_dir, config_files, config_dirs):
+def run(host, port, log_dir, config_locations):
     '''Runs CherryPy loop to listen for payload.
 
     :param host: host
@@ -172,63 +241,15 @@ def run(host, port, log_dir, config_files, config_dirs):
         }
     )
 
-    ConfigChecker(cherrypy.engine, config_files, config_dirs).subscribe()
+    ConfigChecker(cherrypy.engine, config_locations).subscribe()
 
     cherrypy.engine.subscribe('sloth-add', add_sloth)
     cherrypy.engine.subscribe('sloth-update', update_sloth)
     cherrypy.engine.subscribe('sloth-remove', remove_sloth)
 
+    cherrypy.engine.subscribe('stop', remove_all_sloths)
+
     cherrypy.quickstart(listen)
-
-
-def add_sloth(config_file):
-    '''Create a Sloth app from a config file and app it to the Sloth app list.
-    
-    :param config_file: Sloth app config file
-    '''
-
-    try:
-        config = load(config_file)
-
-        ExtendedSloth, errors = make_extended_sloth(config.get('extensions'))
-
-        extended_sloth = ExtendedSloth(config)
-
-        for error in errors:
-            extended_sloth.logger.error(error)
-
-        SLOTHS[config_file] = extended_sloth
-
-        extended_sloth.start()
-        extended_sloth.logger.info('--- Queue processor started ---')
-
-        listen_to = extended_sloth.config['listen_to']
-
-        LISTENERS[listen_to] = extended_sloth
-        extended_sloth.logger.info('Listening on %s' % listen_to)
-
-        
-    except Exception as e:
-        cherrypy.log.error('Could not load Sloth app config %s: %s' % (config_file, e))
-
-
-def update_sloth(config_file):
-    '''Update Sloth app config when the config file changes.
-    
-    :param config_file: Sloth app config file
-    '''
-
-    SLOTHS[config_file].update_config(load(config_file))
-
-
-def remove_sloth(config_file):
-    '''Stop Sloth app and remove it from the Sloth app list.
-    
-    :param config_file: Sloth app config file
-    '''
-
-    SLOTHS[config_file].stop()
-    SLOTHS.pop(config_file)
 
 
 def main():
@@ -259,9 +280,7 @@ def main():
 
     config_locations = parsed_args.config
 
-    config_files, config_dirs = get_config_files(config_locations)
-
     if not exists(abspath(log_dir)):
         makedirs(abspath(log_dir))
 
-    run(host, port, log_dir, config_files, config_dirs)
+    run(host, port, log_dir, config_locations)
