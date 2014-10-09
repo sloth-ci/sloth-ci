@@ -95,6 +95,7 @@ class Bed:
         '''Makes a listener function for a particular bed of sloths.'''
 
         @cherrypy.expose
+        @cherrypy.tools.proxy()
         def listener(listen_to, *args, **kwargs):
             '''Listens for payloads and routes them to the responsible Sloth app.
     
@@ -104,7 +105,7 @@ class Bed:
             sloth = self.listen_points.get(listen_to)
 
             if sloth:
-                sloth.logger.debug('Payload received from %s - %s' % (cherrypy.request.headers['Remote-Addr'], cherrypy.request.headers['User-Agent']))
+                sloth.logger.debug('Payload received from %s - %s' % (cherrypy.request.remote.ip, cherrypy.request.headers['User-Agent']))
 
                 try:
                     validator = import_module(
