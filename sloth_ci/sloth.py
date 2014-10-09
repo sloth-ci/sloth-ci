@@ -4,6 +4,9 @@ from os.path import splitext, basename, abspath, join
 from time import sleep
 from collections import deque
 from importlib import import_module
+
+from slugify import slugify
+
 import logging
 
 
@@ -16,12 +19,11 @@ class Sloth:
     Each app listens for incoming requests on its own URL path.
     '''
 
-    extensions = []
-
     def __init__(self, config):
         self.config = config
 
-        self.name = splitext(basename(self.config.config_full_path))[0]
+        self.name = slugify(splitext(basename(self.config.config_full_path))[0])
+        self.listen_to = self.config.get('listen_to') or self.name
 
         self.queue = deque()
         self._queue_lock = False
@@ -54,8 +56,6 @@ class Sloth:
             
                     ExtendedSloth = ext.extend(ExtendedSloth)
 
-                    cls.extensions.append(extension)
-
                 except Exception as e:
                     errors.append('Could not load extension %s: %s' % (extension, e))
 
@@ -65,6 +65,7 @@ class Sloth:
         '''Starts the queue processor.'''
 
         self.queue_processor.start()
+        self.logger.info('--- Started')
 
     def is_queue_locked(self):
         '''Tells if the processing queue is locked.'''
@@ -149,7 +150,7 @@ class Sloth:
         '''
 
         self._queue_lock = True
-        self.logger.info('Stopped')
+        self.logger.info('Stopped ---')
 
     def kill(self):
         '''Immediatelly stops the queue processor and clears the queue.'''

@@ -39,15 +39,12 @@ class Bed:
             for error in errors:
                 sloth.logger.error(error)
 
-            sloth.logger.debug('Loaded extensions: %s' % ', '.join(sloth.extensions))
-
-            listen_to = sloth.config['listen_to']
+            listen_to = sloth.listen_to
             
             if listen_to in self.listen_points:
                 raise ValueError('Listen point %s is already taken' % listen_to)         
 
             sloth.start()
-            sloth.logger.info('--- Queue processor started ---')
 
             self.config_files[config_file] = sloth
 
@@ -79,7 +76,7 @@ class Bed:
         if config_file in self.config_files:
             sloth = self.config_files[config_file]
 
-            self.listen_points.pop(sloth.config['listen_to'])
+            self.listen_points.pop(sloth.listen_to)
     
             self.config_files.pop(config_file)
         
@@ -91,7 +88,7 @@ class Bed:
         while self.config_files:
             sloth = self.config_files.popitem()[1]
 
-            self.listen_points.pop(sloth.config['listen_to'])
+            self.listen_points.pop(sloth.listen_to)
 
             sloth.stop()
 
