@@ -2,7 +2,8 @@
 from threading import Thread
 from os.path import splitext, basename, abspath, join
 from time import sleep
-
+from collections import deque
+from importlib import import_module
 import logging
 
 
@@ -15,12 +16,14 @@ class Sloth:
     Each app listens for incoming requests on its own URL path.
     '''
 
+    extensions = []
+
     def __init__(self, config):
         self.config = config
 
         self.name = splitext(basename(self.config.config_full_path))[0]
 
-        self.queue = []
+        self.queue = deque()
         self._queue_lock = False
 
         self.queue_processor = Thread(target=self.process_queue, name=self.name)
@@ -29,6 +32,34 @@ class Sloth:
         self.logger = logging.getLogger(self.name)
         self.logger.setLevel(logging.INFO)
         self.processing_logger = self.logger.getChild('processing')
+
+    @classmethod
+    def extend(cls, extensions):
+        '''Sequentially chain-inherit Sloth classes from extensions.
+    
+        The first extension's Sloth class inherits from the base Sloth class and becomes the base class, then the second one inherits from it, and so on.
+
+        :params extensions: list of extensions to load.
+    
+        :returns: ExtendedSloth is a Sloth class inherited from all extensions' Sloth classes; errors—list of errors raised during the extensions loading.
+        '''
+    
+        ExtendedSloth = cls
+        errors = []
+
+        if extensions:
+            for extension in extensions:
+                try:
+                    ext = import_module('.ext.%s' % extension, package=__package__)
+            
+                    ExtendedSloth = ext.extend(ExtendedSloth)
+
+                    cls.extensions.append(extension)
+
+                except Exception as e:
+                    errors.append('Could not load extension %s: %s' % (extension, e))
+
+        return ExtendedSloth, errors
 
     def start(self):
         '''Starts the queue processor.'''
@@ -84,7 +115,7 @@ class Sloth:
 
         while not self._processor_lock:
             if self.queue:
-                params = self.queue.pop(0)
+                params = self.queue.popleft()
 
                 if self.config['actions']:
                     for action in self.config['actions']:
