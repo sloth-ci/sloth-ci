@@ -41,18 +41,21 @@ class Bed:
 
             sloth.logger.debug('Loaded extensions: %s' % ', '.join(sloth.extensions))
 
-            self.config_files[config_file] = sloth
+            listen_to = sloth.config['listen_to']
+            
+            if listen_to in self.listen_points:
+                raise ValueError('Listen point %s is already taken' % listen_to)         
 
             sloth.start()
             sloth.logger.info('--- Queue processor started ---')
 
-            listen_to = sloth.config['listen_to']
+            self.config_files[config_file] = sloth
 
             self.listen_points[listen_to] = sloth
             sloth.logger.info('Listening on %s' % listen_to)
 
         except Exception as e:
-            self.bus.log('Could not load Sloth app config %s: %s' % (config_file, e), level=40)
+            self.bus.log('Could not add Sloth app config %s: %s' % (config_file, e), level=40)
 
     def update_sloth(self, config_file):
         '''Update Sloth app config when the config file changes.
@@ -64,8 +67,8 @@ class Bed:
         :param config_file: Sloth app config file
         '''
 
-        remove_sloth(config_file)
-        add_sloth(config_file)
+        self.remove_sloth(config_file)
+        self.add_sloth(config_file)
 
     def remove_sloth(self, config_file):
         '''Stop Sloth app and remove it from the bed.
@@ -73,13 +76,14 @@ class Bed:
         :param config_file: Sloth app config file
         '''
 
-        sloth = self.config_files[config_file]
+        if config_file in self.config_files:
+            sloth = self.config_files[config_file]
 
-        self.listen_points.pop(sloth.config['listen_to'])
+            self.listen_points.pop(sloth.config['listen_to'])
     
-        self.config_files.pop(config_file)
+            self.config_files.pop(config_file)
         
-        sloth.stop()
+            sloth.stop()
 
     def remove_all_sloths(self):
         '''Stop all active Sloth apps and remove them from the bed.'''
