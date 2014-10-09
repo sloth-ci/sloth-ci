@@ -111,19 +111,6 @@ class Sloth:
             else:
                 sleep(.25)
 
-    def update_config(self, new_config):
-        self._queue_lock = True
-        self.logger.debug('Queue locked')
-
-        while self.queue:
-            pass
-        
-        self.config = new_config
-        self.logger.info('Config updated')
-
-        self._queue_lock = False
-        self.logger.debug('Queue unlocked')
-
     def stop(self):
         '''Gracefully stops the queue processor.
 

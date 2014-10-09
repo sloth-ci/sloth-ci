@@ -64,8 +64,6 @@ def get_config_files(config_locations):
                 if isfile(item):
                     config_files.add(item)
     
-    print(config_files, config_dirs)
-    print(SLOTHS, LISTENERS)
     return config_files, config_dirs
 
 
@@ -148,7 +146,8 @@ def update_sloth(config_file):
     :param config_file: Sloth app config file
     '''
 
-    SLOTHS[config_file].update_config(load(config_file))
+    remove_sloth(config_file)
+    add_sloth(config_file)
 
 
 def remove_sloth(config_file):
