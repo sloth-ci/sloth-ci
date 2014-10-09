@@ -90,8 +90,8 @@ class Sloth:
 
             stdout, stderr = process.communicate(timeout=self.config.get('exec_timeout'))
             
-            self.processing_logger.debug(bytes.decode(stdout))
-            self.processing_logger.debug(bytes.decode(stderr))
+            self.processing_logger.debug('stdout: %s' % bytes.decode(stdout))
+            self.processing_logger.debug('stderr: %s' % bytes.decode(stderr))
 
             self.processing_logger.info('Action executed: %s', action)
             
