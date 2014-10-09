@@ -1,6 +1,4 @@
-﻿from importlib import import_module
-
-from sys import exit
+﻿from sys import exit
 
 from os.path import isdir, isfile, abspath, join, exists
 from os import listdir, makedirs, stat
@@ -15,32 +13,6 @@ from .sloth import Sloth
 
 SLOTHS = {}
 LISTENERS = {}
-
-
-def make_extended_sloth(extensions):
-    '''Sequentially chain-inherit Sloth classes from extensions.
-    
-    The first extension's Sloth class inherits from the base Sloth class and becomes the base class, then the second one inherits from it, and so on.
-
-    :params extensions: list of extensions to load.
-    
-    :returns: ExtendedSloth is a Sloth class inherited from all extensions' Sloth classes; errors—list of errors raised during the extensions loading.
-    '''
-    
-    ExtendedSloth = Sloth
-    errors = []
-
-    if extensions:
-        for extension in extensions:
-            try:
-                ext = import_module('.ext.%s' % extension, package=__package__)
-            
-                ExtendedSloth = ext.extend(ExtendedSloth)
-
-            except Exception as e:
-                errors.append('Could not load extension %s: %s' % (extension, e))
-
-    return ExtendedSloth, errors
 
 
 def get_config_files(config_locations):
@@ -118,22 +90,24 @@ def add_sloth(config_file):
     try:
         config = load(config_file)
 
-        ExtendedSloth, errors = make_extended_sloth(config.get('extensions'))
+        ExtendedSloth, errors = Sloth.extend(config.get('extensions'))
 
-        extended_sloth = ExtendedSloth(config)
+        sloth = ExtendedSloth(config)
 
         for error in errors:
-            extended_sloth.logger.error(error)
+            sloth.logger.error(error)
 
-        SLOTHS[config_file] = extended_sloth
+        sloth.logger.debug('Loaded extensions: %s' % ', '.join(sloth.extensions))
 
-        extended_sloth.start()
-        extended_sloth.logger.info('--- Queue processor started ---')
+        SLOTHS[config_file] = sloth
 
-        listen_to = extended_sloth.config['listen_to']
+        sloth.start()
+        sloth.logger.info('--- Queue processor started ---')
 
-        LISTENERS[listen_to] = extended_sloth
-        extended_sloth.logger.info('Listening on %s' % listen_to)
+        listen_to = sloth.config['listen_to']
+
+        LISTENERS[listen_to] = sloth
+        sloth.logger.info('Listening on %s' % listen_to)
 
 
     except Exception as e:
