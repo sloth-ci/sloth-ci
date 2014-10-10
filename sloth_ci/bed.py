@@ -44,8 +44,6 @@ class Bed:
             if listen_to in self.listen_points:
                 raise ValueError('Listen point %s is already taken' % listen_to)         
 
-            sloth.start()
-
             self.config_files[config_file] = sloth
 
             self.listen_points[listen_to] = sloth
@@ -133,12 +131,17 @@ class Bed:
 
                 params = custom_params
 
-                sloth.logger.info(validation_message.format_map(validator_params))
+                sloth.logger.debug(validation_message.format_map(validator_params))
 
-                if validation_status != 200:
+                if validation_status == 200:
+                    sloth.logger.info('Valid payload received')
+                
+                else:
                     raise cherrypy.HTTPError(validation_status, validation_message.format_map(validator_params))
 
-                if not sloth.is_queue_locked():
-                    sloth.queue.append(params)
+                sloth.process(params)
+            
+            else:
+                raise cherrypy.HTTPError(404, 'This listen point does not exist.')
 
         return listener

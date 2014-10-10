@@ -25,15 +25,16 @@ class Sloth:
         self.name = slugify(splitext(basename(self.config.config_full_path))[0])
         self.listen_to = self.config.get('listen_to') or self.name
 
+        self.logger = logging.getLogger(self.name)
+        self.logger.setLevel(logging.INFO)
+        self.processing_logger = self.logger.getChild('processing')
+
         self.queue = deque()
         self._queue_lock = False
 
         self.queue_processor = Thread(target=self.process_queue, name=self.name)
-        self._processor_lock = False
-
-        self.logger = logging.getLogger(self.name)
-        self.logger.setLevel(logging.INFO)
-        self.processing_logger = self.logger.getChild('processing')
+        self.queue_processor.start()
+        self._processing_lock = False
 
     @classmethod
     def extend(cls, extensions):
@@ -61,19 +62,16 @@ class Sloth:
 
         return ExtendedSloth, errors
 
-    def start(self):
-        '''Starts the queue processor.'''
-
-        self.queue_processor.start()
-        self.logger.info('--- Started')
-
-    def is_queue_locked(self):
-        '''Tells if the processing queue is locked.'''
-
-        return self._queue_lock
-
+    def process(self, params):
+        if not self._queue_lock:
+            self.queue.append(params)
+        
+        if not self.queue_processor.is_alive():
+            self.queue_processor = Thread(target=self.process_queue, name=self.name)
+            self.queue_processor.start()
+        
     def execute(self, action):
-        '''Executes command line command.
+        '''Executes an action in an ordinary Popen.
 
         :param action: action to be executed
 
@@ -94,7 +92,7 @@ class Sloth:
             self.processing_logger.debug('stdout: %s' % bytes.decode(stdout))
             self.processing_logger.debug('stderr: %s' % bytes.decode(stderr))
 
-            self.processing_logger.info('Action executed: %s', action)
+            self.processing_logger.info('Finished')
             
             return True
 
@@ -114,48 +112,47 @@ class Sloth:
     def process_queue(self):
         '''Processes execution queue in a separate thread.'''
 
-        while not self._processor_lock:
-            if self.queue:
+        actions = self.config.get('actions')
+
+        if actions:
+            while self.queue:
+                if self._processing_lock:
+                    self.processing_logger.warning('Queue processing interrupted')
+                    break
+                
                 params = self.queue.popleft()
 
-                if self.config['actions']:
-                    for action in self.config['actions']:
-                        try:
-                            self.execute(action.format_map(params))
+                for action in actions:
+                    try:
+                        self.execute(action.format_map(params))
 
-                        except KeyError as e:
-                            self.processing_logger.critical('Unknown param in action: %s', e)
+                    except KeyError as e:
+                        self.processing_logger.critical('Unknown param in action: %s', e)
 
-                            if self.config.get('stop_on_first_fail'):
-                                break
+                        if self.config.get('stop_on_first_fail'):
+                            break
 
-                        except Exception as e:
-                            self.processing_logger.critical('Action failed: %s', e)
+                    except Exception as e:
+                        self.processing_logger.critical('Execution failed: %s', e)
 
-                            if self.config.get('stop_on_first_fail'):
-                                break
-                    else:
-                        self.processing_logger.info('Execution queue is empty')
+                        if self.config.get('stop_on_first_fail'):
+                            break
 
-            elif self._queue_lock:
-                return True
-
-            else:
-                sleep(.25)
+        self.processing_logger.info('Execution queue is empty')
+        return True
 
     def stop(self):
-        '''Gracefully stops the queue processor.
+        '''Gracefully stop the queue processor.
 
         New payloads are not added to the queue, existing actions will be finished.
         '''
-
         self._queue_lock = True
-        self.logger.info('Stopped ---')
+        self.logger.info('Stopped')
 
     def kill(self):
-        '''Immediatelly stops the queue processor and clears the queue.'''
+        '''Immediately stop processing the queue.'''
 
         self.stop()
 
-        self._processor_lock = True
-        self.logger.warning('Killed.')
+        self._processing_lock = True
+        self.logger.warning('Killed')
