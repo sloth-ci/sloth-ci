@@ -22,6 +22,7 @@ setup(
     ],
     install_requires = [
         'CherryPy',
+        'awesome-slugify',
         'configs>=3.0.2'
     ],
     license='MIT',
