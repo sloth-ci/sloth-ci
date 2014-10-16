@@ -69,7 +69,39 @@ class Sloth:
         if not self.queue_processor.is_alive():
             self.queue_processor = Thread(target=self.process_queue, name=self.name)
             self.queue_processor.start()
-        
+
+    def process_queue(self):
+        '''Processes execution queue in a separate thread.'''
+
+        actions = self.config.get('actions')
+
+        if actions:
+            while self.queue:
+                if self._processing_lock:
+                    self.processing_logger.warning('Queue processing interrupted')
+                    break
+                
+                params = self.queue.popleft()
+
+                for action in actions:
+                    try:
+                        self.execute(action.format_map(params))
+
+                    except KeyError as e:
+                        self.processing_logger.critical('Unknown param in action: %s', e)
+
+                        if self.config.get('stop_on_first_fail'):
+                            break
+
+                    except Exception as e:
+                        self.processing_logger.critical('Execution failed: %s', e)
+
+                        if self.config.get('stop_on_first_fail'):
+                            break
+
+        self.processing_logger.info('Execution queue is empty')
+        return True
+
     def execute(self, action):
         '''Executes an action in an ordinary Popen.
 
@@ -108,38 +140,6 @@ class Sloth:
 
         except Exception:
             raise
-
-    def process_queue(self):
-        '''Processes execution queue in a separate thread.'''
-
-        actions = self.config.get('actions')
-
-        if actions:
-            while self.queue:
-                if self._processing_lock:
-                    self.processing_logger.warning('Queue processing interrupted')
-                    break
-                
-                params = self.queue.popleft()
-
-                for action in actions:
-                    try:
-                        self.execute(action.format_map(params))
-
-                    except KeyError as e:
-                        self.processing_logger.critical('Unknown param in action: %s', e)
-
-                        if self.config.get('stop_on_first_fail'):
-                            break
-
-                    except Exception as e:
-                        self.processing_logger.critical('Execution failed: %s', e)
-
-                        if self.config.get('stop_on_first_fail'):
-                            break
-
-        self.processing_logger.info('Execution queue is empty')
-        return True
 
     def stop(self):
         '''Gracefully stop the queue processor.
