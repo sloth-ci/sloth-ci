@@ -32,8 +32,7 @@ class Sloth:
         self.queue = deque()
         self._queue_lock = False
 
-        self.queue_processor = Thread(target=self.process_queue, name=self.name)
-        self.queue_processor.start()
+        self.queue_processor = None
         self._processing_lock = False
 
     @classmethod
@@ -66,7 +65,7 @@ class Sloth:
         if not self._queue_lock:
             self.queue.append(params)
         
-        if not self.queue_processor.is_alive():
+        if not self.queue_processor or not self.queue_processor.is_alive():
             self.queue_processor = Thread(target=self.process_queue, name=self.name)
             self.queue_processor.start()
 
