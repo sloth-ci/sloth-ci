@@ -95,11 +95,13 @@ class Bed:
 
         @cherrypy.expose
         @cherrypy.tools.proxy()
-        def listener(listen_to, *args, **kwargs):
+        def listener(*path, **kwargs):
             '''Listens for payloads and routes them to the responsible Sloth app.
     
             :param app_name: Sloth app listen point (part of the URL after /) 
             '''
+
+            listen_to = '/'.join(path)
 
             sloth = self.listen_points.get(listen_to)
 
