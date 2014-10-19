@@ -1,6 +1,25 @@
-from os.path import isdir, isfile, join
+from sys import platform
+from os.path import isdir, isfile, join, abspath, expanduser
 from os import listdir, stat
 from cherrypy.process.plugins import Monitor
+
+
+def get_default_configs_path():
+    '''Get the path to the configs depending on the current OS.'''
+
+    if platform == 'win32':
+        return abspath(expanduser('~/AppData/Local/sloth-ci/configs'))
+    elif platform == 'linux':
+        return abspath('/etc/sloth-ci/configs')
+
+
+def get_default_logs_path():
+    '''Get the logs dir path depending on the current OS.'''
+
+    if platform == 'win32':
+        return abspath(expanduser('~/AppData/Local/sloth-ci/logs'))
+    elif platform == 'linux':
+        return abspath('/var/log/sloth-ci')
 
 
 def get_config_files(config_locations):
