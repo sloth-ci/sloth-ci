@@ -13,7 +13,7 @@ from configs import load
 from .utils import ConfigChecker
 from .bed import Bed
 
-def run(host, port, log_dir, config_locations):
+def run(host, port, log_dir, daemon, config_locations):
     '''Runs CherryPy loop to listen for payload.
 
     :param host: host
@@ -33,6 +33,9 @@ def run(host, port, log_dir, config_locations):
         }
     )
 
+    if daemon:
+        cherrypy.process.plugins.Daemonizer(cherrypy.engine).subscribe()
+
     ConfigChecker(cherrypy.engine, config_locations).subscribe()
 
     bed = Bed(cherrypy.engine)
@@ -50,10 +53,11 @@ def main():
     '''Main API function.'''
 
     parser = ArgumentParser()
-    parser.add_argument('--sconfig', help='Server config.')
-    parser.add_argument('--host', help='Host for the Sloth server (overrides value in sconfig).')
-    parser.add_argument('--port', type=int, help='Port for the Sloth server (overrides value in sconfig).')
-    parser.add_argument('--log_dir', help='Where the log files should be stored (overrides value in sconfig).')
+    parser.add_argument('-s', '--sconfig', help='Server config.')
+    parser.add_argument('-H', '--host', help='Host for the Sloth server (overrides value in sconfig).')
+    parser.add_argument('-p', '--port', type=int, help='Port for the Sloth server (overrides value in sconfig).')
+    parser.add_argument('-l', '--log_dir', help='Where the log files should be stored (overrides value in sconfig).')
+    parser.add_argument('-d', '--daemon', action='store_true', help='Run as daemon.')
     parser.add_argument('config', nargs='+', help='Sloth app config files or dirs.')
 
     parsed_args = parser.parse_args()
@@ -68,6 +72,7 @@ def main():
     host = parsed_args.host or sconfig.get('host')
     port = parsed_args.port or sconfig.get('port')
     log_dir = parsed_args.log_dir or sconfig.get('log_dir')
+    daemon = parsed_args.daemon or sconfig.get('daemon')
 
     if not (host and port and log_dir):
         exit('Missing server param(s).')
@@ -77,4 +82,4 @@ def main():
     if not exists(abspath(log_dir)):
         makedirs(abspath(log_dir))
 
-    run(host, port, log_dir, config_locations)
+    run(host, port, log_dir, daemon, config_locations)
