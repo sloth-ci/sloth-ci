@@ -114,11 +114,15 @@ Sloth App Config Example
 
 ::
 
-    listen_to = /sloth-listener
+    listen_to = sloth-listener
 
     work_dir = /home/sloth/my_project
 
+    exec_timeout = 5
+
     provider = bitbucket
+
+    stop_on_first_fail = True
 
     [provider_data]
     repo = moigagoo/sloth-ci
