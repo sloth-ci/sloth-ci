@@ -1,6 +1,9 @@
 ﻿from setuptools import setup
 
+from os.path import join
+
 import sloth_ci
+from sloth_ci.utils import get_default_configs_path
 
 
 try:
@@ -35,5 +38,9 @@ setup(
     entry_points={
         'console_scripts':
             ['sloth-ci = sloth_ci.api:main']
-        }
-    )
+    },
+    data_files=[
+        (get_default_configs_path(), ['server.conf']),
+        (join(get_default_configs_path(), 'apps'), [])
+    ]
+)
