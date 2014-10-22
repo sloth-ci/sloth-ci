@@ -1,12 +1,3 @@
 sphinx_rtd_theme
 
 sloth-ci
-
-sloth-ci.validators.bitbucket
-sloth-ci.validators.dummy
-sloth-ci.validators.github
-
-sloth-ci.ext.docker-exec
-sloth-ci.ext.dummy
-sloth-ci.ext.html-logs
-sloth-ci.ext.logs
