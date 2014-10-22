@@ -5,7 +5,7 @@ Examples: Sloth CI in Action
 Build Sphinx Docs
 =================
 
-Suppose you have your docs in a GitHub repo *username/repo*, in the *docs* directory.
+Suppose you have your docs in a GitHub repo *username/repo*.
 
 On every commit you want to get the latest version and build the docs into a directory, e. g. */var/www/docs* (given you're on Linux).
 
