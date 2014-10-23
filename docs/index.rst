@@ -48,7 +48,7 @@ This will install the Python package and the ``sloth-ci`` shell command.
 
 It will also copy the default server config to the path depending on your system:
 
-    -   *$HOME\AppData\Local\sloth-ci\configs* for Windows
+    -   *$HOME\\AppData\\Local\\sloth-ci\\configs* for Windows
     -   */etc/sloth-ci/configs* for Linux
 
 Usage
@@ -76,11 +76,11 @@ Use the ``sloth-ci`` command to launch Sloth CI::
 
 Most of these params you don't need. For example, if you're on Linux, you can just launch Sloth CI with ``sloth-ci -d``. The server config will be taken from the */etc/sloth-ci/configs/server.conf* file, and you can just put the app configs in */etc/sloth-ci/configs/apps*—Sloth CI will add new apps on the fly.
 
-By default, the logs are stored in */var/logs/sloth-ci* on Linux and in *$HOME\AppData\sloth-ci\logs* on Windows.
+By default, the logs are stored in */var/logs/sloth-ci* on Linux and in *$HOME\\AppData\\sloth-ci\\logs* on Windows.
 
 You can override all default params explicitly when calling the script.
 
-See some examples of hopw you can use Sloth CI on _`this page <examples>`.
+See some examples of hopw you can use Sloth CI on :doc:`this page <examples>`.
 
 .. versionadded:: 0.5.1
 
