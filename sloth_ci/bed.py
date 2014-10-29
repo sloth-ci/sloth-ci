@@ -1,10 +1,12 @@
 from importlib import import_module
+from os.path import abspath, join
 
 import cherrypy
 
 from configs import load
 
 from .sloth import Sloth
+from .utils import ConfigChecker
 
 
 class Bed:
@@ -16,12 +18,44 @@ class Bed:
 
     (You may wonder, why would I call a module "bed"? Well, that's because a group of sloth is *actually* called "bed". Go ahead, check it on the Internet.)
     '''
+    
+    def __init__(self, host, port, log_dir, daemon, config_locations):
+        '''Configure CherryPy loop to listen for payload.
 
-    def __init__(self, bus):
+        :param host: host
+        :param port: port
+        :param log_dir: directory to store logs (absolute or relative)
+        :param config_locations: Sloth app config file locations
+        '''
+
         self.config_files = {}
         self.listen_points = {}
 
-        self.bus = bus
+        cherrypy.config.update(
+            {
+                'environment': 'production',
+                'server.socket_host': host,
+                'server.socket_port': port,
+                'log.access_file': abspath(join(log_dir, '_access.log')),
+                'log.error_file': abspath(join(log_dir, '_error.log'))
+            }
+        )
+
+        if daemon:
+            cherrypy.process.plugins.Daemonizer(cherrypy.engine).subscribe()
+
+        ConfigChecker(cherrypy.engine, config_locations).subscribe()
+
+        cherrypy.engine.subscribe('sloth-add', self.add_sloth)
+        cherrypy.engine.subscribe('sloth-update', self.update_sloth)
+        cherrypy.engine.subscribe('sloth-remove', self.remove_sloth)
+    
+        cherrypy.engine.subscribe('stop', self.remove_all_sloths)
+
+    def start(self):
+        '''Start CherryPy loop to listen for payload.'''
+
+        cherrypy.quickstart(self.make_listener())
 
     def add_sloth(self, config_file):
         '''Create a Sloth app from a config file and app it to the bed.
@@ -50,7 +84,7 @@ class Bed:
             sloth.logger.info('Listening on %s' % listen_to)
 
         except Exception as e:
-            self.bus.log('Could not add Sloth app config %s: %s' % (config_file, e), level=40)
+            cherrypy.engine.log('Could not add Sloth app config %s: %s' % (config_file, e), level=40)
 
     def update_sloth(self, config_file):
         '''Update Sloth app config when the config file changes.
