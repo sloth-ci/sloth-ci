@@ -1,5 +1,4 @@
 ﻿from sys import exit
-from importlib import import_module
 
 from os.path import abspath, join, exists
 from os import makedirs
@@ -10,46 +9,10 @@ import cherrypy
 
 from configs import load
 
-from .utils import ConfigChecker, get_default_configs_path, get_default_logs_path
+from .utils import get_default_configs_path, get_default_logs_path
 from .bed import Bed
 
-def run(host, port, log_dir, daemon, config_locations):
-    '''Runs CherryPy loop to listen for payload.
-
-    :param host: host
-    :param port: port
-    :param log_dir: directory to store logs (absolute or relative)
-    :param config_files: Sloth app config files
-    :param config_dirs: directories to look for Sloth app config files in
-    '''
-
-    cherrypy.config.update(
-        {
-            'environment': 'production',
-            'server.socket_host': host,
-            'server.socket_port': port,
-            'log.access_file': abspath(join(log_dir, '_access.log')),
-            'log.error_file': abspath(join(log_dir, '_error.log'))
-        }
-    )
-
-    if daemon:
-        cherrypy.process.plugins.Daemonizer(cherrypy.engine).subscribe()
-
-    ConfigChecker(cherrypy.engine, config_locations).subscribe()
-
-    bed = Bed(cherrypy.engine)
-
-    cherrypy.engine.subscribe('sloth-add', bed.add_sloth)
-    cherrypy.engine.subscribe('sloth-update', bed.update_sloth)
-    cherrypy.engine.subscribe('sloth-remove', bed.remove_sloth)
-    
-    cherrypy.engine.subscribe('stop', bed.remove_all_sloths)
-
-    cherrypy.quickstart(bed.make_listener())
-
-
-def main():
+def cli():
     '''CLI API function.'''
 
     parser = ArgumentParser()
@@ -66,6 +29,7 @@ def main():
 
     if sconfig_file:
         sconfig = load(sconfig_file)
+
     else:
         try:
             sconfig = load(join(get_default_configs_path(), 'server.conf'))
@@ -85,4 +49,4 @@ def main():
     if not exists(abspath(log_dir)):
         makedirs(abspath(log_dir))
 
-    run(host, port, log_dir, daemon, config_locations)
+    Bed(host, port, log_dir, daemon, config_locations).start()
