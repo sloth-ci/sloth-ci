@@ -5,6 +5,8 @@ from time import sleep
 from collections import deque
 from importlib import import_module
 
+from cherrypy import HTTPError
+
 from slugify import slugify
 
 import logging
@@ -41,7 +43,7 @@ class Sloth:
     
         The first extension's Sloth class inherits from the base Sloth class and becomes the base class, then the second one inherits from it, and so on.
 
-        :params extensions: list of extensions to load.
+        :param extensions: list of extensions to load.
     
         :returns: ExtendedSloth is a Sloth class inherited from all extensions' Sloth classes; errors—list of errors raised during the extensions loading.
         '''
@@ -61,7 +63,60 @@ class Sloth:
 
         return ExtendedSloth, errors
 
+    def handle(self, request):
+        '''Validate, extract, and process incoming payload.
+        
+        :param request: a cherrypy.request instance
+        '''
+
+        self.logger.debug('Payload received from %s - %s' % (
+                request.remote.ip,
+                request.headers['User-Agent']
+            )
+        )
+
+        try:
+            validator = import_module(
+                '.validators.%s' % self.config['provider'],
+                package=__package__
+            )
+
+        except ImportError as e:
+            self.logger.critical('No matching validator found: %s' % e)
+            raise HTTPError(500, 'No matching validator found: %s' % e)
+
+        validation_data = self.config.get('provider_data') or {}
+
+        validation_status, validation_message, validator_params = validator.validate(request, validation_data)
+
+        custom_params = self.config.get('params')
+
+        if custom_params:
+            custom_params = custom_params.dict_props
+
+        else:
+            custom_params = {}
+
+        custom_params.update(validator_params)
+
+        params = custom_params
+
+        self.logger.debug(validation_message.format_map(validator_params))
+
+        if validation_status == 200:
+            self.logger.info('Valid payload received')
+                
+        else:
+            raise HTTPError(validation_status, validation_message.format_map(validator_params))
+
+        self.process(params)
+
     def process(self, params):
+        '''Queue execution of actions with the given params.
+        
+        :param params: dict or params for actions (can be empty)
+        '''
+
         if not self._queue_lock:
             self.queue.append(params)
         
