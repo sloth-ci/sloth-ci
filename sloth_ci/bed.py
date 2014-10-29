@@ -106,42 +106,7 @@ class Bed:
             sloth = self.listen_points.get(listen_to)
 
             if sloth:
-                sloth.logger.debug('Payload received from %s - %s' % (cherrypy.request.remote.ip, cherrypy.request.headers['User-Agent']))
-
-                try:
-                    validator = import_module(
-                        '.validators.%s' % sloth.config['provider'],
-                        package=__package__
-                    )
-                except ImportError as e:
-                    sloth.logger.critical('No matching validator found: %s' % e)
-                    raise cherrypy.HTTPError(500, 'No matching validator found: %s' % e)
-
-                validation_data = sloth.config.get('provider_data') or {}
-
-                validation_status, validation_message, validator_params = validator.validate(cherrypy.request, validation_data)
-
-                custom_params = sloth.config.get('params')
-
-                if custom_params:
-                    custom_params = custom_params.dict_props
-
-                else:
-                    custom_params = {}
-
-                custom_params.update(validator_params)
-
-                params = custom_params
-
-                sloth.logger.debug(validation_message.format_map(validator_params))
-
-                if validation_status == 200:
-                    sloth.logger.info('Valid payload received')
-                
-                else:
-                    raise cherrypy.HTTPError(validation_status, validation_message.format_map(validator_params))
-
-                sloth.process(params)
+                sloth.handle(cherrypy.request)
             
             else:
                 raise cherrypy.HTTPError(404, 'This listen point does not exist.')
