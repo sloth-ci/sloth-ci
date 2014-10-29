@@ -44,7 +44,7 @@ def cli():
     if not (host and port and log_dir):
         exit('Missing server param(s).')
 
-    config_locations = parsed_args.config or join(get_default_configs_path(), 'apps'),
+    config_locations = parsed_args.config or [join(get_default_configs_path(), 'apps')]
 
     if not exists(abspath(log_dir)):
         makedirs(abspath(log_dir))
