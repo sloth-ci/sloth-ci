@@ -37,7 +37,7 @@ setup(
         'Programming Language :: Python :: 3'],
     entry_points={
         'console_scripts':
-            ['sloth-ci = sloth_ci.api:cli']
+            ['sloth-ci = sloth_ci.cli:main']
     },
     data_files=[
         (get_default_configs_path(), ['server.conf']),
