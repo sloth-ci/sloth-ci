@@ -8,12 +8,7 @@ from configs import load
 
 from .sloth import Sloth
 from .utils import ConfigChecker
-
-
-@cherrypy.tools.auth_basic(realm='sloth', checkpassword=cherrypy.lib.auth_basic.checkpassword_dict({'user': 'password'}))
-@cherrypy.expose
-def api(**kwargs):
-    return kwargs
+from .api import API
 
 
 class Bed:
@@ -26,7 +21,7 @@ class Bed:
     (This module is names "bed" because a group of sloth is actually called "bed".)
     '''
     
-    def __init__(self, host, port, log_dir, daemon, config_locations):
+    def __init__(self, sconfig, host, port, log_dir, daemon, config_locations):
         '''Configure CherryPy loop to listen for payload.
 
         :param host: host
@@ -38,8 +33,10 @@ class Bed:
         self.config_files = {}
         self.listen_points = {}
 
+        self.api = API(sconfig)
+
         routes_dispatcher = cherrypy._cpdispatch.RoutesDispatcher()
-        routes_dispatcher.connect('api', '/', api)
+        routes_dispatcher.connect('api', '/', self.api.listener)
         routes_dispatcher.connect('apps', '/{listen_to:.+}', self.listener)
 
         cherrypy.tree.mount(None, config={
@@ -55,7 +52,6 @@ class Bed:
                 'server.socket_port': port,
                 'log.access_file': abspath(join(log_dir, '_access.log')),
                 'log.error_file': abspath(join(log_dir, '_error.log')),
-                'request.dispatch': routes_dispatcher
             }
         )
 
