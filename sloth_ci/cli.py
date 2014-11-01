@@ -49,4 +49,4 @@ def main():
     if not exists(abspath(log_dir)):
         makedirs(abspath(log_dir))
 
-    Bed(host, port, log_dir, daemon, config_locations).start()
+    Bed(sconfig, host, port, log_dir, daemon, config_locations).start()
