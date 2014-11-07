@@ -1,0 +1,11 @@
+host: '[::1]'
+port: 8080
+daemon: false
+
+paths:
+    logs: logs
+    configs: [conf]
+
+api_auth:
+    login: user
+    password: password
