@@ -24,7 +24,8 @@ class Sloth:
     def __init__(self, config):
         self.config = config
 
-        self.name = slugify(splitext(basename(self.config.config_full_path))[0])
+        self.name = slugify(self.config['name'])
+        
         self.listen_to = self.config.get('listen_to') or self.name
 
         self.logger = logging.getLogger(self.name)
@@ -85,21 +86,11 @@ class Sloth:
             self.logger.critical('No matching validator found: %s' % e)
             raise HTTPError(500, 'No matching validator found: %s' % e)
 
-        validation_data = self.config.get('provider_data') or {}
+        validation_data = self.config.get('provider_data', {})
 
         validation_status, validation_message, validator_params = validator.validate(request, validation_data)
 
-        custom_params = self.config.get('params')
-
-        if custom_params:
-            custom_params = custom_params.dict_props
-
-        else:
-            custom_params = {}
-
-        custom_params.update(validator_params)
-
-        params = custom_params
+        validator_params.update(self.config.get('params', {}))
 
         self.logger.debug(validation_message.format_map(validator_params))
 
@@ -109,7 +100,7 @@ class Sloth:
         else:
             raise HTTPError(validation_status, validation_message.format_map(validator_params))
 
-        self.process(params)
+        self.process(validator_params)
 
     def process(self, params):
         '''Queue execution of actions with the given params.

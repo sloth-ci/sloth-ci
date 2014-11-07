@@ -4,7 +4,7 @@ import logging
 
 import cherrypy
 
-from configs import load
+from yaml import load
 
 from .sloth import Sloth
 from .utils import ConfigChecker
@@ -21,13 +21,10 @@ class Bed:
     (This module is names "bed" because a group of sloth is actually called "bed".)
     '''
     
-    def __init__(self, sconfig, host, port, log_dir, daemon, config_locations):
+    def __init__(self, sconfig):
         '''Configure CherryPy loop to listen for payload.
 
-        :param host: host
-        :param port: port
-        :param log_dir: directory to store logs (absolute or relative)
-        :param config_locations: Sloth app config file locations
+        :param sconfig: bed config
         '''
 
         self.config_files = {}
@@ -47,18 +44,18 @@ class Bed:
 
         cherrypy.config.update(
             {
-                'environment': 'production',
-                'server.socket_host': host,
-                'server.socket_port': port,
-                'log.access_file': abspath(join(log_dir, '_access.log')),
-                'log.error_file': abspath(join(log_dir, '_error.log')),
+                #'environment': 'production',
+                'server.socket_host': sconfig['host'],
+                'server.socket_port': sconfig['port'],
+                'log.access_file': abspath(join(sconfig['paths']['logs'], '_access.log')),
+                'log.error_file': abspath(join(sconfig['paths']['logs'], '_error.log')),
             }
         )
 
-        if daemon:
+        if sconfig['daemon']:
             cherrypy.process.plugins.Daemonizer(cherrypy.engine).subscribe()
 
-        ConfigChecker(cherrypy.engine, config_locations).subscribe()
+        ConfigChecker(cherrypy.engine, sconfig['paths']['configs']).subscribe()
 
         cherrypy.engine.subscribe('sloth-add', self.add_sloth)
         cherrypy.engine.subscribe('sloth-update', self.update_sloth)
@@ -79,7 +76,7 @@ class Bed:
         '''
 
         try:
-            config = load(config_file)
+            config = load(open(config_file))
 
             ExtendedSloth, errors = Sloth.extend(config.get('extensions'))
 
@@ -91,7 +88,7 @@ class Bed:
             listen_to = sloth.listen_to
             
             if listen_to in self.listen_points:
-                raise ValueError('Listen point %s is already taken' % listen_to)         
+                raise ValueError('Listen point %s is already taken' % listen_to)
 
             self.config_files[config_file] = sloth
 

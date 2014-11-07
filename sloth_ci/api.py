@@ -20,14 +20,18 @@ class API:
               
         @expose
         @tools.auth_basic(checkpassword=checkpassword_dict(auth_dict), realm=realm)
-        def listener(**kwargs):
-            print(kwargs)
-            self.process_request(kwargs)
+        def listener(action, params):
+            '''Listen to and route API requests.
+            
+            An API request is an HTTP request with two mandatory parameters: ``action`` and ``params``.
+
+            :param action: string corresponding to one of the available API methods.
+            :param params: a single object, a list, or a dict of params for the action.
+            '''
+            
+            self.process_request(action, params)
 
         return listener
 
-    def process_request(self, request):
-        action = request['action']
-        params = request.get('params')
-
+    def process_request(self, action, params):
         print(action, params)

@@ -1,9 +1,8 @@
-﻿from distutils.core import setup
+﻿from setuptools import setup
 
 from os.path import join
 
 import sloth_ci
-from sloth_ci.utils import get_default_configs_path
 
 
 try:
@@ -26,7 +25,7 @@ setup(
     install_requires = [
         'CherryPy',
         'awesome-slugify',
-        'configs>=3.0.2'
+        'PyYAML'
     ],
     license='MIT',
     classifiers=[
@@ -38,9 +37,5 @@ setup(
     entry_points={
         'console_scripts':
             ['sloth-ci = sloth_ci.cli:main']
-    },
-    data_files=[
-        (get_default_configs_path(), ['server.conf']),
-        (join(get_default_configs_path(), 'apps'), [])
-    ]
+    }
 )
