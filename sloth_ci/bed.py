@@ -30,7 +30,6 @@ class Bed:
         self.sconfig = sconfig
         self.bus = cherrypy.engine
 
-        self.config_files = {}
         self.listen_points = {}
 
         self.api = API(self)
@@ -91,10 +90,10 @@ class Bed:
             if listen_to in self.listen_points:
                 raise ValueError('Listen point %s is already taken' % listen_to)
 
-            self.config_files[config_source] = sloth
-
             self.listen_points[listen_to] = sloth
             sloth.logger.info('Listening on %s' % listen_to)
+
+            cherrypy.log.error('Sloth app %s added, listening on %s' % (sloth.name, listen_to))
 
         except Exception as e:
             cherrypy.log.error(
@@ -102,36 +101,35 @@ class Bed:
                 severity=logging.ERROR
             )
 
-    def update_sloth(self, config_file):
+    def update_sloth(self, listen_point, config_source):
         '''Update Sloth app config when the config file changes.
 
         Instead of just updating the config in the Sloth app, we remove the app and create it anew.
 
         This is done to guarantee that the new extensions are loaded and the listen point is updated.
 
-        :param config_file: Sloth app config file
+        :param listen_point: Sloth app listen point
+        :param config_source: updated Sloth app config source
         '''
 
-        self.remove_sloth(config_file)
-        self.add_sloth(config_file)
+        self.remove_sloth(listen_point)
+        self.add_sloth(config_source)
 
     def remove_sloth(self, listen_point):
         '''Stop Sloth app and remove it from the bed.
 
-        :param config_file: Sloth app config file
+        :param listen_point: Sloth app listen point
         '''
 
         self.listen_points.pop(listen_point).stop()
 
+        cherrypy.log.error('Sloth app at %s removed' % listen_point)
+
     def remove_all_sloths(self):
         '''Stop all active Sloth apps and remove them from the bed.'''
 
-        while self.config_files:
-            sloth = self.config_files.popitem()[1]
-
-            self.listen_points.pop(sloth.listen_to)
-
-            sloth.stop()
+        while self.listen_points:
+            self.listen_points.popitem()[1].stop()
 
     @cherrypy.expose
     @cherrypy.tools.proxy()
