@@ -58,12 +58,6 @@ class Bed:
         if sconfig['daemon']:
             cherrypy.process.plugins.Daemonizer(self.bus).subscribe()
 
-        ConfigChecker(self.bus, sconfig['paths']['configs']).subscribe()
-
-        self.bus.subscribe('sloth-add', self.add_sloth)
-        self.bus.subscribe('sloth-update', self.update_sloth)
-        self.bus.subscribe('sloth-remove', self.remove_sloth)
-    
         self.bus.subscribe('stop', self.remove_all_sloths)
 
     def start(self):
@@ -121,20 +115,13 @@ class Bed:
         self.remove_sloth(config_file)
         self.add_sloth(config_file)
 
-    def remove_sloth(self, config_file):
+    def remove_sloth(self, listen_point):
         '''Stop Sloth app and remove it from the bed.
 
         :param config_file: Sloth app config file
         '''
 
-        if config_file in self.config_files:
-            sloth = self.config_files[config_file]
-
-            self.listen_points.pop(sloth.listen_to)
-
-            self.config_files.pop(config_file)
-
-            sloth.stop()
+        self.listen_points.pop(listen_point).stop()
 
     def remove_all_sloths(self):
         '''Stop all active Sloth apps and remove them from the bed.'''

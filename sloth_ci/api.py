@@ -32,6 +32,9 @@ class API:
             '''
             
             if action == 'create_app':
-                self.bed.bus.publish('sloth-add', params)
+                return self.bed.add_sloth(params)
+
+            elif action == 'remove_app':
+                return self.bed.remove_sloth(params)
 
         return listener
