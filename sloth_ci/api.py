@@ -4,8 +4,10 @@ from cherrypy.lib.auth_basic import checkpassword_dict
 
 
 class API:
-    def __init__(self, sconfig):
-        auth = sconfig['api_auth']
+    def __init__(self, bed):
+        self.bed = bed
+        
+        auth = self.bed.sconfig['api_auth']
 
         self.listener = self._make_listener({auth['login']: auth['password']})
     
@@ -29,9 +31,7 @@ class API:
             :param params: a single object, a list, or a dict of params for the action.
             '''
             
-            self.process_request(action, params)
+            if action == 'create_app':
+                self.bed.bus.publish('sloth-add', params)
 
         return listener
-
-    def process_request(self, action, params):
-        print(action, params)

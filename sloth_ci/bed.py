@@ -27,10 +27,13 @@ class Bed:
         :param sconfig: bed config
         '''
 
+        self.sconfig = sconfig
+        self.bus = cherrypy.engine
+
         self.config_files = {}
         self.listen_points = {}
 
-        self.api = API(sconfig)
+        self.api = API(self)
 
         routes_dispatcher = cherrypy._cpdispatch.RoutesDispatcher()
         routes_dispatcher.connect('api', '/', self.api.listener)
@@ -44,7 +47,7 @@ class Bed:
 
         cherrypy.config.update(
             {
-                #'environment': 'production',
+                'environment': 'production',
                 'server.socket_host': sconfig['host'],
                 'server.socket_port': sconfig['port'],
                 'log.access_file': abspath(join(sconfig['paths']['logs'], '_access.log')),
@@ -53,31 +56,35 @@ class Bed:
         )
 
         if sconfig['daemon']:
-            cherrypy.process.plugins.Daemonizer(cherrypy.engine).subscribe()
+            cherrypy.process.plugins.Daemonizer(self.bus).subscribe()
 
-        ConfigChecker(cherrypy.engine, sconfig['paths']['configs']).subscribe()
+        ConfigChecker(self.bus, sconfig['paths']['configs']).subscribe()
 
-        cherrypy.engine.subscribe('sloth-add', self.add_sloth)
-        cherrypy.engine.subscribe('sloth-update', self.update_sloth)
-        cherrypy.engine.subscribe('sloth-remove', self.remove_sloth)
+        self.bus.subscribe('sloth-add', self.add_sloth)
+        self.bus.subscribe('sloth-update', self.update_sloth)
+        self.bus.subscribe('sloth-remove', self.remove_sloth)
     
-        cherrypy.engine.subscribe('stop', self.remove_all_sloths)
+        self.bus.subscribe('stop', self.remove_all_sloths)
 
     def start(self):
         '''Start CherryPy loop to listen for payload.'''
 
-        cherrypy.engine.start()
-        cherrypy.engine.block()
+        self.bus.start()
+        self.bus.block()
 
-    def add_sloth(self, config_file):
-        '''Create a Sloth app from a config file and app it to the bed.
-    
-        :param config_file: Sloth app config file
+    def add_sloth(self, config_source):
+        '''Create a Sloth app from a config source and add it to the bed.
+
+        :param config_source: a file object, a path to a file, or a config string
         '''
 
         try:
-            config = load(open(config_file))
+            config = load(open(config_source))
 
+        except:
+            config = load(config_source)
+
+        try:
             ExtendedSloth, errors = Sloth.extend(config.get('extensions'))
 
             sloth = ExtendedSloth(config)
@@ -86,18 +93,18 @@ class Bed:
                 sloth.logger.error(error)
 
             listen_to = sloth.listen_to
-            
+
             if listen_to in self.listen_points:
                 raise ValueError('Listen point %s is already taken' % listen_to)
 
-            self.config_files[config_file] = sloth
+            self.config_files[config_source] = sloth
 
             self.listen_points[listen_to] = sloth
             sloth.logger.info('Listening on %s' % listen_to)
 
         except Exception as e:
             cherrypy.log.error(
-                'Could not add Sloth app config %s: %s' % (config_file, e),
+                'Could not add Sloth app from the config source %s: %s' % (config_source, e),
                 severity=logging.ERROR
             )
 
@@ -107,7 +114,7 @@ class Bed:
         Instead of just updating the config in the Sloth app, we remove the app and create it anew.
 
         This is done to guarantee that the new extensions are loaded and the listen point is updated.
-    
+
         :param config_file: Sloth app config file
         '''
 
@@ -116,7 +123,7 @@ class Bed:
 
     def remove_sloth(self, config_file):
         '''Stop Sloth app and remove it from the bed.
-    
+
         :param config_file: Sloth app config file
         '''
 
@@ -124,9 +131,9 @@ class Bed:
             sloth = self.config_files[config_file]
 
             self.listen_points.pop(sloth.listen_to)
-    
+
             self.config_files.pop(config_file)
-        
+
             sloth.stop()
 
     def remove_all_sloths(self):
@@ -143,7 +150,7 @@ class Bed:
     @cherrypy.tools.proxy()
     def listener(self, listen_to, **kwargs):
         '''Listens for payloads and routes them to the responsible Sloth app.
-    
+
         :param listen_to: Sloth app listen point (part of the URL after the server host)
         '''
 
@@ -151,6 +158,6 @@ class Bed:
 
         if sloth:
             sloth.handle(cherrypy.request)
-            
+
         else:
             raise cherrypy.HTTPError(404, 'This listen point does not exist.')
