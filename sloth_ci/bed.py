@@ -1,5 +1,7 @@
 from importlib import import_module
-from os.path import abspath, join
+from os.path import abspath, join, exists
+from os import makedirs
+
 import logging
 
 import cherrypy
@@ -44,13 +46,18 @@ class Bed:
             }
         })
 
+        log_dir = sconfig['paths']['logs']
+
+        if not exists(abspath(log_dir)):
+            makedirs(abspath(log_dir))
+        
         cherrypy.config.update(
             {
                 'environment': 'production',
                 'server.socket_host': sconfig['host'],
                 'server.socket_port': sconfig['port'],
-                'log.access_file': abspath(join(sconfig['paths']['logs'], '_access.log')),
-                'log.error_file': abspath(join(sconfig['paths']['logs'], '_error.log')),
+                'log.access_file': abspath(join(log_dir, '_access.log')),
+                'log.error_file': abspath(join(log_dir, '_error.log')),
             }
         )
 
@@ -93,12 +100,13 @@ class Bed:
             self.listen_points[listen_to] = sloth
             sloth.logger.info('Listening on %s' % listen_to)
 
-            cherrypy.log.error('Sloth app %s added, listening on %s' % (sloth.name, listen_to))
+            cherrypy.log.error('Sloth app added, listening on %s' % listen_to)
+
+            return listen_to
 
         except Exception as e:
             cherrypy.log.error(
                 'Could not add Sloth app from the config source %s: %s' % (config_source, e),
-                severity=logging.ERROR
             )
 
     def update_sloth(self, listen_point, config_source):
@@ -121,9 +129,15 @@ class Bed:
         :param listen_point: Sloth app listen point
         '''
 
-        self.listen_points.pop(listen_point).stop()
+        try:
+            self.listen_points.pop(listen_point).stop()
 
-        cherrypy.log.error('Sloth app at %s removed' % listen_point)
+            cherrypy.log.error('Sloth app at %s removed' % listen_point)
+
+            return 'OK'
+        
+        except:
+            pass
 
     def remove_all_sloths(self):
         '''Stop all active Sloth apps and remove them from the bed.'''

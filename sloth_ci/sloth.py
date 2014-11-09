@@ -31,6 +31,7 @@ class Sloth:
         self.logger = logging.getLogger(self.name)
         self.logger.setLevel(logging.INFO)
         self.processing_logger = self.logger.getChild('processing')
+        self.log_handlers = {}
 
         self.queue = deque()
         self._queue_lock = False
@@ -55,9 +56,9 @@ class Sloth:
         if extensions:
             for extension in extensions:
                 try:
-                    ext = import_module('.ext.%s' % extension, package=__package__)
+                    ext = import_module('.ext.%s' % extensions[extension]['module'], package=__package__)
             
-                    ExtendedSloth = ext.extend(ExtendedSloth)
+                    ExtendedSloth = ext.extend(ExtendedSloth, extension)
 
                 except Exception as e:
                     errors.append('Could not load extension %s: %s' % (extension, e))
