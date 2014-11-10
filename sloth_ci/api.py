@@ -1,5 +1,7 @@
 from cherrypy import expose
 from cherrypy import tools
+from cherrypy import HTTPError
+
 from cherrypy.lib.auth_basic import checkpassword_dict
 
 
@@ -32,9 +34,17 @@ class API:
             '''
             
             if action == 'create_app':
-                return self.bed.add_sloth(params)
+                try:
+                    return self.bed.add_sloth(params)
+
+                except KeyError as e:
+                    raise HTTPError(409, '%s' % e)
 
             elif action == 'remove_app':
-                return self.bed.remove_sloth(params)
+                try:
+                    return self.bed.remove_sloth(params)
+
+                except KeyError as e:
+                    raise HTTPError(404, '%s' % e)
 
         return listener
