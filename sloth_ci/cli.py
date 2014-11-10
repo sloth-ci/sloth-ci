@@ -8,7 +8,7 @@ def main():
     '''Main CLI function.'''
 
     parser = ArgumentParser()
-    parser.add_argument('sconfig', help='Server config.')
+    parser.add_argument('-s', '--sconfig', help='Server config.', default='sloth.yml')
 
     parsed_args = parser.parse_args()
 
