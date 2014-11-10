@@ -2,9 +2,7 @@ host: '[::1]'
 port: 8080
 daemon: false
 
-paths:
-    logs: logs
-    configs: [conf]
+log_dir: logs
 
 api_auth:
     login: user
