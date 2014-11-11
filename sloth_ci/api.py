@@ -33,7 +33,7 @@ class API:
             :param params: a single object, a list, or a dict of params for the action.
             '''
 
-            if action == 'create_app':
+            if action == 'create-app':
                 if not 'config_source' in kwargs:
                     raise HTTPError(400, 'Missing parameter config_source')
                 
@@ -46,7 +46,7 @@ class API:
                 except KeyError as e:
                     raise HTTPError(409, 'Listen point %s is taken' % e)
 
-            elif action == 'remove_app':
+            elif action == 'remove-app':
                 if not 'listen_point' in kwargs:
                     raise HTTPError(400, 'Missing parameter listen_point')
                 
@@ -58,9 +58,14 @@ class API:
 
             elif action == 'restart':
                 self.bed.bus.restart()
+                return('Restarting Sloth CI')
 
             elif action == 'stop':
                 self.bed.bus.exit()
+                return('Stopping Sloth CI')
+
+            else:
+                raise HTTPError(404, 'Invalid action')
                 
 
         return listener
