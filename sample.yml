@@ -6,9 +6,15 @@ provider_data:
     message: test
 
 extensions:
-    logs:
-        log_dir: logs
+    debug_logs:
+        module: logs
+        path: debug_logs
+        filename: test_debug.log
         level: DEBUG
+    info_logs:
+        module: logs
+        path: info_logs
+        level: INFO
 
 actions:
     - powershell Write-Host {message}
