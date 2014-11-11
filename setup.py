@@ -24,7 +24,8 @@ setup(
         'CherryPy',
         'Routes',
         'awesome-slugify',
-        'PyYAML'
+        'PyYAML',
+        'docopt'
     ],
     license='MIT',
     classifiers=[
