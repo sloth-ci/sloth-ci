@@ -6,9 +6,9 @@ import sloth_ci
 
 
 try:
-    readme = open('README.rst').read()
+    long_description = open('README.rst').read()
 except:
-    readme = sloth_ci.__long_description__
+    long_description = sloth_ci.__long_description__
 
 
 setup(
@@ -16,14 +16,13 @@ setup(
     version=sloth_ci.__version__,
     author=sloth_ci.__author__,
     description=sloth_ci.__description__,
-    long_description=readme,
+    long_description=long_description,
     author_email=sloth_ci.__author_email__,
     url='https://bitbucket.org/moigagoo/sloth-ci',
-    packages=[
-        'sloth_ci'
-    ],
+    packages=['sloth_ci'],
     install_requires = [
         'CherryPy',
+        'routes',
         'awesome-slugify',
         'PyYAML'
     ],
@@ -33,7 +32,10 @@ setup(
         'Intended Audience :: Developers',
         'Natural Language :: English',
         'Programming Language :: Python',
-        'Programming Language :: Python :: 3'],
+        'Programming Language :: Python :: 3',
+        'Operating System :: Microsoft :: Windows',
+        'Operating System :: Unix',
+        'Framework :: CherryPy'],
     entry_points={
         'console_scripts':
             ['sloth-ci = sloth_ci.cli:main']

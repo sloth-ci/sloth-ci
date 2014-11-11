@@ -5,5 +5,3 @@ __version__ = '0.9.2'
 __author__ = 'Konstantin Molchanov'
 __author_email__ = 'moigagoo@live.com'
 __license__ = 'MIT'
-
-from .sloth import Sloth
