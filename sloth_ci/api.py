@@ -24,7 +24,7 @@ class API:
               
         @expose
         @tools.auth_basic(checkpassword=checkpassword_dict(auth_dict), realm=realm)
-        def listener(action, params):
+        def listener(action, **kwargs):
             '''Listen to and route API requests.
             
             An API request is an HTTP request with two mandatory parameters: ``action`` and ``params``.
@@ -32,19 +32,26 @@ class API:
             :param action: string corresponding to one of the available API methods.
             :param params: a single object, a list, or a dict of params for the action.
             '''
-            
-            if action == 'create_app':
-                try:
-                    return self.bed.add_sloth(params)
 
-                except KeyError as e:
-                    raise HTTPError(409, '%s' % e)
+            if action == 'create_app':
+                if not 'config_source' in kwargs:
+                    raise HTTPError(400, 'Missing parameter config_source')
+                
+                try:
+                    return self.bed.add_sloth(kwargs['config_source'])
+
+                except ValueError as e:
+                    raise HTTPError(409, 'Listen point %s is taken' % e)
 
             elif action == 'remove_app':
+                if not 'listen_point' in kwargs:
+                    raise HTTPError(400, 'Missing parameter listen_point')
+                
                 try:
-                    return self.bed.remove_sloth(params)
+                    return self.bed.remove_sloth(kwargs['listen_point'])
 
                 except KeyError as e:
-                    raise HTTPError(404, '%s' % e)
+                    raise HTTPError(404, 'Listen point %s not found' % e)
+
 
         return listener
