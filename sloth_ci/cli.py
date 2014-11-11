@@ -8,12 +8,17 @@ def main():
     '''Main CLI function.'''
 
     parser = ArgumentParser()
-    parser.add_argument('-s', '--sconfig', help='Server config.', default='sloth.yml')
+    parser.add_argument('-c', '--config', help='Server config.', default='sloth.yml')
 
     parsed_args = parser.parse_args()
 
-    sconfig_file = parsed_args.sconfig
+    path_to_config_file = parsed_args.config
 
-    sconfig = load(open(sconfig_file))
+    try:
+        Bed(load(open(path_to_config_file))).start()
+    
+    except FileNotFoundError:
+        print('Either put a sloth.yml file in this directory or specify the path with -c.')
 
-    Bed(sconfig).start()
+    except Exception as e:
+        print('Invalid config file.')
