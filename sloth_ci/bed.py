@@ -85,6 +85,9 @@ class Bed:
         except:
             config = load(config_source)
 
+        if not 'name' in config or not 'provider' in config:
+            raise ValueError(config_source)
+
         try:
             ExtendedSloth, errors = Sloth.extend(config.get('extensions'))
 
@@ -96,7 +99,7 @@ class Bed:
             listen_to = sloth.listen_to
 
             if listen_to in self.listen_points:
-                raise ValueError(listen_to)
+                raise KeyError(listen_to)
 
             self.listen_points[listen_to] = sloth
             sloth.logger.info('Listening on %s' % listen_to)
