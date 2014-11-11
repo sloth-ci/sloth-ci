@@ -85,9 +85,6 @@ class Bed:
         except:
             config = load(config_source)
 
-        if not 'name' in config or not 'provider' in config:
-            raise ValueError(config_source)
-
         try:
             ExtendedSloth, errors = Sloth.extend(config.get('extensions'))
 
