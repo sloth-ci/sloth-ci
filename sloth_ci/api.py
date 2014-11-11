@@ -40,11 +40,11 @@ class API:
                 try:
                     return self.bed.add_sloth(kwargs['config_source'])
 
-                except ValueError as e:
-                    raise HTTPError(500, 'Invalid config source %s' % e)
-
                 except KeyError as e:
                     raise HTTPError(409, 'Listen point %s is taken' % e)
+
+                except Exception as e:
+                    raise HTTPError(500, 'Could not create app: %s' % e)
 
             elif action == 'remove-app':
                 if not 'listen_point' in kwargs:
