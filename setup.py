@@ -22,7 +22,7 @@ setup(
     packages=['sloth_ci'],
     install_requires = [
         'CherryPy',
-        'routes',
+        'Routes',
         'awesome-slugify',
         'PyYAML'
     ],
