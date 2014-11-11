@@ -41,6 +41,9 @@ class API:
                     return self.bed.add_sloth(kwargs['config_source'])
 
                 except ValueError as e:
+                    raise HTTPError(500, 'Invalid config source %s' % e)
+
+                except KeyError as e:
                     raise HTTPError(409, 'Listen point %s is taken' % e)
 
             elif action == 'remove_app':
@@ -53,5 +56,11 @@ class API:
                 except KeyError as e:
                     raise HTTPError(404, 'Listen point %s not found' % e)
 
+            elif action == 'restart':
+                self.bed.bus.restart()
+
+            elif action == 'stop':
+                self.bed.bus.exit()
+                
 
         return listener
