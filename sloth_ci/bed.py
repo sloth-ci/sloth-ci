@@ -96,7 +96,7 @@ class Bed:
             listen_to = sloth.listen_to
 
             if listen_to in self.listen_points:
-                raise KeyError('Listen point %s is already taken' % listen_to)
+                raise ValueError(listen_to)
 
             self.listen_points[listen_to] = sloth
             sloth.logger.info('Listening on %s' % listen_to)
@@ -117,7 +117,7 @@ class Bed:
 
         try:
             if not listen_point in self.listen_points:
-                raise KeyError('Listen point %s not found' % listen_point)
+                raise KeyError(listen_point)
 
             self.listen_points.pop(listen_point).stop()
 
