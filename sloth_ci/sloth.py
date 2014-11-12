@@ -24,10 +24,8 @@ class Sloth:
     def __init__(self, config):
         self.config = config
 
-        self.name = slugify(self.config['name'])
+        self.name = slugify(self.config['listen_point'])
         
-        self.listen_to = self.config.get('listen_to') or self.name
-
         self.logger = logging.getLogger(self.name)
         self.logger.setLevel(logging.INFO)
         self.processing_logger = self.logger.getChild('processing')
