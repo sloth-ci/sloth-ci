@@ -37,7 +37,7 @@ class CLI:
             self.api_auth = (self.config['api_auth']['login'], self.config['api_auth']['password'])
 
         except FileNotFoundError:
-            print('Either put a "sloth.yml" file in this directory or pick a config file with "-c."')
+            print('Either put a "sloth.yml" file in this directory or pick a proper config file with "-c."')
             exit()
 
     def start(self):
@@ -45,34 +45,38 @@ class CLI:
             Bed(self.config).start()
 
         except Exception as e:
-            print('Invalid config file.')
+            print('Could not start Sloth CI: %s' % e)
 
     def _send_api_request(self, data):
-        return post(self.api_url, auth=self.api_auth, data=data)
+        response = post(self.api_url, auth=self.api_auth, data=data)
+
+        return response.status_code, response.text.strip()
 
     def create_app(self, config_source):
-        response = self._send_api_request({'action': 'create-app', 'config_source': config_source})
+        status, text = self._send_api_request({'action': 'create-app', 'config_source': config_source})
         
-        if response.status_code == 200:
-            print('App created, listening on %s' % response.text)
+        if status == 200:
+            print('App created, listening on %s' % text)
 
         else:
-            print('App was not created: %s' % response.text)
+            print('App was not created: %s' % text)
 
     def remove_app(self, listen_point):
-        response = self._send_api_request({'action': 'remove-app', 'listen_point': listen_point})
+        status, text = self._send_api_request({'action': 'remove-app', 'listen_point': listen_point})
         
-        if response.status_code == 200:
-            print('App on listen point %s removed' % response.text)
+        if status == 200:
+            print('App on listen point %s removed' % text)
 
         else:
-            print('App was not removed: %s' % response.reason)
+            print('App was not removed: %s' % text)
 
     def restart(self):
-        print(self._send_api_request({'action': 'restart'}).text)
+        status, text = self._send_api_request({'action': 'restart'})
+        print(text)
 
     def stop(self):
-        print(self._send_api_request({'action': 'stop'}).text)
+        status, text = self._send_api_request({'action': 'stop'})
+        print(text)
 
 
 def main():
