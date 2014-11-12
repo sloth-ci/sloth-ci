@@ -105,6 +105,10 @@ class Bed:
             return listen_point
 
         except KeyError as e:
+            cherrypy.log.error('Could not add Sloth app from the config source %s: the %s param is missing' % (config_source, e))
+            raise
+
+        except ValueError as e:
             cherrypy.log.error('Could not add Sloth app from the config source %s: the listen point %s is already taken' % (config_source, e))
             raise
 
