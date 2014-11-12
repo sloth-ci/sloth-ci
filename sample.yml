@@ -1,8 +1,8 @@
 listen_point: h/test
 
-provider: dummy
-provider_data:
-    message: test
+provider:
+    dummy:
+        message: test
 
 extensions:
     debug_logs:

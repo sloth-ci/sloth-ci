@@ -76,16 +76,15 @@ class Sloth:
         )
 
         try:
-            validator = import_module(
-                '.validators.%s' % self.config['provider'],
-                package=__package__
-            )
+            provider, provider_data = self.config['provider'].popitem()
+
+            validator = import_module('.validators.%s' % provider, package=__package__)
 
         except ImportError as e:
             self.logger.critical('No matching validator found: %s' % e)
             raise HTTPError(500, 'No matching validator found: %s' % e)
 
-        validation_data = self.config.get('provider_data', {})
+        validation_data = provider_data or {}
 
         validation_status, validation_message, validator_params = validator.validate(request, validation_data)
 
