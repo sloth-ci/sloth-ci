@@ -17,6 +17,8 @@ Options:
 '''
 
 
+from sys import exit
+
 from docopt import docopt
 
 from yaml import load
@@ -28,35 +30,49 @@ from .bed import Bed
 
 class CLI:
     def __init__(self, path_to_config_file):
-        self.sconfig = load(open(path_to_config_file))
+        try:
+            self.config = load(open(path_to_config_file))
+        
+            self.api_url = 'http://%s:%d' % (self.config['host'], self.config['port'])
+            self.api_auth = (self.config['api_auth']['login'], self.config['api_auth']['password'])
 
-        self.api_url = 'http://%s:%d' % (self.sconfig['host'], self.sconfig['port'])
-        self.api_auth = (self.sconfig['api_auth']['login'], self.sconfig['api_auth']['password'])
+        except FileNotFoundError:
+            print('Either put a "sloth.yml" file in this directory or pick a config file with "-c."')
+            exit()
 
     def start(self):
         try:
-            Bed(self.sconfig).start()
-
-        except FileNotFoundError:
-            print('Either put a sloth.yml file in this directory or specify the path with -c.')
+            Bed(self.config).start()
 
         except Exception as e:
             print('Invalid config file.')
 
     def _send_api_request(self, data):
-        return post(self.api_url, auth=self.api_auth, data=data).content
+        return post(self.api_url, auth=self.api_auth, data=data)
 
     def create_app(self, config_source):
-        print(self._send_api_request({'action': 'create-app', 'config_source': config_source}))
+        response = self._send_api_request({'action': 'create-app', 'config_source': config_source})
+        
+        if response.status_code == 200:
+            print('App created, listening on %s' % response.text)
+
+        else:
+            print('App was not created: %s' % response.text)
 
     def remove_app(self, listen_point):
-        print(self._send_api_request({'action': 'remove-app', 'listen_point': listen_point}))
+        response = self._send_api_request({'action': 'remove-app', 'listen_point': listen_point})
+        
+        if response.status_code == 200:
+            print('App on listen point %s removed' % response.text)
+
+        else:
+            print('App was not removed: %s' % response.reason)
 
     def restart(self):
-        print(self._send_api_request({'action': 'restart'}))
+        print(self._send_api_request({'action': 'restart'}).text)
 
     def stop(self):
-        print(self._send_api_request({'action': 'stop'}))
+        print(self._send_api_request({'action': 'stop'}).text)
 
 
 def main():
