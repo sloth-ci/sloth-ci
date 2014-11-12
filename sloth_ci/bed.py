@@ -37,7 +37,7 @@ class Bed:
 
         self._setup_routing()
         
-        log_dir = abspath(self.config['log_dir'])
+        log_dir = abspath(self.config.get('log_dir', '.'))
         
         if not exists(log_dir):
             makedirs(log_dir)
