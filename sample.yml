@@ -16,8 +16,8 @@ extensions:
         level: INFO
 
 actions:
-    - powershell Write-Host {message}
-    - powershell Write-Host {foo}
+    - touch {foo}.txt
+    - echo Hello {message}
     
 params:
     foo: bar
