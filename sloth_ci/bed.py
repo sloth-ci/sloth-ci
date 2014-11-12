@@ -22,13 +22,13 @@ class Bed:
     (This module is names "bed" because a group of sloth is actually called "bed".)
     '''
     
-    def __init__(self, sconfig):
+    def __init__(self, config):
         '''Configure CherryPy loop to listen for payload.
 
-        :param sconfig: bed config
+        :param config: bed config
         '''
 
-        self.sconfig = sconfig
+        self.config = config
         self.bus = cherrypy.engine
 
         self.listen_points = {}
@@ -37,22 +37,22 @@ class Bed:
 
         self._setup_routing()
         
-        log_dir = sconfig.get('log_dir', 'sloth_logs')
+        log_dir = abspath(self.config['log_dir'])
         
-        if not exists(abspath(log_dir)):
-            makedirs(abspath(log_dir))
+        if not exists(log_dir):
+            makedirs(log_dir)
         
         cherrypy.config.update(
             {
                 'environment': 'production',
-                'server.socket_host': sconfig['host'],
-                'server.socket_port': sconfig['port'],
-                'log.access_file': abspath(join(log_dir, '_access.log')),
-                'log.error_file': abspath(join(log_dir, '_error.log')),
+                'server.socket_host': self.config['host'],
+                'server.socket_port': self.config['port'],
+                'log.access_file': join(log_dir, '_access.log'),
+                'log.error_file': join(log_dir, '_error.log'),
             }
         )
 
-        if sconfig.get('daemon'):
+        if config.get('daemon'):
             cherrypy.process.plugins.Daemonizer(self.bus).subscribe()
 
         self.bus.subscribe('stop', self.remove_all_sloths)
@@ -63,7 +63,7 @@ class Bed:
         routes_dispatcher = cherrypy._cpdispatch.RoutesDispatcher()
 
         routes_dispatcher.connect('api', '/', self.api.listener)
-        routes_dispatcher.connect('apps', '/{listen_to:.+}', self.listener)
+        routes_dispatcher.connect('apps', '/{listen_point:.+}', self.listener)
 
         cherrypy.tree.mount(None, config={'/': {'request.dispatch': routes_dispatcher}})
 
@@ -86,24 +86,27 @@ class Bed:
             config = load(config_source)
 
         try:
-            ExtendedSloth, errors = Sloth.extend(config.get('extensions'))
+            listen_point = config['listen_point']
 
+            if listen_point in self.listen_points:
+                raise ValueError(listen_point)
+
+            ExtendedSloth, errors = Sloth.extend(config.get('extensions'))
             sloth = ExtendedSloth(config)
 
             for error in errors:
                 sloth.logger.error(error)
+            
+            self.listen_points[listen_point] = sloth
+            sloth.logger.info('Listening on %s' % listen_point)
 
-            listen_to = sloth.listen_to
+            cherrypy.log.error('Sloth app added, listening on %s' % listen_point)
 
-            if listen_to in self.listen_points:
-                raise KeyError(listen_to)
+            return listen_point
 
-            self.listen_points[listen_to] = sloth
-            sloth.logger.info('Listening on %s' % listen_to)
-
-            cherrypy.log.error('Sloth app added, listening on %s' % listen_to)
-
-            return listen_to
+        except KeyError as e:
+            cherrypy.log.error('Could not add Sloth app from the config source %s: the listen point %s is already taken' % (config_source, e))
+            raise
 
         except Exception as e:
             cherrypy.log.error('Could not add Sloth app from the config source %s: %s' % (config_source, e))
@@ -137,13 +140,13 @@ class Bed:
 
     @cherrypy.expose
     @cherrypy.tools.proxy()
-    def listener(self, listen_to, **kwargs):
+    def listener(self, listen_point, **kwargs):
         '''Listens for payloads and routes them to the responsible Sloth app.
 
-        :param listen_to: Sloth app listen point (part of the URL after the server host)
+        :param listen_point: Sloth app listen point (part of the URL after the server host)
         '''
 
-        sloth = self.listen_points.get(listen_to)
+        sloth = self.listen_points.get(listen_point)
 
         if sloth:
             sloth.handle(cherrypy.request)
