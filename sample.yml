@@ -1,5 +1,4 @@
-name: test
-listen_to: h/test
+listen_point: h/test
 
 provider: dummy
 provider_data:
