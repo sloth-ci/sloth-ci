@@ -1,6 +1,6 @@
-********
-Sloth CI
-********
+***********************
+Sloth CI: CI for Humans
+***********************
 
 .. image:: https://pypip.in/version/sloth-ci/badge.svg?style=flat
     :target: https://pypi.python.org/pypi/sloth-ci/
@@ -18,118 +18,97 @@ Sloth CI
     :target: https://pypi.python.org/pypi/sloth-ci/
     :alt: Development Status
 
-CI can be a bitch.
+Sloth CI is an easy-to-use, lightweight, extendable tool that executes actions you need when certain events happen.
 
-Jenkins is nice, but it's Java, thus the memory consumption.
+Sloth CI was created because Jenkins is too heavy and Buildbot was too hard to learn.
 
-Buildbot is really hairy and weird.
-
-**Sloth CI** is simple. Try it!
-
-.. image:: https://dl.dropbox.com/u/43859367/napoleon_sloth.jpg
+.. image:: ../napoleon_sloth.jpg
     :align: center
     :width: 200
 
-Installation
+Requirements
 ============
 
-Sloth CI can be installed with pip::
+Sloth CI runs with Python 3 on Windows, Linux, and (supposedly) Mac.
 
-    pip install sloth-ci
+Install
+=======
 
-.. note::
+Install Sloth CI with pip:
 
-    Sloth CI will work only in Python 3. It *could have been* ported to Python 2 with minimal effort, but the priorities are on the functionality now. Python 3 is better anyway.
+.. code-block:: bash
 
-This will install the Python package and add the ``sloth-ci`` shell command.
+    $ pip install sloth-ci
 
-The repo is at `bitbucket.org/moigagoo/sloth-ci <https://bitbucket.org/moigagoo/sloth-ci>`_.
+Configure
+=========
 
-Read the full documentation at `sloth-ci.rtfd.org <http://sloth-ci.rtfd.org>`_
+Create a file named *sloth.yml* in any directory and cd to that directory.
 
-Install provider(s)
-===================
+Here's how your sloth.yml can look like:
 
-Sloth CI listens to payload from *providers* to trigger your actions.
+.. code-block:: yaml
 
-Invcoming payload form a particular provider is valiadated by the respective *validator*.
+    host: localhost
+    
+    port: 8080
+    
+    daemon: true
+    
+    log_dir: /var/logs/sloth-ci
 
-Validators can be installed with pip::
+    api_auth:
+        login: admin
+        password: supersecret
 
-    pip install sloth-ci.validators.bitbucket
-
-...or::
-
-    pip install sloth-ci.validators.github
-
-...or roll-your-own with::
-
-    pip install sloth-ci.validators.dummy
-
-Validators are maintained in a separate repo at  https://bitbucket.org/moigagoo/sloth-ci-validators.
-
-Install app extensions
-======================
-
-Additional functions like logging to a file and non-default executors are available via *extensions*.
-
-Extensions are installed via pip::
-
-	pip install sloth-ci.ext.logs
-
-Dummy extension  (just like the Dummy validator) can be referred to while developing your own extensions::
-
-	pip install sloth-ci.ext.dummy
-
-Extensions are maintained in a separate repo at  https://bitbucket.org/moigagoo/sloth-ci-extensions.
-
-Usage
+Start
 =====
 
-Use the ``sloth-ci`` command to launch Sloth CI::
+Start the Sloth CI server with:
 
-    sloth-ci [-h] [--sconfig SCONFIG] [--host HOST] [--port PORT] [--log_dir LOG_DIR] config [config ...]
+.. code-block:: bash
 
-    positional arguments:
-        config             Sloth app config(s); config per app.
+   $ sloth-ci start
 
-    optional arguments:
-        -h, --help         show help message and exit
-        --sconfig SCONFIG  Server config
-        --host HOST        Host for the Sloth server (overrides value in sconfig)
-        --port PORT        Port for the Sloth server (overrides value in sconfig)
-        --log_dir LOG_DIR  Where the log files should be stored (overrides value in sconfig)
+Create App
+==========
 
-Server Config Example
----------------------
+Create a file called like *myapp.yml*:
 
-::
+.. code-block: yaml
 
-    host = 0.0.0.0
-    port = 8080
-    log_dir = /var/log/sloth/
+    listen_point: myapp/incoming
 
-Sloth App Config Example
-------------------------
+    work_dir: ~/projects
 
-::
+    provider:
+        bitbucket:
+            repo: username/repository
 
-    listen_to = sloth-listener
+    extensions:
+        error_logs:
+            module: logs
+            path: /var/logs/sloth-ci/myapp
+            filename: myapp_errors.log
+            level: ERROR
 
-    work_dir = /home/sloth/my_project
+    actions:
+        hg pull {branch} -u {repo_dir}
+        sphinx-build -aE {repo_dir} {output_dir}
+        
+    params:
+        repo_dir: repository
+        output_dir: /var/www/myapp_docs 
 
-    exec_timeout = 5
+Create the app from the config:
 
-    provider = bitbucket
+.. code-block:: bash
 
-    stop_on_first_fail = True
+    $ sloth-ci create-app myapp.yml
+    App created, listening on myapp/incoming
 
-    [provider_data]
-    repo = moigagoo/sloth-ci
+.. note:: Run ``sloth-ci create-app`` from the directory with the sloth.yml file.
 
-    [params]
-    foo = bar
+That's it! Your app now listens for payload from Bitbucket at http://localhost:8080/myapp/incoming.
 
-    [actions]
-    echo Got a commit to {branch}
-    echo {foo}
+Create a hook on Bitbucket, and you docs will be automatically built on every push to the repo.
