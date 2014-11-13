@@ -22,10 +22,6 @@ Sloth CI is an easy-to-use, lightweight, extendable tool that executes actions y
 
 Sloth CI was created because Jenkins is too heavy and Buildbot was too hard to learn.
 
-.. image:: napoleon_sloth.jpg
-    :align: center
-    :width: 200
-
 Requirements
 ============
 
