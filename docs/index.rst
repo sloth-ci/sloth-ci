@@ -1,102 +1,108 @@
-***********************
+﻿***********************
 Sloth CI: CI for Humans
 ***********************
 
-.. image:: https://pypip.in/v/sloth-ci/badge.png
+.. image:: https://pypip.in/version/sloth-ci/badge.svg?style=flat
     :target: https://pypi.python.org/pypi/sloth-ci/
     :alt: Latest Version
 
-.. image:: https://pypip.in/d/sloth-ci/badge.png
+.. image:: https://pypip.in/download/sloth-ci/badge.svg?style=flat
     :target: https://pypi.python.org/pypi/sloth-ci/
     :alt: Downloads
 
-.. image:: https://pypip.in/wheel/sloth-ci/badge.png
+.. image:: https://pypip.in/wheel/sloth-ci/badge.svg?style=flat
     :target: https://pypi.python.org/pypi/sloth-ci/
     :alt: Wheel Status
 
+.. image:: https://pypip.in/status/sloth-ci/badge.svg?style=flat
+    :target: https://pypi.python.org/pypi/sloth-ci/
+    :alt: Development Status
 
 .. toctree::
     :maxdepth: 2
     :hidden:
 
-    apidocs/index
+    examples
 
-
-CI can be a bitch.
-
-Jenkins is nice, but it's Java, thus the memory consumption.
-
-Buildbot is really hairy and weird.
-
-**Sloth CI** is simple. Try it!
+Sloth CI is an easy-to-use, lightweight, extendible tool that does whatever you tell it to when a certain things happens.
 
 .. image:: ../napoleon_sloth.jpg
     :align: center
     :width: 200
 
 
+Requirements
+============
+
+Sloth CI runs with Python 3 on Windows, Linux, and (supposedly) Mac.
+
 Installation
 ============
 
-Sloth CI can be installed with pip::
+Install Sloth CI with pip::
 
     pip install sloth-ci
 
-.. note::
 
-    Sloth CI will work only in Python 3. It *could have been* ported to Python 2 with minimal effort, but the priorities are on the functionality now. Python 3 is better anyway.
+This will install the Python package and the ``sloth-ci`` shell command.
 
-This will install the Python package and add the ``sloth-ci`` shell command.
+It will also copy the default server config to the path depending on your system:
+
+    -   *$HOME\\AppData\\Local\\sloth-ci\\configs* for Windows
+    -   */etc/sloth-ci/configs* for Linux
 
 Usage
 =====
 
 Use the ``sloth-ci`` command to launch Sloth CI::
 
-    sloth-ci [-h] [--sconfig SCONFIG] [--host HOST] [--port PORT] [--log_dir LOG_DIR] config [config ...]
+    usage: sloth-ci [-h] [-s SCONFIG] [-H HOST] [-p PORT] [-l LOG_DIR] [-d] [config [config ...]]
 
     positional arguments:
-        config             Sloth app config files or dirs.
+      config                Sloth app config files or dirs.
 
     optional arguments:
-        -h, --help         show help message and exit
-        --sconfig SCONFIG  Server config
-        --host HOST        Host for the Sloth server (overrides value in sconfig)
-        --port PORT        Port for the Sloth server (overrides value in sconfig)
-        --log_dir LOG_DIR  Where the log files should be stored (overrides value in sconfig)
+      -h, --help            show this help message and exit
+      -s SCONFIG, --sconfig SCONFIG
+                            Server config.
+      -H HOST, --host HOST  Host for the Sloth server (overrides value in
+                            sconfig).
+      -p PORT, --port PORT  Port for the Sloth server (overrides value in
+                            sconfig).
+      -l LOG_DIR, --log_dir LOG_DIR
+                            Where the log files should be stored (overrides value
+                            in sconfig).
+      -d, --daemon          Run as daemon.
 
+Most of these params you don't need. For example, if you're on Linux, you can just launch Sloth CI with ``sloth-ci -d``. The server config will be taken from the */etc/sloth-ci/configs/server.conf* file, and you can just put the app configs in */etc/sloth-ci/configs/apps*—Sloth CI will add new apps on the fly.
+
+By default, the logs are stored in */var/logs/sloth-ci* on Linux and in *$HOME\\AppData\\sloth-ci\\logs* on Windows.
+
+You can override all default params explicitly when calling the script.
+
+See some examples of hopw you can use Sloth CI on :doc:`this page <examples>`.
 
 .. versionadded:: 0.5.1
 
 The ``config`` param can point either to a file or a directory. In the latter case, all the config files within the directory will be used.
 
-Server Config Example
+Minimal Server Config
 ---------------------
 
 ::
 
     host = 0.0.0.0
     port = 8080
-    log_dir = /var/log/sloth/
 
-Sloth App Config Example
-------------------------
+Minimal App Config
+------------------
 
 ::
 
-    listen_to = /sloth-listener
-
-    work_dir = /home/sloth/my_project
-
     provider = bitbucket
-
-    stop_on_first_fail = True
 
     [provider_data]
     repo = moigagoo/sloth-ci
-
-    [params]
-    foo = bar
 
     [actions]
     echo Got a commit to {branch}
@@ -110,25 +116,21 @@ Optional param `stop_on_first_fail` defined if the queue processing should stop 
 
 The `params` section added.
 
+Extensions And Validators
+-------------------------
 
-Concept
-=======
+Sloth CI per se implements only the basic thing—it just runs the actions on the machine it is laucnhed on. No logging or remote execution. Strictly speaking, raw Sloth CI can't do anything, because it doesn't know what to listen to.
 
-Here is how this whole thing works:
+So, here come **validators**. There're currently three public validators: *github*, *bitbucket*, and *dummy*. They correspond to, respectively, GitHub commit hooks, Bitbucket commit hooks, and a simple GET request with the ``message`` param. Validators live in a `separate repo <http://bitbucket.org/moigagoo/sloth-ci-validators>`_.
 
-#.  A *provider* emits a message on some event. For example, a BitBucket repository emits a POST request on every commit.
+What a validator does is:
+    -   checks the payload origin (e.g. whether it's really from GitHub and not from a hacker)
+    -   checks if it's the expected payload (e.g. from the repo we're interested in)
+    -   extracts valueable data, like branch name
 
-#.  A *Sloth CI server* is running on you machine. It has one or more *Sloth CI apps* listening to incoming requests. Each app is attached to its own *listener*, which is defined in the app's *config* among other params.
+Only after the validator makes sure the payload is correct (i.e. *validates* it), the actions are executed.
 
-#.  When a request is caught by a listener, it than gets velidated by a *validator*, which is also defined in the app's config.
-
-#.  The validator checks the incoming payload against the *provider data* defined in the app's config. For example, the ``bitbucket`` validator checks whether the payload has come from BitBucket and the repository name is the one we want to listen to.
-
-    A validator can also extract valuable data to be later used during action execution. For example, the ``bitbucket`` validator extracts the ``branch`` name from the incoming payload.
-
-#.  If the payload is validated, the Sloth app proceeds with executing *actions* defined in its config. An action is a single shell command; actions are executed one by one.
-
-Actions can refer to the data extracted on validation. For example, if an app uses the ``bitbucket`` validator, it can use the ``{branch}`` param in its actions.
+And the way they are executed is specified by **extensions**. For example, if you want to enable logging to a file and run the actions via SSH on a bunch of remote servers, you'd use the *logs* and *ssh-exec* extensions. Extensions, like validators, have `their own home <http://bitbucket.org/moigagoo/sloth-ci-extensions>`_.
 
 Indices and tables
 ==================
@@ -136,4 +138,3 @@ Indices and tables
 * :ref:`genindex`
 * :ref:`modindex`
 * :ref:`search`
-
