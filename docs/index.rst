@@ -75,7 +75,7 @@ Create App
 
 Create a file called like *myapp.yml*:
 
-.. code-block: yaml
+.. code-block:: yaml
 
     listen_point: myapp/incoming
 
