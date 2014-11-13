@@ -1,9 +1,0 @@
-host: '[::1]'
-port: 8080
-daemon: false
-
-log_dir: logs
-
-api_auth:
-    login: user
-    password: password

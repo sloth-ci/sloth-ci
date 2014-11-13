@@ -1,0 +1,60 @@
+# URL path where the app listens for its payload; the complete URL is *http://host:port/listen_point*.
+# Mandatory param.
+listen_point: h/test
+
+# Directory where the actions (see below) should be executed.
+work_dir: test_project
+
+# Action execution timeout on seconds.
+exec_timeout: 5
+
+# Flag, tells if the app should stop executing action after the first encountered execution failure.
+stop_on_first_fail: true
+
+# Source of the payload the app expects. Provider must correspond to one of the existing validators.
+# Validators live in separate modules of the *sloth-ci.validators* package on PyPI.
+# Mandatory section with at least one validator.
+provider:
+    # The GitHub validator lives in the *sloth-ci.validators.github* module.
+    github:
+        # It checks if the payload has come from a trusted GitHub server and from the right repository.
+        repo: moigagoo/sloth-ci
+        
+        # Validator params are allowed to be empty, but that's unlikely.
+
+# Dictionary of app extensions.
+# Extension modules live separately in the *sloth-ci.ext* package on PyPI.
+extensions:
+    # Unique extension name.
+    debug_logs:
+        # This extension uses the module *sloth-ci.ext.logs*.
+        module: logs
+        
+        # It adds file logs to the app. This one puts them in the *debug_logs* directory.
+        path: debug_logs
+
+        # And the log file is called *test_debug.log*.
+        filename: test_debug.log
+
+        # It logs all messages of level DEBUG and less (i.e. *all* messages).
+        level: DEBUG
+    # That's another extension, with another unique name.
+    info_logs:
+        # But it also uses the *sloth-ci.ext.logs* module. You can have as many as you need.
+        module: logs
+        path: info_logs
+        level: INFO
+
+# Actions to execute after the payload is received, validated, and parsed.
+# Actions are valid shell commands (so they depend on the system Sloth CI is running on).
+actions:
+    # You can refer to custom params and the data extracted from the payload by the validator. Just put their names between curly brackets.
+    # Here, *foo* is a custom param (see below).
+    - touch {foo}.txt
+
+    # And *branch* is the branch name extracted from the GitHub payload.
+    - echo The branch is {branch}
+    
+# Dictionary of custom params.
+params:
+    foo: bar
