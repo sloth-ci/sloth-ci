@@ -40,6 +40,14 @@ Install Sloth CI with pip:
 
     $ pip install sloth-ci
 
+.. warning::
+
+    All the following information is valid only for Sloth CI versions 1.0.0+. Sloth CI 1.0.0 will be released soon.
+
+    If you want to access older docs, please refer to the history on Bitbucket.
+
+    Sorry for the inconvenience. I may improve this later, but now is not the time.
+
 Configure
 =========
 
