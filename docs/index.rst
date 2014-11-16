@@ -20,9 +20,8 @@ Sloth CI: CI for Humans
 
 
 .. toctree::
-    :titlesonly:
-    :glob:
-    
+    :hidden:
+
     cli
     api
     components/index
