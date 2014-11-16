@@ -88,8 +88,6 @@ class Sloth:
 
         validation_status, validation_message, validator_params = validator.validate(request, validation_data)
 
-        validator_params.update(self.config.get('params', {}))
-
         self.logger.debug(validation_message.format_map(validator_params))
 
         if validation_status == 200:
@@ -100,11 +98,17 @@ class Sloth:
 
         self.process(validator_params)
 
-    def process(self, params):
-        '''Queue execution of actions with the given params.
+    def process(self, validator_params):
+        '''Queue execution of actions with certain params. 
         
-        :param params: dict or params for actions (can be empty)
+        Params are taken from the ``params`` config section and extracted from the incoming payload.
+        
+        :param validator_params: params exctacted from the payload
         '''
+
+        params = self.config.get('params', {})
+
+        params.update(validator_params)
 
         if not self._queue_lock:
             self.queue.append(params)
