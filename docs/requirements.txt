@@ -1,4 +1,4 @@
-sphinx_rtd_theme
+alabaster
 
 sloth-ci
 sloth-ci.ext.docker_exec

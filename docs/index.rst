@@ -2,23 +2,21 @@
 Sloth CI: CI for Humans
 ***********************
 
-.. sidebar:: Stats
+.. image:: https://pypip.in/version/sloth-ci/badge.svg?style=flat
+    :target: https://pypi.python.org/pypi/sloth-ci/
+    :alt: Latest Version
 
-    .. image:: https://pypip.in/version/sloth-ci/badge.svg?style=flat
-        :target: https://pypi.python.org/pypi/sloth-ci/
-        :alt: Latest Version
+.. image:: https://pypip.in/download/sloth-ci/badge.svg?style=flat
+    :target: https://pypi.python.org/pypi/sloth-ci/
+    :alt: Downloads
 
-    .. image:: https://pypip.in/download/sloth-ci/badge.svg?style=flat
-        :target: https://pypi.python.org/pypi/sloth-ci/
-        :alt: Downloads
+.. image:: https://pypip.in/wheel/sloth-ci/badge.svg?style=flat
+    :target: https://pypi.python.org/pypi/sloth-ci/
+    :alt: Wheel Status
 
-    .. image:: https://pypip.in/wheel/sloth-ci/badge.svg?style=flat
-        :target: https://pypi.python.org/pypi/sloth-ci/
-        :alt: Wheel Status
-
-    .. image:: https://pypip.in/status/sloth-ci/badge.svg?style=flat
-        :target: https://pypi.python.org/pypi/sloth-ci/
-        :alt: Development Status
+.. image:: https://pypip.in/status/sloth-ci/badge.svg?style=flat
+    :target: https://pypi.python.org/pypi/sloth-ci/
+    :alt: Development Status
 
 
 .. toctree::
