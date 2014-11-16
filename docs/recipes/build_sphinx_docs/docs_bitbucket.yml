@@ -2,21 +2,21 @@ listen_point: docs
 
 work_dir: ~/projects
 
-    provider:
-        bitbucket:
-            repo: username/repository
+provider:
+    bitbucket:
+        repo: username/repository
 
-    extensions:
-        error_logs:
-            module: logs
-            level: ERROR
-            path: /var/logs/sloth-ci/docs
-            filename: errors.log
+extensions:
+    error_logs:
+        module: logs
+        level: ERROR
+        path: /var/logs/sloth-ci/docs
+        filename: errors.log
 
-    actions:
-        hg pull {branch} -u {repo_dir}
-        sphinx-build -aE {repo_dir}/docs {output_dir}
+actions:
+    hg pull {branch} -u {repo_dir}
+    sphinx-build -aE {repo_dir}/docs {output_dir}
         
-    params:
-        repo_dir: repository
-        output_dir: /var/www/docs 
+params:
+    repo_dir: repository
+    output_dir: /var/www/docs 
