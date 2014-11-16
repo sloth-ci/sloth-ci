@@ -130,8 +130,6 @@ class Bed:
 
             cherrypy.log.error('Sloth app at %s removed' % listen_point)
 
-            return listen_point
- 
         except Exception as e:
             cherrypy.log.error('Could not remove Sloth app on the listen point %s: %s' % (listen_point, e))
             raise

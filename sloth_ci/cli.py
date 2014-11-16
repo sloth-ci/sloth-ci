@@ -2,8 +2,9 @@
 
 Usage:
   sloth-ci start [-d] [-c <file>]
-  sloth-ci create-app <config_source> [-c <file>]
-  sloth-ci remove-app <listen_point> [-c <file>]
+  sloth-ci create <config_source> [-c <file>]
+  sloth-ci remove <listen_point> [-c <file>]
+  sloth-ci trigger <listen_point> [-p <params>] [-c <file>]
   sloth-ci restart [-c <file>]
   sloth-ci stop [-c <file>]
   sloth-ci --version
@@ -11,7 +12,8 @@ Usage:
 
 Options:
   -d --daemon                   Start as daemon (UNIX only)
-  -c <file>, --config <file>    Path to the config file [default: ./sloth.yml]
+  -c <file>, --config <file>    Path to the server config file [default: ./sloth.yml]
+  -p --params <params>          Params to trigger the actions with. String like 'param1=val1,param2=val2'
   -h --help                     Show this screen
   -v --version                  Show version
 '''
@@ -53,30 +55,68 @@ class CLI:
         return response.status_code, response.text.strip()
 
     def create_app(self, config_source):
-        status, text = self._send_api_request({'action': 'create-app', 'config_source': config_source})
+        data = {
+            'action': 'create',
+            'config_source': config_source
+        }
+
+        status, text = self._send_api_request(data)
         
-        if status == 200:
+        if status == 201:
             print('App created, listening on %s' % text)
 
         else:
             print('App was not created: %s' % text)
 
     def remove_app(self, listen_point):
-        status, text = self._send_api_request({'action': 'remove-app', 'listen_point': listen_point})
+        data = {
+            'action': 'remove',
+            'listen_point': listen_point
+        }
+
+        status, text = self._send_api_request(data)
         
-        if status == 200:
-            print('App on listen point %s removed' % text)
+        if status == 204:
+            print('App on listen point %s removed' % listen_point)
 
         else:
             print('App was not removed: %s' % text)
 
+    def trigger_actions(self, listen_point, param_string):
+        params = dict((pair.split('=') for pair in param_string.split(',')))
+
+        data = {
+            'action': 'trigger',
+            'listen_point': listen_point
+        }
+
+        data.update(params)
+        
+        status, text = self._send_api_request(data)
+
+        if status == 202:
+            print('App actions on listen point %s triggered' % listen_point)
+
+        else:
+            print('App actions were not triggered: %s' % text)
+
     def restart(self):
         status, text = self._send_api_request({'action': 'restart'})
-        print(text)
+        
+        if status == 202:
+            print('Restarting Sloth CI')
+
+        else:
+            print('Server was not restarted: %s' % text)
 
     def stop(self):
         status, text = self._send_api_request({'action': 'stop'})
-        print(text)
+        
+        if status == 202:
+            print('Stopping Sloth CI')
+
+        else:
+            print('Server was not stopped: %s' % text)
 
 
 def main():
@@ -87,11 +127,14 @@ def main():
     if args['start']:
         cli.start()
 
-    elif args['create-app']:
+    elif args['create']:
         cli.create_app(args['<config_source>'])
 
-    elif args['remove-app']:
+    elif args['remove']:
         cli.remove_app(args['<listen_point>'])
+
+    elif args['trigger']:
+        cli.trigger_actions(args['<listen_point>'], args['--params'])
 
     elif args['restart']:
         cli.restart()
