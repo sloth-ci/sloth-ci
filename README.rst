@@ -25,7 +25,7 @@ Sloth CI was created because Jenkins is too heavy and Buildbot was too hard to l
 Requirements
 ============
 
-Sloth CI runs with Python 3 on Windows, Linux, and (supposedly) Mac.
+Sloth CI runs with Python 3 on Windows, Linux, and Mac.
 
 Install
 =======

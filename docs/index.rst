@@ -2,34 +2,43 @@
 Sloth CI: CI for Humans
 ***********************
 
-.. image:: https://pypip.in/version/sloth-ci/badge.svg?style=flat
-    :target: https://pypi.python.org/pypi/sloth-ci/
-    :alt: Latest Version
+.. sidebar:: Stats
 
-.. image:: https://pypip.in/download/sloth-ci/badge.svg?style=flat
-    :target: https://pypi.python.org/pypi/sloth-ci/
-    :alt: Downloads
+    .. image:: https://pypip.in/version/sloth-ci/badge.svg?style=flat
+        :target: https://pypi.python.org/pypi/sloth-ci/
+        :alt: Latest Version
 
-.. image:: https://pypip.in/wheel/sloth-ci/badge.svg?style=flat
-    :target: https://pypi.python.org/pypi/sloth-ci/
-    :alt: Wheel Status
+    .. image:: https://pypip.in/download/sloth-ci/badge.svg?style=flat
+        :target: https://pypi.python.org/pypi/sloth-ci/
+        :alt: Downloads
 
-.. image:: https://pypip.in/status/sloth-ci/badge.svg?style=flat
-    :target: https://pypi.python.org/pypi/sloth-ci/
-    :alt: Development Status
+    .. image:: https://pypip.in/wheel/sloth-ci/badge.svg?style=flat
+        :target: https://pypi.python.org/pypi/sloth-ci/
+        :alt: Wheel Status
+
+    .. image:: https://pypip.in/status/sloth-ci/badge.svg?style=flat
+        :target: https://pypi.python.org/pypi/sloth-ci/
+        :alt: Development Status
+
+
+.. toctree::
+    :titlesonly:
+    :glob:
+    
+    cli
+    api
+    components/index
+    recipes/index
 
 Sloth CI is an easy-to-use, lightweight, extendable tool that executes actions you need when certain events happen.
 
 Sloth CI was created because Jenkins is too heavy and Buildbot was too hard to learn.
 
-.. image:: ../napoleon_sloth.jpg
-    :align: center
-    :width: 200
-
 Requirements
 ============
 
-Sloth CI runs with Python 3 on Windows, Linux, and (supposedly) Mac.
+Sloth CI runs with Python 3 on Windows, Linux, and Mac.
+
 
 Install
 =======
@@ -40,18 +49,10 @@ Install Sloth CI with pip:
 
     $ pip install sloth-ci
 
-.. warning::
-
-    All the following information is valid only for Sloth CI versions 1.0.0+. Sloth CI 1.0.0 will be released soon.
-
-    If you want to access older docs, please refer to the history on Bitbucket.
-
-    Sorry for the inconvenience. I may improve this later, but now is not the time.
-
 Configure
 =========
 
-Create a file named *sloth.yml* in any directory and cd to that directory.
+Create a file named *sloth.yml* in any directory and ``cd`` to that directory.
 
 Here's how your sloth.yml can look like:
 
@@ -81,7 +82,7 @@ Start the Sloth CI server with:
 Create App
 ==========
 
-Create a file called like *myapp.yml*:
+Create a file called something like *myapp.yml*:
 
 .. code-block:: yaml
 
@@ -91,7 +92,7 @@ Create a file called like *myapp.yml*:
 
     provider:
         bitbucket:
-            repo: username/repository
+            repo: moigagoo/sloth-ci
 
     extensions:
         error_logs:
@@ -102,10 +103,10 @@ Create a file called like *myapp.yml*:
 
     actions:
         hg pull {branch} -u {repo_dir}
-        sphinx-build -aE {repo_dir} {output_dir}
+        sphinx-build -aE {repo_dir}/docs {output_dir}
         
     params:
-        repo_dir: repository
+        repo_dir: sloth-ci
         output_dir: /var/www/myapp_docs 
 
 Create the app from the config:
@@ -115,8 +116,12 @@ Create the app from the config:
     $ sloth-ci create-app myapp.yml
     App created, listening on myapp/incoming
 
-.. note:: Run ``sloth-ci create-app`` from the directory with the sloth.yml file.
-
 That's it! Your app now listens for payload from Bitbucket at http://localhost:8080/myapp/incoming.
 
-Create a hook on Bitbucket, and you docs will be automatically built on every push to the repo.
+Create a hook on Bitbucket, and the Sloth CI docs will be automatically built on your machine on every push to the repo.
+
+That wasn't too hard, was it? But that's just one thing Sloth CI can do. :doc:`Learn more <components/index>` about how Sloth CI works or jump straight to :doc:`recipes <recipes/index>`.
+
+.. note::
+
+    Obviously, the Sloth CI server running on your machine must be accessible from the Internet for Bitbucket (or GitHub, or whatever) to be able to send you push notifications.
