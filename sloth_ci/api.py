@@ -1,6 +1,6 @@
 from cherrypy import expose
 from cherrypy import tools
-from cherrypy import HTTPError, request
+from cherrypy import HTTPError, request, response
 
 from cherrypy.lib.auth_basic import checkpassword_dict
 
@@ -38,12 +38,16 @@ class API:
 
             request.error_page = {'default': self._handle_error}
 
-            if action == 'create-app':
+            if action == 'create':
                 if not 'config_source' in kwargs:
                     raise HTTPError(400, 'Missing parameter config_source')
                 
                 try:
-                    return self.bed.add_sloth(kwargs['config_source'])
+                    listen_point = self.bed.add_sloth(kwargs['config_source'])
+                    
+                    response.status = 201
+
+                    return listen_point
 
                 except KeyError as e:
                     raise HTTPError(500, 'The %s param is missing in the config' % e)
@@ -54,26 +58,68 @@ class API:
                 except Exception as e:
                     raise HTTPError(500, 'Could not create app: %s' % e)
 
-            elif action == 'remove-app':
+            elif action == 'remove':
                 if not 'listen_point' in kwargs:
                     raise HTTPError(400, 'Missing parameter listen_point')
                 
                 try:
-                    return self.bed.remove_sloth(kwargs['listen_point'])
+                    self.bed.remove_sloth(kwargs['listen_point'])
+                    
+                    response.status = 204
+
+                    return None
 
                 except KeyError as e:
                     raise HTTPError(404, 'Listen point %s not found' % e)
 
+                except Exception as e:
+                    raise HTTPError(500, 'Could not remove app: %s' % e)
+
+            elif action == 'trigger':
+                if not 'listen_point' in kwargs:
+                    raise HTTPError(400, 'Missing parameter listen_point')
+
+                try:
+                    params = {_: kwargs[_] for _ in kwargs if _ not in ('action', 'listen_point')}
+                    
+                    sloth = self.bed.listen_points[kwargs['listen_point']]
+                    
+                    sloth.process(params)
+
+                    response.status = 202
+
+                    return None
+
+                except KeyError as e:
+                    raise HTTPError(404, 'Listen point %s not found' % e)
+
+                except Exception as e:
+                    raise HTTPError(500, 'Could not trigger app actions: %s' % e)
+
             elif action == 'restart':
-                self.bed.bus.restart()
-                return('Restarting Sloth CI')
+                try:
+                    self.bed.bus.restart()
+
+                    response.status = 202
+
+                    return None
+                
+                except Exception as e:
+                    raise HTTPError(500, 'Could not restart Sloth CI server: %s' % e)
 
             elif action == 'stop':
-                self.bed.bus.exit()
-                return('Stopping Sloth CI')
+                try:
+                    self.bed.bus.exit()
+
+                    response.status = 202
+
+                    return None
+
+                except Exception as e:
+                    raise HTTPError(500, 'Could not stop Sloth CI server: %s' % e)
 
             else:
-                raise HTTPError(404, 'Invalid action')
+                raise HTTPError(404, 'Action not found')
                 
 
         return listener
