@@ -41,9 +41,9 @@ Status **201** with the new app's listen point in the content.
 Errors
 ------
 
--   400: the ``config_source`` param is missing
--   409: the requested listen point is already taken
--   500: either the config source has some mandatory param missing, or something unexpected happened in the server (read the error message for details)
+-   **400**: the ``config_source`` param is missing
+-   **409**: the requested listen point is already taken
+-   **500**: either the config source has some mandatory param missing, or something unexpected happened in the server (read the error message for details)
 
 ``remove``
 ==========
@@ -68,9 +68,9 @@ Status **204** with empty content.
 Errors
 ------
 
--   400: the ``listen_point`` param is missing
--   404: no app found on the requested listen point
--   500: something unexpected happened in the server (read the error message for details)
+-   **400**: the ``listen_point`` param is missing
+-   **404**: no app found on the requested listen point
+-   **500**: something unexpected happened in the server (read the error message for details)
 
 ``trigger``
 ===========
@@ -100,9 +100,9 @@ Status **202** with empty content.
 Errors
 ------
 
--   400: the ``listen_point`` param is missing
--   404: no app found on the requested listen point
--   500: something unexpected happened in the server (read the error message for details)
+-   **400**: the ``listen_point`` param is missing
+-   **404**: no app found on the requested listen point
+-   **500**: something unexpected happened in the server (read the error message for details)
 
 ``restart``
 ===========
@@ -130,7 +130,7 @@ Status **202** with empty content.
 Errors
 ------
 
--   500: something unexpected happened in the server (read the error message for details)
+-   **500**: something unexpected happened in the server (read the error message for details)
 
 ``stop``
 ========
@@ -153,9 +153,9 @@ Params
 Response
 --------
 
-202 with empty content.
+Status **202** with empty content.
 
 Errors
 ------
 
--   500: something unexpected happened in the server (read the error message for details)
+-   **500**: something unexpected happened in the server (read the error message for details)
