@@ -1,6 +1,7 @@
 alabaster
 
 sloth-ci
+
 sloth-ci.ext.docker_exec
 sloth-ci.ext.dummy
 sloth-ci.ext.logs
