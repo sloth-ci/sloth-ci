@@ -13,3 +13,22 @@ Apart from validating the payload, a validator can extract valuable data from it
 Validators are installed from PyPI with ``pip install sloth-ci.validators.<validator>``.
 
 Sloth CI validators live in a separate repository a https://bitbucket.org/moigagoo/sloth-ci-validators/.
+
+When writing your own validators, refer to the :ref:`dummy validator <dummy-validator>`.
+
+Bitbucket
+=========
+
+.. automodule:: sloth_ci.validators.bitbucket
+
+.. _dummy-validator:
+
+Dummy
+=====
+
+.. automodule:: sloth_ci.validators.dummy
+
+GitHub
+======
+
+.. automodule:: sloth_ci.validators.github
