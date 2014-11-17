@@ -17,7 +17,7 @@ When writing your own extensions, refer to the :ref:`dummy extension <dummy-ext>
 Docker Exec
 ===========
 
-.. automodule:: sloth_ci.ext.docker_exec
+.. automodule:: sloth-ci.ext.docker_exec
 
 .. _dummy-ext:
 
