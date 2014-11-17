@@ -11,3 +11,32 @@ One app can use multiple extensions, even several ones with the same module (e.g
 Extensions are installed from PyPI with ``pip install sloth-ci.ext.<extension>``.
 
 Sloth CI extensions live in a separate repository at https://bitbucket.org/moigagoo/sloth-ci-extensions/.
+
+When writing your own extensions, refer to the :ref:`dummy extension <dummy-ext>`.
+
+Docker Exec
+===========
+
+.. automodule:: sloth_ci.ext.docker_exec
+
+.. _dummy-ext:
+
+Dummy
+=====
+
+.. automodule:: sloth_ci.ext.dummy
+
+Logs
+====
+
+.. automodule:: sloth_ci.ext.logs
+
+OpenVZ Exec
+===========
+
+.. automodule:: sloth_ci.ext.openvz_exec
+
+SSH Exec
+========
+
+.. automodule:: sloth_ci.ext.ssh_exec
