@@ -59,7 +59,7 @@ Trigger the app's actions execution with a particular set of params.
     
     This command *triggers*, not *executes* the actions. Its call is considered successful it the action execution was successfully trigerred, not necessarily if all the action were successfully executed. You should check the execution success in the app's logs.
 
-In the ``-p`` (or ``--params``) argument, you must specify the params that are usually extracted from the incoming payload. You can also override the values from ``params`` section of the :ref:`app config <app-config>`.
+In the ``-p`` (or ``--params``) argument, you must specify the params that are usually extracted from the incoming payload. You can also override the values from the ``params`` section of the :ref:`app config <app-config>`.
 
 .. note::
 

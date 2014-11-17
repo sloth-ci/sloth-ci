@@ -26,3 +26,12 @@ Config
 
     .. literalinclude:: ssh.yml
         :language: yaml
+
+Steps
+=====
+
+#.  Create the app from the config file provided:
+    
+    .. code-block:: bash
+
+        $ sloth-ci create ssh.yml
