@@ -103,7 +103,7 @@ Create the app from the config:
     $ sloth-ci create-app myapp.yml
     App created, listening on myapp/incoming
 
-.. note:: Run ``sloth-ci create-app`` from the directory with the sloth.yml file.
+.. note:: Run ``sloth-ci create`` from the directory with the sloth.yml file.
 
 That's it! Your app now listens for payload from Bitbucket at http://localhost:8080/myapp/incoming.
 
