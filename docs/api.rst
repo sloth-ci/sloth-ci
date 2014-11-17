@@ -2,7 +2,7 @@
 HTTP API
 ********
 
-The root listen point (``/``) of a Sloth CI server is reserved for the API. The API is the only way to manage Sloth CI apps and server; even the :doc:`CLI <cli>` works via the HTTP API (except for the ``start`` command, obviously).
+The root listen point (``/``) of a Sloth CI server is reserved for the API. The API is the only way to manage Sloth CI apps.
 
 The API listen point expects API requests, which are ordinary HTTP requests with a mandatory ``action`` and numerous optional or mandatory params depending on the action. It doesn't matter if the request is sent via GET or POST, if the data is form data, JSON-dictionary, or a GET query—Sloth CI will chew it all. 
 
@@ -58,7 +58,7 @@ Params
 ------
 
 -   ``action`` = ``remove``
--   ``listen_point`` is the listen point of the app to be removed.'
+-   ``listen_point`` is the listen point of the app to be removed.
 
 Response
 --------

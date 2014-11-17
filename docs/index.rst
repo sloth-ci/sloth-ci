@@ -89,7 +89,7 @@ Create a file called something like *myapp.yml*:
 
     provider:
         bitbucket:
-            repo: moigagoo/sloth-ci
+            repo: spam/eggs
 
     extensions:
         error_logs:
@@ -103,19 +103,19 @@ Create a file called something like *myapp.yml*:
         sphinx-build -aE {repo_dir}/docs {output_dir}
         
     params:
-        repo_dir: sloth-ci
+        repo_dir: eggs
         output_dir: /var/www/myapp_docs 
 
 Create the app from the config:
 
 .. code-block:: bash
 
-    $ sloth-ci create-app myapp.yml
+    $ sloth-ci create myapp.yml
     App created, listening on myapp/incoming
 
 That's it! Your app now listens for payload from Bitbucket at http://localhost:8080/myapp/incoming.
 
-Create a hook on Bitbucket, and the Sloth CI docs will be automatically built on your machine on every push to the repo.
+Create a hook on Bitbucket, and the docs will be automatically built on your machine on every push to the repo.
 
 That wasn't too hard, was it? But that's just one thing Sloth CI can do. :doc:`Learn more <components/index>` about how Sloth CI works or jump straight to :doc:`recipes <recipes/index>`.
 
