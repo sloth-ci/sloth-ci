@@ -1,4 +1,4 @@
-﻿***********************
+***********************
 Sloth CI: CI for Humans
 ***********************
 
@@ -56,11 +56,11 @@ Here's how your sloth.yml can look like:
 .. code-block:: yaml
 
     host: localhost
-    
+
     port: 8080
-    
+
     daemon: true
-    
+
     log_dir: /var/logs/sloth-ci
 
     api_auth:
@@ -99,9 +99,9 @@ Create a file called something like *myapp.yml*:
             level: ERROR
 
     actions:
-        hg pull {branch} -u {repo_dir}
-        sphinx-build -aE {repo_dir}/docs {output_dir}
-        
+        - hg pull {branch} -u {repo_dir}
+        - sphinx-build -aE {repo_dir}/docs {output_dir}
+
     params:
         repo_dir: eggs
         output_dir: /var/www/myapp_docs 
