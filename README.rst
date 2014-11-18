@@ -10,6 +10,10 @@ Sloth CI: CI for Humans
     :target: https://pypi.python.org/pypi/sloth-ci/
     :alt: Downloads
 
+.. image:: https://pypip.in/py_versions/sloth-ci/badge.svg?style=flat
+    :target: https://pypi.python.org/pypi/sloth-ci/
+    :alt: Supported Python versions
+
 .. image:: https://pypip.in/wheel/sloth-ci/badge.svg?style=flat
     :target: https://pypi.python.org/pypi/sloth-ci/
     :alt: Wheel Status
