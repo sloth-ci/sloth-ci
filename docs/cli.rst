@@ -9,17 +9,14 @@ Here's the output of the ``sloth-ci --help`` command:
     Sloth CI.
 
     Usage:
-      sloth-ci start [-d] [-c <file>]
+      sloth-ci start | restart | stop [-c <file>]
       sloth-ci create <config_source> [-c <file>]
       sloth-ci remove <listen_point> [-c <file>]
       sloth-ci trigger <listen_point> [-p <params>] [-c <file>]
-      sloth-ci restart [-c <file>]
-      sloth-ci stop [-c <file>]
       sloth-ci --version
       sloth-ci -h
 
     Options:
-      -d --daemon                   Start as daemon (UNIX only)
       -c <file>, --config <file>    Path to the server config file [default: ./sloth.yml]
       -p --params <params>          Params to trigger the actions with. String like 'param1=val1,param2=val2'
       -h --help                     Show this screen
@@ -36,7 +33,23 @@ By default, Sloth CI will attempt to find the file *sloth.yml* in the directory 
 
 Start a Sloth CI server with a particular configuration. The configuration is specified in the :ref:`server config file <server-config>`.
 
-The ``-d`` (or ``--daemon``) flag is used to start the server as a daemon. This flag works only in UNIX systems and using it is an equivalent to setting the ``daemon: true`` config value.
+``restart``
+===========
+
+Ask a Sloth CI server to restart.
+
+.. important::
+
+    This command only *asks* for a restart, it can't guarantee that the server will restart immediatelly or ever at all. You should check the restart success in the server's logs.
+
+``stop``
+========
+
+Ask a Sloth CI server to stop.
+
+.. important::
+
+    This command only *asks* for a stop, it can't guarantee that the server will stop immediatelly or ever at all. You should check the stop success in the server's logs.
 
 ``create``
 ==========
@@ -66,21 +79,3 @@ In the ``-p`` (or ``--params``) argument, you must specify the params that are u
     Normally, while executing the actions, Sloth CI uses the params from the ``params`` section in the apps's config and the params extracted from the incoming payload.
     
     In case of a forced execution, there is no payload, thus, no params. In the face of ambiguity, Sloth CI refuses the temptation to guess, so you must specify the params explicitly.
-
-``restart``
-===========
-
-Ask a Sloth CI server to restart.
-
-.. important::
-
-    This command only *asks* for a restart, it can't guarantee that the server will restart immediatelly or ever at all. You should check the restart success in the server's logs.
-
-``stop``
-========
-
-Ask a Sloth CI server to stop.
-
-.. important::
-
-    This command only *asks* for a stop, it can't guarantee that the server will stop immediatelly or ever at all. You should check the stop success in the server's logs.
