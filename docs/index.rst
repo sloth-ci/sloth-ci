@@ -61,7 +61,7 @@ Here's how your sloth.yml can look like:
 
     daemon: true
 
-    log_dir: /var/logs/sloth-ci
+    log_dir: /var/log/sloth-ci
 
     api_auth:
         login: admin
@@ -94,7 +94,7 @@ Create a file called something like *myapp.yml*:
     extensions:
         error_logs:
             module: logs
-            path: /var/logs/sloth-ci/myapp
+            path: /var/log/sloth-ci/myapp
             filename: myapp_errors.log
             level: ERROR
 
