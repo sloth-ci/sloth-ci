@@ -9,6 +9,8 @@ Validator
 
 `github <https://pypi.python.org/pypi/sloth-ci.validators.github>`_ or `bitbucket <https://pypi.python.org/pypi/sloth-ci.validators.bitbucket>`_
 
+.. note:: The example config uses Bitbucket.
+
 Extensions
 ==========
 
@@ -17,14 +19,9 @@ Extensions
 Config
 ======
 
--   :download:`GitHub <docs_github.yml>` 
+-   :download:`Download <docs.yml>` 
 
-    .. literalinclude:: docs_github.yml
-        :language: yaml
-
--   :download:`Bitbucket <docs_bitbucket.yml>` 
-
-    .. literalinclude:: docs_bitbucket.yml
+    .. literalinclude:: docs.yml
         :language: yaml
 
 Steps
@@ -32,20 +29,20 @@ Steps
 
 #.  In your home directory, create the *projects* directory.
 
-#.  ``cd`` into this directory and clone your repository:
-
-    .. code-block:: bash
-
-        $ git clone https://github.com/username/repository
-
-    or
-
-    .. code-block:: bash
-
-        $ hg clone https://bitbucket.org/username/repository
-
 #.  Create the app from the config file provided:
     
     .. code-block:: bash
 
-        $ sloth-ci create docs_github.yml
+        $ sloth-ci create docs.yml
+
+#.  Trigger a build manually with:
+    
+    .. code-block:: bash
+        
+        $ sloth-ci trigger docs
+
+    Trigger a build into another directory:
+
+    .. code-block:: bash
+
+        $ sloth-ci trigger docs -p output=/srv/http/
