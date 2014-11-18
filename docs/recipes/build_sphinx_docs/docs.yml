@@ -22,4 +22,4 @@ actions:
     - sphinx-build -aE repository/docs/ {output}/{branch}
 
 params:
-    output: /var/www/html/
+    output: /var/www/html
