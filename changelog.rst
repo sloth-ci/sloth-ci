@@ -1,9 +1,17 @@
 1.0.0
 =====
 
-First major version. Changelog started.
+-   First major version. Changelog started.
 
 1.0.1
 =====
 
-The ``-d`` (``--daemon``) CLI flag removed. It was not working anyway.
+-   The ``-d`` (``--daemon``) CLI flag removed (it was not working anyway).
+
+1.0.2
+=====
+
+-   CLI: trigger: if no params were passed, an error would occur. Fixed.
+-   Bed: add_sloth: TypeError is now handled, interpeted as config source is not a file path or a valid config string.
+-   API: create: TypeError is now handled, interpeted as config source is not a file path or a valid config string. Using absolute path is advised.
+-   CLI: Message on Sloth CI start added.
