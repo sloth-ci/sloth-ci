@@ -10,7 +10,7 @@ port: 8080
 daemon: true
 
 # Path to write the access and error logs to. If not provided, current dir is used.
-log_dir: logs
+log_dir: /var/log/sloth-ci/
 
 # API basic authentication dictionary.
 # Mandatory section, both params are mandatory as well.
