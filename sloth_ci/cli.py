@@ -41,6 +41,7 @@ class CLI:
 
     def start(self):
         try:
+            print('Starting Sloth CI on %s' % self.api_url)
             Bed(self.config).start()
 
         except Exception as e:
@@ -80,7 +81,11 @@ class CLI:
             print('App was not removed: %s' % text)
 
     def trigger_actions(self, listen_point, param_string):
-        params = dict((pair.split('=') for pair in param_string.split(',')))
+        if param_string:
+            params = dict((pair.split('=') for pair in param_string.split(',')))
+        
+        else:
+            params = {}
 
         data = {
             'action': 'trigger',
