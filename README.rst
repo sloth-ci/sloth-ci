@@ -97,12 +97,13 @@ Create a file called like *myapp.yml*:
     actions:
         - rm -rf repository
         - hg clone https://bitbucket.org/username/repository
+        - hg up {branch} --cwd repository
         - pip3 install -U sphinx
         - pip3 install -r repository/docs/requirements.txt
-        - sphinx-build -aE repository/docs/ {output}
+        - sphinx-build -aE repository/docs/ {output}/{branch}
 
     params:
-        output: /var/www/html/
+        output: /var/www/html
 
 Create the app from the config:
 
