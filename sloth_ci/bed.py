@@ -104,16 +104,20 @@ class Bed:
 
             return listen_point
 
+        except TypeError:
+            cherrypy.log.error('Failed to create app from %s: not a file path or valid config string' % config_source)
+            raise
+
         except KeyError as e:
-            cherrypy.log.error('Could not add Sloth app from the config source %s: the %s param is missing' % (config_source, e))
+            cherrypy.log.error('Failed to create app from %s: the %s param is missing' % (config_source, e))
             raise
 
         except ValueError as e:
-            cherrypy.log.error('Could not add Sloth app from the config source %s: the listen point %s is already taken' % (config_source, e))
+            cherrypy.log.error('Failed to create app from %s: the listen point %s is already taken' % (config_source, e))
             raise
 
         except Exception as e:
-            cherrypy.log.error('Could not add Sloth app from the config source %s: %s' % (config_source, e))
+            cherrypy.log.error('Failed to create app from %s: %s' % (config_source, e))
             raise
 
     def remove_sloth(self, listen_point):
