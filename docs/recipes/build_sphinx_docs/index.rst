@@ -33,7 +33,7 @@ Steps
     
     .. code-block:: bash
 
-        $ sloth-ci create docs.yml
+        $ sloth-ci create /path/to/docs.yml
 
 #.  Trigger a build manually with:
     
