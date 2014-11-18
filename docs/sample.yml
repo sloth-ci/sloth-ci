@@ -3,7 +3,7 @@
 listen_point: listen/test
 
 # Directory where the actions (see below) should be executed.
-#work_dir: test_project
+#work_dir: ~/test_project
 
 # Action execution timeout on seconds.
 #exec_timeout: 5
@@ -31,7 +31,7 @@ extensions:
         module: logs
         
         # It adds file logs to the app. This one puts them in the *debug_logs* directory.
-        path: debug_logs
+        path: /var/log/sloth-ci/debug_logs
 
         # And the log file is called *test_debug.log*.
         filename: test_debug.log
@@ -42,7 +42,7 @@ extensions:
     info_logs:
         # But it also uses the *sloth-ci.ext.logs* module. You can have as many as you need.
         module: logs
-        path: info_logs
+        path: /var/log/sloth-ci/info_logs
         level: INFO
 
 # Actions to execute after the payload is received, validated, and parsed.
