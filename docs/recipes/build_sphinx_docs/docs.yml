@@ -19,7 +19,7 @@ actions:
     - hg up {branch} --cwd repository
     - pip3 install -U sphinx
     - pip3 install -r repository/docs/requirements.txt
-    - sphinx-build -aE repository/docs/ {output}
+    - sphinx-build -aE repository/docs/ {output}/{branch}
 
 params:
     output: /var/www/html/
