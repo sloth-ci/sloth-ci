@@ -34,7 +34,7 @@ Steps
     
     .. code-block:: bash
 
-        $ sloth-ci create ssh.yml
+        $ sloth-ci create /path/to/ssh.yml
 
 #.  Trigger the actions with:
     

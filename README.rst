@@ -104,7 +104,7 @@ Create the app from the config:
 
 .. code-block:: bash
 
-    $ sloth-ci create myapp.yml
+    $ sloth-ci create /path/to/myapp.yml
     App created, listening on docs
 
 .. note:: Run ``sloth-ci create`` from the directory with the sloth.yml file.
