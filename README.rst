@@ -92,7 +92,7 @@ Create a file called like *myapp.yml*:
 
     actions:
         - rm -rf repository
-        - hg clone https://moigagoo@bitbucket.org/moigagoo/sloth-ci repository
+        - hg clone https://bitbucket.org/username/repository
         - pip3 install -U sphinx
         - pip3 install -r repository/docs/requirements.txt
         - sphinx-build -aE repository/docs/ {output}
