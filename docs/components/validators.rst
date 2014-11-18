@@ -16,6 +16,8 @@ Sloth CI validators live in a separate repository a https://bitbucket.org/moigag
 
 When writing your own validators, refer to the :ref:`dummy validator <dummy-validator>`.
 
+.. _bitbucket-validator:
+
 Bitbucket
 =========
 

@@ -39,11 +39,11 @@ Sloth CI runs with Python 3 on Windows, Linux, and Mac.
 Install
 =======
 
-Install Sloth CI with pip:
+Install Sloth CI, the :ref:`Bitbucket <bitbucket-validator>` validator, and the :ref:`logs <logs-ext>` extension with pip:
 
 .. code-block:: bash
 
-    $ pip install sloth-ci
+    $ pip install sloth-ci sloth-ci.validators.bitbucket sloth-ci.ext.logs
 
 Configure
 =========
@@ -54,7 +54,7 @@ Here's how your sloth.yml can look like:
 
 .. code-block:: yaml
 
-    host: localhost
+    host: 0.0.0.0
 
     port: 8080
 
@@ -82,28 +82,30 @@ Create a file called something like *myapp.yml*:
 
 .. code-block:: yaml
 
-    listen_point: myapp/incoming
+    listen_point: docs
 
     work_dir: ~/projects
 
     provider:
         bitbucket:
-            repo: spam/eggs
+            repo: username/repository
 
     extensions:
-        error_logs:
+        logs:
             module: logs
-            path: /var/log/sloth-ci/myapp
-            filename: myapp_errors.log
+            path: /var/log/sloth-ci
+            filename: docs_errors.log
             level: ERROR
 
     actions:
-        - hg pull {branch} -u {repo_dir}
-        - sphinx-build -aE {repo_dir}/docs {output_dir}
+        - rm -rf repository
+        - hg clone https://bitbucket.org/username/repository
+        - pip3 install -U sphinx
+        - pip3 install -r repository/docs/requirements.txt
+        - sphinx-build -aE repository/docs/ {output}
 
     params:
-        repo_dir: eggs
-        output_dir: /var/www/myapp_docs 
+        output: /var/www/html/
 
 Create the app from the config:
 
@@ -112,7 +114,7 @@ Create the app from the config:
     $ sloth-ci create /path/to/myapp.yml
     App created, listening on myapp/incoming
 
-That's it! Your app now listens for payload from Bitbucket at http://localhost:8080/myapp/incoming.
+That's it! Your app now listens for payload from Bitbucket at http://yourdomain:8080/docs.
 
 Create a hook on Bitbucket, and the docs will be automatically built on your machine on every push to the repo.
 
