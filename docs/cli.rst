@@ -56,6 +56,8 @@ Ask a Sloth CI server to stop.
 
 Create a Sloth CI app with a paricular configuration. The configuration is specified either as a path to a YAML file or as a string. Refer to the :ref:`app config <app-config>` description.
 
+.. important:: Always use absolute paths to config files.
+
 The new app's listen point is returned if the creation was successful.
 
 ``remove``

@@ -33,6 +33,8 @@ Params
 -   ``action`` = ``create``
 -   ``config_source`` is a path to the config file or a config string. If you are providing a config string in a GET query, **it must be urlencoded**.
 
+    .. important:: Always use absolute paths to config files.
+
 Response
 --------
 

@@ -109,7 +109,7 @@ Create the app from the config:
 
 .. code-block:: bash
 
-    $ sloth-ci create myapp.yml
+    $ sloth-ci create /path/to/myapp.yml
     App created, listening on myapp/incoming
 
 That's it! Your app now listens for payload from Bitbucket at http://localhost:8080/myapp/incoming.
