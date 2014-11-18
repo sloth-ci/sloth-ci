@@ -1,17 +1,14 @@
 ﻿'''Sloth CI.
 
 Usage:
-  sloth-ci start [-d] [-c <file>]
+  sloth-ci start | restart | stop [-c <file>]
   sloth-ci create <config_source> [-c <file>]
   sloth-ci remove <listen_point> [-c <file>]
   sloth-ci trigger <listen_point> [-p <params>] [-c <file>]
-  sloth-ci restart [-c <file>]
-  sloth-ci stop [-c <file>]
   sloth-ci --version
   sloth-ci -h
 
 Options:
-  -d --daemon                   Start as daemon (UNIX only)
   -c <file>, --config <file>    Path to the server config file [default: ./sloth.yml]
   -p --params <params>          Params to trigger the actions with. String like 'param1=val1,param2=val2'
   -h --help                     Show this screen
