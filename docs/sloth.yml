@@ -1,13 +1,13 @@
 # Sloth CI server host.
 # Mandatory param.
-host: '[::1]'
+host: 0.0.0.0
 
 # Sloth CI server port.
 # Mandatory param.
 port: 8080
 
 # Set to true to start Sloth CI as daemon (UNIX only). 
-# daemon: true
+daemon: true
 
 # Path to write the access and error logs to. If not provided, current dir is used.
 log_dir: logs
