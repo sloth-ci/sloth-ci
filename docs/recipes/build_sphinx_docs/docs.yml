@@ -1,0 +1,24 @@
+listen_point: docs
+
+work_dir: ~/projects
+
+provider:
+    bitbucket:
+        repo: username/repository
+
+extensions:
+    logs:
+        module: logs
+        path: /var/log/sloth-ci
+        filename: docs_errors.log
+        level: ERROR
+
+actions:
+    - rm -rf repository
+    - hg clone https://moigagoo@bitbucket.org/moigagoo/sloth-ci repository
+    - pip3 install -U sphinx
+    - pip3 install -r repository/docs/requirements.txt
+    - sphinx-build -aE repository/docs/ {output}
+
+params:
+    output: /var/www/html/
