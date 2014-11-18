@@ -22,10 +22,10 @@ setup(
     packages=['sloth_ci'],
     install_requires = [
         'CherryPy',
-        'Routes',
         'awesome-slugify',
+        'docopt',
         'PyYAML',
-        'docopt'
+        'Routes'
     ],
     license='MIT',
     classifiers=[
@@ -34,6 +34,8 @@ setup(
         'Natural Language :: English',
         'Programming Language :: Python',
         'Programming Language :: Python :: 3',
+        'Programming Language :: Python :: 3.4',
+        'Programming Language :: Python :: 3 :: Only',
         'Operating System :: Microsoft :: Windows',
         'Operating System :: Unix',
         'Framework :: CherryPy'],
