@@ -26,6 +26,8 @@ Dummy
 
 .. automodule:: sloth_ci.ext.dummy
 
+.. _logs-ext:
+
 Logs
 ====
 

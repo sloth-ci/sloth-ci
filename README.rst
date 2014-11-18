@@ -32,11 +32,11 @@ Sloth CI runs with Python 3 on Windows, Linux, and Mac.
 Install
 =======
 
-Install Sloth CI with pip:
+Install Sloth CI, the Bitbucket validator, and the logs extension with pip:
 
 .. code-block:: bash
 
-    $ pip install sloth-ci
+    $ pip install sloth-ci sloth-ci.validators.bitbucket sloth-ci.ext.logs
 
 Configure
 =========
@@ -109,6 +109,6 @@ Create the app from the config:
 
 .. note:: Run ``sloth-ci create`` from the directory with the sloth.yml file.
 
-That's it! Your app now listens for payload from Bitbucket at http://0.0.0.0:8080/docs.
+That's it! Your app now listens for payload from Bitbucket at http://yourdomain:8080/docs.
 
 Create a hook on Bitbucket, and you docs will be automatically built on every push to the repo.
