@@ -43,7 +43,10 @@ Errors
 
 -   **400**: the ``config_source`` param is missing
 -   **409**: the requested listen point is already taken
--   **500**: either the config source has some mandatory param missing, or something unexpected happened in the server (read the error message for details)
+-   **500**: 
+    -   config source is not a file path or valid config string
+    -   config is missing a mandatory param
+    -   something unexpected happened on the server
 
 ``remove``
 ==========
