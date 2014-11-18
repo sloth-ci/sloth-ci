@@ -35,3 +35,9 @@ Steps
     .. code-block:: bash
 
         $ sloth-ci create ssh.yml
+
+#.  Trigger the actions with:
+    
+    .. code-block:: bash
+        
+        $ sloth-ci trigger ssh
