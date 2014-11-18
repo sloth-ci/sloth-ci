@@ -49,6 +49,9 @@ class API:
 
                     return listen_point
 
+                except TypeError:
+                    raise HTTPError(500, '%s is not a file path or valid config string (try using absolute path)' % kwargs['config_source'])
+
                 except KeyError as e:
                     raise HTTPError(500, 'The %s param is missing in the config' % e)
 
@@ -56,7 +59,7 @@ class API:
                     raise HTTPError(409, 'Listen point %s is already taken' % e)
 
                 except Exception as e:
-                    raise HTTPError(500, 'Could not create app: %s' % e)
+                    raise HTTPError(500, 'Failed to create app: %s' % e)
 
             elif action == 'remove':
                 if not 'listen_point' in kwargs:
@@ -73,7 +76,7 @@ class API:
                     raise HTTPError(404, 'Listen point %s not found' % e)
 
                 except Exception as e:
-                    raise HTTPError(500, 'Could not remove app: %s' % e)
+                    raise HTTPError(500, 'Failed to remove app: %s' % e)
 
             elif action == 'trigger':
                 if not 'listen_point' in kwargs:
@@ -94,7 +97,7 @@ class API:
                     raise HTTPError(404, 'Listen point %s not found' % e)
 
                 except Exception as e:
-                    raise HTTPError(500, 'Could not trigger app actions: %s' % e)
+                    raise HTTPError(500, 'Failed to trigger app actions: %s' % e)
 
             elif action == 'restart':
                 try:
@@ -105,7 +108,7 @@ class API:
                     return None
                 
                 except Exception as e:
-                    raise HTTPError(500, 'Could not restart Sloth CI server: %s' % e)
+                    raise HTTPError(500, 'Failed to restart Sloth CI server: %s' % e)
 
             elif action == 'stop':
                 try:
@@ -116,7 +119,7 @@ class API:
                     return None
 
                 except Exception as e:
-                    raise HTTPError(500, 'Could not stop Sloth CI server: %s' % e)
+                    raise HTTPError(500, 'Failed to stop Sloth CI server: %s' % e)
 
             else:
                 raise HTTPError(404, 'Action not found')
