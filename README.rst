@@ -22,7 +22,7 @@ Sloth CI is an easy-to-use, lightweight, extendable tool that executes actions y
 
 Sloth CI was created because Jenkins is too heavy and Buildbot was too hard to learn.
 
-Read the docs at http://178.62.196.119/ (yes, they are built with Sloth CI).
+Read the docs at http://sloth-ci.cloudapp.net/ (yes, they are built with Sloth CI).
 
 Requirements
 ============
@@ -109,6 +109,6 @@ Create the app from the config:
 
 .. note:: Run ``sloth-ci create`` from the directory with the sloth.yml file.
 
-That's it! Your app now listens for payload from Bitbucket at http://localhost:8080/docs.
+That's it! Your app now listens for payload from Bitbucket at http://0.0.0.0:8080/docs.
 
 Create a hook on Bitbucket, and you docs will be automatically built on every push to the repo.
