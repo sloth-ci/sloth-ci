@@ -15,3 +15,8 @@
 -   Bed: add_sloth: TypeError is now handled, interpeted as config source is not a file path or a valid config string.
 -   API: create: TypeError is now handled, interpeted as config source is not a file path or a valid config string. Using absolute path is advised.
 -   CLI: Message on Sloth CI start added.
+
+1.0.3
+=====
+
+-   Sloth: Validation: The provider dict was emptied on first payload check, so all the following ones did not work. Fixed.

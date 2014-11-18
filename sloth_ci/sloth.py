@@ -76,7 +76,7 @@ class Sloth:
         )
 
         try:
-            provider, provider_data = self.config['provider'].popitem()
+            provider, provider_data = self.config['provider'].copy().popitem()
 
             validator = import_module('.validators.%s' % provider, package=__package__)
 
