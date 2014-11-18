@@ -36,7 +36,6 @@ Requirements
 
 Sloth CI runs with Python 3 on Windows, Linux, and Mac.
 
-
 Install
 =======
 

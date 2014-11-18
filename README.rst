@@ -22,7 +22,7 @@ Sloth CI is an easy-to-use, lightweight, extendable tool that executes actions y
 
 Sloth CI was created because Jenkins is too heavy and Buildbot was too hard to learn.
 
-Read the docs at `sloth-ci.rtfd.org <http://sloth-ci.rtfd.org>`_.
+Read the docs at http://178.62.196.119/ (yes, they are built with Sloth CI).
 
 Requirements
 ============
@@ -47,7 +47,7 @@ Here's how your sloth.yml can look like:
 
 .. code-block:: yaml
 
-    host: localhost
+    host: 0.0.0.0
     
     port: 8080
     
@@ -75,7 +75,7 @@ Create a file called like *myapp.yml*:
 
 .. code-block:: yaml
 
-    listen_point: myapp/incoming
+    listen_point: docs
 
     work_dir: ~/projects
 
@@ -84,29 +84,31 @@ Create a file called like *myapp.yml*:
             repo: username/repository
 
     extensions:
-        error_logs:
+        logs:
             module: logs
-            path: /var/log/sloth-ci/myapp
-            filename: myapp_errors.log
+            path: /var/log/sloth-ci
+            filename: docs_errors.log
             level: ERROR
 
     actions:
-        hg pull {branch} -u {repo_dir}
-        sphinx-build -aE {repo_dir} {output_dir}
-        
+        - rm -rf repository
+        - hg clone https://moigagoo@bitbucket.org/moigagoo/sloth-ci repository
+        - pip3 install -U sphinx
+        - pip3 install -r repository/docs/requirements.txt
+        - sphinx-build -aE repository/docs/ {output}
+
     params:
-        repo_dir: repository
-        output_dir: /var/www/myapp_docs 
+        output: /var/www/html/
 
 Create the app from the config:
 
 .. code-block:: bash
 
-    $ sloth-ci create-app myapp.yml
-    App created, listening on myapp/incoming
+    $ sloth-ci create myapp.yml
+    App created, listening on docs
 
 .. note:: Run ``sloth-ci create`` from the directory with the sloth.yml file.
 
-That's it! Your app now listens for payload from Bitbucket at http://localhost:8080/myapp/incoming.
+That's it! Your app now listens for payload from Bitbucket at http://localhost:8080/docs.
 
 Create a hook on Bitbucket, and you docs will be automatically built on every push to the repo.
