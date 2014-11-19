@@ -21,7 +21,7 @@ from sys import exit
 from docopt import docopt
 
 from yaml import load
-from requests import post
+from requests import post, exceptions
 
 from . import __version__
 from .bed import Bed
@@ -48,9 +48,15 @@ class CLI:
             print('Could not start Sloth CI: %s' % e)
 
     def _send_api_request(self, data):
-        response = post(self.api_url, auth=self.api_auth, data=data)
+        try:
+            response = post(self.api_url, auth=self.api_auth, data=data)
 
-        return response.status_code, response.text.strip()
+            return response.status_code, response.text.strip()
+        
+        except exceptions.ConnectionError as e:
+            print('Failed to connect to Sloth CI API on %s' % self.api_url)
+            exit()
+
 
     def create_app(self, config_source):
         data = {
