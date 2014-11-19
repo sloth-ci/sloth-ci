@@ -20,3 +20,8 @@
 =====
 
 -   Sloth: Validation: The provider dict was emptied on first payload check, so all the following ones did not work. Fixed.
+
+1.0.4
+=====
+
+-   CLI: If connection to the API server failed, the exception is properly handled.
