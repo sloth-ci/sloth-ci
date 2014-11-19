@@ -2,7 +2,7 @@
 
 Usage:
   sloth-ci start | restart | stop [-c <file>]
-  sloth-ci create <config_source> [-c <file>]
+  sloth-ci create <config_file> [-c <file>]
   sloth-ci remove <listen_point> [-c <file>]
   sloth-ci trigger <listen_point> [-p <params>] [-c <file>]
   sloth-ci --version
@@ -58,10 +58,10 @@ class CLI:
             exit()
 
 
-    def create_app(self, config_source):
+    def create_app(self, config_file):
         data = {
             'action': 'create',
-            'config_source': config_source
+            'config_string': ''.join(open(config_file).readlines())
         }
 
         status, text = self._send_api_request(data)
@@ -136,7 +136,7 @@ def main():
         cli.start()
 
     elif args['create']:
-        cli.create_app(args['<config_source>'])
+        cli.create_app(args['<config_file>'])
 
     elif args['remove']:
         cli.remove_app(args['<listen_point>'])

@@ -39,18 +39,18 @@ class API:
             request.error_page = {'default': self._handle_error}
 
             if action == 'create':
-                if not 'config_source' in kwargs:
-                    raise HTTPError(400, 'Missing parameter config_source')
+                if not 'config_string' in kwargs:
+                    raise HTTPError(400, 'Missing parameter config_string')
                 
                 try:
-                    listen_point = self.bed.add_sloth(kwargs['config_source'])
+                    listen_point = self.bed.add_sloth(kwargs['config_string'])
                     
                     response.status = 201
 
                     return listen_point
 
                 except TypeError:
-                    raise HTTPError(500, '%s is not a file path or valid config string (try using absolute path)' % kwargs['config_source'])
+                    raise HTTPError(500, '%s is not a valid config string' % kwargs['config_string'])
 
                 except KeyError as e:
                     raise HTTPError(500, 'The %s param is missing in the config' % e)

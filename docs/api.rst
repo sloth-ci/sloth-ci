@@ -21,19 +21,17 @@ Below is the full list of available API actions with params and possible return 
 ``create``
 ==========
 
-Create a Sloth CI app with a particular configuration. The configuration is specified either as a path to a YAML file or as a string. Refer to the :ref:`app config <app-config>` description.
+Create a Sloth CI app with a particular configuration. The configuration is specified as a string. Refer to the :ref:`app config <app-config>` description.
 
 GET URL example::
     
-    http://localhost:8080/?action=create&config_source=listen_point%3A+test%0D%0A%0D%0A...
+    http://localhost:8080/?action=create&config_string=listen_point%3A+test%0D%0A%0D%0A...
 
 Params
 ------
 
 -   ``action`` = ``create``
--   ``config_source`` is a path to the config file or a config string. If you are providing a config string in a GET query, **it must be urlencoded**.
-
-    .. important:: Always use absolute paths to config files.
+-   ``config_string`` is a YAML config string. If you are providing the config string in a GET query, **it must be urlencoded**.
 
 Response
 --------
@@ -46,7 +44,7 @@ Errors
 -   **400**: the ``config_source`` param is missing
 -   **409**: the requested listen point is already taken
 -   **500**: 
-    -   config source is not a file path or valid config string
+    -   invalid config string
     -   config is missing a mandatory param
     -   something unexpected happened on the server
 
