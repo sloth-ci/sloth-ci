@@ -10,7 +10,7 @@ Here's the output of the ``sloth-ci --help`` command:
 
     Usage:
       sloth-ci start | restart | stop [-c <file>]
-      sloth-ci create <config_source> [-c <file>]
+      sloth-ci create <config_file> [-c <file>]
       sloth-ci remove <listen_point> [-c <file>]
       sloth-ci trigger <listen_point> [-p <params>] [-c <file>]
       sloth-ci --version
@@ -54,7 +54,7 @@ Ask a Sloth CI server to stop.
 ``create``
 ==========
 
-Create a Sloth CI app with a paricular configuration. The configuration is specified either as a path to a YAML file or as a string. Refer to the :ref:`app config <app-config>` description.
+Create a Sloth CI app with a paricular configuration. The configuration is specified as a path to a YAML file. Refer to the :ref:`app config <app-config>` description.
 
 .. important:: Always use absolute paths to config files.
 

@@ -25,3 +25,5 @@
 =====
 
 -   CLI: If connection to the API server failed, the exception is properly handled.
+-   API: create: The config_source param renamed to config_string and can now be only a config string.
+-   CLI: create: The config_source param renamed to config_file and can now be only a filepath.

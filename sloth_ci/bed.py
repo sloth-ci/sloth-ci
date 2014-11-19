@@ -73,17 +73,13 @@ class Bed:
         self.bus.start()
         self.bus.block()
 
-    def add_sloth(self, config_source):
+    def add_sloth(self, config_string):
         '''Create a Sloth app from a config source and add it to the bed.
 
-        :param config_source: a file object, a path to a file, or a config string
+        :param config_string: a valid YAML config string
         '''
 
-        try:
-            config = load(open(config_source))
-
-        except:
-            config = load(config_source)
+        config = load(config_string)
 
         try:
             listen_point = config['listen_point']
@@ -105,19 +101,19 @@ class Bed:
             return listen_point
 
         except TypeError:
-            cherrypy.log.error('Failed to create app from %s: not a file path or valid config string' % config_source)
+            cherrypy.log.error('Failed to create app: invalid config string')
             raise
 
         except KeyError as e:
-            cherrypy.log.error('Failed to create app from %s: the %s param is missing' % (config_source, e))
+            cherrypy.log.error('Failed to create app: the %s param is missing' % e)
             raise
 
         except ValueError as e:
-            cherrypy.log.error('Failed to create app from %s: the listen point %s is already taken' % (config_source, e))
+            cherrypy.log.error('Failed to create app: the listen point %s is already taken' % e)
             raise
 
         except Exception as e:
-            cherrypy.log.error('Failed to create app from %s: %s' % (config_source, e))
+            cherrypy.log.error('Failed to create app: %s' % e)
             raise
 
     def remove_sloth(self, listen_point):
