@@ -25,6 +25,7 @@ setup(
         'awesome-slugify',
         'docopt',
         'PyYAML',
+        'requests',
         'Routes'
     ],
     license='MIT',
