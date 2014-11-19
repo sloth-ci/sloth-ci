@@ -123,16 +123,16 @@ class Bed:
         '''
 
         try:
-            if not listen_point in self.listen_points:
-                raise KeyError(listen_point)
-
             self.listen_points.pop(listen_point).stop()
 
             cherrypy.log.error('Sloth app at %s removed' % listen_point)
 
-        except Exception as e:
-            cherrypy.log.error('Could not remove Sloth app on the listen point %s: %s' % (listen_point, e))
+        except KeyError:
+            cherrypy.log.error('Failed to remove app: listen point %s not found' % listen_point)
             raise
+
+        except Exception as e:
+            cherrypy.log.error('Failed to remove app on %s: %s' % (listen_point, e))
 
     def remove_all_sloths(self):
         '''Stop all active Sloth apps and remove them from the bed.'''
