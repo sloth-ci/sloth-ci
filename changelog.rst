@@ -24,6 +24,12 @@
 1.0.4
 =====
 
--   CLI: If connection to the API server failed, the exception is properly handled.
+-   API: bind method added.
 -   API: create: The config_source param renamed to config_string and can now be only a config string.
+-   API: info method added to get the config file bound with an app.
+-   Bed: Ability to bind an app with a config file added.
 -   CLI: create: The config_source param renamed to config_file and can now be only a filepath.
+-   CLI: create command now can accept multiple files.
+-   CLI: If connection to the API server failed, the exception is properly handled.
+-   CLI: info command added.
+-   CLI: reload command added to reload an app or all apps. Useful when the bound config file has updated.
