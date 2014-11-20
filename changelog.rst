@@ -33,3 +33,4 @@
 -   CLI: If connection to the API server failed, the exception is properly handled.
 -   CLI: info command added.
 -   CLI: reload command added to reload an app or all apps. Useful when the bound config file has updated.
+-   CLI: remove command now can accept multiple listen points.
