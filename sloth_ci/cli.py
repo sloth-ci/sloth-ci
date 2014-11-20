@@ -1,12 +1,11 @@
 ﻿'''Sloth CI.
 
 Usage:
-  sloth-ci start | restart | stop [-c <file>]
-  sloth-ci create <config_file> [-c <file>]
+  sloth-ci (start | restart | stop) [-c <file>]
+  sloth-ci create <config_files>... [-c <file>]
   sloth-ci remove <listen_point> [-c <file>]
   sloth-ci trigger <listen_point> [-p <params>] [-c <file>]
-  sloth-ci info [<listen_point>] [-c <file>]
-  sloth-ci reload [<listen_points>...] [-c <file>]
+  sloth-ci (info | reload) [<listen_points>...] [-c <file>]
   sloth-ci --version
   sloth-ci -h
 
@@ -97,32 +96,33 @@ class CLI:
         else:
             print('App and file were not bound: %s' % content)
 
-    def create_app(self, config_file):
+    def create_app(self, config_files):
         '''Create an app from the config file.
         
         :param config_file: path to the app config file
         '''
 
-        try:
-            config_file_abspath = abspath(config_file)
+        for config_file in config_files:
+            try:
+                config_file_abspath = abspath(config_file)
 
-            data = {
-                'action': 'create',
-                'config_string': ''.join(open(config_file_abspath).readlines()),
-            }
+                data = {
+                    'action': 'create',
+                    'config_string': ''.join(open(config_file_abspath).readlines()),
+                }
 
-            status, content = self._send_api_request(data)
+                status, content = self._send_api_request(data)
 
-            if status == 201:
-                print('App created, listening on %s' % content)
+                if status == 201:
+                    print('App created, listening on %s' % content)
 
-                self._bind_config_file(content, config_file_abspath)
+                    self._bind_config_file(content, config_file_abspath)
 
-            else:
-                print('App was not created: %s' % content)
+                else:
+                    print('App was not created: %s' % content)
         
-        except FileNotFoundError as e:
-            print('File %s not found' % e)
+            except FileNotFoundError as e:
+                print('File %s not found' % e)
 
     def remove_app(self, listen_point):
         '''Remove an app on a certain listen point.
@@ -171,7 +171,7 @@ class CLI:
         else:
             print('App actions were not triggered: %s' % content)
 
-    def app_info(self, listen_point=None):
+    def app_info(self, listen_points=[]):
         '''Get info for a particular app or all apps.
  
         :param listen_points: list of app listen points to show info for; if empty, all apps will be shown
@@ -181,7 +181,7 @@ class CLI:
 
         data = {
             'action': 'info',
-            'listen_point': listen_point
+            'listen_point': listen_points
         }
 
         status, content = self._send_api_request(data)
@@ -202,14 +202,15 @@ class CLI:
         '''
 
         if not listen_points:
-            reload_list = self.app_info().keys()
+            reload_list = [app['listen_point'] for app in self.app_info()]
 
         else:
             reload_list = listen_points
 
         for listen_point in reload_list:
             try:
-                config_file = self.app_info(listen_point)[0]['config_file']
+                config_file = self.app_info([listen_point])[0]['config_file']
+                print('qwe', config_file)
 
                 self.remove_app(listen_point)
                 self.create_app(config_file)
@@ -251,7 +252,7 @@ def main():
         cli.start()
 
     elif args['create']:
-        cli.create_app(args['<config_file>'])
+        cli.create_app(args['<config_files>'])
 
     elif args['remove']:
         cli.remove_app(args['<listen_point>'])
@@ -262,7 +263,7 @@ def main():
     elif args['info']:
         try:
             print(tabulate(
-                cli.app_info(args['<listen_point>']),
+                cli.app_info(args['<listen_points>']),
                 headers='keys'
             ))
 
