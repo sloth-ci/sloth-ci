@@ -2,9 +2,11 @@
 HTTP API
 ********
 
-The root listen point (``/``) of a Sloth CI server is reserved for the API. The API is the only way to manage Sloth CI apps.
+The root listen point (``/``) of a Sloth CI server is reserved for the API.
 
-The API listen point expects API requests, which are ordinary HTTP requests with a mandatory ``action`` and numerous optional or mandatory params depending on the action. It doesn't matter if the request is sent via GET or POST, if the data is form data, JSON-dictionary, or a GET query—Sloth CI will chew it all. 
+The API listen point expects API requests, which are ordinary HTTP requests with a mandatory ``action`` and numerous optional or mandatory params depending on the action. It doesn't matter if the request is sent via GET or POST—Sloth CI will chew it all. 
+
+The API returns data in the JSON format.
 
 A GET API request looks like this::
 
@@ -106,6 +108,59 @@ Errors
 -   **400**: the ``listen_point`` param is missing
 -   **404**: no app found on the requested listen point
 -   **500**: something unexpected happened in the server (read the error message for details)
+
+``info``
+========
+
+Get information about cerain or all apps.
+
+GET URL example::
+
+    http://localhost:8080/?action=info&listen_point=spam
+
+Params
+------
+
+-   ``action`` = ``info``
+-   ``listen_point`` is a listen point of the app. You can pass multiple listen points in this param.
+
+Response
+--------
+
+Status **200** with a list of JSON objects like ``{"listen_point": "foo", "config_file": "/home/bar.yml"}``.
+
+Errors
+------
+
+-   **404**: no app found on the requested listen point
+-   **500**: something unexpected happened in the server (read the error message for details)
+
+``bind``
+========
+
+Bind an app with a config file.
+
+GET URL example::
+
+    http://localhost:8080/?action=bind&listen_point=foo&config_file=%2Fhome%2Fbar.yml
+
+Params
+------
+
+-   ``action`` = ``bind``
+-   ``listen_point`` is a listen point of the app.
+-   ``config_file`` is an absolute path to the config file.
+
+Response
+--------
+
+Status **200** with empty content.
+
+Errors
+------
+
+-   **404**: no app found on the requested listen point or no file found on the given path (read the error message for details)
+-   **500**: config in the file is different from the one used by the app or something unexpected happened in the server (read the error message for details)
 
 ``restart``
 ===========
