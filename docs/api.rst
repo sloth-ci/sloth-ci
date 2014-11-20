@@ -112,7 +112,7 @@ Errors
 ``info``
 ========
 
-Get information about cerain or all apps.
+Get information about certain or all apps.
 
 GET URL example::
 
@@ -148,8 +148,8 @@ Params
 ------
 
 -   ``action`` = ``bind``
--   ``listen_point`` is a listen point of the app.
--   ``config_file`` is an absolute path to the config file.
+-   ``listen_point`` is a listen point of the app
+-   ``config_file`` is an absolute path to the config file
 
 Response
 --------
