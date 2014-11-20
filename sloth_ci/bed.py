@@ -31,7 +31,9 @@ class Bed:
         self.config = config
         self.bus = cherrypy.engine
 
-        self.listen_points = {}
+        self.sloths = {}
+        
+        self.config_files = {}
 
         self.api = API(self)
 
@@ -73,10 +75,40 @@ class Bed:
         self.bus.start()
         self.bus.block()
 
+    def bind_config_file(self, listen_point, config_file):
+        '''Bind a Sloth app with a config file.
+ 
+        :param listen_point: app's listen point
+        :param config_file: absolute path to the config file
+        '''
+
+        try:
+            if self.sloths[listen_point].config == load(open(config_file)):
+                self.config_files[listen_point] = config_file
+
+                cherrypy.log.error('App on %s bound with config file %s' % (listen_point, config_file))
+
+            else:
+                raise ValueError
+
+        except KeyError:
+            cherrypy.log.error('Failed to bind config file: listen point %s not found' % listen_point)
+            raise
+
+        except FileNotFoundError:
+            cherrypy.log.error('Failed to bind config file: file %s not found' % config_file)
+            raise
+
+        except ValueError:
+            cherrypy.log.error('Failed to bind config file: config mismatch')
+            raise
+
     def add_sloth(self, config_string):
         '''Create a Sloth app from a config source and add it to the bed.
 
         :param config_string: a valid YAML config string
+
+        :returns: new app's listen point
         '''
 
         config = load(config_string)
@@ -84,7 +116,7 @@ class Bed:
         try:
             listen_point = config['listen_point']
 
-            if listen_point in self.listen_points:
+            if listen_point in self.sloths:
                 raise ValueError(listen_point)
 
             ExtendedSloth, errors = Sloth.extend(config.get('extensions'))
@@ -93,7 +125,7 @@ class Bed:
             for error in errors:
                 sloth.logger.error(error)
             
-            self.listen_points[listen_point] = sloth
+            self.sloths[listen_point] = sloth
             sloth.logger.info('Listening on %s' % listen_point)
 
             cherrypy.log.error('Sloth app added, listening on %s' % listen_point)
@@ -123,7 +155,8 @@ class Bed:
         '''
 
         try:
-            self.listen_points.pop(listen_point).stop()
+            self.sloths.pop(listen_point).stop()
+            self.config_files.pop(listen_point)
 
             cherrypy.log.error('Sloth app at %s removed' % listen_point)
 
@@ -137,8 +170,11 @@ class Bed:
     def remove_all_sloths(self):
         '''Stop all active Sloth apps and remove them from the bed.'''
 
-        while self.listen_points:
-            self.listen_points.popitem()[1].stop()
+        while self.sloths:
+            listen_point, sloth = self.sloths.popitem()
+
+            sloth.stop()
+            self.config_files.pop(listen_point)
 
     @cherrypy.expose
     @cherrypy.tools.proxy()
@@ -148,7 +184,7 @@ class Bed:
         :param listen_point: Sloth app listen point (part of the URL after the server host)
         '''
 
-        sloth = self.listen_points.get(listen_point)
+        sloth = self.sloths.get(listen_point)
 
         if sloth:
             sloth.handle(cherrypy.request)
