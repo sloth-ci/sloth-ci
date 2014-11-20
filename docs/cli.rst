@@ -11,7 +11,7 @@ Here's the output of the ``sloth-ci --help`` command:
     Usage:
       sloth-ci (start | restart | stop) [-c <file>]
       sloth-ci create <config_files>... [-c <file>]
-      sloth-ci remove <listen_point> [-c <file>]
+      sloth-ci remove <listen_points>... [-c <file>]
       sloth-ci trigger <listen_point> [-p <params>] [-c <file>]
       sloth-ci (info | reload) [<listen_points>...] [-c <file>]
       sloth-ci --version
@@ -62,7 +62,7 @@ After the new app is created, it is bound with the config file so you can :ref:`
 ``remove``
 ==========
 
-Remove a Sloth CI app on a particular listen point.
+Remove a Sloth CI app on a particular listen point or multiple listen points.
 
 ``trigger``
 ===========
