@@ -9,10 +9,11 @@ Here's the output of the ``sloth-ci --help`` command:
     Sloth CI.
 
     Usage:
-      sloth-ci start | restart | stop [-c <file>]
-      sloth-ci create <config_file> [-c <file>]
+      sloth-ci (start | restart | stop) [-c <file>]
+      sloth-ci create <config_files>... [-c <file>]
       sloth-ci remove <listen_point> [-c <file>]
       sloth-ci trigger <listen_point> [-p <params>] [-c <file>]
+      sloth-ci (info | reload) [<listen_points>...] [-c <file>]
       sloth-ci --version
       sloth-ci -h
 
@@ -54,9 +55,7 @@ Ask a Sloth CI server to stop.
 ``create``
 ==========
 
-Create a Sloth CI app with a paricular configuration. The configuration is specified as a path to a YAML file. Refer to the :ref:`app config <app-config>` description.
-
-.. important:: Always use absolute paths to config files.
+Create Sloth CI apps with paricular configurations. The configurations are specified as a paths to YAML files. Refer to the :ref:`app config <app-config>` description.
 
 The new app's listen point is returned if the creation was successful.
 
@@ -81,3 +80,15 @@ In the ``-p`` (or ``--params``) argument, you must specify the params that are u
     Normally, while executing the actions, Sloth CI uses the params from the ``params`` section in the apps's config and the params extracted from the incoming payload.
     
     In case of a forced execution, there is no payload, thus, no params. In the face of ambiguity, Sloth CI refuses the temptation to guess, so you must specify the params explicitly.
+
+``info``
+========
+
+Get information about certain ar all apps.
+
+Returned is a table of ``listen_point`` and ``config_file``. If an app has now bound config file (i.e. was created via API), its ``config_file`` column is empty.
+
+``reload``
+==========
+
+Syntactic sugar for "``remove`` + ``create``". Reload certain or all apps.
