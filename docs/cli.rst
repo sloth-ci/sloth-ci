@@ -57,7 +57,7 @@ Ask a Sloth CI server to stop.
 
 Create Sloth CI apps with paricular configurations. The configurations are specified as a paths to YAML files. Refer to the :ref:`app config <app-config>` description.
 
-The new app's listen point is returned if the creation was successful.
+After the new app is created, it is bound with the config file so you can :ref:`reload <cli-reload>` it later. 
 
 ``remove``
 ==========
@@ -88,7 +88,9 @@ Get information about certain ar all apps.
 
 Returned is a table of ``listen_point`` and ``config_file``. If an app has now bound config file (i.e. was created via API), its ``config_file`` column is empty.
 
+.. _cli-reload:
+
 ``reload``
 ==========
 
-Syntactic sugar for "``remove`` + ``create``". Reload certain or all apps.
+Syntactic sugar for "``remove`` + ``create``". Reload certain or all apps from their config files.
