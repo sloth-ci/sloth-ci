@@ -24,6 +24,7 @@ setup(
         'CherryPy',
         'awesome-slugify',
         'docopt',
+        'tabulate',
         'PyYAML',
         'requests',
         'Routes'
