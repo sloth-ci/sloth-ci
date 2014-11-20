@@ -27,6 +27,7 @@ class API:
               
         @expose
         @tools.auth_basic(checkpassword=checkpassword_dict(auth_dict), realm=realm)
+        @tools.json_out()
         def listener(action, **kwargs):
             '''Listen to and route API requests.
             
@@ -44,7 +45,7 @@ class API:
                 
                 try:
                     listen_point = self.bed.add_sloth(kwargs['config_string'])
-                    
+
                     response.status = 201
 
                     return listen_point
@@ -85,7 +86,7 @@ class API:
                 try:
                     params = {_: kwargs[_] for _ in kwargs if _ not in ('action', 'listen_point')}
                     
-                    sloth = self.bed.listen_points[kwargs['listen_point']]
+                    sloth = self.bed.sloths[kwargs['listen_point']]
                     
                     sloth.process(params)
 
@@ -98,6 +99,61 @@ class API:
 
                 except Exception as e:
                     raise HTTPError(500, 'Failed to trigger app actions: %s' % e)
+
+            elif action == 'bind':
+                if not 'listen_point' in kwargs:
+                    raise HTTPError(400, 'Missing parameter listen_point')
+
+                if not 'config_file' in kwargs:
+                    raise HTTPError(400, 'Missing parameter config_file')
+
+                try:
+                    self.bed.bind_config_file(kwargs['listen_point'], kwargs['config_file'])
+
+                    response.status = 200
+
+                    return None
+
+                except KeyError as e:
+                    raise HTTPError(404, 'Listen point %s not found' % e)
+
+                except FileNotFoundError:
+                    raise HTTPError(404, 'File %s not found' % e)
+
+                except ValueError:
+                    raise HTTPError(500, 'Config mismatch')
+
+                except Exception as e:
+                    raise HTTPError(500, 'Failed to bind config file to app: %s' % e)
+
+            elif action == 'info':
+                try:
+                    if not kwargs.get('listen_point'):
+                        app_list = self.bed.sloths.keys()
+                
+                    else:
+                        app_list = [kwargs['listen_point']]
+                    
+                    info_list = []
+
+                    for listen_point in app_list:
+                        if not listen_point in self.bed.sloths:
+                            raise KeyError(listen_point)
+
+                        info_list.append({
+                            'listen_point': listen_point,
+                            'config_file': self.bed.config_files.get(listen_point)
+                        })
+
+                    response.status = 200
+
+                    return info_list
+
+                except KeyError as e:
+                    raise HTTPError(404, 'Listen point %s not found' % e)
+
+                except Exception as e:
+                    raise HTTPError(500, 'Failed to get app info: %s' % e)
 
             elif action == 'restart':
                 try:
