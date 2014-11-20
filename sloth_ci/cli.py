@@ -3,7 +3,7 @@
 Usage:
   sloth-ci (start | restart | stop) [-c <file>]
   sloth-ci create <config_files>... [-c <file>]
-  sloth-ci remove <listen_point> [-c <file>]
+  sloth-ci remove <listen_points>... [-c <file>]
   sloth-ci trigger <listen_point> [-p <params>] [-c <file>]
   sloth-ci (info | reload) [<listen_points>...] [-c <file>]
   sloth-ci --version
@@ -124,24 +124,25 @@ class CLI:
             except FileNotFoundError as e:
                 print('File %s not found' % e)
 
-    def remove_app(self, listen_point):
+    def remove_app(self, listen_points):
         '''Remove an app on a certain listen point.
         
         :param listen_point: the app's listen point
         '''
 
-        data = {
-            'action': 'remove',
-            'listen_point': listen_point
-        }
+        for listen_point in listen_points:
+            data = {
+                'action': 'remove',
+                'listen_point': listen_point
+            }
 
-        status, content = self._send_api_request(data)
+            status, content = self._send_api_request(data)
         
-        if status == 204:
-            print('App on listen point %s removed' % listen_point)
+            if status == 204:
+                print('App on listen point %s removed' % listen_point)
 
-        else:
-            print('App was not removed: %s' % content)
+            else:
+                print('App was not removed: %s' % content)
 
     def trigger_actions(self, listen_point, param_string):
         '''Trigger actions of a particular app to execute with the given params.
@@ -210,10 +211,9 @@ class CLI:
         for listen_point in reload_list:
             try:
                 config_file = self.app_info([listen_point])[0]['config_file']
-                print('qwe', config_file)
 
-                self.remove_app(listen_point)
-                self.create_app(config_file)
+                self.remove_app([listen_point])
+                self.create_app([config_file])
 
                 print('App on listen point %s reloaded' % listen_point)
             
@@ -255,7 +255,7 @@ def main():
         cli.create_app(args['<config_files>'])
 
     elif args['remove']:
-        cli.remove_app(args['<listen_point>'])
+        cli.remove_app(args['<listen_points>'])
 
     elif args['trigger']:
         cli.trigger_actions(args['<listen_point>'], args['--params'])
@@ -263,7 +263,7 @@ def main():
     elif args['info']:
         try:
             print(tabulate(
-                cli.app_info(args['<listen_points>']),
+                cli.app_info(args['<listen_points>']) or {},
                 headers='keys'
             ))
 
