@@ -9,19 +9,17 @@ Here's the output of the ``sloth-ci --help`` command:
     Sloth CI.
 
     Usage:
-      sloth-ci (start | restart | stop) [-c <file>]
+      sloth-ci (start | restart | stop | status) [-c <file>]
       sloth-ci create <config_files>... [-c <file>]
       sloth-ci remove <listen_points>... [-c <file>]
       sloth-ci trigger <listen_point> [-p <params>] [-c <file>]
       sloth-ci (info | reload) [<listen_points>...] [-c <file>]
-      sloth-ci --status
       sloth-ci --version
       sloth-ci --help
 
     Options:
       -c <file>, --config <file>    Path to the server config file [default: ./sloth.yml]
       -p --params <params>          Params to trigger the actions with. String like 'param1=val1,param2=val2'
-      -s --status                   Show server status (running/not running)
       -v --version                  Show version
       -h --help                     Show this screen
 
@@ -53,6 +51,11 @@ Ask a Sloth CI server to stop.
 .. important::
 
     This command only *asks* for a stop, it can't guarantee that the server will stop immediatelly or ever at all. You should check the stop success in the server's logs.
+
+``status``
+==========
+
+Get a Sloth CI server's status (runnin or not running).
 
 ``create``
 ==========
