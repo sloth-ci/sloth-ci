@@ -43,7 +43,7 @@ Status **201** with the new app's listen point in the content.
 Errors
 ------
 
--   **400**: the ``config_source`` param is missing
+-   **400**: the ``config_string`` param is missing
 -   **409**: the requested listen point is already taken
 -   **500**: 
     -   invalid config string
