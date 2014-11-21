@@ -14,14 +14,16 @@ Here's the output of the ``sloth-ci --help`` command:
       sloth-ci remove <listen_points>... [-c <file>]
       sloth-ci trigger <listen_point> [-p <params>] [-c <file>]
       sloth-ci (info | reload) [<listen_points>...] [-c <file>]
+      sloth-ci --status
       sloth-ci --version
-      sloth-ci -h
+      sloth-ci --help
 
     Options:
       -c <file>, --config <file>    Path to the server config file [default: ./sloth.yml]
       -p --params <params>          Params to trigger the actions with. String like 'param1=val1,param2=val2'
-      -h --help                     Show this screen
+      -s --status                   Show server status (running/not running)
       -v --version                  Show version
+      -h --help                     Show this screen
 
 By default, Sloth CI will attempt to find the file *sloth.yml* in the directory it was called in and use it as its server config. You can specify your own config file path as the optional ``-c`` (or ``--config``) argument.
 
