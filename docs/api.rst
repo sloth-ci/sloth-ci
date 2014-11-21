@@ -46,6 +46,7 @@ Errors
 -   **400**: the ``config_string`` param is missing
 -   **409**: the requested listen point is already taken
 -   **500**: 
+
     -   invalid config string
     -   config is missing a mandatory param
     -   something unexpected happened on the server
