@@ -38,4 +38,5 @@
 1.0.5
 =====
 
--   CLI: The --status option added to check the Sloth CI server status (running/not running).
+-   CLI: The status command added to check the Sloth CI server status (running/not running).
+-   CLI: Output messages are now saner.
