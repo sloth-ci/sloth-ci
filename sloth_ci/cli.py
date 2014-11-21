@@ -6,14 +6,16 @@ Usage:
   sloth-ci remove <listen_points>... [-c <file>]
   sloth-ci trigger <listen_point> [-p <params>] [-c <file>]
   sloth-ci (info | reload) [<listen_points>...] [-c <file>]
+  sloth-ci --status
   sloth-ci --version
-  sloth-ci -h
+  sloth-ci --help
 
 Options:
   -c <file>, --config <file>    Path to the server config file [default: ./sloth.yml]
   -p --params <params>          Params to trigger the actions with. String like 'param1=val1,param2=val2'
-  -h --help                     Show this screen
+  -s --status                   Show server status (running/not running)
   -v --version                  Show version
+  -h --help                     Show this screen
 '''
 
 
@@ -53,7 +55,7 @@ class CLI:
         except Exception as e:
             print('Could not start Sloth CI: %s' % e)
 
-    def _send_api_request(self, data):
+    def _send_api_request(self, data={}):
         '''Send a POST request to the Sloth CI API with the given data.'''
 
         try:
@@ -72,7 +74,7 @@ class CLI:
             return response.status_code, content
         
         except exceptions.ConnectionError as e:
-            print('Failed to connect to Sloth CI API on %s' % self.api_url)
+            print('Failed to connect to Sloth CI on %s' % self.api_url)
             exit()
 
     def _bind_config_file(self, listen_point, config_file):
@@ -96,10 +98,10 @@ class CLI:
         else:
             print('App and file were not bound: %s' % content)
 
-    def create_app(self, config_files):
-        '''Create an app from the config file.
+    def create_apps(self, config_files):
+        '''Create apps from the config files.
         
-        :param config_file: path to the app config file
+        :param config_files: paths to the app config files
         '''
 
         for config_file in config_files:
@@ -124,10 +126,10 @@ class CLI:
             except FileNotFoundError as e:
                 print('File %s not found' % e)
 
-    def remove_app(self, listen_points):
-        '''Remove an app on a certain listen point.
+    def remove_apps(self, listen_points):
+        '''Remove apps on certain listen points.
         
-        :param listen_point: the app's listen point
+        :param listen_points: list of listen points
         '''
 
         for listen_point in listen_points:
@@ -212,13 +214,19 @@ class CLI:
             try:
                 config_file = self.app_info([listen_point])[0]['config_file']
 
-                self.remove_app([listen_point])
-                self.create_app([config_file])
+                self.remove_apps([listen_point])
+                self.create_apps([config_file])
 
-                print('App on listen point %s reloaded' % listen_point)
-            
             except Exception as e:
                 print('App was not reloaded: %s' % e)
+
+    def get_status(self):
+        try:
+            self._send_api_request()
+            print('Sloth CI is running on %s' % self.api_url)
+
+        except:
+            print('Sloth CI is not running on %s' % self.api_url)
 
     def restart(self):
         '''Restart a Sloth CI server.'''
@@ -252,10 +260,10 @@ def main():
         cli.start()
 
     elif args['create']:
-        cli.create_app(args['<config_files>'])
+        cli.create_apps(args['<config_files>'])
 
     elif args['remove']:
-        cli.remove_app(args['<listen_points>'])
+        cli.remove_apps(args['<listen_points>'])
 
     elif args['trigger']:
         cli.trigger_actions(args['<listen_point>'], args['--params'])
@@ -272,6 +280,9 @@ def main():
 
     elif args['reload']:
         cli.reload_apps(args['<listen_points>'])
+
+    elif args['--status']:
+        cli.get_status()
 
     elif args['restart']:
         cli.restart()
