@@ -34,3 +34,8 @@
 -   CLI: info command added.
 -   CLI: reload command added to reload an app or all apps. Useful when the bound config file has updated.
 -   CLI: remove command now can accept multiple listen points.
+
+1.0.5
+=====
+
+-   CLI: The --status option added to check the Sloth CI server status (running/not running).
