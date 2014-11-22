@@ -55,7 +55,7 @@ Ask a Sloth CI server to stop.
 ``status``
 ==========
 
-Get a Sloth CI server's status (runnin or not running).
+Get a Sloth CI server's status (running or not running).
 
 ``create``
 ==========
