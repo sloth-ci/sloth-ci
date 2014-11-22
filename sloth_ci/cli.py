@@ -1,19 +1,17 @@
 ﻿'''Sloth CI.
 
 Usage:
-  sloth-ci (start | restart | stop) [-c <file>]
+  sloth-ci (start | restart | stop | status) [-c <file>]
   sloth-ci create <config_files>... [-c <file>]
   sloth-ci remove <listen_points>... [-c <file>]
   sloth-ci trigger <listen_point> [-p <params>] [-c <file>]
   sloth-ci (info | reload) [<listen_points>...] [-c <file>]
-  sloth-ci --status
   sloth-ci --version
   sloth-ci --help
 
 Options:
   -c <file>, --config <file>    Path to the server config file [default: ./sloth.yml]
   -p --params <params>          Params to trigger the actions with. String like 'param1=val1,param2=val2'
-  -s --status                   Show server status (running/not running)
   -v --version                  Show version
   -h --help                     Show this screen
 '''
@@ -48,12 +46,7 @@ class CLI:
     def start(self):
         '''Start a Sloth CI server.'''
 
-        try:
-            print('Starting Sloth CI on %s' % self.api_url)
-            Bed(self.config).start()
-
-        except Exception as e:
-            print('Could not start Sloth CI: %s' % e)
+        Bed(self.config).start()
 
     def _send_api_request(self, data={}):
         '''Send a POST request to the Sloth CI API with the given data.'''
@@ -73,11 +66,10 @@ class CLI:
 
             return response.status_code, content
         
-        except exceptions.ConnectionError as e:
-            print('Failed to connect to Sloth CI on %s' % self.api_url)
-            exit()
+        except exceptions.ConnectionError:
+            raise ConnectionError('Failed to connect to Sloth CI on %s' % self.api_url)
 
-    def _bind_config_file(self, listen_point, config_file):
+    def bind(self, listen_point, config_file):
         '''Bind a Sloth app with a config file.
  
         :param listen_point: app's listen point
@@ -93,75 +85,68 @@ class CLI:
         status, content = self._send_api_request(data)
 
         if status == 200:
-            print('App on %s bound with file %s' % (listen_point, config_file))
+            return True
+
+        elif status == 404:
+            raise KeyError(content)
 
         else:
-            print('App and file were not bound: %s' % content)
+            raise RuntimeError(content)
 
-    def create_apps(self, config_files):
-        '''Create apps from the config files.
+    def create(self, config_file):
+        '''Create an app from the config file.
         
-        :param config_files: paths to the app config files
+        :param config_file: path to the app config file
         '''
 
-        for config_file in config_files:
-            try:
-                config_file_abspath = abspath(config_file)
+        data = {
+            'action': 'create',
+            'config_string': ''.join(open(config_file).readlines()),
+        }
 
-                data = {
-                    'action': 'create',
-                    'config_string': ''.join(open(config_file_abspath).readlines()),
-                }
+        status, content = self._send_api_request(data)
 
-                status, content = self._send_api_request(data)
+        if status == 201:
+            return content
 
-                if status == 201:
-                    print('App created, listening on %s' % content)
+        elif status == 409:
+            raise ValueError(content)
+            
+        else:
+            raise RuntimeError(content)
 
-                    self._bind_config_file(content, config_file_abspath)
-
-                else:
-                    print('App was not created: %s' % content)
+    def remove(self, listen_point):
+        '''Remove an app on a certain listen point.
         
-            except FileNotFoundError as e:
-                print('File %s not found' % e)
-
-    def remove_apps(self, listen_points):
-        '''Remove apps on certain listen points.
-        
-        :param listen_points: list of listen points
+        :param listen_point: the app's listen point
         '''
 
-        for listen_point in listen_points:
-            data = {
-                'action': 'remove',
-                'listen_point': listen_point
-            }
+        data = {
+            'action': 'remove',
+            'listen_point': listen_point
+        }
 
-            status, content = self._send_api_request(data)
+        status, content = self._send_api_request(data)
         
-            if status == 204:
-                print('App on listen point %s removed' % listen_point)
+        if status == 204:
+            return True
 
-            else:
-                print('App was not removed: %s' % content)
+        elif status == 404:
+            raise KeyError(content)
 
-    def trigger_actions(self, listen_point, param_string):
+        else:
+            raise RuntimeError(content)
+
+    def trigger(self, listen_point, params={}):
         '''Trigger actions of a particular app to execute with the given params.
 
         :param listen_point: app's listen point
-        :param param_string: string like "param1=value1,param2=value2"
+        :param params: dict of params
         '''
-        
-        if param_string:
-            params = dict((pair.split('=') for pair in param_string.split(',')))
-        
-        else:
-            params = {}
 
         data = {
             'action': 'trigger',
-            'listen_point': listen_point
+            'listen_point': listen_point,
         }
 
         data.update(params)
@@ -169,12 +154,15 @@ class CLI:
         status, content = self._send_api_request(data)
 
         if status == 202:
-            print('App actions on listen point %s triggered' % listen_point)
+            return True
+
+        elif status == 404:
+            raise KeyError(content)
 
         else:
-            print('App actions were not triggered: %s' % content)
+            raise RuntimeError(content)
 
-    def app_info(self, listen_points=[]):
+    def info(self, listen_points=[]):
         '''Get info for a particular app or all apps.
  
         :param listen_points: list of app listen points to show info for; if empty, all apps will be shown
@@ -198,46 +186,16 @@ class CLI:
         else:
             raise RuntimeError(content)
 
-    def reload_apps(self, listen_points):
-        '''Reload a particluar app or all apps.
-        
-        :param listen_points: list of listen points of apps to be reloaded; if empty, all apps will be realoaded
-        '''
-
-        if not listen_points:
-            reload_list = [app['listen_point'] for app in self.app_info()]
-
-        else:
-            reload_list = listen_points
-
-        for listen_point in reload_list:
-            try:
-                config_file = self.app_info([listen_point])[0]['config_file']
-
-                self.remove_apps([listen_point])
-                self.create_apps([config_file])
-
-            except Exception as e:
-                print('App was not reloaded: %s' % e)
-
-    def get_status(self):
-        try:
-            self._send_api_request()
-            print('Sloth CI is running on %s' % self.api_url)
-
-        except:
-            print('Sloth CI is not running on %s' % self.api_url)
-
     def restart(self):
         '''Restart a Sloth CI server.'''
 
         status, content = self._send_api_request({'action': 'restart'})
         
         if status == 202:
-            print('Restarting Sloth CI')
+            return True
 
         else:
-            print('Server was not restarted: %s' % content)
+            raise RuntimeError(content)
 
     def stop(self):
         '''Stop a Sloth CI server.'''
@@ -245,10 +203,10 @@ class CLI:
         status, content = self._send_api_request({'action': 'stop'})
         
         if status == 202:
-            print('Stopping Sloth CI')
+            return True
 
         else:
-            print('Server was not stopped: %s' % content)
+            raise RuntimeError(content)
 
 
 def main():
@@ -257,35 +215,105 @@ def main():
     cli = CLI(args['--config'])
 
     if args['start']:
-        cli.start()
+        try:
+            print('Starting Sloth CI on %s' % cli.api_url)
+            cli.start()
+
+        except Exception as e:
+            print('Failed to start Sloth CI: %s' % e)
 
     elif args['create']:
-        cli.create_apps(args['<config_files>'])
+        for config_file in args['<config_files>']:
+            try:
+                listen_point = cli.create(abspath(config_file))
+                print('App created on %s' % listen_point)
+
+            except FileNotFoundError:
+                print('File %s not found' % config_file)
+                continue
+
+            except Exception as e:
+                print('Failed to create app: %s' % e)
+                continue
+
+            try:
+                cli.bind(listen_point, abspath(config_file))
+                print('App on %s bound with config file %s' % (listen_point, config_file))
+
+            except Exception as e:
+                print('Failed to bind app on %s with config file %s: %s' % (listen_point, config_file, e))
 
     elif args['remove']:
-        cli.remove_apps(args['<listen_points>'])
+        for listen_point in args['<listen_points>']:
+            try:
+                cli.remove(listen_point)
+                print('App on %s removed' % listen_point)
+
+            except Exception as e:
+                print('Failed to remove app on %s: %s' % (listen_point, e))
 
     elif args['trigger']:
-        cli.trigger_actions(args['<listen_point>'], args['--params'])
+
+        try:
+            listen_point = args['<listen_point>']
+            params = {}
+
+            if args['--params']:
+                params.update(dict((pair.split('=') for pair in args['--params'].split(','))))
+
+            cli.trigger(listen_point, params)
+            print('Actions triggered on %s' % listen_point)
+
+        except Exception as e:
+            print('Failed to trigger actions on %s: %s' % (listen_point, e))
 
     elif args['info']:
         try:
-            print(tabulate(
-                cli.app_info(args['<listen_points>']) or {},
-                headers='keys'
-            ))
+            apps = cli.info(args['<listen_points>'])
+            
+            table = [[app['listen_point'], app['config_file']] for app in apps]
+            
+            print(tabulate(table, headers=['Listen Point', 'Config File']))
 
         except Exception as e:
             print('Failed to get app info: %s' % e)
 
     elif args['reload']:
-        cli.reload_apps(args['<listen_points>'])
+        reload_list = args['<listen_points>'] or [app['listen_point'] for app in cli.info()]
 
-    elif args['--status']:
-        cli.get_status()
+        for listen_point in reload_list:
+            try:
+                config_file = cli.info([listen_point])[0]['config_file']
+                
+                cli.remove(listen_point)
+                cli.create(config_file)
+                cli.bind(listen_point, config_file)
+
+                print('App on %s reloaded' % listen_point)
+
+            except Exception as e:
+                print('Failed to reload app on %s: %s' % (listen_point, e))
 
     elif args['restart']:
-        cli.restart()
+        try:
+            cli.restart()
+            print('Restarting Sloth CI on %s ' % cli.api_url)
+
+        except Exception as e:
+            print('Failed to restart Sloth CI on %s: %s' % (cli.api_url, e))
 
     elif args['stop']:
-        cli.stop()
+        try:
+            cli.stop()
+            print('Stopping Sloth CI on %s ' % cli.api_url)
+
+        except Exception as e:
+            print('Failed to stop Sloth CI on %s: %s' % (cli.api_url, e))
+
+    elif args['status']:
+        try:
+            cli._send_api_request()
+            print('Sloth CI is running on %s' % cli.api_url)
+
+        except:
+            print('Sloth CI is not running on %s' % cli.api_url)
