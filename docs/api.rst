@@ -117,13 +117,13 @@ Get information about certain or all apps.
 
 GET URL example::
 
-    http://localhost:8080/?action=info&listen_point=spam
+    http://localhost:8080/?action=info&listen_points=spam&listen_points=eggs
 
 Params
 ------
 
 -   ``action`` = ``info``
--   ``listen_point`` is a listen point of the app. You can pass multiple listen points in this param.
+-   ``listen_points`` is a list of listen points of the apps. You can pass zero, one, or multiple listen points.
 
 Response
 --------
