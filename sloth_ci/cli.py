@@ -43,11 +43,6 @@ class CLI:
             print('Either put a "sloth.yml" file in this directory or pick a proper config file with "-c."')
             exit()
 
-    def start(self):
-        '''Start a Sloth CI server.'''
-
-        Bed(self.config).start()
-
     def _send_api_request(self, data={}):
         '''Send a POST request to the Sloth CI API with the given data.'''
 
@@ -172,7 +167,7 @@ class CLI:
 
         data = {
             'action': 'info',
-            'listen_point': listen_points
+            'listen_points': listen_points
         }
 
         status, content = self._send_api_request(data)
@@ -187,7 +182,7 @@ class CLI:
             raise RuntimeError(content)
 
     def restart(self):
-        '''Restart a Sloth CI server.'''
+        '''Ask a a Sloth CI server to restart.'''
 
         status, content = self._send_api_request({'action': 'restart'})
         
@@ -198,7 +193,7 @@ class CLI:
             raise RuntimeError(content)
 
     def stop(self):
-        '''Stop a Sloth CI server.'''
+        '''Ask a a Sloth CI server to stop.'''
 
         status, content = self._send_api_request({'action': 'stop'})
         
@@ -217,7 +212,7 @@ def main():
     if args['start']:
         try:
             print('Starting Sloth CI on %s' % cli.api_url)
-            cli.start()
+            Bed(cli.config).start()
 
         except Exception as e:
             print('Failed to start Sloth CI: %s' % e)
