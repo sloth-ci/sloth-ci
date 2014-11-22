@@ -38,8 +38,11 @@
 1.0.5
 =====
 
--   CLI: The status command added to check the Sloth CI server status (running/not running).
--   CLI: Output messages are now saner.
--   CLI: info: Table rows are now always arranged in the same order.
 -   API: info: If multiple listen points were passed, an error occured. Fixed.
 -   API: info: The listen_point param is now called listen_points (since there can be many of them).
+-   CLI: info: Table rows are now always arranged in the same order.
+-   CLI: Output messages are now saner.
+-   CLI: The status command added to check the Sloth CI server status (running/not running).
+-   Core: A new api package with the API server and client parts added.
+-   Setup: New dependency added: tabulate.
+-   Setup: New optional dependency added: sloth-ci.ext.logs.
