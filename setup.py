@@ -29,6 +29,9 @@ setup(
         'requests',
         'Routes'
     ],
+    extras_require = {
+        'Logs':  ["sloth-ci.ext.logs"]
+    },
     license='MIT',
     classifiers=[
         'Development Status :: 5 - Production/Stable',
