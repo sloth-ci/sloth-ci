@@ -156,7 +156,7 @@ class Bed:
 
         try:
             self.sloths.pop(listen_point).stop()
-            self.config_files.pop(listen_point)
+            self.config_files.pop(listen_point, None)
 
             cherrypy.log.error('Sloth app at %s removed' % listen_point)
 
