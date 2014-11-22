@@ -40,3 +40,6 @@
 
 -   CLI: The status command added to check the Sloth CI server status (running/not running).
 -   CLI: Output messages are now saner.
+-   CLI: info: Table rows are now always arranged in the same order.
+-   API: info: If multiple listen points were passed, an error occured. Fixed.
+-   API: info: The listen_point param is now called listen_points (since there can be many of them).
