@@ -19,7 +19,7 @@ setup(
     long_description=long_description,
     author_email=sloth_ci.__author_email__,
     url='https://bitbucket.org/moigagoo/sloth-ci',
-    packages=['sloth_ci'],
+    packages=['sloth_ci', 'sloth_ci.api'],
     install_requires = [
         'CherryPy',
         'awesome-slugify',
