@@ -9,7 +9,7 @@ import cherrypy
 from yaml import load
 
 from .sloth import Sloth
-from .api import API
+from .api.server import API
 
 
 class Bed:
@@ -83,8 +83,11 @@ class Bed:
         '''
 
         try:
-            if self.sloths[listen_point].config == load(open(config_file)):
+            sloth = self.sloths[listen_point]
+
+            if sloth.config == load(open(config_file)):
                 self.config_files[listen_point] = config_file
+                sloth.logger.info('Bound with config file %s' % config_file)
 
                 cherrypy.log.error('App on %s bound with config file %s' % (listen_point, config_file))
 
