@@ -4,6 +4,8 @@ Build Sphinx Docs
 
 In this recipe, you will see how to build your Sphinx documentation on every push to a particular branch in a repository.
 
+It is assumed that a Sloth CI server is already running on localhost:8080.
+
 Validator
 =========
 
@@ -35,14 +37,25 @@ Steps
 
         $ sloth-ci create /path/to/docs.yml
 
-#.  Trigger a build manually with:
+#.  Trigger a build manually with this CLI command:
     
     .. code-block:: bash
         
         $ sloth-ci trigger docs
 
-    Trigger a build into another directory:
+    or by opening this URL in your browser::
+    
+        http://localhost:8080/?action=trigger&listen_point=docs
 
-    .. code-block:: bash
+    
+    .. hint::
+        
+        Trigger a build into another directory:
 
-        $ sloth-ci trigger docs -p output=/srv/http/
+        .. code-block:: bash
+
+            $ sloth-ci trigger docs -p output=/srv/http/
+            
+        or::
+        
+            http://localhost:8080/?action=trigger&listen_point=docs&output=%2Fsrv%2Fhttp%2F
