@@ -76,6 +76,14 @@ class Sloth:
         )
 
         try:
+            provider_section = self.config.get('provider')
+
+            if provider_section:
+                provider, provider_data = provider_section.copy().popitem()
+
+            else:
+                raise HTTPError(400, 'No provider set, declining all payloads')
+
             provider, provider_data = self.config['provider'].copy().popitem()
 
             validator = import_module('.validators.%s' % provider, package=__package__)

@@ -13,7 +13,7 @@ listen_point: listen/test
 
 # Source of the payload the app expects. Provider must correspond to one of the existing validators.
 # Validators live in separate modules of the *sloth-ci.validators* package on PyPI.
-# Mandatory section with at least one validator.
+# If no provider is defined (i.e. this section is absent), the app actions can be triggered only manually.
 provider:
     # The GitHub validator lives in the *sloth-ci.validators.github* module.
     github:
