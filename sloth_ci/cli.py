@@ -39,7 +39,6 @@ def main():
     except Exception as e:
         print('Failed to parse the config file: %s' % e)
 
-
     if args['start']:
         try:
             print('Starting Sloth CI on %s' % api_client.api_url)

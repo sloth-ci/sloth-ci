@@ -4,6 +4,8 @@ from cherrypy import HTTPError, request, response
 
 from cherrypy.lib.auth_basic import checkpassword_dict
 
+from yaml import load
+
 
 class API:
     def __init__(self, bed):
@@ -97,7 +99,7 @@ class API:
             raise HTTPError(400, 'Missing parameter config_string')
 
         try:
-            listen_point = self.bed.add_sloth(config_string)
+            listen_point = self.bed.add_sloth(load(config_string))
 
             response.status = 201
 
