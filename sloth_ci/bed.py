@@ -21,7 +21,7 @@ class Bed:
 
     (This module is names "bed" because a group of sloth is actually called "bed".)
     '''
-    
+
     def __init__(self, config):
         '''Configure CherryPy loop to listen for payload.
 
