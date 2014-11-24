@@ -106,15 +106,13 @@ class Bed:
             cherrypy.log.error('Failed to bind config file: config mismatch')
             raise
 
-    def add_sloth(self, config_string):
+    def add_sloth(self, config):
         '''Create a Sloth app from a config source and add it to the bed.
 
-        :param config_string: a valid YAML config string
+        :param config: a dict parsed from YAML
 
         :returns: new app's listen point
         '''
-
-        config = load(config_string)
 
         try:
             listen_point = config['listen_point']
