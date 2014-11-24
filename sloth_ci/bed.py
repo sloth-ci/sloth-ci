@@ -57,7 +57,7 @@ class Bed:
         if config.get('daemon'):
             cherrypy.process.plugins.Daemonizer(self.bus).subscribe()
 
-        self.bus.subscribe('stop', self.remove_all_sloths)
+        self.bus.subscribe('stop', self.remove_all)
 
     def _setup_routing(self):
         '''Setup routing for API endpoint and app listeners.'''
@@ -75,7 +75,7 @@ class Bed:
         self.bus.start()
         self.bus.block()
 
-    def bind_config_file(self, listen_point, config_file):
+    def bind(self, listen_point, config_file):
         '''Bind a Sloth app with a config file.
  
         :param listen_point: app's listen point
@@ -106,7 +106,7 @@ class Bed:
             cherrypy.log.error('Failed to bind config file: config mismatch')
             raise
 
-    def add_sloth(self, config):
+    def create(self, config):
         '''Create a Sloth app from a config source and add it to the bed.
 
         :param config: a dict parsed from YAML
@@ -149,7 +149,7 @@ class Bed:
             cherrypy.log.error('Failed to create app: %s' % e)
             raise
 
-    def remove_sloth(self, listen_point):
+    def remove(self, listen_point):
         '''Stop Sloth app and remove it from the bed.
 
         :param listen_point: Sloth app listen point
@@ -168,7 +168,7 @@ class Bed:
         except Exception as e:
             cherrypy.log.error('Failed to remove app on %s: %s' % (listen_point, e))
 
-    def remove_all_sloths(self):
+    def remove_all(self):
         '''Stop all active Sloth apps and remove them from the bed.'''
 
         while self.sloths:

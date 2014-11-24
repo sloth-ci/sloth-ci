@@ -72,7 +72,7 @@ class API:
             raise HTTPError(400, 'Missing parameter config_file')
 
         try:
-            self.bed.bind_config_file(listen_point, config_file)
+            self.bed.bind(listen_point, config_file)
 
             response.status = 200
 
@@ -99,7 +99,7 @@ class API:
             raise HTTPError(400, 'Missing parameter config_string')
 
         try:
-            listen_point = self.bed.add_sloth(load(config_string))
+            listen_point = self.bed.create(load(config_string))
 
             response.status = 201
 
@@ -126,7 +126,7 @@ class API:
             raise HTTPError(400, 'Missing parameter listen_point')
                 
         try:
-            self.bed.remove_sloth(listen_point)
+            self.bed.remove(listen_point)
                     
             response.status = 204
 
