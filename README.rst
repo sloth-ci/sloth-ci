@@ -12,7 +12,7 @@ Sloth CI: CI for Humans
 
 .. image:: https://pypip.in/py_versions/sloth-ci/badge.svg
     :target: https://pypi.python.org/pypi/sloth-ci/
-    :alt: Supported Python versions
+    :alt: Supported Python Versions
 
 .. image:: https://pypip.in/wheel/sloth-ci/badge.svg
     :target: https://pypi.python.org/pypi/sloth-ci/
