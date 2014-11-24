@@ -3,17 +3,15 @@ from requests import post, exceptions
 
 
 class API:
-    def __init__(self, config_file):
-        self.config = load(open(config_file))
-        
-        self.api_url = 'http://%s:%d' % (self.config['host'], self.config['port'])
-        self.api_auth = (self.config['api_auth']['login'], self.config['api_auth']['password'])
+    def __init__(self, config):
+        self.url = 'http://%s:%d' % (config['host'], config['port'])
+        self.auth = (config['api_auth']['login'], config['api_auth']['password'])
 
     def _send_api_request(self, data={}):
         '''Send a POST request to the Sloth CI API with the given data.'''
 
         try:
-            response = post(self.api_url, auth=self.api_auth, data=data)
+            response = post(self.url, auth=self.auth, data=data)
 
             if response.ok:
                 if response.content:
@@ -28,7 +26,7 @@ class API:
             return response.status_code, content
         
         except exceptions.ConnectionError:
-            raise ConnectionError('Failed to connect to Sloth CI on %s' % self.api_url)
+            raise ConnectionError('Failed to connect to Sloth CI on %s' % self.url)
 
     def bind(self, listen_point, config_file):
         '''Bind a Sloth app with a config file.
