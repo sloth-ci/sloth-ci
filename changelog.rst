@@ -46,3 +46,8 @@
 -   Core: A new api package with the API server and client parts added.
 -   Setup: New dependency added: tabulate.
 -   Setup: New optional dependency added: sloth-ci.ext.logs.
+
+1.0.6
+=====
+
+-   Sloth: The provider section is now optional (some apps should only be triggered manually).
