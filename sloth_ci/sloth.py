@@ -84,8 +84,6 @@ class Sloth:
             else:
                 raise HTTPError(400, 'No provider set, declining all payloads')
 
-            provider, provider_data = self.config['provider'].copy().popitem()
-
             validator = import_module('.validators.%s' % provider, package=__package__)
 
         except ImportError as e:
