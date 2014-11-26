@@ -2,7 +2,7 @@
 
 Usage:
   sloth-ci (start | restart | stop | status) [-c <file>]
-  sloth-ci create <config_files>... [-c <file>]
+  sloth-ci create <config_paths>... [-c <file>]
   sloth-ci remove <listen_points>... [-c <file>]
   sloth-ci trigger <listen_point> [-p <params>] [-c <file>]
   sloth-ci (info | reload) [<listen_points>...] [-c <file>]
@@ -20,6 +20,7 @@ Options:
 from sys import exit
 
 from os.path import abspath
+from glob import glob 
 
 from docopt import docopt
 from tabulate import tabulate
@@ -70,25 +71,28 @@ class CLI:
     def create(self, args):
         '''Create apps from config files and bind them with respective files.'''
 
-        for config_file in args['<config_files>']:
-            try:
-                listen_point = self.api.create(abspath(config_file))
-                print('App created on %s' % listen_point)
+        for config_path in args['<config_paths>']:
+            config_files = glob(config_path)
 
-            except FileNotFoundError:
-                print('File %s not found' % config_file)
+            if not config_files:
+                print('Path %s not found' % config_path)
                 continue
 
-            except Exception as e:
-                print('Failed to create app: %s' % e)
-                continue
+            for config_file in config_files:
+                try:
+                    listen_point = self.api.create(abspath(config_file))
+                    print('App created on %s' % listen_point)
 
-            try:
-                self.api.bind(listen_point, abspath(config_file))
-                print('App on %s bound with config file %s' % (listen_point, config_file))
+                except Exception as e:
+                    print('Failed to create app: %s' % e)
+                    continue
 
-            except Exception as e:
-                print('Failed to bind app on %s with config file %s: %s' % (listen_point, config_file, e))
+                try:
+                    self.api.bind(listen_point, abspath(config_file))
+                    print('App on %s bound with config file %s' % (listen_point, config_file))
+
+                except Exception as e:
+                    print('Failed to bind app on %s with config file %s: %s' % (listen_point, config_file, e))
 
     def remove(self, args):
         '''Remove apps on listen points.'''
