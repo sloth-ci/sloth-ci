@@ -17,3 +17,9 @@ log_dir: /var/log/sloth-ci/
 api_auth:
     login: user
     password: password
+
+# Paths to config files to create apps from on server start.
+# You can use glob syntax to specify entire directories.
+config_paths:
+    - sample.yml
+    - ~/sloth-configs/*.yml
