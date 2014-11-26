@@ -60,7 +60,7 @@ Get a Sloth CI server's status (running or not running).
 ``create``
 ==========
 
-Create Sloth CI apps with configurations extracted from the given paths. You can use glob syntax (e.g. "/path/to/configs/*.yml"). Refer to the :ref:`app config <app-config>` description.
+Create Sloth CI apps with configurations extracted from the given paths. You can use glob syntax (e.g. "/path/to/configs/\*.yml"). Refer to the :ref:`app config <app-config>` description.
 
 After the new app is created, it is bound with the config file so you can :ref:`reload <cli-reload>` it later. 
 
