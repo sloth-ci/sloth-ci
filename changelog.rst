@@ -51,4 +51,5 @@
 =====
 
 -   Sloth: The provider section is now optional (some apps should only be triggered manually).
--   CLI: Glob support added to the create command. You can now specify config paths like "/path/to/configs/*.yml".
+-   CLI: Glob support added to the create command. You can now specify glob paths like "/path/to/configs/*.yml".
+-   Server config: New section config_paths added. Apps will be created from the given config files. You can now specify glob paths like "/path/to/configs/*.yml".
