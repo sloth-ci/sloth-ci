@@ -10,7 +10,7 @@ Here's the output of the ``sloth-ci --help`` command:
 
     Usage:
       sloth-ci (start | restart | stop | status) [-c <file>]
-      sloth-ci create <config_files>... [-c <file>]
+      sloth-ci create <config_paths>... [-c <file>]
       sloth-ci remove <listen_points>... [-c <file>]
       sloth-ci trigger <listen_point> [-p <params>] [-c <file>]
       sloth-ci (info | reload) [<listen_points>...] [-c <file>]
@@ -60,7 +60,7 @@ Get a Sloth CI server's status (running or not running).
 ``create``
 ==========
 
-Create Sloth CI apps with paricular configurations. The configurations are specified as a paths to YAML files. Refer to the :ref:`app config <app-config>` description.
+Create Sloth CI apps with configurations extracted from the given paths. You can use glob syntax (e.g. "/path/to/configs/*.yml"). Refer to the :ref:`app config <app-config>` description.
 
 After the new app is created, it is bound with the config file so you can :ref:`reload <cli-reload>` it later. 
 
