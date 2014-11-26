@@ -1,6 +1,8 @@
 from importlib import import_module
+
 from os.path import abspath, join, exists
 from os import makedirs
+from glob import glob
 
 import logging
 
@@ -69,8 +71,34 @@ class Bed:
 
         cherrypy.tree.mount(None, config={'/': {'request.dispatch': routes_dispatcher}})
 
+    def autocreate(self):
+        '''Create apps before server start.
+        
+        The app configs are extracted from the files defined in the config_paths section of the server config.
+        '''
+
+        for config_path in self.config.get('config_paths', []):
+            config_files = glob(config_path)
+
+            if not config_files:
+                cherrypy.log.error('Path %s not found' % config_path)
+                continue
+
+            for config_file in config_files:
+                try:
+                    config = load(open(config_file))
+
+                    listen_point = self.create(config)
+
+                    self.bind(listen_point, abspath(config_file))
+
+                except:
+                    continue
+
     def start(self):
         '''Start CherryPy loop to listen for payload.'''
+
+        self.autocreate()
 
         self.bus.start()
         self.bus.block()
