@@ -157,7 +157,14 @@ class CLI:
     def reload(self, args):
         '''Reload certain or all apps. I.e. remove, recreate, and rebind them with the config files.'''
 
-        reload_list = args['<listen_points>'] or [app['listen_point'] for app in self.api.info()]
+        try:
+            app_list = self.api.info()
+
+        except ConnectionError as e:
+            print('Failed to reload apps: %s' % e)
+            exit()
+
+        reload_list = args['<listen_points>'] or [app['listen_point'] for app in app_list]
 
         for listen_point in reload_list:
             try:
