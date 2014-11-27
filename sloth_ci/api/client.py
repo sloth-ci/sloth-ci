@@ -8,7 +8,10 @@ class API:
         self.auth = (config['api_auth']['login'], config['api_auth']['password'])
 
     def _send_api_request(self, data={}):
-        '''Send a POST request to the Sloth CI API with the given data.'''
+        '''Send a POST request to the Sloth CI API with the given data.
+        
+        :param data: dict of data to be sent with the request
+        '''
 
         try:
             response = post(self.url, auth=self.auth, data=data)
