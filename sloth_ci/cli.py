@@ -164,8 +164,8 @@ class CLI:
                 config_file = self.api.info([listen_point])[0]['config_file']
                 
                 self.api.remove(listen_point)
-                self.api.create(config_file)
-                self.api.bind(listen_point, config_file)
+                new_listen_point = self.api.create(config_file)
+                self.api.bind(new_listen_point, config_file)
 
                 print('App on %s reloaded' % listen_point)
 
