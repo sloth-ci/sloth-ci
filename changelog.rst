@@ -53,3 +53,8 @@
 -   Sloth: The provider section is now optional (some apps should only be triggered manually).
 -   CLI: Glob support added to the create command. You can now specify glob paths like "/path/to/configs/*.yml".
 -   Server config: New section config_paths added. Apps will be created from the given config files. You can now specify glob paths like "/path/to/configs/*.yml".
+
+1.0.7
+=====
+
+-   CLI: reload: If and app's listen point was changed in the bound config file, the newly created app failed to bind to it after being created. Fixed.
