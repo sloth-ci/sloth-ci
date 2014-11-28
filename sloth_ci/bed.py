@@ -145,9 +145,19 @@ class Bed:
         try:
             listen_point = config['listen_point']
 
-            if listen_point in self.sloths:
-                raise ValueError(listen_point)
+        except TypeError:
+            cherrypy.log.error('Failed to create app: invalid config string')
+            raise
 
+        except KeyError:
+            cherrypy.log.error('Failed to create app: the listen_point param is missing' % e)
+            raise
+
+        if listen_point in self.sloths:
+            cherrypy.log.error('Failed to create app: the listen point %s is already taken' % e)
+            raise ValueError(listen_point)
+            
+        try:
             ExtendedSloth, errors = Sloth.extend(config.get('extensions'))
             sloth = ExtendedSloth(config)
 
@@ -160,18 +170,6 @@ class Bed:
             cherrypy.log.error('Sloth app added, listening on %s' % listen_point)
 
             return listen_point
-
-        except TypeError:
-            cherrypy.log.error('Failed to create app: invalid config string')
-            raise
-
-        except KeyError as e:
-            cherrypy.log.error('Failed to create app: the %s param is missing' % e)
-            raise
-
-        except ValueError as e:
-            cherrypy.log.error('Failed to create app: the listen point %s is already taken' % e)
-            raise
 
         except Exception as e:
             cherrypy.log.error('Failed to create app: %s' % e)
