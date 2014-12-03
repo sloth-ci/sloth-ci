@@ -201,7 +201,7 @@ class Bed:
             listen_point, sloth = self.sloths.popitem()
 
             sloth.stop()
-            self.config_files.pop(listen_point)
+            self.config_files.pop(listen_point, None)
 
     @cherrypy.expose
     @cherrypy.tools.proxy()
