@@ -59,3 +59,8 @@
 
 -   CLI: reload: ConnectionError if now properly handled.
 -   CLI: reload: If and app's listen point was changed in the bound config file, the newly created app failed to bind to it after being created. Fixed.
+
+1.0.8
+=====
+
+-   Bed: Unbound apps could not be removed on server stop. Fixed.
