@@ -6,6 +6,10 @@ from cherrypy.lib.auth_basic import checkpassword_dict
 
 from yaml import load
 
+import sqlite3
+
+from os.path import join
+
 
 class API:
     def __init__(self, bed):
@@ -21,6 +25,7 @@ class API:
             'remove': self.remove,
             'trigger': self.trigger,
             'info': self.info,
+            'logs': self.logs,
             'restart': self.restart,
             'stop': self.stop
         }
@@ -198,6 +203,41 @@ class API:
 
         except Exception as e:
             raise HTTPError(500, 'Failed to get app info: %s' % e)
+
+    def logs(self, kwargs):
+        '''Get paginated app logs from the database.'''
+
+        listen_point = kwargs.get('listen_point')
+
+        if not listen_point:
+            raise HTTPError(400, 'Missing parameter listen_point')
+
+        try:
+            from_page = int(kwargs.get('from_page', 1))
+            to_page = from_page
+            per_page = int(kwargs.get('per_page', 10))
+            level = int(kwargs.get('level', 20))
+
+            db_path = self.bed.config.get('paths', {}).get('db', '.')
+
+            connection = sqlite3.connect(join(db_path, 'sloth.db'))
+            cursor = connection.cursor()
+
+            query = 'SELECT * FROM app_logs WHERE logger_name=? AND level_number >= ? ORDER BY timestamp DESC LIMIT ? OFFSET ?'
+            query_params = (listen_point, level, (to_page - from_page + 1) * per_page, (from_page - 1) * per_page)
+
+            cursor.execute(query, query_params)
+            
+            logs = cursor.fetchall()
+
+            connection.close()
+
+            response.status = 200
+
+            return logs
+
+        except Exception as e:
+            raise HTTPError(500, 'Failed to get app logs: %s' % e)
 
     def restart(self, kwargs):
         '''Ask the Sloth CI server to restart.'''
