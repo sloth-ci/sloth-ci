@@ -11,6 +11,35 @@ from slugify import slugify
 
 import logging
 
+import sqlite3
+
+
+class SqliteHandler(logging.Handler):
+    '''SQLite handler for the Python logging module.'''
+
+    def __init__(self, db, table):
+        super().__init__()
+
+        self.connection = sqlite3.connect(db, check_same_thread=False)
+        self.cursor = self.connection.cursor()
+
+        self.table = table
+
+        query = 'CREATE TABLE IF NOT EXISTS %s (timestamp, logger_name, level_name, level_number, message)' % self.table
+
+        self.cursor.execute(query)
+        self.connection.commit()
+
+    def emit(self, record):
+        query = 'INSERT INTO %s VALUES (?, ?, ?, ?, ?)' % self.table
+        query_params = (record.created, record.name, record.levelname, record.levelno, record.msg)
+        
+        self.cursor.execute(query, query_params)
+        self.connection.commit()
+
+    def close(self):
+        self.connection.close()
+
 
 class Sloth:
     '''Base Sloth class.
@@ -27,9 +56,13 @@ class Sloth:
         self.name = slugify(self.config['listen_point'])
         
         self.logger = logging.getLogger(self.name)
-        self.logger.setLevel(logging.INFO)
+        self.logger.setLevel(logging.DEBUG)
         self.processing_logger = self.logger.getChild('processing')
         self.log_handlers = {}
+
+        self.db_handler = SqliteHandler('sloth.db', 'app_logs')
+        self.db_handler.setLevel(logging.DEBUG)
+        self.logger.addHandler(self.db_handler)
 
         self.queue = deque()
         self._queue_lock = False
@@ -199,8 +232,11 @@ class Sloth:
 
         New payloads are not added to the queue, existing actions will be finished.
         '''
+
         self._queue_lock = True
         self.logger.info('Stopped')
+
+        self.logger.removeHandler(self.db_handler)
 
     def kill(self):
         '''Immediately stop processing the queue.'''
