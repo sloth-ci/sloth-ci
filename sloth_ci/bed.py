@@ -34,15 +34,14 @@ class Bed:
         self.bus = cherrypy.engine
 
         self.sloths = {}
-        
         self.config_files = {}
 
         self.api = API(self)
 
         self._setup_routing()
-        
-        log_dir = abspath(self.config.get('log_dir', '.'))
-        
+
+        log_dir = abspath(self.config.get('paths', {}).get('logs', '.'))
+
         if not exists(log_dir):
             makedirs(log_dir)
         
