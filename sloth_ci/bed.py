@@ -1,6 +1,6 @@
 from importlib import import_module
 
-from os.path import abspath, join, exists
+from os.path import abspath, exists, dirname
 from os import makedirs
 from glob import glob
 
@@ -39,26 +39,7 @@ class Bed:
         self.api = API(self)
 
         self._setup_routing()
-
-        log_dir = abspath(self.config.get('paths', {}).get('logs', '.'))
-
-        if not exists(log_dir):
-            makedirs(log_dir)
-        
-        cherrypy.config.update(
-            {
-                'environment': 'production',
-                'server.socket_host': self.config['host'],
-                'server.socket_port': self.config['port'],
-                'log.access_file': join(log_dir, '_access.log'),
-                'log.error_file': join(log_dir, '_error.log'),
-            }
-        )
-
-        if config.get('daemon'):
-            cherrypy.process.plugins.Daemonizer(self.bus).subscribe()
-
-        self.bus.subscribe('stop', self.remove_all)
+        self._configure()
 
     def _setup_routing(self):
         '''Setup routing for API endpoint and app listeners.'''
@@ -69,6 +50,36 @@ class Bed:
         routes_dispatcher.connect('apps', '/{listen_point:.+}', self.listener)
 
         cherrypy.tree.mount(None, config={'/': {'request.dispatch': routes_dispatcher}})
+
+    def _configure(self):
+        '''Configure CherryPy server.'''
+
+        access_log_path = self.config.get('paths', {}).get('access_log', 'sloth_access.log')
+        access_log_dir = dirname(access_log_path)
+
+        if access_log_dir and not exists(access_log_dir):
+            makedirs(dirname(access_log_path))
+
+        error_log_path = self.config.get('paths', {}).get('error_log', 'sloth_error.log')
+        error_log_dir = dirname(error_log_path)
+        
+        if error_log_dir and not exists(error_log_dir):
+            makedirs(dirname(error_log_path))
+
+        cherrypy.config.update(
+            {
+                'environment': 'production',
+                'server.socket_host': self.config['host'],
+                'server.socket_port': self.config['port'],
+                'log.access_file': access_log_path,
+                'log.error_file': error_log_path
+            }
+        )
+
+        if self.config.get('daemon'):
+            cherrypy.process.plugins.Daemonizer(self.bus).subscribe()
+
+        self.bus.subscribe('stop', self.remove_all)
 
     def autocreate(self):
         '''Create apps before server start.
