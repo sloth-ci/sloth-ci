@@ -218,7 +218,7 @@ class API:
             per_page = int(kwargs.get('per_page', 10))
             level = int(kwargs.get('level', 20))
 
-            connection = sqlite3.connect(self.db)
+            connection = sqlite3.connect(self.bed.db)
             cursor = connection.cursor()
 
             query = 'SELECT * FROM app_logs \
