@@ -10,11 +10,16 @@ port: 8080
 daemon: true
 
 paths:
-    # Path to write the access and error logs to. If not provided, current dir is used.
-    logs: /var/log/sloth-ci/
+    # Path to the access log file. If not set, "sloth_access.log" is used.
+    access_log: /dev/null
     
-    # Path to save app logs SQLite .db file to.
-    db: /usr/share/sloth-ci/
+    # Path to the error log file. If not set, "sloth_error.log" is used.
+    error_log: /var/log/sloth-ci/sloth_errors.log
+
+    # Path to the SQLite .db file used to store app logs. Can also be ":memory:" and ``null``.
+    # Note that if you set it to ``null``, the ``logs`` API method will be unavailable!
+    # If not set, "sloth.db" is used.
+    db: /usr/share/sloth-ci/sloth.db
 
 # API basic authentication dictionary.
 # Mandatory section, both params are mandatory as well.
