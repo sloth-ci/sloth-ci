@@ -23,10 +23,14 @@ class API:
             'remove': self.remove,
             'trigger': self.trigger,
             'info': self.info,
-            'logs': self.logs,
             'restart': self.restart,
             'stop': self.stop
         }
+
+        self.db = self.bed.config.get('paths', {}).get('db', 'sloth.db')
+
+        if self.db:
+            self.actions['logs'] = self.logs
     
     def _handle_error(self, status, message, traceback, version):
         return message
@@ -216,9 +220,7 @@ class API:
             per_page = int(kwargs.get('per_page', 10))
             level = int(kwargs.get('level', 20))
 
-            db_path = self.bed.config.get('paths', {}).get('db', 'sloth.db')
-
-            connection = sqlite3.connect(db_path)
+            connection = sqlite3.connect(self.db)
             cursor = connection.cursor()
 
             query = 'SELECT * FROM app_logs \
