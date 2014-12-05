@@ -10,8 +10,37 @@ import cherrypy
 
 from yaml import load
 
+import sqlite3
+
 from .sloth import Sloth
 from .api.server import API
+
+
+class SqliteHandler(logging.Handler):
+    '''SQLite handler for the Python logging module.'''
+
+    def __init__(self, db, table):
+        super().__init__()
+
+        self.connection = sqlite3.connect(db, check_same_thread=False)
+        self.cursor = self.connection.cursor()
+
+        self.table = table
+
+        query = 'CREATE TABLE IF NOT EXISTS %s (timestamp, logger_name, level_name, level_number, message)' % self.table
+
+        self.cursor.execute(query)
+        self.connection.commit()
+
+    def emit(self, record):
+        query = 'INSERT INTO %s VALUES (?, ?, ?, ?, ?)' % self.table
+        query_params = (record.created, record.name, record.levelname, record.levelno, record.msg)
+        
+        self.cursor.execute(query, query_params)
+        self.connection.commit()
+
+    def close(self):
+        self.connection.close()
 
 
 class Bed:
@@ -36,10 +65,8 @@ class Bed:
         self.sloths = {}
         self.config_files = {}
 
-        self.api = API(self)
-
-        self._setup_routing()
         self._configure()
+        self._setup_routing()
 
     def _setup_routing(self):
         '''Setup routing for API endpoint and app listeners.'''
@@ -53,6 +80,10 @@ class Bed:
 
     def _configure(self):
         '''Configure CherryPy server.'''
+
+        self.db = self.config.get('paths', {}).get('db', 'sloth.db')
+        
+        self.api = API(self)
 
         access_log_path = self.config.get('paths', {}).get('access_log', 'sloth_access.log')
         access_log_dir = dirname(access_log_path)
@@ -171,6 +202,10 @@ class Bed:
             ExtendedSloth, errors = Sloth.extend(config.get('extensions'))
             sloth = ExtendedSloth(config)
 
+            sloth.db_handler = SqliteHandler(self.db, 'app_logs')
+            sloth.db_handler.setLevel(logging.DEBUG)
+            sloth.logger.addHandler(sloth.db_handler)
+
             for error in errors:
                 sloth.logger.error(error)
             
@@ -192,7 +227,11 @@ class Bed:
         '''
 
         try:
-            self.sloths.pop(listen_point).stop()
+            sloth = self.sloths.pop(listen_point)
+
+            sloth.stop()
+            sloth.logger.removeHandler(sloth.db_handler)
+
             self.config_files.pop(listen_point, None)
 
             cherrypy.log.error('Sloth app at %s removed' % listen_point)
