@@ -20,6 +20,33 @@ The API is protected with basic auth to avoid unwanted access from the outside w
 
 Below is the full list of available API actions with params and possible return statuses.
 
+``bind``
+========
+
+Bind an app with a config file.
+
+GET URL example::
+
+    http://localhost:8080/?action=bind&listen_point=foo&config_file=%2Fhome%2Fbar.yml
+
+Params
+------
+
+-   ``action`` = ``bind``
+-   ``listen_point`` is a listen point of the app
+-   ``config_file`` is an absolute path to the config file
+
+Response
+--------
+
+Status **200** with empty content.
+
+Errors
+------
+
+-   **404**: no app found on the requested listen point or no file found on the given path (read the error message for details)
+-   **500**: config in the file is different from the one used by the app or something unexpected happened in the server (read the error message for details)
+
 ``create``
 ==========
 
@@ -136,32 +163,39 @@ Errors
 -   **404**: no app found on the requested listen point
 -   **500**: something unexpected happened in the server (read the error message for details)
 
-``bind``
+``logs``
 ========
 
-Bind an app with a config file.
+Get paginated app logs. Logs are returned as a sorted by timestamp list, the freshest logs are on top.
+
+.. important::
+
+    App logs are taken from the database, so the ``paths: db`` parameter **must** be set in the server config for this method to work. If you set the ``paths: db`` parameter to ``null``, this method **will be unavailable**.
 
 GET URL example::
 
-    http://localhost:8080/?action=bind&listen_point=foo&config_file=%2Fhome%2Fbar.yml
+    http://localhost:8080/?action=logs&listen_point=spam&from_page=2&per_page=20&level=40
 
 Params
 ------
 
--   ``action`` = ``bind``
--   ``listen_point`` is a listen point of the app
--   ``config_file`` is an absolute path to the config file
+-   ``action`` = ``logs``
+-   ``listen_point`` is the listen point of the app whose logs you want to get.
+-   ``from_page`` is the number of the first page to get. Default is 1 (the first page, i.e. the latest logs).
+-   ``to_page`` is the number of the last page to get. Default is ``from_page`` (i.e. get only one page).
+-   ``per_page`` is the number of records per page. Default is 10.
+-   ``level`` is the numeric value of the minimal record level to be shown. Refer to the `Logging levels <https://docs.python.org/3.4/library/logging.html#levels>`_ table.
+
 
 Response
 --------
 
-Status **200** with empty content.
+Status **200** with a list of JSON objects like ``{"timestamp": 123456.789, "logger_name": "spam.processing", "level_name": "INFO", "level_number": 20, "message": "Execution queue is empty"}``.
 
 Errors
 ------
 
--   **404**: no app found on the requested listen point or no file found on the given path (read the error message for details)
--   **500**: config in the file is different from the one used by the app or something unexpected happened in the server (read the error message for details)
+-   **500**: something unexpected happened in the server (read the error message for details)
 
 ``restart``
 ===========
