@@ -21,14 +21,14 @@ paths:
     # If not set, "sloth.db" is used.
     db: /usr/share/sloth-ci/sloth.db
 
+    # Paths to config files to create apps from on server start.
+    # You can use glob syntax to specify entire directories.
+    configs:
+        - sample.yml
+        - ~/sloth-configs/*.yml
+
 # API basic authentication dictionary.
 # Mandatory section, both params are mandatory as well.
 api_auth:
     login: user
     password: password
-
-# Paths to config files to create apps from on server start.
-# You can use glob syntax to specify entire directories.
-config_paths:
-    - sample.yml
-    - ~/sloth-configs/*.yml
