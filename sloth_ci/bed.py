@@ -82,7 +82,7 @@ class Bed:
         '''Configure CherryPy server.'''
 
         self.db = self.config.get('paths', {}).get('db', 'sloth.db')
-        
+
         self.api = API(self)
 
         access_log_path = self.config.get('paths', {}).get('access_log', 'sloth_access.log')
