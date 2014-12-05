@@ -83,8 +83,11 @@ class Bed:
 
         self.db_path = self.config.get('paths', {}).get('db', 'sloth.db')
 
-        if self.db_path and not exists(dirname(self.db_path)):
-            makedirs(dirname(self.db_path))
+        if self.db_path:
+            db_dir = dirname(abspath(self.db_path))
+
+            if db_dir and not exists(db_dir):
+                makedirs(db_dir)
 
         access_log_path = self.config.get('paths', {}).get('access_log', 'sloth_access.log')
         access_log_dir = dirname(access_log_path)
@@ -121,7 +124,7 @@ class Bed:
         The app configs are extracted from the files defined in the config_paths section of the server config.
         '''
 
-        for config_path in self.config.get('config_paths', []):
+        for config_path in self.config.get('paths', {}).get('configs', []):
             config_files = glob(config_path)
 
             if not config_files:
