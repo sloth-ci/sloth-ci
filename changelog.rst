@@ -64,5 +64,8 @@
 =====
 
 -   API: New method ``logs`` added to get app logs.
+-   Bed: Database logging added by default.
 -   Bed: Unbound apps could not be removed on server stop. Fixed.
--   Config: New section "paths" added with params "access_log", "error_log", and "db" point to the access log, error log, and database files respectively.
+-   Server config: New section "paths" added with params "access_log", "error_log", and "db" point to the access log, error log, and database files respectively.
+-   Server config: The "config_paths" section moved to the "paths: configs" subsection.
+-   Server config: The "log_dir" param replaced with the "paths: access_log" and "paths: error_log" params.
