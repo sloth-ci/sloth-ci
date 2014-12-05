@@ -81,21 +81,22 @@ class Bed:
     def _configure(self):
         '''Configure CherryPy server.'''
 
-        self.db = self.config.get('paths', {}).get('db', 'sloth.db')
+        self.db_path = self.config.get('paths', {}).get('db', 'sloth.db')
 
-        self.api = API(self)
+        if self.db_path and not exists(dirname(self.db_path)):
+            makedirs(dirname(self.db_path))
 
         access_log_path = self.config.get('paths', {}).get('access_log', 'sloth_access.log')
         access_log_dir = dirname(access_log_path)
 
         if access_log_dir and not exists(access_log_dir):
-            makedirs(dirname(access_log_path))
+            makedirs(access_log_dir)
 
         error_log_path = self.config.get('paths', {}).get('error_log', 'sloth_error.log')
         error_log_dir = dirname(error_log_path)
         
         if error_log_dir and not exists(error_log_dir):
-            makedirs(dirname(error_log_path))
+            makedirs(error_log_dir)
 
         cherrypy.config.update(
             {
@@ -111,6 +112,8 @@ class Bed:
             cherrypy.process.plugins.Daemonizer(self.bus).subscribe()
 
         self.bus.subscribe('stop', self.remove_all)
+
+        self.api = API(self)
 
     def autocreate(self):
         '''Create apps before server start.
@@ -202,9 +205,10 @@ class Bed:
             ExtendedSloth, errors = Sloth.extend(config.get('extensions'))
             sloth = ExtendedSloth(config)
 
-            sloth.db_handler = SqliteHandler(self.db, 'app_logs')
-            sloth.db_handler.setLevel(logging.DEBUG)
-            sloth.logger.addHandler(sloth.db_handler)
+            if self.db_path:
+                sloth.db_handler = SqliteHandler(self.db_path, 'app_logs')
+                sloth.db_handler.setLevel(logging.DEBUG)
+                sloth.logger.addHandler(sloth.db_handler)
 
             for error in errors:
                 sloth.logger.error(error)
@@ -230,7 +234,9 @@ class Bed:
             sloth = self.sloths.pop(listen_point)
 
             sloth.stop()
-            sloth.logger.removeHandler(sloth.db_handler)
+
+            if self.db_path:
+                sloth.logger.removeHandler(sloth.db_handler)
 
             self.config_files.pop(listen_point, None)
 
@@ -250,6 +256,10 @@ class Bed:
             listen_point, sloth = self.sloths.popitem()
 
             sloth.stop()
+
+            if self.db_path:
+                sloth.logger.removeHandler(sloth.db_handler)
+
             self.config_files.pop(listen_point, None)
 
     @cherrypy.expose
