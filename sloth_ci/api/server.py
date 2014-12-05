@@ -8,8 +8,6 @@ from yaml import load
 
 import sqlite3
 
-from os.path import join
-
 
 class API:
     def __init__(self, bed):
@@ -214,21 +212,34 @@ class API:
 
         try:
             from_page = int(kwargs.get('from_page', 1))
-            to_page = from_page
+            to_page = int(kwargs.get('to_page', from_page))
             per_page = int(kwargs.get('per_page', 10))
             level = int(kwargs.get('level', 20))
 
-            db_path = self.bed.config.get('paths', {}).get('db', '.')
+            db_path = self.bed.config.get('paths', {}).get('db', 'sloth.db')
 
-            connection = sqlite3.connect(join(db_path, 'sloth.db'))
+            connection = sqlite3.connect(db_path)
             cursor = connection.cursor()
 
-            query = 'SELECT * FROM app_logs WHERE logger_name=? AND level_number >= ? ORDER BY timestamp DESC LIMIT ? OFFSET ?'
-            query_params = (listen_point, level, (to_page - from_page + 1) * per_page, (from_page - 1) * per_page)
+            query = 'SELECT * FROM app_logs \
+                WHERE logger_name=? OR logger_name=? \
+                AND level_number >= ? \
+                ORDER BY timestamp DESC \
+                LIMIT ? OFFSET ?'
+
+            query_params = (
+                listen_point,
+                listen_point + '.processing',
+                level,
+                (to_page - from_page + 1) * per_page,
+                (from_page - 1) * per_page
+            )
 
             cursor.execute(query, query_params)
+
+            column_names = [column[0] for column in cursor.description]
             
-            logs = cursor.fetchall()
+            logs = [dict(zip(column_names, record)) for record in cursor.fetchall()]
 
             connection.close()
 
