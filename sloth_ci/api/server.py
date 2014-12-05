@@ -27,7 +27,7 @@ class API:
             'stop': self.stop
         }
 
-        if self.bed.db:
+        if self.bed.db_path:
             self.actions['logs'] = self.logs
     
     def _handle_error(self, status, message, traceback, version):
@@ -218,7 +218,7 @@ class API:
             per_page = int(kwargs.get('per_page', 10))
             level = int(kwargs.get('level', 20))
 
-            connection = sqlite3.connect(self.bed.db)
+            connection = sqlite3.connect(self.bed.db_path)
             cursor = connection.cursor()
 
             query = 'SELECT * FROM app_logs \
