@@ -27,9 +27,7 @@ class API:
             'stop': self.stop
         }
 
-        self.db = self.bed.config.get('paths', {}).get('db', 'sloth.db')
-
-        if self.db:
+        if self.bed.db:
             self.actions['logs'] = self.logs
     
     def _handle_error(self, status, message, traceback, version):
