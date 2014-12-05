@@ -63,4 +63,6 @@
 1.0.8
 =====
 
+-   API: New method ``logs`` added to get app logs.
 -   Bed: Unbound apps could not be removed on server stop. Fixed.
+-   Config: New section "paths" added with params "access_log", "error_log", and "db" point to the access log, error log, and database files respectively.
