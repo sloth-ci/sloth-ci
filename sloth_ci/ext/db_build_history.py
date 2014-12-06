@@ -24,11 +24,17 @@ def extend(cls, extension):
         def process_queue(self):
             status, executed_action_count, total_action_count = super().process_queue()
             
-            if status == 'Finished':
-                self.build_logger.info('%s (%d/%d)' % (status, executed_action_count, total_action_count))
+            if status == 'Complete':
+                self.build_logger.info('%s (%d/%d)' % 
+                                       (status, executed_action_count, total_action_count))
             
-            else:
-                self.build_logger.error('%s (%d/%d)' % (status, executed_action_count, total_action_count))
+            elif status == 'Interrupted':
+                self.build_logger.warning('%s (%d/%d)' % 
+                                          (status, executed_action_count, total_action_count))
+
+            elif status == 'Failed':
+                self.build_logger.error('%s (%d/%d)' % 
+                                        (status, executed_action_count, total_action_count))
 
         def stop(self):
             super().stop()
