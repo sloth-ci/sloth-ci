@@ -148,6 +148,35 @@ class API:
         else:
             raise RuntimeError(content)
 
+    def logs(self, listen_point, from_page=None, to_page=None, per_page=None, level=None):
+        '''Get paginated, level-filtered app logs, sorted by timestamp.
+        
+        :param listen_point: listen point of the app
+        :param from_page: the first page
+        :param to_page: the last page
+        :param per_page: number of records per page
+        :param level: minimal level to include in the output
+
+        :returns: list of dicts with log record attributes timestamp, logger name, level name, level number, and message
+        '''
+
+        data = {
+            'action': 'logs',
+            'listen_point': listen_point,
+            'from_page': from_page,
+            'to_page': to_page,
+            'per_page': per_page,
+            'level': level
+        }
+
+        status, content = self._send_api_request(data)
+
+        if status == 200:
+            return content
+
+        else:
+            raise RuntimeError(content)
+
     def restart(self):
         '''Ask a a Sloth CI server to restart.'''
 
