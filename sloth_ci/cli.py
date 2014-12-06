@@ -6,12 +6,17 @@ Usage:
   sloth-ci remove <listen_points>... [-c <file>]
   sloth-ci trigger <listen_point> [-p <params>] [-c <file>]
   sloth-ci (info | reload) [<listen_points>...] [-c <file>]
+  sloth-ci logs <listen_point> [--from-page <number>] [--to-page <number>] [--per-page <number>] [--level <number>] [-c <file>]
   sloth-ci --version
   sloth-ci --help
 
 Options:
   -c <file>, --config <file>    Path to the server config file [default: ./sloth.yml]
   -p --params <params>          Params to trigger the actions with. String like 'param1=val1,param2=val2'
+  --from-page <number>          The first page of the logging output.
+  --to-page <number>            The last page of the logging output.
+  --per-page <number>           Number or log records per page.
+  --level <number>              Minimal numeric logging level to be included in the output.
   -v --version                  Show version
   -h --help                     Show this screen
 '''
@@ -21,6 +26,7 @@ from sys import exit
 
 from os.path import abspath
 from glob import glob 
+from time import localtime, asctime
 
 from docopt import docopt
 from tabulate import tabulate
@@ -51,11 +57,12 @@ class CLI:
             'create': self.create,
             'remove': self.remove,
             'trigger': self.trigger,
-            'info': self.info,
-            'restart': self.restart,
-            'stop': self.stop,
             'reload': self.reload,
-            'status': self.status
+            'status': self.status,
+            'info': self.info,
+            'logs': self.logs,
+            'restart': self.restart,
+            'stop': self.stop
         }
 
     def start(self, args):
@@ -134,25 +141,30 @@ class CLI:
         except Exception as e:
             print('Failed to get app info: %s' % e)
 
-    def restart(self, args):
-        '''Ask a Sloth CI server to restart.'''
+    def logs(self, args):
+        '''Get app logs.'''
 
         try:
-            self.api.restart()
-            print('Restarting Sloth CI on %s ' % self.api.url)
+            logs = self.api.logs(
+                args['<listen_point>'],
+                args['--from-page'],
+                args['--to-page'],
+                args['--per-page'],
+                args['--level']
+            )
+
+            table = [
+                [
+                    asctime(localtime(record['timestamp'])),
+                    record['message'],
+                    record['level_name']
+                ] for record in logs
+            ]
+
+            print(tabulate(table, headers=['Timestamp', 'Message', 'Level']))
 
         except Exception as e:
-            print('Failed to restart Sloth CI on %s: %s' % (self.api.url, e))
-
-    def stop(self, args):
-        '''Ask a Sloth CI server to stop.'''
-
-        try:
-            self.api.stop()
-            print('Stopping Sloth CI on %s ' % self.api.url)
-
-        except Exception as e:
-            print('Failed to stop Sloth CI on %s: %s' % (self.api.url, e))
+            print('Failed to get app logs: %s' % e)
 
     def reload(self, args):
         '''Reload certain or all apps. I.e. remove, recreate, and rebind them with the config files.'''
@@ -188,6 +200,26 @@ class CLI:
 
         except:
             print('Sloth CI is not running on %s' % self.api.url)
+
+    def restart(self, args):
+        '''Ask a Sloth CI server to restart.'''
+
+        try:
+            self.api.restart()
+            print('Restarting Sloth CI on %s ' % self.api.url)
+
+        except Exception as e:
+            print('Failed to restart Sloth CI on %s: %s' % (self.api.url, e))
+
+    def stop(self, args):
+        '''Ask a Sloth CI server to stop.'''
+
+        try:
+            self.api.stop()
+            print('Stopping Sloth CI on %s ' % self.api.url)
+
+        except Exception as e:
+            print('Failed to stop Sloth CI on %s: %s' % (self.api.url, e))
 
 
 def main():
