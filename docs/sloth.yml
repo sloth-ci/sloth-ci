@@ -16,8 +16,9 @@ paths:
     # Path to the error log file. If not set, "sloth_error.log" is used.
     error_log: /var/log/sloth-ci/sloth_errors.log
 
-    # Path to the SQLite .db file used to store app logs. If you don't want to use a DB, set to ``null``.
-    # Note that if you set it to ``null``, the ``logs`` API method will be unavailable!
+    # Path to the SQLite .db file used by Sloth CI.
+    # If you don't want to use a DB, set to ``null`` (or ``false``, or ``0``—anything that evaluates to ``False`` in Python.
+    # Note that if you disable the DB, the ``logs`` and ``history`` API methods will be unavailable!
     # If not set, "sloth.db" is used.
     db: /etc/sloth-ci/sloth.db
 
