@@ -10,37 +10,8 @@ import cherrypy
 
 from yaml import load
 
-import sqlite3
-
 from .sloth import Sloth
 from .api.server import API
-
-
-class SqliteHandler(logging.Handler):
-    '''SQLite handler for the Python logging module.'''
-
-    def __init__(self, db, table):
-        super().__init__()
-
-        self.connection = sqlite3.connect(db, check_same_thread=False)
-        self.cursor = self.connection.cursor()
-
-        self.table = table
-
-        query = 'CREATE TABLE IF NOT EXISTS %s (timestamp, logger_name, level_name, level_number, message)' % self.table
-
-        self.cursor.execute(query)
-        self.connection.commit()
-
-    def emit(self, record):
-        query = 'INSERT INTO %s VALUES (?, ?, ?, ?, ?)' % self.table
-        query_params = (record.created, record.name, record.levelname, record.levelno, record.msg)
-        
-        self.cursor.execute(query, query_params)
-        self.connection.commit()
-
-    def close(self):
-        self.connection.close()
 
 
 class Bed:
@@ -88,6 +59,19 @@ class Bed:
 
             if db_dir and not exists(db_dir):
                 makedirs(db_dir)
+
+            self.db_extensions = {
+                'db_app_logs': {
+                    'module': 'db_app_logs',
+                    'db': self.db_path,
+                    'table': 'app_logs'
+                },
+                'db_build_history': {
+                    'module': 'db_build_history',
+                    'db': self.db_path,
+                    'table': 'app_logs'
+                }
+            }
 
         access_log_path = self.config.get('paths', {}).get('access_log', 'sloth_access.log')
         access_log_dir = dirname(access_log_path)
@@ -205,13 +189,14 @@ class Bed:
             raise ValueError(listen_point)
             
         try:
-            ExtendedSloth, errors = Sloth.extend(config.get('extensions'))
-            sloth = ExtendedSloth(config)
-
             if self.db_path:
-                sloth.db_handler = SqliteHandler(self.db_path, 'app_logs')
-                sloth.db_handler.setLevel(logging.DEBUG)
-                sloth.logger.addHandler(sloth.db_handler)
+                PreExtendedSloth, errors = Sloth.extend(self.db_extensions)
+
+            else:
+                PreExtendedSloth, errors = Sloth
+            
+            ExtendedSloth, errors = PreExtendedSloth.extend(config.get('extensions'))
+            sloth = ExtendedSloth(config)
 
             for error in errors:
                 sloth.logger.error(error)
@@ -234,12 +219,7 @@ class Bed:
         '''
 
         try:
-            sloth = self.sloths.pop(listen_point)
-
-            sloth.stop()
-
-            if self.db_path:
-                sloth.logger.removeHandler(sloth.db_handler)
+            self.sloths.pop(listen_point).stop()
 
             self.config_files.pop(listen_point, None)
 
@@ -259,9 +239,6 @@ class Bed:
             listen_point, sloth = self.sloths.popitem()
 
             sloth.stop()
-
-            if self.db_path:
-                sloth.logger.removeHandler(sloth.db_handler)
 
             self.config_files.pop(listen_point, None)
 
