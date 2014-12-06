@@ -75,3 +75,6 @@
 
 -   API: Client: The "logs" API action support added.
 -   CLI: The "logs" action added.
+-   Extensions: The "extend" function now accepts the extension name + its config instead of just name.
+-   DB logging moved to a separate built-in extension.
+-   DB build history tracking added as a separate built-in extension.
