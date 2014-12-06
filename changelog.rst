@@ -74,6 +74,7 @@
 =====
 
 -   API: Client: The "logs" API action support added.
+-   API: Server: The "history" method added to get paginated app build history.
 -   CLI: The "logs" action added.
 -   Extensions: The "extend" function now accepts the extension name + its config instead of just name.
 -   DB logging moved to a separate built-in extension.
