@@ -34,6 +34,8 @@ Sloth CI is an easy-to-use, lightweight, extendable tool that executes actions y
 
 Sloth CI was created because Jenkins is too heavy and Buildbot was too hard to learn.
 
+Read the docs at http://sloth-ci.cloudapp.net/ (yes, they are built with Sloth CI).
+
 Requirements
 ============
 
@@ -42,28 +44,34 @@ Sloth CI runs with Python 3 on Windows, Linux, and Mac.
 Install
 =======
 
-Install Sloth CI, the :ref:`Bitbucket <bitbucket-validator>` validator, and the :ref:`logs <logs-ext>` extension with pip:
+Install Sloth CI, the Bitbucket validator, and the logs extension with pip:
 
 .. code-block:: bash
 
-    $ pip install sloth-ci sloth-ci.validators.bitbucket sloth-ci.ext.logs
+    $ pip install sloth-ci sloth-ci.validators.bitbucket
+
+.. note::
+
+    Sloth CI depends on the `Routes <http://routes.groovie.org/>`__ package, which has a somewhat broken wheel uploaded to PyPI. If the installation fails, try installing Routes individually with ``pip install --no-use-wheel Routes``.
 
 Configure
 =========
 
-Create a file named *sloth.yml* in any directory and ``cd`` to that directory.
+Create a file named *sloth.yml* in any directory and cd to that directory.
 
 Here's how your sloth.yml can look like:
 
 .. code-block:: yaml
 
     host: 0.0.0.0
-
     port: 8080
-
+    
     daemon: true
-
-    log_dir: /var/log/sloth-ci
+    
+    paths:
+        access_log: /var/log/sloth-ci/_access.log
+        error_log: /var/log/sloth-ci/_error.log
+        db: /etc/sloth-ci/sloth.db
 
     api_auth:
         login: admin
@@ -81,7 +89,7 @@ Start the Sloth CI server with:
 Create App
 ==========
 
-Create a file called something like *myapp.yml*:
+Create a file called like *myapp.yml*:
 
 .. code-block:: yaml
 
@@ -92,13 +100,6 @@ Create a file called something like *myapp.yml*:
     provider:
         bitbucket:
             repo: username/repository
-
-    extensions:
-        logs:
-            module: logs
-            path: /var/log/sloth-ci
-            filename: docs_errors.log
-            level: ERROR
 
     actions:
         - rm -rf repository
@@ -118,9 +119,11 @@ Create the app from the config:
     $ sloth-ci create /path/to/myapp.yml
     App created, listening on docs
 
+.. note:: Run ``sloth-ci create`` from the directory with the sloth.yml file.
+
 That's it! Your app now listens for payload from Bitbucket at http://yourdomain:8080/docs.
 
-Create a hook on Bitbucket, and the docs will be automatically built on your machine on every push to the repo.
+Create a hook on Bitbucket, and you docs will be automatically built on every push to the repo.
 
 That wasn't too hard, was it? But that's just one thing Sloth CI can do. :doc:`Learn more <components/index>` about how Sloth CI works or jump straight to :doc:`recipes <recipes/index>`.
 

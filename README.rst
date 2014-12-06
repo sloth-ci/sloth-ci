@@ -40,7 +40,7 @@ Install Sloth CI, the Bitbucket validator, and the logs extension with pip:
 
 .. code-block:: bash
 
-    $ pip install sloth-ci sloth-ci.validators.bitbucket sloth-ci.ext.logs
+    $ pip install sloth-ci sloth-ci.validators.bitbucket
 
 Configure
 =========
@@ -52,12 +52,14 @@ Here's how your sloth.yml can look like:
 .. code-block:: yaml
 
     host: 0.0.0.0
-    
     port: 8080
     
     daemon: true
     
-    log_dir: /var/log/sloth-ci
+    paths:
+        access_log: /var/log/sloth-ci/_access.log
+        error_log: /var/log/sloth-ci/_error.log
+        db: /etc/sloth-ci/sloth.db
 
     api_auth:
         login: admin
@@ -86,13 +88,6 @@ Create a file called like *myapp.yml*:
     provider:
         bitbucket:
             repo: username/repository
-
-    extensions:
-        logs:
-            module: logs
-            path: /var/log/sloth-ci
-            filename: docs_errors.log
-            level: ERROR
 
     actions:
         - rm -rf repository

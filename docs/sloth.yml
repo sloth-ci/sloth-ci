@@ -19,7 +19,7 @@ paths:
     # Path to the SQLite .db file used to store app logs. If you don't want to use a DB, set to ``null``.
     # Note that if you set it to ``null``, the ``logs`` API method will be unavailable!
     # If not set, "sloth.db" is used.
-    db: /usr/share/sloth-ci/sloth.db
+    db: /etc/sloth-ci/sloth.db
 
     # Paths to config files to create apps from on server start.
     # You can use glob syntax to specify entire directories.
