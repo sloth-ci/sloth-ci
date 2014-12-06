@@ -7,15 +7,16 @@ Usage:
   sloth-ci trigger <listen_point> [-p <params>] [-c <file>]
   sloth-ci (info | reload) [<listen_points>...] [-c <file>]
   sloth-ci logs <listen_point> [--from-page <number>] [--to-page <number>] [--per-page <number>] [--level <number>] [-c <file>]
+  sloth-ci history <listen_point> [--from-page <number>] [--to-page <number>] [--per-page <number>] [-c <file>]
   sloth-ci --version
   sloth-ci --help
 
 Options:
   -c <file>, --config <file>    Path to the server config file [default: ./sloth.yml]
   -p --params <params>          Params to trigger the actions with. String like 'param1=val1,param2=val2'
-  --from-page <number>          The first page of the logging output.
-  --to-page <number>            The last page of the logging output.
-  --per-page <number>           Number or log records per page.
+  --from-page <number>          The first page.
+  --to-page <number>            The last page.
+  --per-page <number>           Number of records per page.
   --level <number>              Minimal numeric logging level to be included in the output.
   -v --version                  Show version
   -h --help                     Show this screen
@@ -61,6 +62,7 @@ class CLI:
             'status': self.status,
             'info': self.info,
             'logs': self.logs,
+            'history': self.history,
             'restart': self.restart,
             'stop': self.stop
         }
@@ -162,6 +164,29 @@ class CLI:
             ]
 
             print(tabulate(table, headers=['Timestamp', 'Message', 'Level']))
+
+        except Exception as e:
+            print('Failed to get app logs: %s' % e)
+
+    def history(self, args):
+        '''Get app build history.'''
+
+        try:
+            history = self.api.history(
+                args['<listen_point>'],
+                args['--from-page'],
+                args['--to-page'],
+                args['--per-page']
+            )
+
+            table = [
+                [
+                    asctime(localtime(record['timestamp'])),
+                    record['message']
+                ] for record in history
+            ]
+
+            print(tabulate(table, headers=['Timestamp', 'Status']))
 
         except Exception as e:
             print('Failed to get app logs: %s' % e)
