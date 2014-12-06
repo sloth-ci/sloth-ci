@@ -69,7 +69,7 @@ class Bed:
                 'db_build_history': {
                     'module': 'db_build_history',
                     'db': self.db_path,
-                    'table': 'app_logs'
+                    'table': 'build_history'
                 }
             }
 
