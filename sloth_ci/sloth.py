@@ -53,11 +53,15 @@ class Sloth:
         errors = []
 
         if extensions:
-            for extension in extensions:
+            for extension_name, extension_config in extensions.items():
                 try:
-                    ext = import_module('.ext.%s' % extensions[extension]['module'], package=__package__)
+                    ext = import_module('.ext.%s' % extension_config['module'], package=__package__)
             
-                    ExtendedSloth = ext.extend(ExtendedSloth, extension)
+                    ExtendedSloth = ext.extend(ExtendedSloth, {
+                            'name': extension_name,
+                            'config': extension_config
+                        }
+                    )
 
                 except Exception as e:
                     errors.append('Could not load extension %s: %s' % (extension, e))
@@ -128,11 +132,19 @@ class Sloth:
         '''Processes execution queue in a separate thread.'''
 
         actions = self.config.get('actions')
+        
+        status = 'Complete'
 
         if actions:
+            executed_action_count = total_action_count = len(actions)
+
             while self.queue:
                 if self._processing_lock:
                     self.processing_logger.warning('Queue processing interrupted')
+
+                    executed_action_count -= 1
+                    status = 'Interrupted'
+
                     break
                 
                 params = self.queue.popleft()
@@ -144,17 +156,27 @@ class Sloth:
                     except KeyError as e:
                         self.processing_logger.critical('Unknown param in action: %s', e)
 
+                        executed_action_count -= 1
+
                         if self.config.get('stop_on_first_fail'):
+                            status = 'Failed'
                             break
 
                     except Exception as e:
-                        self.processing_logger.critical('Execution failed: %s', e)
+                        self.processing_logger.critical('Execution failed: %s' % e)
+
+                        executed_action_count -= 1
 
                         if self.config.get('stop_on_first_fail'):
+                            status = 'Failed'
                             break
 
+        else:
+            executed_action_count = total_action_count = 0
+
         self.processing_logger.info('Execution queue is empty')
-        return True
+
+        return status, executed_action_count, total_action_count
 
     def execute(self, action):
         '''Executes an action in an ordinary Popen.
@@ -164,7 +186,7 @@ class Sloth:
         :returns: True if successful, Exception otherwise
         '''
 
-        self.processing_logger.info('Executing action: %s', action)
+        self.processing_logger.info('Executing action: %s' % action)
 
         try:
             process = Popen(
