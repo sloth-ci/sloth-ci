@@ -50,20 +50,20 @@
 1.0.6
 =====
 
--   Sloth: The provider section is now optional (some apps should only be triggered manually).
--   CLI: Glob support added to the create command. You can now specify glob paths like "/path/to/configs/*.yml".
--   Server config: New section config_paths added. Apps will be created from the given config files. You can now specify glob paths like "/path/to/configs/*.yml".
+-   Sloth: The "provider" section is now optional (some apps should only be triggered manualy).
+-   CLI: Glob support added to the "create" command. You can now specify glob paths like "/path/to/configs/*.yml".
+-   Server config: New section "config_paths" added. Apps will be created from the given config files. You can now specify glob paths like "/path/to/configs/*.yml".
 
 1.0.7
 =====
 
--   CLI: reload: ConnectionError if now properly handled.
--   CLI: reload: If and app's listen point was changed in the bound config file, the newly created app failed to bind to it after being created. Fixed.
+-   CLI: reload: ConnectionError is now properly handled.
+-   CLI: reload: If an app's listen point was changed in the bound config file, the newly created app failed to bind to it after being created. Fixed.
 
 1.0.8
 =====
 
--   API: New method ``logs`` added to get app logs.
+-   API: The "logs" method added to get app logs.
 -   Bed: Database logging added by default.
 -   Bed: Unbound apps could not be removed on server stop. Fixed.
 -   Server config: New section "paths" added with params "access_log", "error_log", and "db" point to the access log, error log, and database files respectively.
@@ -73,9 +73,11 @@
 1.0.9
 =====
 
--   API: Client: The "logs" API action support added.
+-   API: Client: The "history" API method support added.
+-   API: Client: The "logs" API method support added.
 -   API: Server: The "history" method added to get paginated app build history.
+-   CLI: The "history" action added.
 -   CLI: The "logs" action added.
--   Extensions: The "extend" function now accepts the extension name + its config instead of just name.
 -   DB logging moved to a separate built-in extension.
 -   DB build history tracking added as a separate built-in extension.
+-   Sloth: Extensions: The "extend" function now accepts the extension name + its config instead of just name.
