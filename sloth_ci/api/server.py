@@ -192,7 +192,11 @@ class API:
 
                 info_list.append({
                     'listen_point': listen_point,
-                    'config_file': self.bed.config_files.get(listen_point)
+                    'config_file': self.bed.config_files.get(listen_point),
+                    'last_build_status': self.history({
+                        'listen_point': listen_point,
+                        'per_page': 1
+                    })[0]['message']
                 })
 
             response.status = 200
