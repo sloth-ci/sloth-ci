@@ -29,6 +29,7 @@ class API:
 
         if self.bed.db_path:
             self.actions['logs'] = self.logs
+            self.actions['history'] = self.history
     
     def _handle_error(self, status, message, traceback, version):
         return message
@@ -249,6 +250,48 @@ class API:
 
         except Exception as e:
             raise HTTPError(500, 'Failed to get app logs: %s' % e)
+
+    def history(self, kwargs):
+        '''Get paginated app build history from the database.'''
+        
+        listen_point = kwargs.get('listen_point')
+
+        if not listen_point:
+            raise HTTPError(400, 'Missing parameter listen_point')
+
+        try:
+            from_page = int(kwargs.get('from_page', 1))
+            to_page = int(kwargs.get('to_page', from_page))
+            per_page = int(kwargs.get('per_page', 10))
+
+            connection = sqlite3.connect(self.bed.db_path)
+            cursor = connection.cursor()
+
+            query = 'SELECT * FROM build_history \
+                WHERE logger_name=? \
+                ORDER BY timestamp DESC \
+                LIMIT ? OFFSET ?'
+
+            query_params = (
+                listen_point + '.build',
+                (to_page - from_page + 1) * per_page,
+                (from_page - 1) * per_page
+            )
+
+            cursor.execute(query, query_params)
+
+            column_names = [column[0] for column in cursor.description]
+            
+            history = [dict(zip(column_names, record)) for record in cursor.fetchall()]
+
+            connection.close()
+
+            response.status = 200
+
+            return history
+
+        except Exception as e:
+            raise HTTPError(500, 'Failed to get app build history: %s' % e)
 
     def restart(self, kwargs):
         '''Ask the Sloth CI server to restart.'''
