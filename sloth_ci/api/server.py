@@ -190,13 +190,16 @@ class API:
                 if not listen_point in self.bed.sloths:
                     raise KeyError(listen_point)
 
+                last_build_info = self.history({
+                    'listen_point': listen_point,
+                    'per_page': 1
+                })[0]
+
                 info_list.append({
                     'listen_point': listen_point,
                     'config_file': self.bed.config_files.get(listen_point),
-                    'last_build_status': self.history({
-                        'listen_point': listen_point,
-                        'per_page': 1
-                    })[0]['message']
+                    'last_build_status': last_build_info['message'],
+                    'last_build_timestamp': last_build_info['timestamp']
                 })
 
             response.status = 200
