@@ -23,7 +23,7 @@ def extend(cls, extension):
 
         def stop(self):
             super().stop()
-            self.logger.removeHandler(self.log_handlers.pop(extension))
+            self.logger.removeHandler(self.log_handlers.pop(extension['name']))
 
 
     return Sloth
