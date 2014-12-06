@@ -75,7 +75,9 @@
 
 -   API: Client: The "history" API method support added.
 -   API: Client: The "logs" API method support added.
+-   API: Server: info: The "last_build_status" field added to the output.
 -   API: Server: The "history" method added to get paginated app build history.
+-   CLI: info: The "Last Build Status" column added.
 -   CLI: The "history" action added.
 -   CLI: The "logs" action added.
 -   DB logging moved to a separate built-in extension.
