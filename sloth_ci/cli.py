@@ -136,9 +136,15 @@ class CLI:
         try:
             apps = self.api.info(args['<listen_points>'])
             
-            table = [[app['listen_point'], app['config_file']] for app in apps]
+            table = [
+                [
+                    app['listen_point'],
+                    app['config_file'],
+                    app['last_build_status']
+                ] for app in apps
+            ]
             
-            print(tabulate(table, headers=['Listen Point', 'Config File']))
+            print(tabulate(table, headers=['Listen Point', 'Config File', 'Last Build Status']))
 
         except Exception as e:
             print('Failed to get app info: %s' % e)
@@ -206,6 +212,9 @@ class CLI:
         for listen_point in reload_list:
             try:
                 config_file = self.api.info([listen_point])[0]['config_file']
+
+                if not config_file:
+                    raise FileNotFoundError('The app is not bound with a config file')
                 
                 self.api.remove(listen_point)
                 new_listen_point = self.api.create(config_file)
