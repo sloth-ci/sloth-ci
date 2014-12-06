@@ -154,7 +154,7 @@ class Sloth:
                         self.execute(action.format_map(params))
 
                     except KeyError as e:
-                        self.processing_logger.critical('Unknown param in action: %s', e)
+                        self.processing_logger.critical('Unknown param in action: %s' % e)
 
                         executed_action_count -= 1
 
