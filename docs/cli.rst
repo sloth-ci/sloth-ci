@@ -14,12 +14,18 @@ Here's the output of the ``sloth-ci --help`` command:
       sloth-ci remove <listen_points>... [-c <file>]
       sloth-ci trigger <listen_point> [-p <params>] [-c <file>]
       sloth-ci (info | reload) [<listen_points>...] [-c <file>]
+      sloth-ci logs <listen_point> [--from-page <number>] [--to-page <number>] [--per-page <number>] [--level <number>] [-c <file>]
+      sloth-ci history <listen_point> [--from-page <number>] [--to-page <number>] [--per-page <number>] [-c <file>]
       sloth-ci --version
       sloth-ci --help
 
     Options:
       -c <file>, --config <file>    Path to the server config file [default: ./sloth.yml]
       -p --params <params>          Params to trigger the actions with. String like 'param1=val1,param2=val2'
+      --from-page <number>          The first page.
+      --to-page <number>            The last page.
+      --per-page <number>           Number of records per page.
+      --level <number>              Minimal numeric logging level to be included in the output.
       -v --version                  Show version
       -h --help                     Show this screen
 
@@ -91,7 +97,29 @@ In the ``-p`` (or ``--params``) argument, you must specify the params that are u
 
 Get information about certain ar all apps.
 
-Returned is a table of ``listen_point`` and ``config_file``. If an app has now bound config file (i.e. was created via API), its ``config_file`` column is empty.
+Returned is a table of ``Listen Point``, ``Config File``, and ``Last Build Status``. If the app has no bound config file (i.e. was created via API), its ``Config File`` column is empty.
+
+``logs``
+========
+
+Get app logs.
+
+Returned is a table of ``Timestamp``, ``Message``, and ``Level``.
+
+By setting the optional ``--from-page``, ``--to-page``, ``--per-page``, and ``--level`` params you can paginate through logs and filter them by level.
+
+Page count starts from 1; page 1 means the latest logs.
+
+``history``
+===========
+
+Get app logs.
+
+Returned is a table of ``Timestamp`` and ``Status``.
+
+By setting the optional ``--from-page``, ``--to-page``, and ``--per-page`` params you can paginate through history.
+
+Page count starts from 1; page 1 means the latest logs.
 
 .. _cli-reload:
 
