@@ -140,11 +140,17 @@ class CLI:
                 [
                     app['listen_point'],
                     app['config_file'],
-                    app['last_build_status']
+                    app['last_build_status'],
+                    asctime(localtime(app['last_build_timestamp']))
                 ] for app in apps
             ]
             
-            print(tabulate(table, headers=['Listen Point', 'Config File', 'Last Build Status']))
+            print(tabulate(table, headers=[
+                'Listen Point',
+                'Config File',
+                'Last Build Status',
+                'Last Build Timestamp'
+            ]))
 
         except Exception as e:
             print('Failed to get app info: %s' % e)
