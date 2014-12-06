@@ -83,3 +83,9 @@
 -   DB logging moved to a separate built-in extension.
 -   DB build history tracking added as a separate built-in extension.
 -   Sloth: Extensions: The "extend" function now accepts the extension name + its config instead of just name.
+
+1.1.0
+=====
+
+-   API: Server: info: The "last_build_timestamp" field added to the output.
+-   CLI: info: The "Last Build Timestamp" column added.
