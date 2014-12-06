@@ -155,7 +155,7 @@ Params
 Response
 --------
 
-Status **200** with a list of JSON objects like ``{"listen_point": "foo", "config_file": "/home/bar.yml"}``.
+Status **200** with a list of JSON objects like ``{"listen_point": "foo", "config_file": "/home/bar.yml", "last_build_status": "Compete (2/3)"}``.
 
 Errors
 ------
@@ -191,6 +191,38 @@ Response
 --------
 
 Status **200** with a list of JSON objects like ``{"timestamp": 123456.789, "logger_name": "spam.processing", "level_name": "INFO", "level_number": 20, "message": "Execution queue is empty"}``.
+
+Errors
+------
+
+-   **500**: something unexpected happened in the server (read the error message for details)
+
+``history``
+===========
+
+Get paginated app build history logs. History is returned as a sorted by timestamp list, the freshest statuses are on top.
+
+.. important::
+
+    Build history is taken from the database, so the ``paths: db`` parameter **must** be set in the server config for this method to work. If you set the ``paths: db`` parameter to ``null``, this method **will be unavailable**.
+
+GET URL example::
+
+    http://localhost:8080/?action=history&listen_point=spam&from_page=2&per_page=20
+
+Params
+------
+
+-   ``action`` = ``history``
+-   ``listen_point`` is the listen point of the app whose build history you want to get.
+-   ``from_page`` is the number of the first page to get. Default is 1 (the first page, i.e. the latest statuses).
+-   ``to_page`` is the number of the last page to get. Default is ``from_page`` (i.e. get only one page).
+-   ``per_page`` is the number of records per page. Default is 10.
+
+Response
+--------
+
+Status **200** with a list of JSON objects like ``{"timestamp": 123456.789, "logger_name": "spam.build", "level_name": "INFO", "level_number": 20, "message": "Complete (2/3)"}``.
 
 Errors
 ------
