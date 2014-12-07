@@ -89,3 +89,8 @@
 
 -   API: Server: info: The "last_build_timestamp" field added to the output.
 -   CLI: info: The "Last Build Timestamp" column added.
+
+1.1.1
+=====
+
+-   Ext: Build history: Build status was set to 'Never triggered' on every app creation. Fixed.

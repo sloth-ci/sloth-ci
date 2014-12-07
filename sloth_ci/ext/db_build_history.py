@@ -21,8 +21,6 @@ def extend(cls, extension):
 
             self.log_handlers[extension['name']] = db_build_log_handler
 
-            self.build_logger.info('Never triggered')
-
         def process_queue(self):
             status, executed_action_count, total_action_count = super().process_queue()
             

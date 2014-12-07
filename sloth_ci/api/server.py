@@ -193,13 +193,21 @@ class API:
                 last_build_info = self.history({
                     'listen_point': listen_point,
                     'per_page': 1
-                })[0]
+                })
+
+                if last_build_info:
+                    last_build_status = last_build_info[0]['message']
+                    last_build_timestamp = last_build_info[0]['timestamp']
+
+                else:
+                    last_build_status = 'Never triggered'
+                    last_build_timestamp = None
 
                 info_list.append({
                     'listen_point': listen_point,
                     'config_file': self.bed.config_files.get(listen_point),
-                    'last_build_status': last_build_info['message'],
-                    'last_build_timestamp': last_build_info['timestamp']
+                    'last_build_status': last_build_status,
+                    'last_build_timestamp': last_build_timestamp
                 })
 
             response.status = 200
