@@ -97,7 +97,9 @@ In the ``-p`` (or ``--params``) argument, you must specify the params that are u
 
 Get information about certain ar all apps.
 
-Returned is a table of ``Listen Point``, ``Config File``, and ``Last Build Status``. If the app has no bound config file (i.e. was created via API), its ``Config File`` column is empty.
+Returned is a table of ``Listen Point``, ``Config File``, ``Last Build Status``, and ``Last Build Timestamp``.
+
+If the app has no bound config file (i.e. was created via API), its ``Config File`` column is empty.
 
 ``logs``
 ========
