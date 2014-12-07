@@ -78,8 +78,8 @@
 -   API: Server: info: The "last_build_status" field added to the output.
 -   API: Server: The "history" method added to get paginated app build history.
 -   CLI: info: The "Last Build Status" column added.
--   CLI: The "history" action added.
--   CLI: The "logs" action added.
+-   CLI: The "history" command added.
+-   CLI: The "logs" command added.
 -   DB logging moved to a separate built-in extension.
 -   DB build history tracking added as a separate built-in extension.
 -   Sloth: Extensions: The "extend" function now accepts the extension name + its config instead of just name.
@@ -99,3 +99,10 @@
 =====
 
 -   Ext: Build history: The "Triggered" status is added before action queue execution.
+
+1.1.3
+=====
+
+-   API: Client: The "version" API method support added.
+-   API: Server: The "version" method added to get the server version.
+-   CLI: The "version" command added.
