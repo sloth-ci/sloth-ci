@@ -8,11 +8,13 @@ from yaml import load
 
 import sqlite3
 
+from .. import __version__
+
 
 class API:
     def __init__(self, bed):
         self.bed = bed
-        
+
         auth = self.bed.config['api_auth']
 
         self.listener = self._make_listener({auth['login']: auth['password']})
@@ -23,6 +25,7 @@ class API:
             'remove': self.remove,
             'trigger': self.trigger,
             'info': self.info,
+            'version': self.version,
             'restart': self.restart,
             'stop': self.stop
         }
@@ -30,13 +33,13 @@ class API:
         if self.bed.db_path:
             self.actions['logs'] = self.logs
             self.actions['history'] = self.history
-    
+
     def _handle_error(self, status, message, traceback, version):
         return message
 
     def _make_listener(self, auth_dict, realm='sloth-ci'):
         '''Get a basic-auth-protected listener function for the API endpoint.
-        
+
         :param auth_dict: {user: password} dict for authentication
         :param realm: mandatory param for basic auth
 
@@ -48,7 +51,7 @@ class API:
         @tools.json_out()
         def listener(action, **kwargs):
             '''Listen to and route API requests.
-            
+
             An API request is an HTTP request with two mandatory parameters: ``action`` and ``params``.
 
             :param action: string corresponding to one of the available API methods.
@@ -130,10 +133,10 @@ class API:
 
         if not listen_point:
             raise HTTPError(400, 'Missing parameter listen_point')
-                
+
         try:
             self.bed.remove(listen_point)
-                    
+
             response.status = 204
 
             return None
@@ -154,9 +157,9 @@ class API:
 
         try:
             params = {key: kwargs[key] for key in kwargs if key not in ('action', 'listen_point')}
-                    
+
             sloth = self.bed.sloths[listen_point]
-                    
+
             sloth.process(params)
 
             response.status = 202
@@ -177,13 +180,13 @@ class API:
         try:
             if not listen_points:
                 app_list = self.bed.sloths.keys()
-                
+
             elif listen_points == list(listen_points):
                 app_list = listen_points
 
             else:
                 app_list = [listen_points]
-                    
+
             info_list = []
 
             for listen_point in app_list:
@@ -254,7 +257,7 @@ class API:
             cursor.execute(query, query_params)
 
             column_names = [column[0] for column in cursor.description]
-            
+
             logs = [dict(zip(column_names, record)) for record in cursor.fetchall()]
 
             connection.close()
@@ -268,7 +271,7 @@ class API:
 
     def history(self, kwargs):
         '''Get paginated app build history from the database.'''
-        
+
         listen_point = kwargs.get('listen_point')
 
         if not listen_point:
@@ -296,7 +299,7 @@ class API:
             cursor.execute(query, query_params)
 
             column_names = [column[0] for column in cursor.description]
-            
+
             history = [dict(zip(column_names, record)) for record in cursor.fetchall()]
 
             connection.close()
@@ -308,6 +311,19 @@ class API:
         except Exception as e:
             raise HTTPError(500, 'Failed to get app build history: %s' % e)
 
+    def version(self, kwargs):
+        '''Get the Sloth CI app version.'''
+
+        try:
+            version = __version__
+
+            response.status = 200
+
+            return version
+
+        except Exception as e:
+            raise HTTPError(500, 'Failed to get Sloth CI server version: %s' % e)
+
     def restart(self, kwargs):
         '''Ask the Sloth CI server to restart.'''
 
@@ -317,7 +333,7 @@ class API:
             response.status = 202
 
             return None
-                
+
         except Exception as e:
             raise HTTPError(500, 'Failed to restart Sloth CI server: %s' % e)
 
