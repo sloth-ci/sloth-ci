@@ -1,7 +1,7 @@
 ﻿'''Sloth CI.
 
 Usage:
-  sloth-ci (start | restart | stop | status) [-c <file>]
+  sloth-ci (start | restart | stop | status | version) [-c <file>]
   sloth-ci create <config_paths>... [-c <file>]
   sloth-ci remove <listen_points>... [-c <file>]
   sloth-ci trigger <listen_point> [-p <params>] [-c <file>]
@@ -63,6 +63,7 @@ class CLI:
             'info': self.info,
             'logs': self.logs,
             'history': self.history,
+            'version': self.version,
             'restart': self.restart,
             'stop': self.stop
         }
@@ -204,7 +205,7 @@ class CLI:
             print('Failed to get app logs: %s' % e)
 
     def reload(self, args):
-        '''Reload certain or all apps. I.e. remove, recreate, and rebind them with the config files.'''
+        '''Reload certain or all apps, i.e. remove, recreate, and rebind them with the config files.'''
 
         try:
             app_list = self.api.info()
@@ -240,6 +241,15 @@ class CLI:
 
         except:
             print('Sloth CI is not running on %s' % self.api.url)
+
+    def version(self, args):
+        '''Get a Sloth CI server version.'''
+
+        try:
+            print(self.api.version())
+
+        except Exception as e:
+            print('Failed to get Sloth CI version: %s' % e)
 
     def restart(self, args):
         '''Ask a Sloth CI server to restart.'''
