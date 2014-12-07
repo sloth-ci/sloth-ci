@@ -94,3 +94,8 @@
 =====
 
 -   Ext: Build history: Build status was set to 'Never triggered' on every app creation. Fixed.
+
+1.1.2
+=====
+
+-   Ext: Build history: The "Triggered" status is added before action queue execution.
