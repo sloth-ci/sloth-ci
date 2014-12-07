@@ -204,9 +204,19 @@ class API:
         else:
             raise RuntimeError(content)
 
+    def version(self):
+        '''Get a Sloth CI server version.'''
+
+        status, content = self._send_api_request({'action': 'version'})
+
+        if status == 200:
+            return content
+
+        else:
+            raise RuntimeError(content)
 
     def restart(self):
-        '''Ask a a Sloth CI server to restart.'''
+        '''Ask a Sloth CI server to restart.'''
 
         status, content = self._send_api_request({'action': 'restart'})
         
@@ -217,7 +227,7 @@ class API:
             raise RuntimeError(content)
 
     def stop(self):
-        '''Ask a a Sloth CI server to stop.'''
+        '''Ask a Sloth CI server to stop.'''
 
         status, content = self._send_api_request({'action': 'stop'})
         
