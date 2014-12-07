@@ -155,7 +155,7 @@ Params
 Response
 --------
 
-Status **200** with a list of JSON objects like ``{"listen_point": "foo", "config_file": "/home/bar.yml", "last_build_status": "Compete (2/3)"}``.
+Status **200** with a list of JSON objects like ``{"listen_point": "foo", "config_file": "/home/bar.yml", "last_build_status": "Compete (2/3)", "last_build_timestamp": 12345.67    }``.
 
 Errors
 ------
