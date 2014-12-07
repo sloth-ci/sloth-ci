@@ -27,7 +27,7 @@ from sys import exit
 
 from os.path import abspath
 from glob import glob 
-from time import localtime, asctime
+from time import ctime
 
 from docopt import docopt
 from tabulate import tabulate
@@ -141,7 +141,7 @@ class CLI:
                     app['listen_point'],
                     app['config_file'],
                     app['last_build_status'],
-                    asctime(localtime(app['last_build_timestamp']))
+                    ctime(app['last_build_timestamp'])
                 ] for app in apps
             ]
             
@@ -169,7 +169,7 @@ class CLI:
 
             table = [
                 [
-                    asctime(localtime(record['timestamp'])),
+                    ctime(record['timestamp']),
                     record['message'],
                     record['level_name']
                 ] for record in logs
@@ -193,7 +193,7 @@ class CLI:
 
             table = [
                 [
-                    asctime(localtime(record['timestamp'])),
+                    ctime(record['timestamp']),
                     record['message']
                 ] for record in history
             ]
