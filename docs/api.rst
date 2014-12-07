@@ -229,6 +229,30 @@ Errors
 
 -   **500**: something unexpected happened in the server (read the error message for details)
 
+``version``
+===========
+
+Get a Sloth CI server version.
+
+GET URL example::
+    
+        http://localhost:8080/?action=version
+
+Params
+------
+
+-   ``action`` = ``version``
+
+Response
+--------
+
+Status **200** with the version string in the content.
+
+Errors
+------
+
+-   **500**: something unexpected happened in the server (read the error message for details)
+
 ``restart``
 ===========
 
