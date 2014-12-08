@@ -1,7 +1,7 @@
 ﻿'''Sloth CI.
 
 Usage:
-  sloth-ci (start | restart | stop | status | version) [-c <file>]
+  sloth-ci (start | restart | stop | status ) [-c <file>]
   sloth-ci create <config_paths>... [-c <file>]
   sloth-ci remove <listen_points>... [-c <file>]
   sloth-ci trigger <listen_point> [-p <params>] [-c <file>]
@@ -63,7 +63,6 @@ class CLI:
             'info': self.info,
             'logs': self.logs,
             'history': self.history,
-            'version': self.version,
             'restart': self.restart,
             'stop': self.stop
         }
@@ -236,20 +235,11 @@ class CLI:
         '''Get Sloth CI server status (running or not running).'''
 
         try:
-            self.api._send_api_request()
-            print('Sloth CI is running on %s' % self.api.url)
+            version = self.api.version()
+            print('Sloth CI version %s is running on %s' % (version, self.api.url))
 
         except:
             print('Sloth CI is not running on %s' % self.api.url)
-
-    def version(self, args):
-        '''Get a Sloth CI server version.'''
-
-        try:
-            print(self.api.version())
-
-        except Exception as e:
-            print('Failed to get Sloth CI version: %s' % e)
 
     def restart(self, args):
         '''Ask a Sloth CI server to restart.'''
