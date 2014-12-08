@@ -193,7 +193,8 @@ class Sloth:
                 action.split(),
                 cwd=self.config.get('work_dir') or '.',
                 stdout=PIPE,
-                stderr=PIPE)
+                stderr=PIPE
+            )
 
             stdout, stderr = process.communicate(timeout=self.config.get('exec_timeout'))
             
