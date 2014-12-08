@@ -106,3 +106,9 @@
 -   API: Client: The "version" API method support added.
 -   API: Server: The "version" method added to get the server version.
 -   CLI: The "version" command added.
+
+1.1.4
+=====
+
+-   CLI: The "version" command removed.
+-   CLI: Remote server version is now shown in the "status" command output.
