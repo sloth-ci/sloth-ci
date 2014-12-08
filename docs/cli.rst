@@ -9,7 +9,7 @@ Here's the output of the ``sloth-ci --help`` command:
     Sloth CI.
 
     Usage:
-      sloth-ci (start | restart | stop | status | version) [-c <file>]
+      sloth-ci (start | restart | stop | status) [-c <file>]
       sloth-ci create <config_paths>... [-c <file>]
       sloth-ci remove <listen_points>... [-c <file>]
       sloth-ci trigger <listen_point> [-p <params>] [-c <file>]
@@ -61,12 +61,7 @@ Ask a Sloth CI server to stop.
 ``status``
 ==========
 
-Get a Sloth CI server's status (running or not running).
-
-``version``
-===========
-
-Get a Sloth CI server version.
+Get a Sloth CI server's status (running or not running) and version.
 
 ``create``
 ==========
