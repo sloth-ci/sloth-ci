@@ -116,6 +116,7 @@
 1.1.5
 =====
 
--   Logging: The "processing" logger renamed to "exec."
--   Ext: Build history: The "Triggered" status indicates params.
 -   Ext: Build history: The "Failed" status indicates the failed action and the exception raised.
+-   Ext: Build history: The "Triggered" status indicates params.
+-   Logging: The build logger added to Sloth.
+-   Logging: The "processing" logger renamed to "exec."
