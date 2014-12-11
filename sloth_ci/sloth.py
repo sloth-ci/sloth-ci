@@ -28,7 +28,9 @@ class Sloth:
         
         self.logger = logging.getLogger(self.name)
         self.logger.setLevel(logging.DEBUG)
-        self.processing_logger = self.logger.getChild('processing')
+
+        self.build_logger = self.logger.getChild('build')
+        self.exec_logger = self.logger.getChild('exec')
         
         self.log_handlers = {}
 
@@ -129,64 +131,76 @@ class Sloth:
             self.queue_processor.start()
 
     def process_queue(self):
-        '''Processes execution queue in a separate thread.'''
+        '''Processes execution queue in a separate thread.
+        
+        :returns: True if successful, exception otherwise
+        '''
 
         actions = self.config.get('actions')
         
         status = 'Complete'
 
         if actions:
-            executed_action_count = total_action_count = len(actions)
-
             while self.queue:
                 if self._processing_lock:
-                    self.processing_logger.warning('Queue processing interrupted')
-
-                    executed_action_count -= 1
-                    status = 'Interrupted'
-
+                    self.exec_logger.warning('Queue processing interrupted')
                     break
-                
+
                 params = self.queue.popleft()
 
-                for action in actions:
-                    try:
-                        self.execute(action.format_map(params))
+                try:
+                    self.run_build(actions, params)
 
-                    except KeyError as e:
-                        self.processing_logger.critical('Unknown param in action: %s' % e)
+                except:
+                    pass
 
-                        executed_action_count -= 1
+        return True
 
-                        if self.config.get('stop_on_first_fail'):
-                            status = 'Failed'
-                            break
+    def run_build(self, actions, params):
+        '''Run a build with the given params.
 
-                    except Exception as e:
-                        self.processing_logger.critical('Execution failed: %s' % e)
+        :param actions: actions in this build
+        :param params: params used by the actions
 
-                        executed_action_count -= 1
+        :returns: True if successful, exception otherwise
+        '''
 
-                        if self.config.get('stop_on_first_fail'):
-                            status = 'Failed'
-                            break
+        errors = []
+
+        self.build_logger.info('Triggered with params % s' % params)
+
+        for action in actions:
+            try:
+                self.execute(action.format_map(params))
+
+            except KeyError as e:
+                self.exec_logger.critical('Unknown param in action: %s' % e)
+                errors.append(e)
+
+            except Exception as e:
+                self.exec_logger.critical('Execution failed: %s' % e)
+                errors.append(e)
+
+            finally:
+                if errors and self.config.get('stop_on_first_fail'):
+                    self.build_logger.critical('Failed on action "%s": %s' % (action, errors[0]))
+                    raise errors[0]
+        
+        if not errors:
+            self.build_logger.info('Completed %d/%d' % (len(actions), len(actions)))
 
         else:
-            executed_action_count = total_action_count = 0
-
-        self.processing_logger.info('Execution queue is empty')
-
-        return status, executed_action_count, total_action_count
+            self.build_logger.warning('Partially completed %d/%d' % (len(actions) - len(errors), len(actions)))
 
     def execute(self, action):
         '''Executes an action in an ordinary Popen.
 
         :param action: action to be executed
 
-        :returns: True if successful, Exception otherwise
+        :returns: True if successful, exception otherwise
         '''
 
-        self.processing_logger.info('Executing action: %s' % action)
+        self.exec_logger.info('Executing action: %s' % action)
 
         try:
             process = Popen(
@@ -198,10 +212,10 @@ class Sloth:
 
             stdout, stderr = process.communicate(timeout=self.config.get('exec_timeout'))
             
-            self.processing_logger.debug('stdout: %s' % bytes.decode(stdout))
-            self.processing_logger.debug('stderr: %s' % bytes.decode(stderr))
+            self.exec_logger.debug('stdout: %s' % bytes.decode(stdout))
+            self.exec_logger.debug('stderr: %s' % bytes.decode(stderr))
 
-            self.processing_logger.info('Finished')
+            self.exec_logger.info('Finished')
             
             return True
 
@@ -210,8 +224,8 @@ class Sloth:
 
             stdout, stderr = process.communicate()
             
-            self.processing_logger.debug(bytes.decode(stdout))
-            self.processing_logger.debug(bytes.decode(stderr))
+            self.exec_logger.debug(bytes.decode(stdout))
+            self.exec_logger.debug(bytes.decode(stderr))
 
             raise
 
