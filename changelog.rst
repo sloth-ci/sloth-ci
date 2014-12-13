@@ -120,3 +120,4 @@
 -   Ext: Build history: The "Triggered" status indicates params.
 -   Logging: The build logger added to Sloth.
 -   Logging: The "processing" logger renamed to "exec."
+-   Sloth: Exec params persisted between builds, resulting in false successes. Fixed.
