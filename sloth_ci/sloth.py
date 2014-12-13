@@ -119,9 +119,7 @@ class Sloth:
         :param validator_params: params exctacted from the payload
         '''
 
-        params = self.config.get('params', {})
-
-        params.update(validator_params)
+        params = dict(self.config.get('params', {}), **validator_params)
 
         if not self._queue_lock:
             self.queue.append(params)
