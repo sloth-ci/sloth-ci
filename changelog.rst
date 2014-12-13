@@ -121,3 +121,4 @@
 -   Logging: The build logger added to Sloth.
 -   Logging: The "processing" logger renamed to "exec."
 -   Sloth: Exec params persisted between builds, resulting in false successes. Fixed.
+-   Sloth: Build trigger is now logged with level DEBUG.
