@@ -14,6 +14,13 @@ Sloth CI extensions live in a separate repository at https://bitbucket.org/moiga
 
 When writing your own extensions, refer to the :ref:`dummy extension <dummy-ext>`.
 
+Build Notifications
+===================
+
+.. automodule:: sloth_ci.ext.build_notifications
+
+.. _dummy-ext:
+
 Docker Exec
 ===========
 
@@ -31,7 +38,7 @@ Dummy
 Logs
 ====
 
-.. automodule:: sloth_ci.ext.logs
+.. automodule:: sloth_ci.ext.file_logs
 
 OpenVZ Exec
 ===========
