@@ -2,7 +2,7 @@ alabaster
 
 sloth-ci
 
-sloth-ci.ext.build-notifications
+sloth-ci.ext.build-email-notifications
 sloth-ci.ext.docker-exec
 sloth-ci.ext.dummy
 sloth-ci.ext.file-logs
