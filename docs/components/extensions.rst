@@ -35,8 +35,8 @@ Dummy
 
 .. _logs-ext:
 
-Logs
-====
+File Logs
+=========
 
 .. automodule:: sloth_ci.ext.file_logs
 
