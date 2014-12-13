@@ -165,7 +165,7 @@ class Sloth:
 
         errors = []
 
-        self.build_logger.info('Triggered with params % s' % params)
+        self.build_logger.debug('Triggered with params % s' % params)
 
         for action in actions:
             try:
