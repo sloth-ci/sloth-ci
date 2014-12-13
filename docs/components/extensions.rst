@@ -17,7 +17,7 @@ When writing your own extensions, refer to the :ref:`dummy extension <dummy-ext>
 Build Notifications
 ===================
 
-.. automodule:: sloth_ci.ext.build_notifications
+.. automodule:: sloth_ci.ext.build_email_notifications
 
 .. _dummy-ext:
 
