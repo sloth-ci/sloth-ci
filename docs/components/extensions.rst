@@ -14,8 +14,8 @@ Sloth CI extensions live in a separate repository at https://bitbucket.org/moiga
 
 When writing your own extensions, refer to the :ref:`dummy extension <dummy-ext>`.
 
-Build Notifications
-===================
+Build Email Notifications
+=========================
 
 .. automodule:: sloth_ci.ext.build_email_notifications
 
