@@ -241,14 +241,15 @@ class API:
             cursor = connection.cursor()
 
             query = 'SELECT * FROM app_logs \
-                WHERE logger_name=? OR logger_name=? \
+                WHERE (logger_name=? OR logger_name=? OR logger_name=?) \
                 AND level_number >= ? \
                 ORDER BY timestamp DESC \
                 LIMIT ? OFFSET ?'
 
             query_params = (
                 listen_point,
-                listen_point + '.processing',
+                listen_point + '.exec',
+                listen_point + '.build',
                 level,
                 (to_page - from_page + 1) * per_page,
                 (from_page - 1) * per_page
