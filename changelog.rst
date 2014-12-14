@@ -122,3 +122,8 @@
 -   Logging: The "processing" logger renamed to "exec."
 -   Sloth: Exec params persisted between builds, resulting in false successes. Fixed.
 -   Sloth: Build trigger is now logged with level DEBUG.
+
+1.1.6
+=====
+
+-   API: Server: logs: Log level filtering didn't work. Fixed.
