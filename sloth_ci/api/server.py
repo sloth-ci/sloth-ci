@@ -213,6 +213,8 @@ class API:
                     'last_build_timestamp': last_build_timestamp
                 })
 
+            info_list.sort(key=lambda record: record['last_build_timestamp'], reverse=True)
+
             response.status = 200
 
             return info_list
