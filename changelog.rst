@@ -127,3 +127,4 @@
 =====
 
 -   API: Server: logs: Log level filtering didn't work. Fixed.
+-   API: Server: info: The records are now sorted by the last build timestamp.
