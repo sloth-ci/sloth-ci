@@ -81,7 +81,7 @@ class Bed:
 
         error_log_path = self.config.get('paths', {}).get('error_log', 'sloth_error.log')
         error_log_dir = dirname(error_log_path)
-        
+
         if error_log_dir and not exists(error_log_dir):
             makedirs(error_log_dir)
 
@@ -136,7 +136,7 @@ class Bed:
 
     def bind(self, listen_point, config_file):
         '''Bind a Sloth app with a config file.
- 
+
         :param listen_point: app's listen point
         :param config_file: absolute path to the config file
         '''
@@ -187,20 +187,20 @@ class Bed:
         if listen_point in self.sloths:
             cherrypy.log.error('Failed to create app: the listen point %s is already taken' % e)
             raise ValueError(listen_point)
-            
+
         try:
             if self.db_path:
                 PreExtendedSloth, errors = Sloth.extend(self.db_extensions)
 
             else:
                 PreExtendedSloth, errors = Sloth
-            
+
             ExtendedSloth, errors = PreExtendedSloth.extend(config.get('extensions'))
             sloth = ExtendedSloth(config)
 
             for error in errors:
                 sloth.logger.error(error)
-            
+
             self.sloths[listen_point] = sloth
             sloth.logger.info('Listening on %s' % listen_point)
 
