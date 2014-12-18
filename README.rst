@@ -53,9 +53,9 @@ Here's how your sloth.yml can look like:
 
     host: 0.0.0.0
     port: 8080
-    
+
     daemon: true
-    
+
     paths:
         access_log: /var/log/sloth-ci/_access.log
         error_log: /var/log/sloth-ci/_error.log
