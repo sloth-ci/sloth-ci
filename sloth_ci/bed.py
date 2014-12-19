@@ -185,7 +185,7 @@ class Bed:
             raise
 
         if listen_point in self.sloths:
-            cherrypy.log.error('Failed to create app: the listen point %s is already taken' % e)
+            cherrypy.log.error('Failed to create app: the listen point %s is already taken' % listen_point)
             raise ValueError(listen_point)
 
         try:
