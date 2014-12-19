@@ -90,7 +90,7 @@ class API:
         except KeyError as e:
             raise HTTPError(404, 'Listen point %s not found' % e)
 
-        except FileNotFoundError:
+        except FileNotFoundError as e:
             raise HTTPError(404, 'File %s not found' % e)
 
         except ValueError:
