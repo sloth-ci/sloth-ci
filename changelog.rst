@@ -128,3 +128,9 @@
 
 -   API: Server: logs: Log level filtering didn't work. Fixed.
 -   API: Server: info: The records are now sorted by the last build timestamp.
+
+1.1.7
+=====
+
+-   API: Server: bind: Local variable e was called before assignment. Fixed.
+-   Bed: Create app: Listen point conflict: Wrong variable was referenced in the error message. Fixed.
