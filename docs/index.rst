@@ -42,7 +42,7 @@ Sloth CI runs with Python 3 on Windows, Linux, and Mac.
 Install
 =======
 
-Install Sloth CI and the Bitbucket validator with pip:
+Install Sloth CI and a validator (e.g. Bitbucket) via pip:
 
 .. code-block:: bash
 
@@ -55,7 +55,7 @@ Install Sloth CI and the Bitbucket validator with pip:
 Configure
 =========
 
-Create a file named *sloth.yml* in any directory and cd to that directory.
+Create a file named *sloth.yml* in any directory and ``cd`` to that directory.
 
 Here's how your sloth.yml can look like:
 
@@ -63,9 +63,9 @@ Here's how your sloth.yml can look like:
 
     host: 0.0.0.0
     port: 8080
-    
+
     daemon: true
-    
+
     paths:
         access_log: /var/log/sloth-ci/_access.log
         error_log: /var/log/sloth-ci/_error.log
