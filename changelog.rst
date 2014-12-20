@@ -6,7 +6,7 @@
 1.0.1
 =====
 
--   The ``-d`` (``--daemon``) CLI flag removed (it was not working anyway).
+-   The "-d" ("--daemon") CLI flag removed (it was not working anyway).
 
 1.0.2
 =====
