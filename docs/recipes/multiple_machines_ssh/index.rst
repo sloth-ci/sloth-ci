@@ -16,7 +16,7 @@ Validator
 Extensions
 ==========
 
--   `logs <https://pypi.python.org/pypi/sloth-ci.ext.logs>`_
+-   `file_logs <https://pypi.python.org/pypi/sloth-ci.ext.file-logs>`_
 -   `ssh_exec <https://pypi.python.org/pypi/sloth-ci.ext.ssh-exec>`_
 
 Config
