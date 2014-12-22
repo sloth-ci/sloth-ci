@@ -57,7 +57,7 @@ Configure
 
 Create a file named *sloth.yml* in any directory and ``cd`` to that directory.
 
-Here's how your sloth.yml can look like:
+Here's how your *sloth.yml* can look like:
 
 .. code-block:: yaml
 
@@ -87,7 +87,7 @@ Start the Sloth CI server with:
 Create App
 ==========
 
-Create a file called like *myapp.yml*:
+Create a file called *myapp.yml*:
 
 .. code-block:: yaml
 
