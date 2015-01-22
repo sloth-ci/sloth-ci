@@ -204,7 +204,7 @@ class API:
 
                 else:
                     last_build_status = 'Never triggered'
-                    last_build_timestamp = None
+                    last_build_timestamp = 0
 
                 info_list.append({
                     'listen_point': listen_point,
