@@ -134,3 +134,8 @@
 
 -   API: Server: bind: Local variable e was called before assignment. Fixed.
 -   Bed: Create app: Listen point conflict: Wrong variable was referenced in the error message. Fixed.
+
+1.1.8
+=====
+
+-   API: Server: info: Info was broken if at least one app was never triggered. The default timestamp is now 0. Fixed.
