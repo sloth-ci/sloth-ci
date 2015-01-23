@@ -14,10 +14,6 @@ A GET API request looks like this::
 
 The API is protected with basic auth to avoid unwanted access from the outside world. The basic auth credentials are stored in the ``login`` and ``password`` params of the ``api_auth`` section in the :ref:`server config <server-config>`.
 
-.. note::
-
-    Sloth CI's API is not RESTful in any way, it is neither possible or desirable to use this concept with this software.
-
 Below is the full list of available API actions with params and possible return statuses.
 
 ``bind``
