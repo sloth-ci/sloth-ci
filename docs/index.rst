@@ -48,10 +48,6 @@ Install Sloth CI and a validator (e.g. Bitbucket) via pip:
 
     $ pip install sloth-ci sloth-ci.validators.bitbucket
 
-.. note::
-
-    Sloth CI depends on the `Routes <http://routes.groovie.org/>`__ package, which has a somewhat broken wheel uploaded to PyPI. If the installation fails, try installing Routes individually with ``pip install --no-use-wheel Routes``.
-
 Configure
 =========
 
