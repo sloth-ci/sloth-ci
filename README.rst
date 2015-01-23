@@ -51,7 +51,7 @@ Here's how your *sloth.yml* can look like:
 
 .. code-block:: yaml
 
-    host: 0.0.0.0
+    host: localhost
     port: 8080
 
     daemon: true
