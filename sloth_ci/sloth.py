@@ -99,17 +99,18 @@ class Sloth:
 
         validation_data = provider_data or {}
 
-        validation_status, validation_message, validator_params = validator.validate(request, validation_data)
+        status, message, param_set = validator.validate(request, validation_data)
 
-        self.logger.debug(validation_message.format_map(validator_params))
+        self.logger.debug(message)
 
-        if validation_status == 200:
+        if status == 200:
             self.logger.info('Valid payload received')
                 
         else:
-            raise HTTPError(validation_status, validation_message.format_map(validator_params))
+            raise HTTPError(status, message)
 
-        self.process(validator_params)
+        for params in param_set:
+            self.process(params)
 
     def process(self, validator_params):
         '''Queue execution of actions with certain params. 
@@ -171,9 +172,11 @@ class Sloth:
 
         for action in actions:
             try:
-                self.exec_logger.info('Executing action: %s' % action)
+                action_with_params = action.format_map(params)
 
-                self.execute(action.format_map(params))
+                self.exec_logger.info('Executing action: %s' % action_with_params)
+
+                self.execute(action_with_params)
 
             except KeyError as e:
                 self.exec_logger.critical('Missing param: %s' % e)
