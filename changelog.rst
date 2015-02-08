@@ -139,3 +139,9 @@
 =====
 
 -   API: Server: info: Info was broken if at least one app was never triggered. The default timestamp is now 0. Fixed.
+
+1.1.9
+=====
+
+-   Build: Action execution: If stderr is not empty, the action is considered failed.
+-   Logging: Minor improvements in build logging.
