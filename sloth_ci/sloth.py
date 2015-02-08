@@ -99,7 +99,7 @@ class Sloth:
 
         validation_data = provider_data or {}
 
-        status, message, param_set = validator.validate(request, validation_data)
+        status, message, param_dicts = validator.validate(request, validation_data)
 
         self.logger.debug(message)
 
@@ -109,7 +109,7 @@ class Sloth:
         else:
             raise HTTPError(status, message)
 
-        for params in param_set:
+        for params in param_dicts:
             self.process(params)
 
     def process(self, validator_params):
