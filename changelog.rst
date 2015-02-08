@@ -148,3 +148,8 @@
 -   Logging: Minor improvements in build logging.
 -   New dependency: colorama.
 -   Payload handling: Single payload can now trigger multiple builds. Useful for combined pushes with commits from multiple branches.
+
+1.2.0
+=====
+
+-   Build: Logging: Params are now stored by the exec logger, not the build logger. This keeps build history clean.
