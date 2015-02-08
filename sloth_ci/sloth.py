@@ -168,7 +168,7 @@ class Sloth:
 
         self.build_logger.info('Build triggered, actions in queue: %d' % len(actions))
 
-        self.build_logger.debug('Params: %s' % params)
+        self.exec_logger.debug('Params: %s' % params)
 
         for action in actions:
             try:
