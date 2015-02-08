@@ -165,14 +165,18 @@ class Sloth:
 
         errors = []
 
-        self.build_logger.debug('Triggered with params % s' % params)
+        self.build_logger.info('Build triggered, actions in queue: %d' % len(actions))
+
+        self.build_logger.debug('Params: %s' % params)
 
         for action in actions:
             try:
+                self.exec_logger.info('Executing action: %s' % action)
+
                 self.execute(action.format_map(params))
 
             except KeyError as e:
-                self.exec_logger.critical('Unknown param in action: %s' % e)
+                self.exec_logger.critical('Missing param: %s' % e)
                 errors.append(e)
 
             except Exception as e:
@@ -187,8 +191,11 @@ class Sloth:
         if not errors:
             self.build_logger.info('Completed %d/%d' % (len(actions), len(actions)))
 
+        elif len(errors) == len(actions):
+            self.build_logger.warning('None completed: %d/%d' % (len(actions) - len(errors), len(actions)))
+
         else:
-            self.build_logger.warning('Partially completed %d/%d' % (len(actions) - len(errors), len(actions)))
+            self.build_logger.warning('Partially completed: %d/%d' % (len(actions) - len(errors), len(actions)))
 
     def execute(self, action):
         '''Executes an action in an ordinary Popen.
@@ -197,8 +204,6 @@ class Sloth:
 
         :returns: True if successful, exception otherwise
         '''
-
-        self.exec_logger.info('Executing action: %s' % action)
 
         try:
             process = Popen(
@@ -211,7 +216,9 @@ class Sloth:
             stdout, stderr = process.communicate(timeout=self.config.get('exec_timeout'))
             
             self.exec_logger.debug('stdout: %s' % bytes.decode(stdout))
-            self.exec_logger.debug('stderr: %s' % bytes.decode(stderr))
+
+            if stderr:
+                raise RuntimeError(bytes.decode(stderr))
 
             self.exec_logger.info('Finished')
             
