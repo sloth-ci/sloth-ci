@@ -23,12 +23,13 @@ setup(
     packages=['sloth_ci', 'sloth_ci.api', 'sloth_ci.ext'],
     install_requires = [
         'CherryPy',
+        'Routes',
         'awesome-slugify',
-        'docopt',
-        'tabulate',
         'PyYAML',
         'requests',
-        'Routes'
+        'docopt',
+        'tabulate',
+        'colorama'
     ],
     extras_require = {
         'Logs':  ["sloth-ci.ext.logs"]
