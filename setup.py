@@ -7,6 +7,7 @@ import sloth_ci
 
 try:
     long_description = open('README.rst').read()
+
 except:
     long_description = sloth_ci.__long_description__
 
