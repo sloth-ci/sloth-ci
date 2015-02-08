@@ -144,5 +144,6 @@
 =====
 
 -   Build: Action execution: If stderr is not empty, the action is considered failed.
+-   CLI: Logs: Tables are now colorized.
 -   Logging: Minor improvements in build logging.
 -   Payload handling: Single payload can now trigger multiple builds. Useful for combined pushes with commits from multiple branches.

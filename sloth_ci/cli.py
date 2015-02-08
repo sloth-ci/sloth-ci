@@ -38,6 +38,41 @@ from .bed import Bed
 from .api.client import API
 
 
+def colorize(table):
+    '''Colorize logs table according to message status.
+
+    :param table: logs table, each row is [timestamp, message, level_name]
+
+    :returns: colorized table
+    '''
+
+    colorized_table = []
+
+    from colorama import init, deinit, Fore, Back
+
+    init()
+
+    for row in table:
+        level_name = row[2]
+
+        if level_name == 'DEBUG':
+            color = Fore.CYAN
+        elif level_name == 'INFO':
+            color = Fore.GREEN
+        elif level_name == 'WARNING':
+            color = Fore.YELLOW
+        elif level_name == 'ERROR':
+            color = Fore.RED
+        elif level_name == 'CRITICAL':
+            color = Fore.RED + Back.WHITE
+
+        reset = Fore.RESET + Back.RESET
+
+        colorized_table.append(list(map(lambda cell: color + cell + reset, row)))
+
+    return colorized_table
+
+
 class CLI:
     def __init__(self, config_file):
         try:
@@ -175,7 +210,7 @@ class CLI:
                 ] for record in logs
             ]
 
-            print(tabulate(table, headers=['Timestamp', 'Message', 'Level']))
+            print(tabulate(colorize(table), headers=['Timestamp', 'Message', 'Level']))
 
         except Exception as e:
             print('Failed to get app logs: %s' % e)
