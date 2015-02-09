@@ -153,3 +153,12 @@
 =====
 
 -   Build: Logging: Params are now stored by the exec logger, not the build logger. This keeps build history clean.
+
+1.2.1
+=====
+
+-   CLI, API: Logs: If a listen point did not exist, an empty list was returned instead of an error. Fixed.
+-   Build: Exec: All failed executions were logged with the same "__init__ missing cmd" error. Fixed.
+-   Build: Exec: Failed actions are logged as error, not critical.
+-   Build: Exec: If an action failed, its stdout and stderr were not logged. Fixed.
+-   Build: Exec: In an action fails, its exit code is logged as error. The stdout and stderr are logged as debug, as usual.
