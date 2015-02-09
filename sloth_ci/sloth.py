@@ -217,12 +217,12 @@ class Sloth:
             )
 
             stdout, stderr = process.communicate(timeout=self.config.get('exec_timeout'))
-            
-            if process.returncode:
-                raise CalledProcessError(stderr)
 
             self.exec_logger.debug('stdout: %s' % bytes.decode(stdout))
             self.exec_logger.debug('stderr: %s' % bytes.decode(stderr))
+
+            if process.returncode:
+                raise CalledProcessError(stderr)
 
             self.exec_logger.info('Finished')
             
