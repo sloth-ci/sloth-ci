@@ -234,6 +234,9 @@ class API:
             raise HTTPError(400, 'Missing parameter listen_point')
 
         try:
+            if not listen_point in self.bed.sloths:
+                raise KeyError(listen_point)
+
             from_page = int(kwargs.get('from_page', 1))
             to_page = int(kwargs.get('to_page', from_page))
             per_page = int(kwargs.get('per_page', 10))
@@ -268,6 +271,9 @@ class API:
             response.status = 200
 
             return logs
+
+        except KeyError as e:
+            raise HTTPError(404, 'Listen point %s not found' % e)
 
         except Exception as e:
             raise HTTPError(500, 'Failed to get app logs: %s' % e)
