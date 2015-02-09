@@ -162,3 +162,8 @@
 -   Build: Exec: Failed actions are logged as error, not critical.
 -   Build: Exec: If an action failed, its stdout and stderr were not logged. Fixed.
 -   Build: Exec: In an action fails, its exit code is logged as error. The stdout and stderr are logged as debug, as usual.
+
+1.2.2
+=====
+
+-   CLI: Synonym for info added—list.
