@@ -19,7 +19,7 @@ Build Email Notifications
 
 .. automodule:: sloth_ci.ext.build_email_notifications
 
-.. _dummy-ext:
+.. _docker-ext:
 
 Docker Exec
 ===========
