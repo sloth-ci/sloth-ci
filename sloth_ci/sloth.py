@@ -1,4 +1,4 @@
-﻿from subprocess import Popen, PIPE, TimeoutExpired, CalledProcessError
+﻿from subprocess import Popen, PIPE, TimeoutExpired
 from threading import Thread
 from os.path import splitext, basename, abspath, join
 from time import sleep
@@ -222,7 +222,7 @@ class Sloth:
             self.exec_logger.debug('stderr: %s' % bytes.decode(stderr))
 
             if process.returncode:
-                raise CalledProcessError(stderr)
+                raise RuntimeError(bytes.decode(stderr))
 
             self.exec_logger.info('Finished')
             
