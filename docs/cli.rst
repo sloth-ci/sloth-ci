@@ -13,7 +13,7 @@ Here's the output of the ``sloth-ci --help`` command:
       sloth-ci create <config_paths>... [-c <file>]
       sloth-ci remove <listen_points>... [-c <file>]
       sloth-ci trigger <listen_point> [-p <params>] [-c <file>]
-      sloth-ci (info | reload) [<listen_points>...] [-c <file>]
+      sloth-ci (info | list | reload) [<listen_points>...] [-c <file>]
       sloth-ci logs <listen_point> [--from-page <number>] [--to-page <number>] [--per-page <number>] [--level <number>] [-c <file>]
       sloth-ci history <listen_point> [--from-page <number>] [--to-page <number>] [--per-page <number>] [-c <file>]
       sloth-ci --version
@@ -100,6 +100,11 @@ Get information about certain ar all apps.
 Returned is a table of ``Listen Point``, ``Config File``, ``Last Build Status``, and ``Last Build Timestamp``.
 
 If the app has no bound config file (i.e. was created via API), its ``Config File`` column is empty.
+
+``list``
+========
+
+Alias for ``info``.
 
 ``logs``
 ========
