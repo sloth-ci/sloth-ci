@@ -166,4 +166,4 @@
 1.2.2
 =====
 
--   CLI: Synonym for info added—list.
+-   CLI: info: Alias added: list.
