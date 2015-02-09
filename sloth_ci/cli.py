@@ -5,7 +5,7 @@ Usage:
   sloth-ci create <config_paths>... [-c <file>]
   sloth-ci remove <listen_points>... [-c <file>]
   sloth-ci trigger <listen_point> [-p <params>] [-c <file>]
-  sloth-ci (info | reload) [<listen_points>...] [-c <file>]
+  sloth-ci (info | list | reload) [<listen_points>...] [-c <file>]
   sloth-ci logs <listen_point> [--from-page <number>] [--to-page <number>] [--per-page <number>] [--level <number>] [-c <file>]
   sloth-ci history <listen_point> [--from-page <number>] [--to-page <number>] [--per-page <number>] [-c <file>]
   sloth-ci --version
@@ -96,6 +96,7 @@ class CLI:
             'reload': self.reload,
             'status': self.status,
             'info': self.info,
+            'list': self.info,
             'logs': self.logs,
             'history': self.history,
             'restart': self.restart,
