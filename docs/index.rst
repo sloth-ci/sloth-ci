@@ -42,11 +42,17 @@ Sloth CI runs with Python 3 on Windows, Linux, and Mac.
 Install
 =======
 
-Install Sloth CI and a validator (e.g. Bitbucket) via pip:
+Install Sloth with pip:
 
 .. code-block:: bash
 
-    $ pip install sloth-ci sloth-ci.validators.bitbucket
+    $ pip install sloth-ci
+
+It's also a good idea to install a validator for Bitbucket or GitHub right away:
+
+.. code-block: bash
+    $ pip install sloth-ci.validators.bitbucket
+    $ pip install sloth-ci.validators.github
 
 Configure
 =========
