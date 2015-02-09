@@ -179,16 +179,16 @@ class Sloth:
                 self.execute(action_with_params)
 
             except KeyError as e:
-                self.exec_logger.critical('Missing param: %s' % e)
+                self.exec_logger.error('Missing param: %s' % e)
                 errors.append(e)
 
             except Exception as e:
-                self.exec_logger.critical('Execution failed: %s' % e)
+                self.exec_logger.error('Execution failed: %s' % e)
                 errors.append(e)
 
             finally:
                 if errors and self.config.get('stop_on_first_fail'):
-                    self.build_logger.critical('Failed on action "%s": %s' % (action, errors[0]))
+                    self.build_logger.error('Failed on action "%s": %s' % (action, errors[0]))
                     raise errors[0]
         
         if not errors:
@@ -222,7 +222,7 @@ class Sloth:
             self.exec_logger.debug('stderr: %s' % bytes.decode(stderr))
 
             if process.returncode:
-                raise RuntimeError(bytes.decode(stderr))
+                raise RuntimeError('Exit code: %d' % process.returncode)
 
             self.exec_logger.info('Finished')
             
