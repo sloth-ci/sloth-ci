@@ -24,7 +24,6 @@ setup(
     install_requires = [
         'CherryPy',
         'Routes',
-        'awesome-slugify',
         'PyYAML',
         'requests',
         'docopt',
