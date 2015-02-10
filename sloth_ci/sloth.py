@@ -7,8 +7,6 @@ from importlib import import_module
 
 from cherrypy import HTTPError
 
-from slugify import slugify
-
 import logging
 
 
@@ -24,9 +22,9 @@ class Sloth:
     def __init__(self, config):
         self.config = config
 
-        self.name = slugify(self.config['listen_point'])
+        self.listen_point = self.config['listen_point']
         
-        self.logger = logging.getLogger(self.name)
+        self.logger = logging.getLogger(self.listen_point)
         self.logger.setLevel(logging.DEBUG)
 
         self.build_logger = self.logger.getChild('build')
@@ -126,7 +124,7 @@ class Sloth:
             self.queue.append(params)
         
         if not self.queue_processor or not self.queue_processor.is_alive():
-            self.queue_processor = Thread(target=self.process_queue, name=self.name)
+            self.queue_processor = Thread(target=self.process_queue, name=self.listen_point)
             self.queue_processor.start()
 
     def process_queue(self):
