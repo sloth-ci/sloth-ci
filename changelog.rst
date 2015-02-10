@@ -167,3 +167,11 @@
 =====
 
 -   CLI: info: Alias added: list.
+
+1.2.3
+=====
+
+-   Apps with listen points  "_"  and "x/y" were not logged. Fixed.
+-   Listen points are used to refer to apps instead of names (i.e. slugs).
+-   Removed dependency awesome-slugify.
+-   Sloth: The "name" attribute replaced with "listen_point".
