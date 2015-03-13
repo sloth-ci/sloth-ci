@@ -175,3 +175,8 @@
 -   Listen points are used to refer to apps instead of names (i.e. slugs).
 -   Removed dependency awesome-slugify.
 -   Sloth: The "name" attribute replaced with "listen_point".
+
+1.2.4
+=====
+
+-   Build: Exec: ``shlex.split()`` is now used instead of ``split()``.
