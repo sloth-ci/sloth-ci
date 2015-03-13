@@ -206,9 +206,12 @@ class Sloth:
         :returns: True if successful, exception otherwise
         '''
 
+        from shlex import split
+
+
         try:
             process = Popen(
-                action.split(),
+                split(action),
                 cwd=self.config.get('work_dir') or '.',
                 stdout=PIPE,
                 stderr=PIPE
