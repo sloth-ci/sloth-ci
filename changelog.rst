@@ -179,4 +179,4 @@
 1.2.4
 =====
 
--   Build: Exec: ``shlex.split()`` is now used instead of ``split()``.
+-   Build: Exec: Support for stream redirection in actions added.
