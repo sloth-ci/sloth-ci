@@ -179,4 +179,4 @@
 1.2.4
 =====
 
--   Build: Exec: Support for stream redirection in actions added.
+-   Build: Exec: Support for stream redirection and shell commands added.
