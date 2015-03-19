@@ -63,7 +63,7 @@ class API:
 
         data = {
             'action': 'create',
-            'config_string': ''.join(open(config_file).readlines()),
+            'config_string': open(config_file).read(),
         }
 
         status, content = self._send_api_request(data)
