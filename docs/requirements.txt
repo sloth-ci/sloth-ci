@@ -1,5 +1,3 @@
-alabaster
-
 sloth-ci
 
 sloth-ci.ext.build-email-notifications

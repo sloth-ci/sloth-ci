@@ -1,25 +1,26 @@
 ﻿'''Sloth CI.
 
 Usage:
-  sloth-ci (start | restart | stop | status ) [-c <file>]
-  sloth-ci create <config_paths>... [-c <file>]
-  sloth-ci remove <listen_points>... [-c <file>]
-  sloth-ci trigger <listen_point> [-p <params>] [-c <file>]
-  sloth-ci (info | list | reload) [<listen_points>...] [-c <file>]
-  sloth-ci logs <listen_point> [--from-page <number>] [--to-page <number>] [--per-page <number>] [--level <number>] [-c <file>]
-  sloth-ci history <listen_point> [--from-page <number>] [--to-page <number>] [--per-page <number>] [-c <file>]
-  sloth-ci --version
-  sloth-ci --help
+    sloth-ci (start | restart | stop | status ) [-c <file>]
+    sloth-ci create <config_paths>... [-c <file>]
+    sloth-ci remove <listen_points>... [-c <file>]
+    sloth-ci trigger <listen_point> [-p <params>] [-c <file>]
+    sloth-ci (info | list | reload) [<listen_points>...] [-c <file>]
+    sloth-ci logs <listen_point> [--from-page <number>] [--to-page <number>] [--per-page <number>] [--level   <number>] [-c <file>]
+    sloth-ci history <listen_point> [--from-page <number>] [--to-page <number>] [--per-page <number>] [-c <file>]
+    sloth-ci --version
+    sloth-ci --help
 
 Options:
-  -c <file>, --config <file>    Path to the server config file [default: ./sloth.yml]
-  -p --params <params>          Params to trigger the actions with. String like 'param1=val1,param2=val2'
-  --from-page <number>          The first page.
-  --to-page <number>            The last page.
-  --per-page <number>           Number of records per page.
-  --level <number>              Minimal numeric logging level to be included in the output.
-  -v --version                  Show version
-  -h --help                     Show this screen
+    -c <file>, --config <file>    Path to the server config file [default: ./sloth.yml]
+    -p --params <params>          Params to trigger the actions with. String like 'param1=val1,param2=val2'
+    --from-page <number>          The first page.
+    --to-page <number>            The last page.
+    --per-page <number>           Number of records per page.
+    --level <number>              Minimal numeric logging level to be included in the output.
+    -v --version                  Show version
+    -h --help                     Show this screen
+
 '''
 
 
