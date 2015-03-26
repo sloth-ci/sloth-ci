@@ -21,10 +21,10 @@ class Bed:
 
     If also implements the listen function for the main CherryPy app.
 
-    (This module is names "bed" because a group of sloth is actually called "bed".)
+    (This module is names "bed" because a group of sloth is actually called "bed.")
     '''
 
-    def __init__(self, config):
+    def __init__(self, config: dict):
         '''Configure CherryPy loop to listen for payload.
 
         :param config: bed config
