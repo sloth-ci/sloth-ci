@@ -1,6 +1,6 @@
 from importlib import import_module
 
-from os.path import abspath, exists, dirname
+from os.path import abspath, exists, dirname, isfile, join
 from os import makedirs
 from glob import glob
 
@@ -24,10 +24,10 @@ class Bed:
     (This module is names "bed" because a group of sloth is actually called "bed.")
     '''
 
-    def __init__(self, config: dict):
+    def __init__(self, config):
         '''Configure CherryPy loop to listen for payload.
 
-        :param config: bed config
+        :param config: bed config dict
         '''
 
         self.config = config
@@ -55,6 +55,9 @@ class Bed:
         self.db_path = self.config.get('paths', {}).get('db', 'sloth.db')
 
         if self.db_path:
+            if not isfile(self.db_path):
+                self.db_path = join(self.db_path, 'sloth.db')
+
             db_dir = dirname(abspath(self.db_path))
 
             if db_dir and not exists(db_dir):
