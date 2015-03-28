@@ -180,3 +180,4 @@
 =====
 
 -   Build: Exec: Support for stream redirection and shell commands added.
+-	Server config: DB path can now point to a directory; sloth.db will be created automatically.
