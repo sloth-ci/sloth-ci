@@ -6,4 +6,3 @@ Configs, Validators
 
     server
     apps
-    validators

@@ -28,6 +28,7 @@ Sloth CI: CI for Humans
     cli
     api
     extensions
+    validators
     components/index
     recipes/index
 
