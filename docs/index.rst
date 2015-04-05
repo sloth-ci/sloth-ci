@@ -29,7 +29,7 @@ Sloth CI: CI for Humans
     api
     extensions
     validators
-    components/index
+    configs/index
     recipes/index
 
 Sloth CI is an easy-to-use, lightweight, extendable tool that executes actions you need when certain events happen.
