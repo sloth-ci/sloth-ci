@@ -1,10 +1,9 @@
-*******************************
-Configs, Validators, Extensions
-*******************************
+*******************
+Configs, Validators
+*******************
 
 .. toctree::
 
     server
     apps
     validators
-    extensions
