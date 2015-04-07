@@ -63,11 +63,6 @@ Here's how your *sloth.yml* can look like:
 
     daemon: true
 
-    paths:
-        access_log: /var/log/sloth-ci/_access.log
-        error_log: /var/log/sloth-ci/_error.log
-        db: /etc/sloth-ci/sloth.db
-
     api_auth:
         login: admin
         password: supersecret
@@ -94,7 +89,11 @@ Create a file called *myapp.yml*:
 
     provider:
         bitbucket:
-            repo: username/repository
+            owner: username
+            repo: repository
+            branches:
+                - master
+                - staging
 
     actions:
         - rm -rf repository
