@@ -183,7 +183,7 @@ class Bed:
             cherrypy.log.error('Failed to create app: invalid config string')
             raise
 
-        except KeyError:
+        except KeyError as e:
             cherrypy.log.error('Failed to create app: the listen_point param is missing' % e)
             raise
 
