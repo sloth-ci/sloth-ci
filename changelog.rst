@@ -181,3 +181,5 @@
 
 -   Build: Exec: Support for stream redirection and shell commands added.
 -	Server config: DB path can now point to a directory; sloth.db will be created automatically.
+-   Build logging: Trigger events are now logged with level DEBUG, not INFO.
+-   Util: SqliteHandler: Exception handling on event emitting added.
