@@ -20,11 +20,15 @@ class SqliteHandler(Handler):
         self.connection.commit()
 
     def emit(self, record):
-        query = 'INSERT INTO %s VALUES (?, ?, ?, ?, ?)' % self.table
-        query_params = (record.created, record.name, record.levelname, record.levelno, record.msg)
+        try:
+            query = 'INSERT INTO %s VALUES (?, ?, ?, ?, ?)' % self.table
+            query_params = (record.created, record.name, record.levelname, record.levelno, record.msg)
 
-        self.cursor.execute(query, query_params)
-        self.connection.commit()
+            self.cursor.execute(query, query_params)
+            self.connection.commit()
+
+        except Exception:
+            self.handleError(record)
 
     def close(self):
         self.connection.close()
