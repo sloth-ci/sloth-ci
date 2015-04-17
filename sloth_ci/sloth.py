@@ -164,7 +164,7 @@ class Sloth:
 
         errors = []
 
-        self.build_logger.info('Triggered, actions in queue: %d' % len(actions))
+        self.build_logger.debug('Triggered, actions in queue: %d' % len(actions))
 
         self.exec_logger.debug('Params: %s' % params)
 
