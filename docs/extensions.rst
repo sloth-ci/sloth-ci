@@ -49,3 +49,8 @@ SSH Exec
 ========
 
 .. automodule:: sloth_ci.ext.ssh_exec
+
+Webhooks
+========
+
+.. automodule:: sloth_ci.ext.webhooks
