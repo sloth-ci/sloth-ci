@@ -6,6 +6,7 @@ sloth-ci.ext.dummy
 sloth-ci.ext.file-logs
 sloth-ci.ext.openvz-exec
 sloth-ci.ext.ssh-exec
+sloth-ci.ext.webhooks
 
 sloth-ci.validators.bitbucket
 sloth-ci.validators.dummy
