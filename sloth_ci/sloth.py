@@ -1,7 +1,6 @@
 ﻿from subprocess import Popen, PIPE, TimeoutExpired
 from threading import Thread
 from os.path import splitext, basename, abspath, join
-from time import sleep
 from collections import deque
 from importlib import import_module
 
