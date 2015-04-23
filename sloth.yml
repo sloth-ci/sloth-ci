@@ -9,3 +9,6 @@ paths:
     access_log: NUL
     error_log: NUL
     db: false
+
+    configs:
+        - test.yml
