@@ -183,3 +183,9 @@
 -	Server config: DB path can now point to a directory; sloth.db will be created automatically.
 -   Build logging: Trigger events are now logged with level DEBUG, not INFO.
 -   Util: SqliteHandler: Exception handling on event emitting added.
+
+1.2.5
+=====
+
+-	Server config: DB path can only point to a file. Previous decision to allow directories led to ambiguity.
+-   Server config: If the DB path was null (or false, or 0), no apps could be created. Fixed.
