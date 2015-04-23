@@ -55,9 +55,6 @@ class Bed:
         self.db_path = self.config.get('paths', {}).get('db', 'sloth.db')
 
         if self.db_path:
-            if not isfile(self.db_path):
-                self.db_path = join(self.db_path, 'sloth.db')
-
             db_dir = dirname(abspath(self.db_path))
 
             if db_dir and not exists(db_dir):
@@ -196,7 +193,7 @@ class Bed:
                 PreExtendedSloth, errors = Sloth.extend(self.db_extensions)
 
             else:
-                PreExtendedSloth, errors = Sloth
+                PreExtendedSloth = Sloth
 
             ExtendedSloth, errors = PreExtendedSloth.extend(config.get('extensions'))
             sloth = ExtendedSloth(config)
