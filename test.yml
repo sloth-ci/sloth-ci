@@ -1,0 +1,8 @@
+listen_point: test
+
+provider:
+    dummy:
+        message: test
+
+actions:
+    - PowerShell echo {message}
