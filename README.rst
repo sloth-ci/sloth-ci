@@ -31,7 +31,7 @@ Read the docs at http://sloth-ci.cloudapp.net/ (yes, they are built with Sloth C
 Requirements
 ============
 
-Sloth CI runs with Python 3 on Windows, Linux, and Mac.
+Sloth CI runs with Python 3.3+ on Windows, Linux, and Mac.
 
 Install
 =======
