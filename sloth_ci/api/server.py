@@ -25,14 +25,13 @@ class API:
             'remove': self.remove,
             'trigger': self.trigger,
             'info': self.info,
+            'list': self.info,
+            'logs': self.logs,
+            'history': self.history,
             'version': self.version,
             'restart': self.restart,
             'stop': self.stop
         }
-
-        if self.bed.db_path:
-            self.actions['logs'] = self.logs
-            self.actions['history'] = self.history
 
     def _handle_error(self, status, message, traceback, version):
         return message
@@ -193,25 +192,33 @@ class API:
                 if not listen_point in self.bed.sloths:
                     raise KeyError(listen_point)
 
-                last_build_info = self.history({
+                info_entry = {
                     'listen_point': listen_point,
-                    'per_page': 1
-                })
+                    'config_file': self.bed.config_files.get(listen_point)
+                }
 
-                if last_build_info:
-                    last_build_status = last_build_info[0]['message']
-                    last_build_timestamp = last_build_info[0]['timestamp']
+                if self.bed.db_path:
+                    last_build_info = self.history({
+                        'listen_point': listen_point,
+                        'per_page': 1
+                    })
+
+                    if last_build_info:
+                        last_build_status = last_build_info[0]['message']
+                        last_build_timestamp = last_build_info[0]['timestamp']
+
+                    else:
+                        last_build_status = 'Never triggered'
+                        last_build_timestamp = 0
+
+                    info_entry['last_build_status'] = last_build_status
+                    info_entry['last_build_timestamp'] = last_build_timestamp
 
                 else:
-                    last_build_status = 'Never triggered'
-                    last_build_timestamp = 0
+                    info_entry['last_build_status'] = 'Not available'
+                    info_entry['last_build_timestamp'] = 0
 
-                info_list.append({
-                    'listen_point': listen_point,
-                    'config_file': self.bed.config_files.get(listen_point),
-                    'last_build_status': last_build_status,
-                    'last_build_timestamp': last_build_timestamp
-                })
+                info_list.append(info_entry)
 
             info_list.sort(key=lambda record: record['last_build_timestamp'], reverse=True)
 
@@ -227,6 +234,9 @@ class API:
 
     def logs(self, kwargs):
         '''Get paginated app logs from the database.'''
+
+        if not self.bed.db_path:
+            raise HTTPError(501, "This Sloth server doesn't have a database to store logs")
 
         listen_point = kwargs.get('listen_point')
 
@@ -280,6 +290,9 @@ class API:
 
     def history(self, kwargs):
         '''Get paginated app build history from the database.'''
+
+        if not self.bed.db_path:
+            raise HTTPError(501, "This Sloth server doesn't have a database to store build history")
 
         listen_point = kwargs.get('listen_point')
 
