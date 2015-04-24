@@ -187,5 +187,9 @@
 1.2.5
 =====
 
+-   API: info: If the database is unavailable, only build statuses are not returned.
+-   API: info: The info method didn't work if the database was unavailable. Fixed.
+-   API: Web: Alias for info added—list.
+-   API: Web: history, logs: If the database is unavailable, the history and logs methods are still accessible but explicitly return errors.
 -	Server config: DB path can only point to a file. Previous decision to allow directories led to ambiguity.
 -   Server config: If the DB path was null (or false, or 0), no apps could be created. Fixed.
