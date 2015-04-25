@@ -102,7 +102,10 @@ Create a file called *myapp.yml*:
 
     provider:
         bitbucket:
-            repo: username/repository
+            owner: username
+            repo: repository
+            branches:
+                - default
 
     actions:
         - rm -rf repository
