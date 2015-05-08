@@ -204,18 +204,22 @@ class API:
                     })
 
                     if last_build_info:
-                        last_build_status = last_build_info[0]['message']
+                        last_build_status_message = last_build_info[0]['message']
+                        last_build_status_level = last_build_info[0]['level_name']
                         last_build_timestamp = last_build_info[0]['timestamp']
 
                     else:
-                        last_build_status = 'Never triggered'
+                        last_build_status_message = 'Never triggered'
+                        last_build_status_level = 'Never triggered'
                         last_build_timestamp = 0
 
-                    info_entry['last_build_status'] = last_build_status
+                    info_entry['last_build_status_message'] = last_build_status_message
+                    info_entry['last_build_status_level'] = last_build_status_level
                     info_entry['last_build_timestamp'] = last_build_timestamp
 
                 else:
-                    info_entry['last_build_status'] = 'Not available'
+                    info_entry['last_build_status_message'] = 'Not available'
+                    info_entry['last_build_status_level'] = 'Not available'
                     info_entry['last_build_timestamp'] = 0
 
                 info_list.append(info_entry)
