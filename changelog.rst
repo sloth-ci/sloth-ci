@@ -202,5 +202,7 @@
 -	CLI: info output is now colorized.
 
 1.2.7
+=====
 
 -	CLI: history output is now colorized.
+-	CLI: Level column hidden from history and info output.
