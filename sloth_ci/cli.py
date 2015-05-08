@@ -39,7 +39,7 @@ from .bed import Bed
 from .api.client import API
 
 
-def colorize(table, based_on_column):
+def colorize(table, based_on_column, hide_level=True):
     '''Colorize logs table according to message status.
 
     :param table: logs table, each row is [timestamp, message, level_name]
@@ -71,6 +71,9 @@ def colorize(table, based_on_column):
             color = Fore.RED + Back.WHITE
         else:
             color = reset
+
+        if hide_level:
+            row.pop(based_on_column)
 
         colorized_table.append(list(map(lambda cell: color + cell + reset, row)))
 
@@ -185,14 +188,13 @@ class CLI:
                     app['last_build_status_level']
                 ] for app in apps
             ]
-            
-            print(tabulate(colorize(table, based_on_column=4), headers=[
-                'Listen Point',
-                'Config File',
-                'Last Build Status',
-                'Last Build Timestamp',
-                'Level'
-            ]))
+
+            print(
+                tabulate(
+                    colorize(table, based_on_column=-1),
+                    headers=['Listen Point', 'Config File', 'Last Build Status', 'Last Build Timestamp']
+                )
+            )
 
         except Exception as e:
             print('Failed to get app info: %s' % e)
@@ -217,7 +219,12 @@ class CLI:
                 ] for record in logs
             ]
 
-            print(tabulate(colorize(table, based_on_column=2), headers=['Timestamp', 'Message', 'Level']))
+            print(
+                tabulate(
+                    colorize(table, based_on_column=2, hide_level=False), 
+                    headers=['Timestamp', 'Message', 'Level']
+                )
+            )
 
         except Exception as e:
             print('Failed to get app logs: %s' % e)
@@ -241,7 +248,12 @@ class CLI:
                 ] for record in history
             ]
 
-            print(tabulate(colorize(table, based_on_column=2), headers=['Timestamp', 'Status', 'Level']))
+            print(
+                tabulate(
+                    colorize(table, based_on_column=2),
+                    headers=['Timestamp', 'Status', 'Level']
+                )
+            )
 
         except Exception as e:
             print('Failed to get app logs: %s' % e)
