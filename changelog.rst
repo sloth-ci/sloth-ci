@@ -193,3 +193,10 @@
 -   API: Web: history, logs: If the database is unavailable, the history and logs methods are still accessible but explicitly return errors.
 -	Server config: DB path can only point to a file. Previous decision to allow directories led to ambiguity.
 -   Server config: If the DB path was null (or false, or 0), no apps could be created. Fixed.
+
+1.2.6
+=====
+
+-	API: Server: info now returns build status levels too.
+-	CLI: Colorization is now possible based on any column.
+-	CLI: info output is now colorized.
