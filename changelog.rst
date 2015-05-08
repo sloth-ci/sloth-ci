@@ -200,3 +200,7 @@
 -	API: Server: info now returns build status levels too.
 -	CLI: Colorization is now possible based on any column.
 -	CLI: info output is now colorized.
+
+1.2.7
+
+-	CLI: history output is now colorized.
