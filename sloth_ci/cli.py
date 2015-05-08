@@ -236,11 +236,12 @@ class CLI:
             table = [
                 [
                     ctime(record['timestamp']),
-                    record['message']
+                    record['message'],
+                    record['level_name']
                 ] for record in history
             ]
 
-            print(tabulate(table, headers=['Timestamp', 'Status']))
+            print(tabulate(colorize(table, based_on_column=2), headers=['Timestamp', 'Status', 'Level']))
 
         except Exception as e:
             print('Failed to get app logs: %s' % e)
