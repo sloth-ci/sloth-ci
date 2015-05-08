@@ -17,7 +17,7 @@ docs/_build
 *.egg-info/*
 _build
 logs
-Thumbs.db
+*.db
 
 sloth_ci/ext/build_email_notifications.py
 sloth_ci/ext/docker_exec.py
