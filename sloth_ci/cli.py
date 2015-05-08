@@ -39,10 +39,11 @@ from .bed import Bed
 from .api.client import API
 
 
-def colorize(table):
+def colorize(table, based_on_column):
     '''Colorize logs table according to message status.
 
     :param table: logs table, each row is [timestamp, message, level_name]
+    :param based_on_column: number of column that holds record level names for coloring
 
     :returns: colorized table
     '''
@@ -54,7 +55,9 @@ def colorize(table):
     init()
 
     for row in table:
-        level_name = row[2]
+        reset = Fore.RESET + Back.RESET
+
+        level_name = row[based_on_column]
 
         if level_name == 'DEBUG':
             color = Fore.CYAN
@@ -66,8 +69,8 @@ def colorize(table):
             color = Fore.RED
         elif level_name == 'CRITICAL':
             color = Fore.RED + Back.WHITE
-
-        reset = Fore.RESET + Back.RESET
+        else:
+            color = reset
 
         colorized_table.append(list(map(lambda cell: color + cell + reset, row)))
 
@@ -177,16 +180,18 @@ class CLI:
                 [
                     app['listen_point'],
                     app['config_file'],
-                    app['last_build_status'],
-                    ctime(app['last_build_timestamp'])
+                    app['last_build_status_message'],
+                    ctime(app['last_build_timestamp']),
+                    app['last_build_status_level']
                 ] for app in apps
             ]
             
-            print(tabulate(table, headers=[
+            print(tabulate(colorize(table, based_on_column=4), headers=[
                 'Listen Point',
                 'Config File',
                 'Last Build Status',
-                'Last Build Timestamp'
+                'Last Build Timestamp',
+                'Level'
             ]))
 
         except Exception as e:
@@ -212,7 +217,7 @@ class CLI:
                 ] for record in logs
             ]
 
-            print(tabulate(colorize(table), headers=['Timestamp', 'Message', 'Level']))
+            print(tabulate(colorize(table, based_on_column=2), headers=['Timestamp', 'Message', 'Level']))
 
         except Exception as e:
             print('Failed to get app logs: %s' % e)
