@@ -120,8 +120,8 @@ That's it! Your app now listens for payload from Bitbucket at http://yourdomain:
 
 Create a hook on Bitbucket, and you docs will be automatically built on every push to the repo.
 
-That wasn't too hard, was it? But that's just one thing Sloth CI can do. :doc:`Learn more <components/index>` about how Sloth CI works or jump straight to :doc:`recipes <recipes/index>`.
+That wasn't too hard, was it? But that's just one thing Sloth CI can do. See some :doc:`recipes <recipes/index>` for other practical examples.
 
 .. note::
 
-    Obviously, the Sloth CI server running on your machine must be accessible from the Internet for Bitbucket (or GitHub, or whatever) to be able to send you push notifications.
+    The Sloth CI server running on your machine must be accessible from the Internet for Bitbucket (or GitHub, or whatever) to be able to send you push notifications.
