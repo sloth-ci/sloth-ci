@@ -17,8 +17,12 @@ extensions:
 
     ssh:
         module: ssh_exec
-        hosts: [example.com, foo.bar, 123.456.7.8:23]
-        keys: [~/sloth_ssh_keys]
+        hosts:
+            - example.com
+            - foo.bar
+            - 123.456.7.8:23
+        keys:
+            - ~/sloth_ssh_keys
 
 actions:
     - touch {filename}
