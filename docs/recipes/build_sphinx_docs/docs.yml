@@ -4,7 +4,10 @@ work_dir: ~/projects
 
 provider:
     bitbucket:
-        repo: username/repository
+        owner: username
+        repo: repository
+        branches:
+            - default
 
 extensions:
     logs:
