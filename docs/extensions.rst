@@ -2,9 +2,9 @@
 Extensions
 **********
 
-Extensions are special modules that add or override the functionality of Sloth CI :doc:`apps <apps>`.
+Extensions are special modules that add or override the functionality of Sloth CI apps.
 
-For example, the ``logs`` extension allows an app to log its activity into a file. The ``ssh_exec`` extension replaces the default executor with the SSH-based one, allowing the app to execute actions on remote machines.
+For example, the :ref:`file-logs <logs-ext>` extension allows an app to log its activity into a file. The :ref:`ssh-exec <ssh-ext>` extension replaces the default executor with the SSH-based one, allowing the app to execute actions on remote machines.
 
 One app can use multiple extensions, even several ones with the same module (e.g., write logs to several destinations).
 
@@ -44,6 +44,8 @@ OpenVZ Exec
 ===========
 
 .. automodule:: sloth_ci.ext.openvz_exec
+
+.. _ssh-ext:
 
 SSH Exec
 ========
