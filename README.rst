@@ -2,25 +2,15 @@
 Sloth CI: CI for Humans
 ***********************
 
-.. image:: https://pypip.in/version/sloth-ci/badge.svg
+.. image:: https://img.shields.io/pypi/v/sloth-ci.svg?style=flat-square 
     :target: https://pypi.python.org/pypi/sloth-ci/
     :alt: Latest Version
 
-.. image:: https://pypip.in/download/sloth-ci/badge.svg
-    :target: https://pypi.python.org/pypi/sloth-ci/
+.. image:: https://img.shields.io/pypi/dd/sloth-ci.svg?style=flat-square 
     :alt: Downloads
 
-.. image:: https://pypip.in/py_versions/sloth-ci/badge.svg
-    :target: https://pypi.python.org/pypi/sloth-ci/
-    :alt: Supported Python Versions
-
-.. image:: https://pypip.in/wheel/sloth-ci/badge.svg
-    :target: https://pypi.python.org/pypi/sloth-ci/
-    :alt: Wheel Status
-
-.. image:: https://pypip.in/status/sloth-ci/badge.svg
-    :target: https://pypi.python.org/pypi/sloth-ci/
-    :alt: Development Status
+.. image:: https://img.shields.io/pypi/l/sloth-ci.svg?style=flat-square
+    :alt: License
 
 Sloth CI is an easy-to-use, lightweight, extendable tool that executes actions you need when certain events happen.
 
