@@ -6,7 +6,8 @@ stop_on_first_fail: true
 
 provider:
     bitbucket:
-        repo: username/repository
+        owner: username
+        repo: repository
 
 extensions:
     logs:
