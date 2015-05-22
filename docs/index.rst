@@ -3,7 +3,6 @@ Sloth CI: CI for Humans
 ***********************
 
 .. image:: https://img.shields.io/pypi/v/sloth-ci.svg?style=flat-square
-    :target: https://pypi.python.org/pypi/sloth-ci/
     :alt: Latest Version
 
 .. image:: https://img.shields.io/pypi/dd/sloth-ci.svg?style=flat-square
