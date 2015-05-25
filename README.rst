@@ -2,10 +2,10 @@
 Sloth CI: CI for Humans
 ***********************
 
-.. image:: https://img.shields.io/pypi/v/sloth-ci.svg?style=flat-square 
+.. image:: https://img.shields.io/pypi/v/sloth-ci.svg?style=flat-squar 
     :alt: Latest Version
 
-.. image:: https://img.shields.io/pypi/dd/sloth-ci.svg?style=flat-square 
+.. image:: https://img.shields.io/pypi/dm/sloth-ci.svg?style=flat-square
     :alt: Downloads
 
 .. image:: https://img.shields.io/pypi/l/sloth-ci.svg?style=flat-square
