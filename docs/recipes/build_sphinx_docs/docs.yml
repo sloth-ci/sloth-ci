@@ -11,7 +11,7 @@ provider:
 
 extensions:
     logs:
-        module: logs
+        module: file_logs
         path: /var/log/sloth-ci
         filename: docs_errors.log
         level: ERROR

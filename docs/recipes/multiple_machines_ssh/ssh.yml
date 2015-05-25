@@ -11,7 +11,7 @@ provider:
 
 extensions:
     logs:
-        module: logs
+        module: file_logs
         level: INFO
         path: /var/logs/sloth-ci/ssh
         filename: info.log
