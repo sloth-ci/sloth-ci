@@ -4,7 +4,7 @@ Validators
 
 Each validator corresponds to a different type of incoming payload, or *provider*. Every app must specify its provider, therefore use a certain validator to check the payload.
 
-A validator excepts a ChettyPy request object and can check it in any way you like. For example, the ``bitbucket`` validator checks the request's method (must be POST), origin (must come from a trusted IP), and the repository name.
+A validator excepts a ChettyPy request object and can check it in any way you like. For example, the :ref:`bitbucket <bitbucket-validator>` validator checks the request's method (must be POST), origin (must come from a trusted IP), and the repository name.
 
 Whereas some data can be obtained directly from the request (like IP and method), some data must be specified by the user, e.g. the repository they are interested in.
 
