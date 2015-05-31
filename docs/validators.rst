@@ -8,7 +8,7 @@ A validator excepts a ChettyPy request object and can check it in any way you li
 
 Whereas some data can be obtained directly from the request (like IP and method), some data must be specified by the user, e.g. the repository they are interested in.
 
-Apart from validating the payload, a validator can extract valuable data from it. The ``bitbucket`` validator extracts the branch name, so you can refer to it your actions.
+Apart from validating the payload, a validator can extract valuable data from it. The :ref:`bitbucket <bitbucket-validator>` validator extracts the branch name, so you can refer to it your actions.
 
 Validators are installed from PyPI with ``pip install sloth-ci.validators.<validator>``.
 
