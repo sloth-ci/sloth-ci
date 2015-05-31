@@ -2,7 +2,7 @@
 Validators
 **********
 
-Each validator corresponds to a different type of incoming payload, or *provider*. Every :doc:`app <apps>` must specify its provider, therefore use a certain validator to check the payload.
+Each validator corresponds to a different type of incoming payload, or *provider*. Every app must specify its provider, therefore use a certain validator to check the payload.
 
 A validator excepts a ChettyPy request object and can check it in any way you like. For example, the ``bitbucket`` validator checks the request's method (must be POST), origin (must come from a trusted IP), and the repository name.
 
