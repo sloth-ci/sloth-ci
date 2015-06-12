@@ -12,15 +12,14 @@ Usage:
     sloth-ci --help
 
 Options:
-    -c <file>, --config <file>    Path to the server config file [default: ./sloth.yml]
-    -p --params <params>          Params to trigger the actions with. String like 'param1=val1,param2=val2'
-    --from-page <number>          The first page.
-    --to-page <number>            The last page.
-    --per-page <number>           Number of records per page.
-    --level <number>              Minimal numeric logging level to be included in the output.
-    -v --version                  Show version
-    -h --help                     Show this screen
-
+    -c --config <file>      Path to the server config file [default: ./sloth.yml]
+    -p --params <params>    Params to trigger the actions with. String like 'param1=val1,param2=val2'
+    --from-page <number>    The first page.
+    --to-page <number>      The last page.
+    --per-page <number>     Number of records per page.
+    --level <number>        Minimal numeric logging level to be included in the output.
+    -v --version            Show version
+    -h --help               Show this screen
 '''
 
 
