@@ -18,6 +18,7 @@ docs/_build
 _build
 logs
 *.db
+.pip
 
 sloth_ci/ext/build_email_notifications.py
 sloth_ci/ext/docker_exec.py
