@@ -1,7 +1,5 @@
 from setuptools import setup
 
-from os.path import join
-
 import sloth_ci
 
 
