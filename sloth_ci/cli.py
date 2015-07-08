@@ -26,7 +26,7 @@ Options:
 from sys import exit
 
 from os.path import abspath
-from glob import glob 
+from glob import glob
 from time import ctime
 
 from docopt import docopt
@@ -49,7 +49,7 @@ def colorize(table, based_on_column, hide_level=True):
 
     colorized_table = []
 
-    from colorama import init, deinit, Fore, Back
+    from colorama import init, Fore, Back
 
     init()
 
@@ -83,7 +83,7 @@ class CLI:
     def __init__(self, config_file):
         try:
             self.config = load(open(config_file))
-            
+
             self.api = API(self.config)
 
         except FileNotFoundError:
@@ -177,7 +177,7 @@ class CLI:
 
         try:
             apps = self.api.info(args['<listen_points>'])
-            
+
             table = [
                 [
                     app['listen_point'],
@@ -275,7 +275,7 @@ class CLI:
 
                 if not config_file:
                     raise FileNotFoundError('The app is not bound with a config file')
-                
+
                 self.api.remove(listen_point)
                 new_listen_point = self.api.create(config_file)
                 self.api.bind(new_listen_point, config_file)
