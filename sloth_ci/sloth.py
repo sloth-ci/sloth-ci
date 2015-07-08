@@ -1,6 +1,5 @@
 ﻿from subprocess import Popen, PIPE, TimeoutExpired
 from threading import Thread
-from os.path import splitext, basename, abspath, join
 from collections import deque
 from importlib import import_module
 
@@ -22,13 +21,13 @@ class Sloth:
         self.config = config
 
         self.listen_point = self.config['listen_point']
-        
+
         self.logger = logging.getLogger(self.listen_point)
         self.logger.setLevel(logging.DEBUG)
 
         self.build_logger = self.logger.getChild('build')
         self.exec_logger = self.logger.getChild('exec')
-        
+
         self.log_handlers = {}
 
         self.queue = deque()
@@ -40,14 +39,14 @@ class Sloth:
     @classmethod
     def extend(cls, extensions):
         '''Sequentially chain-inherit Sloth classes from extensions.
-    
+
         The first extension's Sloth class inherits from the base Sloth class and becomes the base class, then the second one inherits from it, and so on.
 
         :param extensions: list of extensions to load.
-    
+
         :returns: ExtendedSloth is a Sloth class inherited from all extensions' Sloth classes; errors—list of errors raised during the extensions loading.
         '''
-    
+
         ExtendedSloth = cls
         errors = []
 
@@ -55,7 +54,7 @@ class Sloth:
             for extension_name, extension_config in extensions.items():
                 try:
                     ext = import_module('.ext.%s' % extension_config['module'], package=__package__)
-            
+
                     ExtendedSloth = ext.extend(ExtendedSloth, {
                             'name': extension_name,
                             'config': extension_config
@@ -69,7 +68,7 @@ class Sloth:
 
     def handle(self, request):
         '''Validate, extract, and process incoming payload.
-        
+
         :param request: a cherrypy.request instance
         '''
 
@@ -102,7 +101,7 @@ class Sloth:
 
         if status == 200:
             self.logger.info('Valid payload received')
-                
+
         else:
             raise HTTPError(status, message)
 
@@ -111,9 +110,9 @@ class Sloth:
 
     def process(self, validator_params):
         '''Queue execution of actions with certain params. 
-        
+
         Params are taken from the ``params`` config section and extracted from the incoming payload.
-        
+
         :param validator_params: params exctacted from the payload
         '''
 
@@ -121,20 +120,18 @@ class Sloth:
 
         if not self._queue_lock:
             self.queue.append(params)
-        
+
         if not self.queue_processor or not self.queue_processor.is_alive():
             self.queue_processor = Thread(target=self.process_queue, name=self.listen_point)
             self.queue_processor.start()
 
     def process_queue(self):
         '''Processes execution queue in a separate thread.
-        
+
         :returns: True if successful, exception otherwise
         '''
 
         actions = self.config.get('actions')
-        
-        status = 'Complete'
 
         if actions:
             while self.queue:
@@ -187,7 +184,7 @@ class Sloth:
                 if errors and self.config.get('stop_on_first_fail'):
                     self.build_logger.error('Failed on action "%s": %s' % (action, errors[0]))
                     raise errors[0]
-        
+
         if not errors:
             self.build_logger.info('Completed %d/%d' % (len(actions), len(actions)))
 
@@ -223,14 +220,14 @@ class Sloth:
                 raise RuntimeError('Exit code: %d' % process.returncode)
 
             self.exec_logger.info('Finished')
-            
+
             return True
 
         except TimeoutExpired:
             process.kill()
 
             stdout, stderr = process.communicate()
-            
+
             self.exec_logger.debug(bytes.decode(stdout))
             self.exec_logger.debug(bytes.decode(stderr))
 
