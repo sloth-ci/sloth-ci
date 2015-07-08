@@ -1,4 +1,3 @@
-from yaml import load
 from requests import post, exceptions
 
 
@@ -9,7 +8,7 @@ class API:
 
     def _send_api_request(self, data={}):
         '''Send a POST request to the Sloth CI API with the given data.
-        
+
         :param data: dict of data to be sent with the request
         '''
 
@@ -27,23 +26,23 @@ class API:
                 content = response.text.strip()
 
             return response.status_code, content
-        
+
         except exceptions.ConnectionError:
             raise ConnectionError('Failed to connect to Sloth CI on %s' % self.url)
 
     def bind(self, listen_point, config_file):
         '''Bind a Sloth app with a config file.
- 
+
         :param listen_point: app's listen point
         :param config_file: absolute path to the config file
         '''
-        
+
         data = {
             'action': 'bind',
             'listen_point': listen_point,
             'config_file': config_file
         }
-        
+
         status, content = self._send_api_request(data)
 
         if status == 200:
@@ -57,7 +56,7 @@ class API:
 
     def create(self, config_file):
         '''Create an app from the config file.
-        
+
         :param config_file: path to the app config file
         '''
 
@@ -73,13 +72,13 @@ class API:
 
         elif status == 409:
             raise ValueError(content)
-            
+
         else:
             raise RuntimeError(content)
 
     def remove(self, listen_point):
         '''Remove an app on a certain listen point.
-        
+
         :param listen_point: the app's listen point
         '''
 
@@ -89,7 +88,7 @@ class API:
         }
 
         status, content = self._send_api_request(data)
-        
+
         if status == 204:
             return True
 
@@ -112,7 +111,7 @@ class API:
         }
 
         data.update(params)
-        
+
         status, content = self._send_api_request(data)
 
         if status == 202:
@@ -126,9 +125,9 @@ class API:
 
     def info(self, listen_points=[]):
         '''Get info for a particular app or all apps.
- 
+
         :param listen_points: list of app listen points to show info for; if empty, all apps will be shown
-        
+
         :returns: list of dicts with keys listen_point and config_file
         '''
 
@@ -150,7 +149,7 @@ class API:
 
     def logs(self, listen_point, from_page=None, to_page=None, per_page=None, level=None):
         '''Get paginated, level-filtered app logs, sorted by timestamp.
-        
+
         :param listen_point: listen point of the app
         :param from_page: the first page
         :param to_page: the last page
@@ -179,7 +178,7 @@ class API:
 
     def history(self, listen_point, from_page=None, to_page=None, per_page=None):
         '''Get paginated app build history, sorted by timestamp.
-        
+
         :param listen_point: listen point of the app
         :param from_page: the first page
         :param to_page: the last page
@@ -219,7 +218,7 @@ class API:
         '''Ask a Sloth CI server to restart.'''
 
         status, content = self._send_api_request({'action': 'restart'})
-        
+
         if status == 202:
             return True
 
@@ -230,7 +229,7 @@ class API:
         '''Ask a Sloth CI server to stop.'''
 
         status, content = self._send_api_request({'action': 'stop'})
-        
+
         if status == 202:
             return True
 
