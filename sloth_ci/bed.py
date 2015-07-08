@@ -1,10 +1,6 @@
-from importlib import import_module
-
-from os.path import abspath, exists, dirname, isfile, join
+from os.path import abspath, exists, dirname
 from os import makedirs
 from glob import glob
-
-import logging
 
 import cherrypy
 
@@ -104,7 +100,7 @@ class Bed:
 
     def autocreate(self):
         '''Create apps before server start.
-        
+
         The app configs are extracted from the files defined in the config_paths section of the server config.
         '''
 
