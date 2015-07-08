@@ -63,7 +63,7 @@ class API:
                 return self.actions[action](kwargs)
 
             except KeyError as e:
-                raise HTTPError(404, 'Action %s not found' % action)
+                raise HTTPError(404, 'Action %s not found' % e)
 
         return listener
 
