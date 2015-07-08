@@ -1,9 +1,4 @@
 def extend(cls, extension):
-    from os.path import abspath, join, exists
-    from os import makedirs
-
-    import logging
-
     from ..util import SqliteHandler
 
 
@@ -12,7 +7,7 @@ def extend(cls, extension):
             super().__init__(config)
 
             db_build_log_config = extension['config']
-            
+
             db_build_log_handler = SqliteHandler(db_build_log_config['db'], db_build_log_config['table'])
 
             self.build_logger.addHandler(db_build_log_handler)
