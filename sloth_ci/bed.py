@@ -35,16 +35,6 @@ class Bed:
         self._configure()
         self._setup_routing()
 
-    def _setup_routing(self):
-        '''Setup routing for API endpoint and app listeners.'''
-
-        routes_dispatcher = cherrypy._cpdispatch.RoutesDispatcher()
-
-        routes_dispatcher.connect('api', '/', self.api.listener)
-        routes_dispatcher.connect('apps', '/{listen_point:.+}', self.listener)
-
-        cherrypy.tree.mount(None, config={'/': {'request.dispatch': routes_dispatcher}})
-
     def _configure(self):
         '''Configure CherryPy server.'''
 
@@ -97,6 +87,16 @@ class Bed:
         self.bus.subscribe('stop', self.remove_all)
 
         self.api = API(self)
+
+    def _setup_routing(self):
+        '''Setup routing for API endpoint and app listeners.'''
+
+        routes_dispatcher = cherrypy._cpdispatch.RoutesDispatcher()
+
+        routes_dispatcher.connect('api', '/', self.api.listener)
+        routes_dispatcher.connect('apps', '/{listen_point:.+}', self.listener)
+
+        cherrypy.tree.mount(None, config={'/': {'request.dispatch': routes_dispatcher}})
 
     def autocreate(self):
         '''Create apps before server start.
