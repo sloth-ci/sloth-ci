@@ -1,25 +1,29 @@
 syntax: glob
 
-bin
-build
-include
-lib
+*~
+*.db
+.kateproject*
 *.kdev4
 *.pyc
 *.log
 *.pyproj
-MANIFEST
-dist/
-test_server.conf
-docs/_build
-.kateproject*
-*~
-*.egg-info/*
-_build
-logs
-*.db
-.pip
 
+*.egg-info/*
+.pip
+_build
+bin
+build
+dist
+docs/_build
+env
+include
+lib
+logs
+
+MANIFEST
+test_server.conf
+
+sloth_ci/validators/*
 sloth_ci/ext/build_email_notifications.py
 sloth_ci/ext/docker_exec.py
 sloth_ci/ext/dummy.py
@@ -27,5 +31,3 @@ sloth_ci/ext/file_logs.py
 sloth_ci/ext/openvz_exec.py
 sloth_ci/ext/ssh_exec.py
 sloth_ci/ext/webhooks.py
-
-sloth_ci/validators/*
