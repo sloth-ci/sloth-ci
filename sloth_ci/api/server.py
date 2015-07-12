@@ -1,23 +1,21 @@
+﻿from cherrypy.lib.auth_basic import checkpassword_dict
+
 from cherrypy import expose
 from cherrypy import tools
 from cherrypy import HTTPError, request, response
-
-from cherrypy.lib.auth_basic import checkpassword_dict
 
 from yaml import load
 
 import sqlite3
 
+from ..bed import Bed
+
 from .. import __version__
 
 
-class API:
-    def __init__(self, bed):
-        self.bed = bed
-
-        auth = self.bed.config['api_auth']
-
-        self.listener = self._make_listener({auth['login']: auth['password']})
+class API(Bed):
+    def __init__(self, config):
+        super().__init__(config)
 
         self.actions = {
             'create': self.create,
@@ -32,6 +30,17 @@ class API:
             'restart': self.restart,
             'stop': self.stop
         }
+
+    def _setup_routing(self):
+        '''Setup routing for the API endpoint.'''
+
+        super()._setup_routing()
+
+        auth = self.config['api_auth']
+
+        listener = self._make_listener({auth['login']: auth['password']})
+
+        self._dispatcher.connect('api', '/', listener)
 
     def _handle_error(self, status, message, traceback, version):
         return message
@@ -80,7 +89,7 @@ class API:
             raise HTTPError(400, 'Missing parameter config_file')
 
         try:
-            self.bed.bind(listen_point, config_file)
+            super().bind(listen_point, config_file)
 
             response.status = 200
 
@@ -107,7 +116,7 @@ class API:
             raise HTTPError(400, 'Missing parameter config_string')
 
         try:
-            listen_point = self.bed.create(load(config_string))
+            listen_point = super().create_from_config(load(config_string))
 
             response.status = 201
 
@@ -134,7 +143,7 @@ class API:
             raise HTTPError(400, 'Missing parameter listen_point')
 
         try:
-            self.bed.remove(listen_point)
+            super().remove(listen_point)
 
             response.status = 204
 
@@ -157,7 +166,7 @@ class API:
         try:
             params = {key: kwargs[key] for key in kwargs if key not in ('action', 'listen_point')}
 
-            sloth = self.bed.sloths[listen_point]
+            sloth = self.sloths[listen_point]
 
             sloth.process(params)
 
@@ -178,7 +187,7 @@ class API:
 
         try:
             if not listen_points:
-                app_list = self.bed.sloths.keys()
+                app_list = self.sloths.keys()
 
             elif listen_points == list(listen_points):
                 app_list = listen_points
@@ -189,15 +198,15 @@ class API:
             info_list = []
 
             for listen_point in app_list:
-                if not listen_point in self.bed.sloths:
+                if not listen_point in self.sloths:
                     raise KeyError(listen_point)
 
                 info_entry = {
                     'listen_point': listen_point,
-                    'config_file': self.bed.config_files.get(listen_point)
+                    'config_file': self.config_files.get(listen_point)
                 }
 
-                if self.bed.db_path:
+                if self.db_path:
                     last_build_info = self.history({
                         'listen_point': listen_point,
                         'per_page': 1
@@ -239,7 +248,7 @@ class API:
     def logs(self, kwargs):
         '''Get paginated app logs from the database.'''
 
-        if not self.bed.db_path:
+        if not self.db_path:
             raise HTTPError(501, "This Sloth server doesn't have a database to store logs")
 
         listen_point = kwargs.get('listen_point')
@@ -248,7 +257,7 @@ class API:
             raise HTTPError(400, 'Missing parameter listen_point')
 
         try:
-            if not listen_point in self.bed.sloths:
+            if not listen_point in self.sloths:
                 raise KeyError(listen_point)
 
             from_page = int(kwargs.get('from_page', 1))
@@ -256,7 +265,7 @@ class API:
             per_page = int(kwargs.get('per_page', 10))
             level = int(kwargs.get('level', 20))
 
-            connection = sqlite3.connect(self.bed.db_path)
+            connection = sqlite3.connect(self.db_path)
             cursor = connection.cursor()
 
             query = 'SELECT * FROM app_logs \
@@ -295,7 +304,7 @@ class API:
     def history(self, kwargs):
         '''Get paginated app build history from the database.'''
 
-        if not self.bed.db_path:
+        if not self.db_path:
             raise HTTPError(501, "This Sloth server doesn't have a database to store build history")
 
         listen_point = kwargs.get('listen_point')
@@ -308,7 +317,7 @@ class API:
             to_page = int(kwargs.get('to_page', from_page))
             per_page = int(kwargs.get('per_page', 10))
 
-            connection = sqlite3.connect(self.bed.db_path)
+            connection = sqlite3.connect(self.db_path)
             cursor = connection.cursor()
 
             query = 'SELECT * FROM build_history \
@@ -354,7 +363,7 @@ class API:
         '''Ask the Sloth CI server to restart.'''
 
         try:
-            self.bed.bus.restart()
+            self.bus.restart()
 
             response.status = 202
 
@@ -367,7 +376,7 @@ class API:
         '''Ask the Sloth CI server to stop.'''
 
         try:
-            self.bed.bus.exit()
+            self.bus.exit()
 
             response.status = 202
 

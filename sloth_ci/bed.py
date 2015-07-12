@@ -1,13 +1,22 @@
-from os.path import abspath, exists, dirname
+﻿from os.path import abspath, exists, dirname
 from os import makedirs
 from glob import glob
 
-import cherrypy
+from cherrypy._cpdispatch import RoutesDispatcher
+from cherrypy.process.plugins import Daemonizer
+
+from cherrypy import config as cherrypy_config
+from cherrypy import engine as cherrypy_engine
+from cherrypy import log as cherrypy_log
+from cherrypy import tree as cherrypy_tree
+
+from cherrypy import expose
+from cherrypy import tools
+from cherrypy import HTTPError, request
 
 from yaml import load
 
 from .sloth import Sloth
-from .api.server import API
 
 
 class Bed:
@@ -27,13 +36,13 @@ class Bed:
         '''
 
         self.config = config
-        self.bus = cherrypy.engine
+        self.bus = cherrypy_engine
 
         self.sloths = {}
         self.config_files = {}
 
-        self._configure()
         self._setup_routing()
+        self._configure()
 
     def _configure(self):
         '''Configure CherryPy server.'''
@@ -71,7 +80,7 @@ class Bed:
         if error_log_dir and not exists(error_log_dir):
             makedirs(error_log_dir)
 
-        cherrypy.config.update(
+        cherrypy_config.update(
             {
                 'environment': 'production',
                 'server.socket_host': self.config['host'],
@@ -81,24 +90,21 @@ class Bed:
             }
         )
 
+        cherrypy_tree.mount(None, config={'/': {'request.dispatch': self._dispatcher}})
+
         if self.config.get('daemon'):
-            cherrypy.process.plugins.Daemonizer(self.bus).subscribe()
+            Daemonizer(self.bus).subscribe()
 
         self.bus.subscribe('stop', self.remove_all)
 
-        self.api = API(self)
-
     def _setup_routing(self):
-        '''Setup routing for API endpoint and app listeners.'''
+        '''Add routes for app listener.'''
 
-        routes_dispatcher = cherrypy._cpdispatch.RoutesDispatcher()
+        self._dispatcher = RoutesDispatcher()
 
-        routes_dispatcher.connect('api', '/', self.api.listener)
-        routes_dispatcher.connect('apps', '/{listen_point:.+}', self.listener)
+        self._dispatcher.connect('apps', '/{listen_point:.+}', self.listener)
 
-        cherrypy.tree.mount(None, config={'/': {'request.dispatch': routes_dispatcher}})
-
-    def autocreate(self):
+    def _prepopulate(self):
         '''Create apps before server start.
 
         The app configs are extracted from the files defined in the config_paths section of the server config.
@@ -108,14 +114,14 @@ class Bed:
             config_files = glob(config_path)
 
             if not config_files:
-                cherrypy.log.error('Path %s not found' % config_path)
+                cherrypy_log.error('Path %s not found' % config_path)
                 continue
 
             for config_file in config_files:
                 try:
                     config = load(open(config_file))
 
-                    listen_point = self.create(config)
+                    listen_point = self.create_from_config(config)
 
                     self.bind(listen_point, abspath(config_file))
 
@@ -125,7 +131,7 @@ class Bed:
     def start(self):
         '''Start CherryPy loop to listen for payload.'''
 
-        self.autocreate()
+        self._prepopulate()
 
         self.bus.start()
         self.bus.block()
@@ -144,24 +150,24 @@ class Bed:
                 self.config_files[listen_point] = config_file
                 sloth.logger.info('Bound with config file %s' % config_file)
 
-                cherrypy.log.error('App on %s bound with config file %s' % (listen_point, config_file))
+                cherrypy_log.error('App on %s bound with config file %s' % (listen_point, config_file))
 
             else:
                 raise ValueError
 
         except KeyError:
-            cherrypy.log.error('Failed to bind config file: listen point %s not found' % listen_point)
+            cherrypy_log.error('Failed to bind config file: listen point %s not found' % listen_point)
             raise
 
         except FileNotFoundError:
-            cherrypy.log.error('Failed to bind config file: file %s not found' % config_file)
+            cherrypy_log.error('Failed to bind config file: file %s not found' % config_file)
             raise
 
         except ValueError:
-            cherrypy.log.error('Failed to bind config file: config mismatch')
+            cherrypy_log.error('Failed to bind config file: config mismatch')
             raise
 
-    def create(self, config):
+    def create_from_config(self, config):
         '''Create a Sloth app from a config source and add it to the bed.
 
         :param config: a dict parsed from YAML
@@ -173,15 +179,15 @@ class Bed:
             listen_point = config['listen_point']
 
         except TypeError:
-            cherrypy.log.error('Failed to create app: invalid config string')
+            cherrypy_log.error('Failed to create app: invalid config string')
             raise
 
         except KeyError as e:
-            cherrypy.log.error('Failed to create app: the listen_point param is missing' % e)
+            cherrypy_log.error('Failed to create app: the listen_point param is missing' % e)
             raise
 
         if listen_point in self.sloths:
-            cherrypy.log.error('Failed to create app: the listen point %s is already taken' % listen_point)
+            cherrypy_log.error('Failed to create app: the listen point %s is already taken' % listen_point)
             raise ValueError(listen_point)
 
         try:
@@ -200,12 +206,12 @@ class Bed:
             self.sloths[listen_point] = sloth
             sloth.logger.info('Listening on %s' % listen_point)
 
-            cherrypy.log.error('Sloth app added, listening on %s' % listen_point)
+            cherrypy_log.error('Sloth app added, listening on %s' % listen_point)
 
             return listen_point
 
         except Exception as e:
-            cherrypy.log.error('Failed to create app: %s' % e)
+            cherrypy_log.error('Failed to create app: %s' % e)
             raise
 
     def remove(self, listen_point):
@@ -219,14 +225,14 @@ class Bed:
 
             self.config_files.pop(listen_point, None)
 
-            cherrypy.log.error('Sloth app at %s removed' % listen_point)
+            cherrypy_log.error('Sloth app at %s removed' % listen_point)
 
         except KeyError:
-            cherrypy.log.error('Failed to remove app: listen point %s not found' % listen_point)
+            cherrypy_log.error('Failed to remove app: listen point %s not found' % listen_point)
             raise
 
         except Exception as e:
-            cherrypy.log.error('Failed to remove app on %s: %s' % (listen_point, e))
+            cherrypy_log.error('Failed to remove app on %s: %s' % (listen_point, e))
 
     def remove_all(self):
         '''Stop all active Sloth apps and remove them from the bed.'''
@@ -238,8 +244,8 @@ class Bed:
 
             self.config_files.pop(listen_point, None)
 
-    @cherrypy.expose
-    @cherrypy.tools.proxy()
+    @expose
+    @tools.proxy()
     def listener(self, listen_point, **kwargs):
         '''Listens for payloads and routes them to the responsible Sloth app.
 
@@ -249,7 +255,7 @@ class Bed:
         sloth = self.sloths.get(listen_point)
 
         if sloth:
-            sloth.handle(cherrypy.request)
+            sloth.handle(request)
 
         else:
-            raise cherrypy.HTTPError(404, 'This listen point does not exist.')
+            raise HTTPError(404, 'This listen point does not exist.')
