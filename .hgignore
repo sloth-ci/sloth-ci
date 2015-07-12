@@ -21,13 +21,3 @@ lib
 logs
 
 MANIFEST
-test_server.conf
-
-sloth_ci/validators/*
-sloth_ci/ext/build_email_notifications.py
-sloth_ci/ext/docker_exec.py
-sloth_ci/ext/dummy.py
-sloth_ci/ext/file_logs.py
-sloth_ci/ext/openvz_exec.py
-sloth_ci/ext/ssh_exec.py
-sloth_ci/ext/webhooks.py
