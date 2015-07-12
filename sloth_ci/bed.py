@@ -43,6 +43,7 @@ class Bed:
 
         self._setup_routing()
         self._configure()
+        self._prepopulate()
 
     def _configure(self):
         '''Configure CherryPy server.'''
@@ -130,8 +131,6 @@ class Bed:
 
     def start(self):
         '''Start CherryPy loop to listen for payload.'''
-
-        self._prepopulate()
 
         self.bus.start()
         self.bus.block()
