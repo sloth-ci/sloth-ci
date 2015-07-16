@@ -1,8 +1,6 @@
-﻿from cherrypy.lib.auth_basic import checkpassword_dict
+﻿import cherrypy
 
-from cherrypy import expose
-from cherrypy import tools
-from cherrypy import HTTPError, request, response
+from cherrypy.lib.auth_basic import checkpassword_dict
 
 from yaml import load
 
@@ -54,9 +52,9 @@ class API(Bed):
         :returns: a CherryPy listener function
         '''
 
-        @expose
-        @tools.auth_basic(checkpassword=checkpassword_dict(auth_dict), realm=realm)
-        @tools.json_out()
+        @cherrypy.expose
+        @cherrypy.tools.auth_basic(checkpassword=checkpassword_dict(auth_dict), realm=realm)
+        @cherrypy.tools.json_out()
         def listener(action, **kwargs):
             '''Listen to and route API requests.
 
@@ -66,13 +64,13 @@ class API(Bed):
             :param params: a single object, a list, or a dict of params for the action.
             '''
 
-            request.error_page = {'default': self._handle_error}
+            cherrypy.request.error_page = {'default': self._handle_error}
 
             try:
                 return self.actions[action](kwargs)
 
             except KeyError as e:
-                raise HTTPError(404, 'Action %s not found' % e)
+                raise cherrypy.HTTPError(404, 'Action %s not found' % e)
 
         return listener
 
@@ -83,29 +81,29 @@ class API(Bed):
         config_file = kwargs.get('config_file')
 
         if not listen_point:
-            raise HTTPError(400, 'Missing parameter listen_point')
+            raise cherrypy.HTTPError(400, 'Missing parameter listen_point')
 
         if not config_file:
-            raise HTTPError(400, 'Missing parameter config_file')
+            raise cherrypy.HTTPError(400, 'Missing parameter config_file')
 
         try:
             super().bind(listen_point, config_file)
 
-            response.status = 200
+            cherrypy.response.status = 200
 
             return None
 
         except KeyError as e:
-            raise HTTPError(404, 'Listen point %s not found' % e)
+            raise cherrypy.HTTPError(404, 'Listen point %s not found' % e)
 
         except FileNotFoundError as e:
-            raise HTTPError(404, 'File %s not found' % e)
+            raise cherrypy.HTTPError(404, 'File %s not found' % e)
 
         except ValueError:
-            raise HTTPError(500, 'Config mismatch')
+            raise cherrypy.HTTPError(500, 'Config mismatch')
 
         except Exception as e:
-            raise HTTPError(500, 'Failed to bind config file to app: %s' % e)
+            raise cherrypy.HTTPError(500, 'Failed to bind config file to app: %s' % e)
 
     def create(self, kwargs):
         '''Create an app from the given config string.'''
@@ -113,26 +111,26 @@ class API(Bed):
         config_string = kwargs.get('config_string')
 
         if not config_string:
-            raise HTTPError(400, 'Missing parameter config_string')
+            raise cherrypy.HTTPError(400, 'Missing parameter config_string')
 
         try:
             listen_point = super().create_from_config(load(config_string))
 
-            response.status = 201
+            cherrypy.response.status = 201
 
             return listen_point
 
         except TypeError:
-            raise HTTPError(500, '%s is not a valid config string' % config_string)
+            raise cherrypy.HTTPError(500, '%s is not a valid config string' % config_string)
 
         except KeyError as e:
-            raise HTTPError(500, 'The %s param is missing in the config' % e)
+            raise cherrypy.HTTPError(500, 'The %s param is missing in the config' % e)
 
         except ValueError as e:
-            raise HTTPError(409, 'Listen point %s is already taken' % e)
+            raise cherrypy.HTTPError(409, 'Listen point %s is already taken' % e)
 
         except Exception as e:
-            raise HTTPError(500, 'Failed to create app: %s' % e)
+            raise cherrypy.HTTPError(500, 'Failed to create app: %s' % e)
 
     def remove(self, kwargs):
         '''Remove an app on the given listen point.'''
@@ -140,20 +138,20 @@ class API(Bed):
         listen_point = kwargs.get('listen_point')
 
         if not listen_point:
-            raise HTTPError(400, 'Missing parameter listen_point')
+            raise cherrypy.HTTPError(400, 'Missing parameter listen_point')
 
         try:
             super().remove(listen_point)
 
-            response.status = 204
+            cherrypy.response.status = 204
 
             return None
 
         except KeyError as e:
-            raise HTTPError(404, 'Listen point %s not found' % e)
+            raise cherrypy.HTTPError(404, 'Listen point %s not found' % e)
 
         except Exception as e:
-            raise HTTPError(500, 'Failed to remove app: %s' % e)
+            raise cherrypy.HTTPError(500, 'Failed to remove app: %s' % e)
 
     def trigger(self, kwargs):
         '''Trigger action of an app on the given listen point.'''
@@ -161,7 +159,7 @@ class API(Bed):
         listen_point = kwargs.get('listen_point')
 
         if not listen_point:
-            raise HTTPError(400, 'Missing parameter listen_point')
+            raise cherrypy.HTTPError(400, 'Missing parameter listen_point')
 
         try:
             params = {key: kwargs[key] for key in kwargs if key not in ('action', 'listen_point')}
@@ -170,15 +168,15 @@ class API(Bed):
 
             sloth.process(params)
 
-            response.status = 202
+            cherrypy.response.status = 202
 
             return None
 
         except KeyError as e:
-            raise HTTPError(404, 'Listen point %s not found' % e)
+            raise cherrypy.HTTPError(404, 'Listen point %s not found' % e)
 
         except Exception as e:
-            raise HTTPError(500, 'Failed to trigger app actions: %s' % e)
+            raise cherrypy.HTTPError(500, 'Failed to trigger app actions: %s' % e)
 
     def info(self, kwargs):
         '''Get information about apps on the given listen points or all apps.'''
@@ -235,26 +233,26 @@ class API(Bed):
 
             info_list.sort(key=lambda record: record['last_build_timestamp'], reverse=True)
 
-            response.status = 200
+            cherrypy.response.status = 200
 
             return info_list
 
         except KeyError as e:
-            raise HTTPError(404, 'Listen point %s not found' % e)
+            raise cherrypy.HTTPError(404, 'Listen point %s not found' % e)
 
         except Exception as e:
-            raise HTTPError(500, 'Failed to get app info: %s' % e)
+            raise cherrypy.HTTPError(500, 'Failed to get app info: %s' % e)
 
     def logs(self, kwargs):
         '''Get paginated app logs from the database.'''
 
         if not self.db_path:
-            raise HTTPError(501, "This Sloth server doesn't have a database to store logs")
+            raise cherrypy.HTTPError(501, "This Sloth server doesn't have a database to store logs")
 
         listen_point = kwargs.get('listen_point')
 
         if not listen_point:
-            raise HTTPError(400, 'Missing parameter listen_point')
+            raise cherrypy.HTTPError(400, 'Missing parameter listen_point')
 
         try:
             if not listen_point in self.sloths:
@@ -291,26 +289,26 @@ class API(Bed):
 
             connection.close()
 
-            response.status = 200
+            cherrypy.response.status = 200
 
             return logs
 
         except KeyError as e:
-            raise HTTPError(404, 'Listen point %s not found' % e)
+            raise cherrypy.HTTPError(404, 'Listen point %s not found' % e)
 
         except Exception as e:
-            raise HTTPError(500, 'Failed to get app logs: %s' % e)
+            raise cherrypy.HTTPError(500, 'Failed to get app logs: %s' % e)
 
     def history(self, kwargs):
         '''Get paginated app build history from the database.'''
 
         if not self.db_path:
-            raise HTTPError(501, "This Sloth server doesn't have a database to store build history")
+            raise cherrypy.HTTPError(501, "This Sloth server doesn't have a database to store build history")
 
         listen_point = kwargs.get('listen_point')
 
         if not listen_point:
-            raise HTTPError(400, 'Missing parameter listen_point')
+            raise cherrypy.HTTPError(400, 'Missing parameter listen_point')
 
         try:
             from_page = int(kwargs.get('from_page', 1))
@@ -339,12 +337,12 @@ class API(Bed):
 
             connection.close()
 
-            response.status = 200
+            cherrypy.response.status = 200
 
             return history
 
         except Exception as e:
-            raise HTTPError(500, 'Failed to get app build history: %s' % e)
+            raise cherrypy.HTTPError(500, 'Failed to get app build history: %s' % e)
 
     def version(self, kwargs):
         '''Get the Sloth CI app version.'''
@@ -352,12 +350,12 @@ class API(Bed):
         try:
             version = __version__
 
-            response.status = 200
+            cherrypy.response.status = 200
 
             return version
 
         except Exception as e:
-            raise HTTPError(500, 'Failed to get Sloth CI server version: %s' % e)
+            raise cherrypy.HTTPError(500, 'Failed to get Sloth CI server version: %s' % e)
 
     def restart(self, kwargs):
         '''Ask the Sloth CI server to restart.'''
@@ -365,12 +363,12 @@ class API(Bed):
         try:
             self.bus.restart()
 
-            response.status = 202
+            cherrypy.response.status = 202
 
             return None
 
         except Exception as e:
-            raise HTTPError(500, 'Failed to restart Sloth CI server: %s' % e)
+            raise cherrypy.HTTPError(500, 'Failed to restart Sloth CI server: %s' % e)
 
     def stop(self, kwargs):
         '''Ask the Sloth CI server to stop.'''
@@ -378,9 +376,9 @@ class API(Bed):
         try:
             self.bus.exit()
 
-            response.status = 202
+            cherrypy.response.status = 202
 
             return None
 
         except Exception as e:
-            raise HTTPError(500, 'Failed to stop Sloth CI server: %s' % e)
+            raise cherrypy.HTTPError(500, 'Failed to stop Sloth CI server: %s' % e)
