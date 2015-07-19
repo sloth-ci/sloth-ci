@@ -1,6 +1,7 @@
-﻿from os.path import abspath, exists, dirname
+from os.path import abspath, exists, dirname
 from os import makedirs
 from glob import glob
+from importlib import import_module
 
 import cherrypy
 
@@ -18,6 +19,15 @@ class Bed:
 
     (This module is names "bed" because a group of sloth is actually called "bed.")
     '''
+
+    def __new__(cls, config):
+
+        ExtendedBed, errors = cls.extend(config.get('extensions'))
+
+        for error in errors:
+            cherrypy.log.error(error)
+
+        return super().__new__(ExtendedBed)
 
     def __init__(self, config):
         '''Configure CherryPy loop to listen for payload.
@@ -118,6 +128,27 @@ class Bed:
 
                 except:
                     continue
+
+    @classmethod
+    def extend(cls, extensions):
+        ExtendedBed = cls
+        errors = []
+
+        if extensions:
+            for extension_name, extension_config in extensions.items():
+                try:
+                    ext = import_module('.ext.%s' % extension_config['module'], package=__package__)
+
+                    ExtendedBed = ext.extend(ExtendedBed, {
+                            'name': extension_name,
+                            'config': extension_config
+                        }
+                    )
+
+                except Exception as e:
+                    errors.append('Could not load extension %s: %s' % (extension_name, e))
+
+        return ExtendedBed, errors
 
     def start(self):
         '''Start CherryPy loop to listen for payload.'''
