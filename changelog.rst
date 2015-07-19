@@ -216,4 +216,5 @@
 1.2.9
 =====
 
--   API: Server: Config file binding didn't work. Fixed.
+-   API: Server: Bind: Config file binding didn't work. Fixed.
+-   CLI: Info: Info didn't work. Fixed.
