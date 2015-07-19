@@ -115,6 +115,6 @@ Create a hook on Bitbucket, and you docs will be automatically built on every pu
 Contribute
 ==========
 
-`Report a bug <https://bitbucket.org/moigagoo/sloth-ci/issues/new>`__.
+`Report a bug <https://bitbucket.org/moigagoo/sloth-ci/issues/new>`__
 
-`Fork and improve <https://bitbucket.org/moigagoo/sloth-ci/fork>`__.
+`Fork and improve <https://bitbucket.org/moigagoo/sloth-ci/fork>`__
