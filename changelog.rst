@@ -211,3 +211,4 @@
 =====
 
 -   Code cleanup.
+-   Bed: Server extension support added.
