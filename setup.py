@@ -19,7 +19,6 @@ setup(
     author_email=sloth_ci.__author_email__,
     url='https://bitbucket.org/moigagoo/sloth-ci',
     packages=['sloth_ci', 'sloth_ci.api', 'sloth_ci.ext'],
-    package_data={'sloth_ci': ['data/robots.txt']},
     install_requires = [
         'CherryPy',
         'Routes',
