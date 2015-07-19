@@ -2,7 +2,8 @@ sloth-ci
 
 sloth-ci.ext.build-email-notifications
 sloth-ci.ext.docker-exec
-sloth-ci.ext.dummy
+sloth-ci.ext.dummy_app
+sloth-ci.ext.dummy_server
 sloth-ci.ext.file-logs
 sloth-ci.ext.openvz-exec
 sloth-ci.ext.robots-txt
