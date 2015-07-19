@@ -79,7 +79,7 @@ Server extensions deal with server configuration, routing, and app management:
 
 Server extensions are declared in the ``extensions`` section of an :doc:`server config <configs/server>`.
 
-Server extensions override the class :class:`sloth_ci.bed.Bed` one after another, so that the resulting class has all the features from all enabled extensions. Refer to the :ref:`dummy server extension <dummy-app-ext>` when developing your own app extensions.
+Server extensions override the class :class:`sloth_ci.bed.Bed` one after another, so that the resulting class has all the features from all enabled extensions. Refer to the :ref:`dummy server extension <dummy-server-ext>` when developing your own app extensions.
 
 .. _dummy-server-ext:
 
