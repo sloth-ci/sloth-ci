@@ -87,7 +87,7 @@ class API(Bed):
             raise cherrypy.HTTPError(400, 'Missing parameter config_file')
 
         try:
-            super().bind_to_file(listen_point, config_file)
+            self.bind_to_file(listen_point, config_file)
 
             cherrypy.response.status = 200
 
@@ -114,7 +114,7 @@ class API(Bed):
             raise cherrypy.HTTPError(400, 'Missing parameter config_string')
 
         try:
-            listen_point = super().create_from_config(load(config_string))
+            listen_point = self.create_from_config(load(config_string))
 
             cherrypy.response.status = 201
 
