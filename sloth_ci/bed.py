@@ -1,4 +1,4 @@
-from os.path import abspath, exists, dirname
+﻿from os.path import abspath, exists, dirname
 from os import makedirs
 from glob import glob
 from importlib import import_module
@@ -124,7 +124,7 @@ class Bed:
 
                     listen_point = self.create_from_config(config)
 
-                    self.bind(listen_point, abspath(config_file))
+                    self.bind_to_file(listen_point, abspath(config_file))
 
                 except:
                     continue
@@ -156,7 +156,7 @@ class Bed:
         self.bus.start()
         self.bus.block()
 
-    def bind(self, listen_point, config_file):
+    def bind_to_file(self, listen_point, config_file):
         '''Bind a Sloth app with a config file.
 
         :param listen_point: app's listen point
