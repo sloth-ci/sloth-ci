@@ -11,11 +11,15 @@ Sloth CI: CI for Humans
 .. image:: https://img.shields.io/pypi/l/sloth-ci.svg?style=flat-square
     :alt: License
 
+.. image:: sloth-weed-small.jpg
+    :align: center
+    :alt: Logo
+
 Sloth CI is an easy-to-use, lightweight, extendable tool that executes actions you need when certain events happen.
 
 Sloth CI was created because Jenkins is too heavy and Buildbot was too hard to learn.
 
-Read the docs at http://sloth-ci.com/ (yes, they are built with Sloth CI).
+Read the docs at http://sloth-ci.com/ (btw, Sloth CI builds them).
 
 Requirements
 ============
@@ -25,7 +29,7 @@ Sloth CI runs with Python 3.3+ on Windows, Linux, and Mac.
 Install
 =======
 
-Install Sloth with pip:
+Install Sloth from `PyPI <https://pypi.python.org/pypi/sloth-ci>`__ with pip:
 
 .. code-block:: bash
 
@@ -107,3 +111,10 @@ Create the app from the config:
 That's it! Your app now listens for payload from Bitbucket at http://yourdomain:8080/docs.
 
 Create a hook on Bitbucket, and you docs will be automatically built on every push to the repo.
+
+Contribute
+==========
+
+`Report a bug <https://bitbucket.org/moigagoo/sloth-ci/issues/new>`__.
+
+`Fork and improve <https://bitbucket.org/moigagoo/sloth-ci/fork>__.
