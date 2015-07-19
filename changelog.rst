@@ -218,3 +218,8 @@
 
 -   API: Server: Bind: Config file binding didn't work. Fixed.
 -   CLI: Info: Info didn't work. Fixed.
+
+1.3.0
+=====
+
+-   Bed: Server extensions now can override all Bed methods.
