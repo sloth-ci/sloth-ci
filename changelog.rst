@@ -212,3 +212,8 @@
 
 -   Code cleanup.
 -   Bed: Server extension support added.
+
+1.2.9
+=====
+
+-   API: Server: Config file binding didn't work. Fixed.
