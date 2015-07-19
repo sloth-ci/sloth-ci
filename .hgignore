@@ -21,3 +21,5 @@ lib
 logs
 
 MANIFEST
+
+sloth_ci/validators/*.py
