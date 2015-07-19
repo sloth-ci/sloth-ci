@@ -117,4 +117,4 @@ Contribute
 
 `Report a bug <https://bitbucket.org/moigagoo/sloth-ci/issues/new>`__.
 
-`Fork and improve <https://bitbucket.org/moigagoo/sloth-ci/fork>__.
+`Fork and improve <https://bitbucket.org/moigagoo/sloth-ci/fork>`__.
