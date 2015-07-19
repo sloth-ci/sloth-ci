@@ -11,6 +11,10 @@ Sloth CI: CI for Humans
 .. image:: https://img.shields.io/pypi/l/sloth-ci.svg?style=flat-square
     :alt: License
 
+.. image:: ../sloth-weed-small.jpg
+    :align: center
+    :alt: Logo
+
 .. toctree::
     :hidden:
 
