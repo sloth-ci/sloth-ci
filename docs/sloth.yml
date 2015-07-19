@@ -33,3 +33,17 @@ paths:
 api_auth:
     login: user
     password: password
+
+# Dictionary of server extensions.
+# Extension modules live separately in the *sloth-ci.ext* package on PyPI.
+extensions:
+    # Unique extension name.
+    hide-from-robots:
+        # This extension uses the module *sloth_ci.ext.robots_txt*.
+        module: robots_txt
+
+        # It takes the robots.txt file from the server's homedir...
+        file: ~/robots.txt
+
+        # ...and serves it on */static/robots.txt*
+        path: /static/robots.txt

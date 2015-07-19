@@ -27,8 +27,8 @@ provider:
 extensions:
     # Unique extension name.
     debug_logs:
-        # This extension uses the module *sloth-ci.ext.logs*.
-        module: logs
+        # This extension uses the module *sloth_ci.ext.file_logs*.
+        module: file_logs
         
         # It adds file logs to the app. This one puts them in the *debug_logs* directory.
         path: /var/log/sloth-ci/debug_logs
