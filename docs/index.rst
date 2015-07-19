@@ -37,7 +37,7 @@ Sloth CI runs with Python 3.3+ on Windows, Linux, and Mac.
 Install
 =======
 
-Install Sloth with pip:
+Install Sloth from `PyPI <https://pypi.python.org/pypi/sloth-ci>`__ with pip:
 
 .. code-block:: bash
 
@@ -129,3 +129,10 @@ That wasn't too hard, was it? But that's just one thing Sloth CI can do. See som
 .. note::
 
     The Sloth CI server running on your machine must be accessible from the Internet for Bitbucket (or GitHub, or whatever) to be able to send you push notifications.
+
+Contribute
+==========
+
+`Report a bug <https://bitbucket.org/moigagoo/sloth-ci/issues/new>`__
+
+`Fork and improve <https://bitbucket.org/moigagoo/sloth-ci/fork>`__
