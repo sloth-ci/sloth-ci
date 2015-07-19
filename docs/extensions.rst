@@ -47,6 +47,11 @@ OpenVZ Exec
 
 .. _ssh-ext:
 
+Robots.txt
+==========
+
+.. automodule:: sloth_ci.ext.robots_txt
+
 SSH Exec
 ========
 
