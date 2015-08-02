@@ -1,4 +1,4 @@
-﻿__title__ = 'sloth-ci'
+__title__ = 'sloth-ci'
 __description__ = 'Simple app for automatization of everything'
 __long_description__ = 'Sloth CI: CI for Humans. A simple and extendable automatization app.'
 __version__ = '1.3.0'
