@@ -1,4 +1,4 @@
-def extend(cls, extension):
+﻿def extend_sloth(cls, extension):
     from ..util import SqliteHandler
 
 

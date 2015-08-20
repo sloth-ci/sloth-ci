@@ -1,4 +1,4 @@
-from sloth_ci import cli
+﻿from sloth_ci import cli
 
 
 if __name__ == '__main__':

@@ -34,8 +34,11 @@ from tabulate import tabulate
 from yaml import load
 
 from . import __version__
-from .api.server import API as APIServer
-from .api.client import API as APIClient
+
+from .bed import Bed
+from .api.client import API
+
+
 
 
 def colorize(table, based_on_column, hide_level=True):
@@ -84,7 +87,7 @@ class CLI:
         try:
             self.config = load(open(config_file))
 
-            self.api = APIClient(self.config)
+            self.api = API(self.config)
 
         except FileNotFoundError:
             print('Either put "sloth.yml" in this directory or pick a config file with "-c."')
@@ -114,7 +117,7 @@ class CLI:
 
         try:
             print('Starting Sloth CI on %s' % self.api.url)
-            APIServer(self.config).start()
+            Bed(self.config).start()
 
         except Exception as e:
             print('Failed to start Sloth CI: %s' % e)
