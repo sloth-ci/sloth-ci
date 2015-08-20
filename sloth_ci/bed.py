@@ -21,10 +21,24 @@ class Bed:
     '''
 
     def __new__(cls, config):
+        '''Apply extenions before creating a Bed instance.
 
-        ExtendedBed, errors = cls.extend(config.get('extensions'))
+        The built-in API extension is always applied before any custom ones.
 
-        for error in errors:
+        :param config: bed config dict
+        '''
+
+        api_extension = {
+            'api': {
+                'module': 'api'
+                }
+        }
+
+        PreExtendedBed, pre_errors = cls.extend(api_extension)
+
+        ExtendedBed, errors = PreExtendedBed.extend(config.get('extensions'))
+
+        for error in pre_errors + errors:
             cherrypy.log.error(error)
 
         return super().__new__(ExtendedBed)
@@ -131,6 +145,15 @@ class Bed:
 
     @classmethod
     def extend(cls, extensions):
+        '''Sequentially chain-inherit Bed classes from extensions.
+
+        The first extension's Bed class inherits from the base Bed class and becomes the base class, then the second one inherits from it, and so on.
+
+        :param extensions: list of extensions to load.
+
+        :returns: `ExtendedBed` is a Bed class inherited from all extensions' Bed classes; `errors` is the list of errors raised during extension loading.
+        '''
+
         ExtendedBed = cls
         errors = []
 
@@ -139,7 +162,7 @@ class Bed:
                 try:
                     ext = import_module('.ext.%s' % extension_config['module'], package=__package__)
 
-                    ExtendedBed = ext.extend(ExtendedBed, {
+                    ExtendedBed = ext.extend_bed(ExtendedBed, {
                             'name': extension_name,
                             'config': extension_config
                         }
@@ -212,15 +235,16 @@ class Bed:
 
         try:
             if self.db_path:
-                PreExtendedSloth, errors = Sloth.extend(self.db_extensions)
+                PreExtendedSloth, pre_errors = Sloth.extend(self.db_extensions)
 
             else:
                 PreExtendedSloth = Sloth
+                pre_errors = []
 
             ExtendedSloth, errors = PreExtendedSloth.extend(config.get('extensions'))
             sloth = ExtendedSloth(config)
 
-            for error in errors:
+            for error in pre_errors + errors:
                 sloth.logger.error(error)
 
             self.sloths[listen_point] = sloth

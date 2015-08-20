@@ -1,6 +1,8 @@
-from logging import Handler
+﻿from logging import Handler
 
 import sqlite3
+
+from yaml import load
 
 
 class SqliteHandler(Handler):

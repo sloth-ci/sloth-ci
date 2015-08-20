@@ -44,7 +44,7 @@ class Sloth:
 
         :param extensions: list of extensions to load.
 
-        :returns: ExtendedSloth is a Sloth class inherited from all extensions' Sloth classes; errors—list of errors raised during the extensions loading.
+        :returns: `ExtendedSloth` is a Sloth class inherited from all extensions' Sloth classes; `errors` is the list of errors raised during extension loading.
         '''
 
         ExtendedSloth = cls
@@ -55,7 +55,7 @@ class Sloth:
                 try:
                     ext = import_module('.ext.%s' % extension_config['module'], package=__package__)
 
-                    ExtendedSloth = ext.extend(ExtendedSloth, {
+                    ExtendedSloth = ext.extend_sloth(ExtendedSloth, {
                             'name': extension_name,
                             'config': extension_config
                         }
