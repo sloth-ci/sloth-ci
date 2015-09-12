@@ -24,7 +24,7 @@ setup(
         'Routes',
         'PyYAML',
         'requests',
-        'docopt',
+        'cliar',
         'tabulate',
         'colorama'
     ],
