@@ -1,4 +1,7 @@
-﻿def extend_bed(cls, extension):
+﻿from ..util import APIClient
+
+
+def extend_bed(cls, extension):
     import cherrypy
 
     from cherrypy.lib.auth_basic import checkpassword_dict
@@ -382,3 +385,22 @@
                 raise cherrypy.HTTPError(500, 'Failed to stop Sloth CI server: %s' % e)
 
     return Bed
+
+
+def extend_cli(cls, extension):
+    class CLI(cls):
+        '''API CLI for Sloth CI.'''
+
+        def _root(self, config='./sloth.yml'):
+            super()._root(config)
+            self.api = APIClient(self.config)
+
+        def status(self):
+            '''show status'''
+
+            print('Status')
+
+        def  info(self):
+            print(self.api.info())
+
+    return CLI
