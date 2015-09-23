@@ -1,5 +1,5 @@
 ﻿def extend_sloth(cls, extension):
-    from ..util import SqliteHandler
+    from .util import SqliteHandler
 
 
     class Sloth(cls):
