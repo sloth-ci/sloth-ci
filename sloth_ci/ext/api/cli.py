@@ -1,4 +1,4 @@
-def extend_cli(cls, extension):
+﻿def extend_cli(cls, extension):
     from os.path import abspath
     from glob import glob
     from collections import namedtuple
@@ -82,7 +82,12 @@ def extend_cli(cls, extension):
 
 
     class CLI(cls):
-        '''API CLI for Sloth CI.'''
+        '''Welcome to Sloth CI API CLI!
+
+        Run "sci start" to start the server.
+
+        Run "sci -h" to see all available commands and "sci <command> -h" to get help for a specific command.
+        '''
 
         def __init__(self):
             super().__init__()
@@ -181,7 +186,7 @@ def extend_cli(cls, extension):
                 print('Failed to get app build history: %s' % response.content)
 
         def info(self, app):
-            '''get information about the APP'''
+            '''get information about APP'''
 
             response = self.send_api_request(
                 {
@@ -235,7 +240,7 @@ def extend_cli(cls, extension):
 
         @add_aliases(['log', 'lg'])
         def logs(self, app, from_page:int=1, to_page:int=1, per_page:int=10, level:int=20, verbose=False):
-            '''get logs for the APP'''
+            '''get logs for APP'''
             
             response = self.send_api_request(
                 {
@@ -316,7 +321,7 @@ def extend_cli(cls, extension):
                 print('Failed to remove app: %s' % response.content)
 
         def restart(self):
-            '''restart the server'''
+            '''restart server'''
 
             response = self.send_api_request(
                 {
@@ -350,7 +355,7 @@ def extend_cli(cls, extension):
                 print('Sloth CI is not running on http://%s:%d' % (self.config['host'], self.config['port']))
 
         def stop(self):
-            '''stop the server'''
+            '''stop server'''
 
             response = self.send_api_request(
                 {
@@ -367,7 +372,7 @@ def extend_cli(cls, extension):
 
         @add_aliases(['run'])
         def trigger(self, app, params=()):
-            '''trigger APP's actions with given PARAMS'''
+            '''trigger APP's actions with given PARAMS given as "param1=value1 param2=value ..."'''
 
             data = {
                 'action': 'trigger',

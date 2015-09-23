@@ -31,7 +31,7 @@ class Bed:
         api_extension = {
             'api': {
                 'module': 'api.bed'
-                }
+            }
         }
 
         PreExtendedBed, pre_errors = cls.extend(api_extension)

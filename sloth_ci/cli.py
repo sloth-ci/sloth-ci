@@ -11,7 +11,9 @@ from .bed import Bed
 
 
 class CLI(CliarCLI):
-    '''Basic Sloth CI CLI. It has only one command: ``start``, which starts the Sloth CI server.'''
+    '''Welcome to Sloth CI CLI!
+
+    Run "sci start" to start the server.'''
 
     def __new__(cls):
         '''Apply extenions before creating a CLI instance.
@@ -35,7 +37,7 @@ class CLI(CliarCLI):
             cls.config = load(open(config))
 
         except FileNotFoundError:
-            print('Either put "sloth.yml" in this directory or pick a config file with "-c."')
+            print('Please run inside a dir with "sloth.yml" or specify the path with "-c."')
             exit()
 
         except Exception as e:
@@ -84,7 +86,7 @@ class CLI(CliarCLI):
         pass
 
     def start(self):
-        '''start the server'''
+        '''start server'''
 
         try:
             print(
