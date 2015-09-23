@@ -84,7 +84,7 @@ class CLI(CliarCLI):
         pass
 
     def start(self):
-        '''start the Sloth CI server'''
+        '''start the server'''
 
         try:
             print(
@@ -98,4 +98,4 @@ class CLI(CliarCLI):
             print('Failed to start Sloth CI: %s' % e)
 
 def main():
-    CLI()
+    CLI().parse()
