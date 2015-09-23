@@ -223,3 +223,12 @@
 =====
 
 -   Bed: Server extensions now can override all Bed methods.
+
+2.0.0
+=====
+
+-   A single extension can now extend apps, server, and CLI with ``extend_sloth``, ``extend_bed``, and ``extend_cli`` functions.
+-   API reimplemented as a built-in extension.
+-   API CLI vocabulary changed.
+-   CLI: Cliar is now used instead of docopt.
+-   Tons of small changes.
