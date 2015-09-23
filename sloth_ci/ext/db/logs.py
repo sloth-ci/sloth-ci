@@ -1,7 +1,7 @@
 ﻿def extend_sloth(cls, extension):
     import logging
 
-    from ..util import SqliteHandler
+    from .util import SqliteHandler
 
 
     class Sloth(cls):

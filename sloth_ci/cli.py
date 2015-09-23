@@ -21,7 +21,7 @@ class CLI(CliarCLI):
 
         api_extension = {
             'api': {
-                'module': 'api'
+                'module': 'api.cli'
                 }
         }
 

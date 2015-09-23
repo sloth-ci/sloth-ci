@@ -30,7 +30,7 @@ class Bed:
 
         api_extension = {
             'api': {
-                'module': 'api'
+                'module': 'api.bed'
                 }
         }
 
@@ -71,13 +71,13 @@ class Bed:
                 makedirs(db_dir)
 
             self.db_extensions = {
-                'db_app_logs': {
-                    'module': 'db_app_logs',
+                'app_logs': {
+                    'module': 'db.logs',
                     'db': self.db_path,
                     'table': 'app_logs'
                 },
-                'db_build_history': {
-                    'module': 'db_build_history',
+                'build_history': {
+                    'module': 'db.builds',
                     'db': self.db_path,
                     'table': 'build_history'
                 }
