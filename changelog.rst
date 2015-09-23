@@ -227,8 +227,13 @@
 2.0.0
 =====
 
--   A single extension can now extend apps, server, and CLI with ``extend_sloth``, ``extend_bed``, and ``extend_cli`` functions.
--   API reimplemented as a built-in extension.
 -   API CLI vocabulary changed.
+-   API reimplemented as a built-in extension.
+-   A single extension can now extend apps, server, and CLI with ``extend_sloth``, ``extend_bed``, and ``extend_cli`` functions.
 -   CLI: Cliar is now used instead of docopt.
 -   Tons of small changes.
+
+2.0.1
+=====
+
+-   Setup: Built-in extensions were not properly installed. Fixed.
