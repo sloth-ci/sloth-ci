@@ -13,29 +13,28 @@ Sloth CI: CI for Humans
 
 .. image:: sloth-weed-small.jpg
     :align: center
-    :alt: Logo
 
-Sloth CI is an easy-to-use, lightweight, extendable tool that executes actions you need when certain events happen.
+Sloth CI is an automation program that is less hungry and easier to extend than Jenkins.
 
-Sloth CI was created because Jenkins is too heavy and Buildbot was too hard to learn.
-
-Read the docs at http://sloth-ci.com/ (btw, Sloth CI builds them).
+Read the full documentation at http://sloth-ci.com/.
 
 Requirements
 ============
 
 Sloth CI runs with Python 3.3+ on Windows, Linux, and Mac.
 
+Backporting to Python 2 is in progress.
+
 Install
 =======
 
-Install Sloth from `PyPI <https://pypi.python.org/pypi/sloth-ci>`__ with pip:
+Install Sloth CI from `PyPI <https://pypi.python.org/pypi/sloth-ci>`__ with pip:
 
 .. code-block:: bash
 
     $ pip install sloth-ci
 
-It's also a good idea to install a validator for Bitbucket or GitHub right away:
+Install a validator for Bitbucket or GitHub:
 
 .. code-block:: bash
 
@@ -45,9 +44,7 @@ It's also a good idea to install a validator for Bitbucket or GitHub right away:
 Configure
 =========
 
-Create a file named *sloth.yml* in any directory and cd to that directory.
-
-Here's how your *sloth.yml* can look like:
+Create a file named *sloth.yml* in any directory and ``cd`` to that directory:
 
 .. code-block:: yaml
 
@@ -63,7 +60,7 @@ Here's how your *sloth.yml* can look like:
 Start
 =====
 
-Start the Sloth CI server with:
+Start the server:
 
 .. code-block:: bash
 

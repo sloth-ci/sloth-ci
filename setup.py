@@ -46,7 +46,9 @@ setup(
         'Operating System :: Unix',
         'Framework :: CherryPy'],
     entry_points={
-        'console_scripts':
-            ['sloth-ci = sloth_ci.cli:main']
+        'console_scripts': [
+            'sloth-ci=sloth_ci.cli:main',
+            'sci=sloth_ci.cli:main'
+        ]
     }
 )
