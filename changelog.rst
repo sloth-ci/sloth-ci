@@ -236,4 +236,5 @@
 2.0.1
 =====
 
+-   CLI: Help texts improved.
 -   Setup: Built-in extensions were not properly installed. Fixed.
