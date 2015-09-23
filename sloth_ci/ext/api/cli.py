@@ -84,10 +84,10 @@
     class CLI(cls):
         '''Welcome to Sloth CI API CLI!
 
-        Run "sci start" to start the server.
+Run "sci start" to start the server.
 
-        Run "sci -h" to see all available commands and "sci <command> -h" to get help for a specific command.
-        '''
+Run "sci -h" to see all available commands and "sci <command> -h" to get help for a specific command.
+'''
 
         def __init__(self):
             super().__init__()
@@ -372,7 +372,10 @@
 
         @add_aliases(['run'])
         def trigger(self, app, params=()):
-            '''trigger APP's actions with given PARAMS given as "param1=value1 param2=value ..."'''
+            '''trigger APP's actions with given PARAMS
+
+PARAMS are specified as "param1=value1 param2=value ..."
+'''
 
             data = {
                 'action': 'trigger',
