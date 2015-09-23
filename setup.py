@@ -18,7 +18,7 @@ setup(
     long_description=long_description,
     author_email=sloth_ci.__author_email__,
     url='https://bitbucket.org/moigagoo/sloth-ci',
-    packages=['sloth_ci', 'sloth_ci.api', 'sloth_ci.ext'],
+    packages=['sloth_ci', 'sloth_ci.ext'],
     install_requires = [
         'CherryPy',
         'Routes',
@@ -40,6 +40,7 @@ setup(
         'Programming Language :: Python :: 3',
         'Programming Language :: Python :: 3.3',
         'Programming Language :: Python :: 3.4',
+        'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 3 :: Only',
         'Operating System :: Microsoft :: Windows',
         'Operating System :: Unix',
