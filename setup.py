@@ -1,4 +1,4 @@
-﻿from setuptools import setup
+﻿from setuptools import setup, find_packages
 
 import sloth_ci
 
@@ -18,7 +18,7 @@ setup(
     long_description=long_description,
     author_email=sloth_ci.__author_email__,
     url='https://bitbucket.org/moigagoo/sloth-ci',
-    packages=['sloth_ci', 'sloth_ci.ext'],
+    packages=find_packages(exclude=['docs']),
     install_requires = [
         'CherryPy',
         'Routes',
