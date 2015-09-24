@@ -335,7 +335,7 @@ Run "sci -h" to see all available commands and "sci <command> -h" to get help fo
             else:
                 print('Failed to restart Sloth CI: %s' % response.content)
 
-        @add_aliases(['stat'])
+        @add_aliases(['stat', 'st'])
         def status(self):
             '''check server status'''
 
@@ -370,7 +370,7 @@ Run "sci -h" to see all available commands and "sci <command> -h" to get help fo
                 print('Failed to stop Sloth CI: %s' % response.content)
 
 
-        @add_aliases(['run'])
+        @add_aliases(['run', 'fire'])
         def trigger(self, app, params=()):
             '''trigger APP's actions with given PARAMS
 
