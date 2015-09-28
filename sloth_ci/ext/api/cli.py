@@ -238,7 +238,7 @@ Run "sci -h" to see all available commands and "sci <command> -h" to get help fo
             else:
                 print('Failed to get app list: %s' % response.content)
 
-        @add_aliases(['log', 'lg'])
+        @add_aliases(['lg'])
         def logs(self, app, from_page:int=1, to_page:int=1, per_page:int=10, level:int=20, verbose=False):
             '''get logs for APP'''
             
