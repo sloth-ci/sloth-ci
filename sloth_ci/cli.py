@@ -9,11 +9,13 @@ from cliar import ignore as ignore_method
 
 from .bed import Bed
 
+from . import __version__
+
 
 class CLI(CliarCLI):
     '''Welcome to Sloth CI CLI!
 
-    Run "sci start" to start the server.'''
+Run "sci start" to start the server.'''
 
     def __new__(cls):
         '''Apply extenions before creating a CLI instance.
@@ -24,7 +26,7 @@ class CLI(CliarCLI):
         api_extension = {
             'api': {
                 'module': 'api.cli'
-                }
+            }
         }
 
         PreExtendedCLI, pre_errors = cls.extend(api_extension)
@@ -82,8 +84,10 @@ class CLI(CliarCLI):
 
         return ExtendedCLI, errors
 
-    def _root(self, config='./sloth.yml'):
-        pass
+    def _root(self, config='./sloth.yml', version=False):
+        if version:
+            print(__version__)
+            exit()
 
     def start(self):
         '''start server'''
