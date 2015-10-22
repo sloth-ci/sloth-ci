@@ -39,7 +39,7 @@ Run "sci start" to start the server.'''
             cls.config = load(open(config))
 
         except FileNotFoundError:
-            print('Please run inside a dir with "sloth.yml" or specify the path with "-c."')
+            print('Please run inside a dir with "sloth.yml" or specify the server config with "-c."')
             exit()
 
         except Exception as e:
@@ -105,3 +105,4 @@ Run "sci start" to start the server.'''
 
 def main():
     CLI().parse()
+
