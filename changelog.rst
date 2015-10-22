@@ -236,5 +236,6 @@
 2.0.1
 =====
 
+-   Bed: Payload json is now parsed before the request is passed to a validator.
 -   CLI: Help texts improved.
 -   Setup: Built-in extensions were not properly installed. Fixed.
