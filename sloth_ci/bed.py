@@ -290,6 +290,7 @@ class Bed:
 
     @cherrypy.expose
     @cherrypy.tools.proxy()
+    @cherrypy.tools.json_in()
     def listener(self, listen_point, **kwargs):
         '''Listens for payloads and routes them to the responsible Sloth app.
 
