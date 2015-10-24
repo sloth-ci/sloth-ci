@@ -1,13 +1,13 @@
 sloth-ci
 
-sloth-ci.ext.build-email-notifications
-sloth-ci.ext.docker-exec
+sloth-ci.ext.build_email_notifications
+sloth-ci.ext.docker_exec
 sloth-ci.ext.dummy_app
 sloth-ci.ext.dummy_server
-sloth-ci.ext.file-logs
-sloth-ci.ext.openvz-exec
-sloth-ci.ext.robots-txt
-sloth-ci.ext.ssh-exec
+sloth-ci.ext.file_logs
+sloth-ci.ext.openvz_exec
+sloth-ci.ext.robots_txt
+sloth-ci.ext.ssh_exec
 sloth-ci.ext.webhooks
 
 sloth-ci.validators.bitbucket
