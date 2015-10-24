@@ -14,7 +14,7 @@ _build
 bin
 build
 dist
-docs/_build
+docs/html
 env
 include
 lib
