@@ -1,8 +1,0 @@
-*******
-Configs
-*******
-
-.. toctree::
-
-    server
-    apps

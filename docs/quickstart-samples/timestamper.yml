@@ -1,0 +1,9 @@
+listen_point: timestamper
+
+provider:
+    github:
+        owner: YourName
+        repo: YourRepo
+
+actions:
+    - date >> timestamps.txt

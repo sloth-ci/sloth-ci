@@ -16,19 +16,31 @@ Welcome to Sloth CI' Docs!
 
 The goal is to give you the easiest way to automatize things, with no memory overhead or overcomplicated setup. Installing, configuring, and running Sloth CI takes about two minutes, then you control it remotely via protected :doc:`web API <api>` or :doc:`command line interface <cli>`.
 
-.. sidebar:: Notes
+.. sidebar:: Resources
 
     .. toctree::
         :hidden:
 
         legacy
+        cookbook/index
+        dev/index
 
-    :doc:`legacy`
+    -   :doc:`Cookbook <cookbook/index>`
+    -   :doc:`Developer Guide <dev/index>`
+    -   :doc:`legacy`
 
-.. toctree:: 
+.. toctree::
+    :maxdepth: 2
+
     quickstart
-    api
     cli
+    api
+    extensions
+    validators
+    server-config
+    app-config
+
+
 
 Contribute
 ==========
