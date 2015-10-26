@@ -1,0 +1,16 @@
+listen_point: timestamper
+
+provider:
+    github:
+        owner: YourName
+        repo: YourRepo
+
+actions:
+    - date >> timestamps.txt
+
+extensions:
+    logs:
+        module: file_logs
+        path: /var/log/sloth-ci/
+        filename: ts_debug.log
+        level: DEBUG

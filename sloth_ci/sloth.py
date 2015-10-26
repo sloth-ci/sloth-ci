@@ -1,4 +1,4 @@
-﻿from subprocess import Popen, PIPE, TimeoutExpired
+from subprocess import Popen, PIPE, TimeoutExpired
 from threading import Thread
 from collections import deque
 from importlib import import_module

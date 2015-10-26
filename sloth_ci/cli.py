@@ -105,4 +105,3 @@ Run "sci start" to start the server.'''
 
 def main():
     CLI().parse()
-

@@ -1,4 +1,4 @@
-﻿def extend_cli(cls, extension):
+def extend_cli(cls, extension):
     from os.path import abspath
     from glob import glob
     from collections import namedtuple

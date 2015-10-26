@@ -1,4 +1,4 @@
-﻿from os.path import abspath, exists, dirname
+from os.path import abspath, exists, dirname
 from os import makedirs
 from glob import glob
 from importlib import import_module
