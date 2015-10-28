@@ -1,8 +1,8 @@
-***********************
-Sloth CI: CI for Humans
-***********************
+********************
+Welcome to Sloth CI!
+********************
 
-.. image:: https://img.shields.io/pypi/v/sloth-ci.svg?style=flat-squar
+.. image:: https://img.shields.io/pypi/v/sloth-ci.svg?style=flat-square
     :alt: Latest Version
 
 .. image:: https://img.shields.io/pypi/dm/sloth-ci.svg?style=flat-square
@@ -11,103 +11,15 @@ Sloth CI: CI for Humans
 .. image:: https://img.shields.io/pypi/l/sloth-ci.svg?style=flat-square
     :alt: License
 
-.. image:: sloth-weed-small.jpg
-    :align: center
 
-Sloth CI is an automation program that is less hungry and easier to extend than Jenkins.
+**Sloth CI** builds docs, runs tests, and deploys to servers when you push to GitHub or Bitbucket.
 
-Read the full documentation at http://sloth-ci.com/.
+The goal is to give you the easiest way to automatize things, with no memory overhead or overcomplicated setup. Installing, configuring, and running Sloth CI takes about two minutes, then you control it remotely via protected `web API <http://sloth-ci.com/api.html>`__ or `command line interface <http://sloth-ci.com/cli.html>`__.
 
-Requirements
-============
+-   `Quickstart → <http://sloth-ci.com/quickstart.html>`__
+-   `Cookbook → <http://sloth-ci.com/cookbook/index.html>`__
+-   `Developer Guide → <http://sloth-ci.com/dev/index.html>`__
 
-Sloth CI runs with Python 3.3+ on Windows, Linux, and Mac.
-
-Backporting to Python 2 is in progress.
-
-Install
-=======
-
-Install Sloth CI from `PyPI <https://pypi.python.org/pypi/sloth-ci>`__ with pip:
-
-.. code-block:: bash
-
-    $ pip install sloth-ci
-
-Install a validator for Bitbucket or GitHub:
-
-.. code-block:: bash
-
-    $ pip install sloth-ci.validators.bitbucket
-    $ pip install sloth-ci.validators.github
-
-Configure
-=========
-
-Create a file named *sloth.yml* in any directory and ``cd`` to that directory:
-
-.. code-block:: yaml
-
-    host: localhost
-    port: 8080
-
-    daemon: true
-
-    api_auth:
-        login: admin
-        password: supersecret
-
-Start
-=====
-
-Start the server:
-
-.. code-block:: bash
-
-   $ sloth-ci start
-
-Create App
-==========
-
-Create a file called *myapp.yml*:
-
-.. code-block:: yaml
-
-    listen_point: docs
-
-    work_dir: ~/projects
-
-    provider:
-        bitbucket:
-            owner: username
-            repo: repository
-            branches:
-                - master
-                - staging
-
-    actions:
-        - rm -rf repository
-        - hg clone https://bitbucket.org/username/repository
-        - hg up {branch} --cwd repository
-        - pip3 install -U sphinx
-        - pip3 install -r repository/docs/requirements.txt
-        - sphinx-build -aE repository/docs/ {output}/{branch}
-
-    params:
-        output: /var/www/html
-
-Create the app from the config:
-
-.. code-block:: bash
-
-    $ sloth-ci create /path/to/myapp.yml
-    App created, listening on docs
-
-.. note:: Run ``sloth-ci create`` from the directory with the sloth.yml file.
-
-That's it! Your app now listens for payload from Bitbucket at http://yourdomain:8080/docs.
-
-Create a hook on Bitbucket, and you docs will be automatically built on every push to the repo.
 
 Contribute
 ==========
