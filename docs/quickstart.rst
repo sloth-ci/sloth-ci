@@ -173,7 +173,7 @@ Now initiate another push to the repo and see check the file */var/log/sloth-ci/
     2015-10-26 23:46:34,152 |                    timestamper |       INFO | Valid payload received
     2015-10-26 23:46:34,165 |              timestamper.build |      DEBUG | Triggered, actions in queue: 1
     2015-10-26 23:46:34,190 |               timestamper.exec |      DEBUG | Params: {'branch': {'master'}}
-    2015-10-26 23:46:34,198 |               timestamper.exec |       INFO | Executing action: date >> timestamps.txt"
+    2015-10-26 23:46:34,198 |               timestamper.exec |       INFO | Executing action: date >> timestamps.txt
     2015-10-26 23:46:36,081 |               timestamper.exec |      DEBUG | stdout:
 
     2015-10-26 23:46:36,090 |               timestamper.exec |      DEBUG | stderr:
