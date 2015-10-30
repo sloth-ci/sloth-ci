@@ -1,10 +1,6 @@
-﻿from logging import Handler
+from logging import Handler
 
 import sqlite3
-
-from yaml import load
-
-from requests import post, exceptions
 
 
 class SqliteHandler(Handler):
