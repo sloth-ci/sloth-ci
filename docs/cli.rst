@@ -31,30 +31,92 @@ The command itself doesn't do anything, but combined with the ``-config`` flag i
 ``-h, --help``
     Show help. If you invoke ``sci`` without any subcommand or options, it also shows help.
 
+    Every subcommand has this flag.
+
 ``-version``
     Show the version of the locally installed Sloth CI [#local-version]_.
 
 
+.. _cli-server-control:
+
+Server Control
+==============
+
 .. _cli-sci-start:
 
 ``sci start``
-=============
+-------------
 
-Start
+Start the Sloth CI server.
 
+.. code-block:: bash
+
+    $ sci start
+    Starting Sloth CI on http://localhost:8080
+
+
+.. _cli-sci-stop:
+
+``sci stop``
+------------
+
+Stop the Sloth CI server.
+
+.. code-block:: bash
+
+    $ sci stop
+    Stopping Sloth CI on http://localhost:8080
+
+
+.. _cli-sci-restart:
+
+``sci restart``
+---------------
+
+Restart, i.e. :ref:`stop <cli-sci-stop>` then :ref:`start <cli-sci-start>`, the Sloth CI server.
+
+.. code-block:: bash
+
+    $ sci restart
+    Restarting Sloth CI on http://localhost:8080
+
+
+.. _cli-sci-status:
+
+``sci status (stat, st)``
+-------------------------
+
+Get the status—running ir not running—and version of the Sloth CI server.
+
+.. code-block:: bash
+
+    $ sci st
+    Sloth CI version 2.0.1 is running on http://localhost:8080
+
+
+.. _cli-app-control:
+
+App Control
+===========
 
 .. _cli-sci-create:
 
-``sci create``
-==============
+``sci create (add)``
+--------------------
 
-Create
+Create a Sloth CI app from the given config file and :ref:`api-bind` them.
+
+.. code-block:: bash
+
+    $ sci add myapp.yml
+    App "myapp" created
+    App "myapp" bound with config file "myapp.yml"
 
 
 .. _cli-sci-logs:
 
 ``sci logs``
-============
+------------
 
 Logs
 
@@ -62,17 +124,10 @@ Logs
 .. _cli-sci-reload:
 
 ``sci reload``
-==============
+--------------
 
 Reload
 
-
-.. _cli-sci-status:
-
-``sci status``
-==============
-
-Status
 
 .. rubric:: Footnotes
 
