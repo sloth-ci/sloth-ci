@@ -1,4 +1,4 @@
-def extend_bed(cls, extension):
+﻿def extend_bed(cls, extension):
     import cherrypy
 
     from cherrypy.lib.auth_basic import checkpassword_dict
@@ -360,15 +360,19 @@ def extend_bed(cls, extension):
                 raise cherrypy.HTTPError(400, 'Missing parameter "listen_point"')
 
             try:
-                params = {key: kwargs[key] for key in kwargs if key not in ('action', 'listen_point')}
+                params = {key: kwargs[key] for key in kwargs if key not in ('listen_point', 'wait')}
 
                 sloth = self.sloths[listen_point]
 
                 sloth.process(params)
 
-                cherrypy.response.status = 202
+                if not kwargs.get('wait'):
+                    cherrypy.response.status = 202
+                    return None
 
-                return None
+                else:
+                    sloth.queue_processor.join()
+                    return self.info({'listen_point': listen_point})['last_build_status_message']
 
             except KeyError as e:
                 raise cherrypy.HTTPError(404, 'Listen point %s not found' % e)
