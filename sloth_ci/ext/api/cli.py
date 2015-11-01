@@ -1,4 +1,4 @@
-def extend_cli(cls, extension):
+﻿def extend_cli(cls, extension):
     from os.path import abspath
     from glob import glob
     from collections import namedtuple
@@ -371,7 +371,7 @@ Run "sci -h" to see all available commands and "sci <command> -h" to get help fo
 
 
         @add_aliases(['run', 'fire'])
-        def trigger(self, app, params=()):
+        def trigger(self, app, wait=False, params=()):
             '''trigger APP's actions with given PARAMS
 
 PARAMS are specified as "param1=value1 param2=value ..."
@@ -379,7 +379,8 @@ PARAMS are specified as "param1=value1 param2=value ..."
 
             data = {
                 'action': 'trigger',
-                'listen_point': app    
+                'listen_point': app,
+                'wait': wait or ''
             }
 
             for param in params:
@@ -390,6 +391,9 @@ PARAMS are specified as "param1=value1 param2=value ..."
 
             if response.status_code == 202:
                 print('Actions triggered on %s' % app)
+
+            elif response.status_code == 200:
+                print(response.content)
 
             else:
                 print('Failed to trigger actions: %s' % response.content)

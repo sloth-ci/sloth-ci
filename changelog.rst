@@ -236,6 +236,8 @@
 2.0.1
 =====
 
+-   API: trigger: ``wait`` param added: block until the triggerred actions are completed.
 -   Bed: Payload json is now parsed before the request is passed to a validator.
 -   CLI: Help texts improved.
+-   CLI: trigger: ``-wait`` flag added: block until the triggerred actions are completed.
 -   Setup: Built-in extensions were not properly installed. Fixed.
