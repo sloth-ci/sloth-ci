@@ -8,7 +8,7 @@ One :doc:`app config <app-config>` can have many extensions; moreover, it can ha
 
 Server-level extensions are invoked in the :doc:`server config <server-config>`. These extensions change the way Sloth CI server works. For example, the :ref:`Robots.txt <ext-robots-txt>` extension protects the server from bots; this doesn't affect any particular app but affects the whole server.
 
-Another example of a server-level extension is the :doc:`Sloth CI API <api>`. Basic API has only the :ref:`start <api-start>` method; the rest if the methods are supplied by the API extension.
+Another example of a server-level extension is the Sloth CI API: all web API methods and CLI commands apart from :ref:`cli-sci-start` are implemented in an extension.
 
 A single extension can work on the app and server level.
 
