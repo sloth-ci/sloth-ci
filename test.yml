@@ -1,8 +1,5 @@
 listen_point: test
 
-provider:
-    dummy:
-        message: test
-
 actions:
-    - PowerShell echo {message}
+    - PowerShell sleep(5)
+    - echo Good morning!
