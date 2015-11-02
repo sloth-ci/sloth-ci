@@ -1,5 +1,5 @@
 listen_point: test
 
 actions:
-    - PowerShell sleep(5)
+    - sleep 5
     - echo Good morning!
