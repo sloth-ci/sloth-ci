@@ -21,6 +21,7 @@ env
 include
 lib
 logs
+*.log
 
 MANIFEST
 
