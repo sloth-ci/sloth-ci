@@ -5,9 +5,5 @@ api_auth:
     login: admin
     password: password
 
-paths:
-    access_log: NUL
-    error_log: NUL
-
     configs:
         - test.yml

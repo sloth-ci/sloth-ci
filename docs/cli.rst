@@ -1,6 +1,6 @@
-********
-Commands
-********
+************
+CLI Commands
+************
 
 Sloth CI ships with the ``sci`` command that lets you control the server and apps with a variaty of subcommands [#sci-alias]_.
 
@@ -115,11 +115,49 @@ Create a Sloth CI app from the given config file and :ref:`api-bind` them.
 
 .. _cli-sci-logs:
 
-``sci logs``
-------------
+``sci logs (lg)``
+-----------------
 
-Logs
+View paginated app logs.
 
+``-level``
+    Minimal log level to show:
+
+    50
+        CRITICAL, errors that don't allow apps to be created, e.g missing validator.
+
+    40
+        ERROR, missing extension and failed builds.
+
+    30
+        WARNING, partually completed builds.
+
+    20 (default)
+        INFO, completed builds.
+
+    10
+        DEBUG, stdout and stderr.
+
+``-from-page``
+    Pagination starting page. Enumeration start with 1; ``-f 1`` means the latest page.
+
+``-to-page``
+    Pagination ending page.
+
+``-per-page``
+    Number of log records per page.
+
+``-verbose``
+    Show the *Level* column.
+
+.. code-block:: bash
+
+    $ sci lg -p 3 myapp
+    Timestamp                 Message
+    ------------------------  -------------------------------------------------------------------
+    Mon Nov  2 21:21:58 2015  Bound with config file /Users/kmolchanov/Projects/sloth-ci/test.yml
+    Mon Nov  2 21:21:58 2015  Listening on test
+    Mon Nov  2 21:13:32 2015  Stopped
 
 .. _cli-sci-reload:
 
