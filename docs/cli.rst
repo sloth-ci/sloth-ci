@@ -37,15 +37,10 @@ The command itself doesn't do anything, but combined with the ``-config`` flag i
     Show the version of the locally installed Sloth CI [#local-version]_.
 
 
-.. _cli-server-control:
-
-Server Control
-==============
-
 .. _cli-sci-start:
 
 ``sci start``
--------------
+=============
 
 Start the Sloth CI server.
 
@@ -58,7 +53,7 @@ Start the Sloth CI server.
 .. _cli-sci-stop:
 
 ``sci stop``
-------------
+============
 
 Stop the Sloth CI server.
 
@@ -71,7 +66,7 @@ Stop the Sloth CI server.
 .. _cli-sci-restart:
 
 ``sci restart``
----------------
+===============
 
 Restart, i.e. :ref:`stop <cli-sci-stop>` then :ref:`start <cli-sci-start>`, the Sloth CI server.
 
@@ -84,7 +79,7 @@ Restart, i.e. :ref:`stop <cli-sci-stop>` then :ref:`start <cli-sci-start>`, the 
 .. _cli-sci-status:
 
 ``sci status (stat, st)``
--------------------------
+=========================
 
 Get the status—running ir not running—and version of the Sloth CI server.
 
@@ -94,15 +89,10 @@ Get the status—running ir not running—and version of the Sloth CI server.
     Sloth CI version 2.0.1 is running on http://localhost:8080
 
 
-.. _cli-app-control:
-
-App Control
-===========
-
 .. _cli-sci-create:
 
 ``sci create (add)``
---------------------
+====================
 
 Create a Sloth CI app from the given config file and :ref:`api-bind` them.
 
@@ -113,14 +103,86 @@ Create a Sloth CI app from the given config file and :ref:`api-bind` them.
     App "myapp" bound with config file "myapp.yml"
 
 
+.. _cli-sci-history:
+
+``sci history (hist, builds)``
+==============================
+
+View paginated app build history.
+
+``-level LEVEL``
+    Minimal log level to show:
+
+    40
+        ERROR, failed builds.
+
+    30
+        WARNING, partially completed builds.
+
+    20 (default)
+        INFO, completed builds.
+
+    10
+        DEBUG, trigger events.
+
+``-from-page FROM_PAGE``
+    Pagination starting page. Enumeration start with 1; ``-f 1`` means the latest page.
+
+``-to-page TO_PAGE``
+    Pagination ending page.
+
+``-per-page PER_PAGE``
+    Number of log records per page.
+
+``-verbose``
+    Show the *Level* column.
+
+.. code-block:: bash
+
+    $ sci hist -l 10 -p 2 myapp
+    Timestamp                 Status
+    ------------------------  ------------------------------
+    Mon Nov  2 21:47:10 2015  Completed 2/2
+    Mon Nov  2 21:47:05 2015  Triggered, actions in queue: 2
+
+
+.. _cli-sci-info:
+
+``sci info``
+============
+
+Show the config file bound with the app and its latest build status.
+
+.. code-block:: bash
+
+    $ sci info myapp
+    Config File    Last Build Message    Last Build Timestamp
+    ------------  --------------------  -------------------------
+    myapp.yml      Completed 2/2         Mon Nov  2 21:47:10 2015
+
+
+.. _cli-sci-list:
+
+``sci list (ls)``
+=================
+
+List all available apps' listen points.
+
+.. code-block:: bash
+
+    $ sci ls
+    myapp
+    myotherapp
+
+
 .. _cli-sci-logs:
 
 ``sci logs (lg)``
------------------
+=================
 
 View paginated app logs.
 
-``-level``
+``-level LEVEL``
     Minimal log level to show:
 
     50
@@ -130,7 +192,7 @@ View paginated app logs.
         ERROR, missing extension and failed builds.
 
     30
-        WARNING, partually completed builds.
+        WARNING, partially completed builds.
 
     20 (default)
         INFO, completed builds.
@@ -138,13 +200,13 @@ View paginated app logs.
     10
         DEBUG, stdout and stderr.
 
-``-from-page``
+``-from-page FROM_PAGE``
     Pagination starting page. Enumeration start with 1; ``-f 1`` means the latest page.
 
-``-to-page``
+``-to-page TO_PAGE``
     Pagination ending page.
 
-``-per-page``
+``-per-page PER_PAGE``
     Number of log records per page.
 
 ``-verbose``
@@ -154,17 +216,61 @@ View paginated app logs.
 
     $ sci lg -p 3 myapp
     Timestamp                 Message
-    ------------------------  -------------------------------------------------------------------
-    Mon Nov  2 21:21:58 2015  Bound with config file /Users/kmolchanov/Projects/sloth-ci/test.yml
+    ------------------------  --------------------------------
+    Mon Nov  2 21:21:58 2015  Bound with config file myapp.yml
     Mon Nov  2 21:21:58 2015  Listening on test
     Mon Nov  2 21:13:32 2015  Stopped
 
+
 .. _cli-sci-reload:
 
-``sci reload``
---------------
+``sci reload (update, up)``
+===========================
 
-Reload
+Recreate the app from the bound config file. Invoke after changing the app config to apply the changes.
+
+Reload is a shortcut for :ref:`remove <cli-sci-remove>` and :ref:`create <cli-sci-create>`.
+
+.. code-block:: bash
+
+    $ sci up myapp
+    App "myapp" removed
+    App "myapp" created
+    App "myapp" bound with config file "myapp.yml"
+
+
+.. _cli-sci-remove:
+
+``sci remove (del, rm)``
+========================
+
+Remove an app.
+
+.. code-block:: bash
+
+    $ sci rm myapp
+    App "myapp" removed
+
+
+.. _cli-sci-trigger:
+
+``sci trigger (run, fire)``
+===========================
+
+Trigger the app to run its actions. If the app doesn't use a provider, this is the only way to run its actions.
+
+``-wait``
+    Block and wait for the build to finish.
+
+``-params [PARAMS [PARAMS ...]]``
+    List of params in the form ``param=value`` to be used in the actions.
+
+    If the app's actions use params extracted from incoming payload, you must provide the necessary param replacements.
+
+.. code-block:: bash
+
+    $ sci run myapp -p foo=bar
+    Actions triggered on test
 
 
 .. rubric:: Footnotes
