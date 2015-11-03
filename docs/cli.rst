@@ -1,6 +1,6 @@
-************
-CLI Commands
-************
+*************
+CLI Reference 
+*************
 
 Sloth CI ships with the ``sci`` command that lets you control the server and apps with a variaty of subcommands [#sci-alias]_.
 
