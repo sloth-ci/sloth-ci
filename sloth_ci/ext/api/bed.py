@@ -56,10 +56,13 @@
             def listener(action, **kwargs):
                 '''Listen to and route API requests.
 
-                An API request is an HTTP request with two mandatory parameters: ``action`` and ``params``.
+                An API request is a GET or POST HTTP request with one mandatory param ``action`` and
+                additional params for the given action.
+
+                Params can be provided in the URL or as form data.
 
                 :param action: string corresponding to one of the available API methods.
-                :param params: a single object, a list, or a dict of params for the action.
+                :param kwargs: params for the given action.
                 '''
 
                 cherrypy.request.error_page = {'default': self._handle_error}
