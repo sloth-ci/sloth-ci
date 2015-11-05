@@ -2,7 +2,7 @@
 CLI Reference 
 *************
 
-Sloth CI ships with the ``sci`` command that lets you control the server and apps with a variaty of subcommands [#sci-alias]_.
+Sloth CI ships with the ``sci`` command that lets you control the server and apps with a variaty of subcommands [#sci-alias]_. The CLI works via Sloth CI's :doc:`API <api>`.
 
 Most subcommands have options prefixed with a dash, e.g. ``-config`` and ``-level``. Options can be abbreviated up to a single character, e.g. ``-c`` and ``-l``; just make sure the abbreviation is not ambiguous [#ambiguous-options]_.
 
