@@ -106,7 +106,7 @@ html_theme_options = {
         'PyPI': 'https://pypi.python.org/pypi/sloth-ci'
        },
    'github_button': False,
-   'gratipay_user': 'moigagoo',
+   #'gratipay_user': 'moigagoo',
    'show_powered_by': True,
    'sidebar_includehidden': False
 }

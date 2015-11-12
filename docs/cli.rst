@@ -1,5 +1,5 @@
 *************
-CLI Reference 
+CLI Reference
 *************
 
 Sloth CI ships with the ``sci`` command that lets you control the server and apps with a variaty of subcommands [#sci-alias]_. The CLI works via Sloth CI's :doc:`API <api>`.
@@ -78,8 +78,10 @@ Restart, i.e. :ref:`stop <cli-sci-stop>` then :ref:`start <cli-sci-start>`, the 
 
 .. _cli-sci-status:
 
-``sci status (stat, st)``
-=========================
+``sci status``
+==============
+
+*Aliases:* ``sci stat``, ``sci st``
 
 Get the status—running ir not running—and version of the Sloth CI server.
 
@@ -91,8 +93,10 @@ Get the status—running ir not running—and version of the Sloth CI server.
 
 .. _cli-sci-create:
 
-``sci create (add)``
-====================
+``sci create``
+==============
+
+*Alias:* ``sci add``
 
 Create a Sloth CI app from the given config file and :ref:`api-bind` them.
 
@@ -105,8 +109,10 @@ Create a Sloth CI app from the given config file and :ref:`api-bind` them.
 
 .. _cli-sci-history:
 
-``sci history (hist, builds)``
-==============================
+``sci history``
+===============
+
+*Aliases:* ``sci hist``, ``sci builds``
 
 View paginated app build history.
 
@@ -163,8 +169,10 @@ Show the config file bound with the app and its latest build status.
 
 .. _cli-sci-list:
 
-``sci list (ls)``
-=================
+``sci list``
+============
+
+*Alias:* ``sci ls``
 
 List all available apps' listen points.
 
@@ -177,8 +185,10 @@ List all available apps' listen points.
 
 .. _cli-sci-logs:
 
-``sci logs (lg)``
-=================
+``sci logs``
+============
+
+*Alias:* ``sci lg``
 
 View paginated app logs.
 
@@ -224,8 +234,10 @@ View paginated app logs.
 
 .. _cli-sci-reload:
 
-``sci reload (update, up)``
-===========================
+``sci reload``
+==============
+
+*Aliases:* ``sci update``, ``sci up``
 
 Recreate the app from the bound config file. Invoke after changing the app config to apply the changes.
 
@@ -241,8 +253,10 @@ Reload is a shortcut for :ref:`remove <cli-sci-remove>` and :ref:`create <cli-sc
 
 .. _cli-sci-remove:
 
-``sci remove (del, rm)``
-========================
+``sci remove``
+==============
+
+*Aliases:* ``sci del``, ``sci rm``
 
 Remove an app.
 
@@ -254,15 +268,17 @@ Remove an app.
 
 .. _cli-sci-trigger:
 
-``sci trigger (run, fire)``
-===========================
+``sci trigger``
+===============
+
+*Aliases:* ``sci run``, ``sci fire``
 
 Trigger the app to run its actions. If the app doesn't use a provider, this is the only way to run its actions.
 
 ``-wait``
     Block and wait for the build to finish.
 
-``-params [PARAMS [PARAMS ...]]``
+``-params param1=value1 param2=value2 ...``
     List of params in the form ``param=value`` to be used in the actions.
 
     If the app's actions use params extracted from incoming payload, you must provide the necessary param replacements.
