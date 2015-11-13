@@ -11,8 +11,8 @@ If you feel that these commands are not enough, extend the CLI with your own com
 
 .. _cli-sci:
 
-``sci``
-=======
+sci
+===
 
 .. code-block:: bash
 
@@ -39,8 +39,8 @@ The command itself doesn't do anything, but combined with the ``-config`` flag i
 
 .. _cli-sci-start:
 
-``sci start``
-=============
+start
+=====
 
 Start the Sloth CI server.
 
@@ -52,8 +52,8 @@ Start the Sloth CI server.
 
 .. _cli-sci-stop:
 
-``sci stop``
-============
+stop
+====
 
 Stop the Sloth CI server.
 
@@ -65,8 +65,8 @@ Stop the Sloth CI server.
 
 .. _cli-sci-restart:
 
-``sci restart``
-===============
+restart
+=======
 
 Restart, i.e. :ref:`stop <cli-sci-stop>` then :ref:`start <cli-sci-start>`, the Sloth CI server.
 
@@ -78,8 +78,8 @@ Restart, i.e. :ref:`stop <cli-sci-stop>` then :ref:`start <cli-sci-start>`, the 
 
 .. _cli-sci-status:
 
-``sci status``
-==============
+status
+======
 
 *Aliases:* ``sci stat``, ``sci st``
 
@@ -93,8 +93,8 @@ Get the status—running ir not running—and version of the Sloth CI server.
 
 .. _cli-sci-create:
 
-``sci create``
-==============
+create
+======
 
 *Alias:* ``sci add``
 
@@ -109,8 +109,8 @@ Create a Sloth CI app from the given config file and :ref:`api-bind` them.
 
 .. _cli-sci-history:
 
-``sci history``
-===============
+history
+=======
 
 *Aliases:* ``sci hist``, ``sci builds``
 
@@ -154,8 +154,8 @@ View paginated app build history.
 
 .. _cli-sci-info:
 
-``sci info``
-============
+info
+====
 
 Show the config file bound with the app and its latest build status.
 
@@ -169,8 +169,8 @@ Show the config file bound with the app and its latest build status.
 
 .. _cli-sci-list:
 
-``sci list``
-============
+list
+====
 
 *Alias:* ``sci ls``
 
@@ -185,8 +185,8 @@ List all available apps' listen points.
 
 .. _cli-sci-logs:
 
-``sci logs``
-============
+logs
+====
 
 *Alias:* ``sci lg``
 
@@ -234,8 +234,8 @@ View paginated app logs.
 
 .. _cli-sci-reload:
 
-``sci reload``
-==============
+reload
+======
 
 *Aliases:* ``sci update``, ``sci up``
 
@@ -253,8 +253,8 @@ Reload is a shortcut for :ref:`remove <cli-sci-remove>` and :ref:`create <cli-sc
 
 .. _cli-sci-remove:
 
-``sci remove``
-==============
+remove
+======
 
 *Aliases:* ``sci del``, ``sci rm``
 
@@ -268,8 +268,8 @@ Remove an app.
 
 .. _cli-sci-trigger:
 
-``sci trigger``
-===============
+trigger
+=======
 
 *Aliases:* ``sci run``, ``sci fire``
 
