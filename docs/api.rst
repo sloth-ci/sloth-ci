@@ -2,13 +2,15 @@
 API Reference
 *************
 
-Sloth CI's API lets you stop and restart the server, create and remove apps, and view app logs and build history.
+Sloth CI's API lets you stop and restart the server, create and remove apps, view app logs and history of builds.
 
-The API is protected from unauthorized access with basic auth; the access credentials are stored in the :ref:`server config <server-config-api-auth>`.
+The API runs on the host and port specified in the :ref:`server config <server-config-host>`.
+
+The API is protected from unauthorized access with basic auth; the access credentials are also stored in the :ref:`server config <server-config-api-auth>`.
 
 There're three ways to use the API:
 
--   Using Sloth CI's :doc:`CLI <cli>`:
+-  Use Sloth CI's :doc:`CLI <cli>`:
 
     .. code-block:: bash
 
@@ -18,7 +20,7 @@ There're three ways to use the API:
         /path/to/test.yml  Completed 2/2         Thu Nov  5 00:47:52 2015
 
 
--   By sending GET requests with URL parameters [#httpie]_:
+-   Send GET requests with URL parameters [#httpie]_:
 
     .. code-block:: bash
 
@@ -36,7 +38,7 @@ There're three ways to use the API:
             "last_build_timestamp": 1446673672.939748
         }
 
--   By sending POST requests with parameters as form data:
+-   Send POST requests with form parameters:
 
     .. code-block:: bash
 
@@ -54,6 +56,9 @@ There're three ways to use the API:
             "last_build_timestamp": 1446673672.939748
         }
 
+The API always returns data in JSON format.
+
+
 .. _api-bind:
 
 bind
@@ -63,4 +68,4 @@ bind
 
 .. rubric:: Footnotes
 
-.. [#httpie] In the code samples, we use `httpie <https://httpie.org>`__—a curl-like HTTP client. It's fantastic, you should try it.
+.. [#httpie] In the code samples, we use `httpie <https://httpie.org>`__—a curl-like HTTP client. It's fantastic, you should totally replace curl with it.
