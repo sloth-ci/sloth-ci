@@ -1,46 +1,41 @@
-*************
-CLI Reference
-*************
+.. highlight:: bash
 
-Sloth CI ships with the ``sci`` command that lets you control the server and apps with a variaty of subcommands [#sci-alias]_. The CLI works via Sloth CI's :doc:`API <api>`.
+***
+CLI
+***
 
-Most subcommands have options prefixed with a dash, e.g. ``-config`` and ``-level``. Options can be abbreviated up to a single character, e.g. ``-c`` and ``-l``; just make sure the abbreviation is not ambiguous [#ambiguous-options]_.
+Sloth CI ships with the ``sci`` [#sci-alias]_ command line utility that lets you control the server and apps with a variety of :ref:`commands <cli-commands>`::
 
-If you feel that these commands are not enough, extend the CLI with your own commands, as described in the :ref:`developer guide <dev-extension-cli>`.
+    $ sci COMMAND [OPTIONS] [PARAMS] ...
 
+Some commands have options, prefixed with a dash: ``-config``, ``-level``. You can shorten option names up to a single character: ``-c``, ``-l``; just make sure your abbreviations are unambiguous [#ambiguous-options]_.
 
-.. _cli-sci:
-
-sci
-===
-
-.. code-block:: bash
-
-    $ {sci, sloth-ci} [-config CONFIG] [-h, --help] [-version] {subcommand}
-
-The command itself doesn't do anything, but combined with the ``-config`` flag it lets you pick the config file for any subcommand. If the config is not defined explictly, ``sci`` looks for *sloth.yml* in the directory it was invoked in.
+Here are the options of the ``sci`` command itself:
 
 ``-config CONFIG``
-    Define path to the :doc:`server config <server-config>` file.
-
-    .. code-block:: bash
+    Define path to the :doc:`server config <server-config>` file::
 
         # Start Sloth CI with a custom config:
         $ sci -c path/to/custom_config.yml start
 
 ``-h, --help``
-    Show help. If you invoke ``sci`` without any subcommand or options, it also shows help.
-
-    Every subcommand has this flag.
+    Show help. Use ``-h`` after any command to see its help message.
 
 ``-version``
     Show the version of the locally installed Sloth CI [#local-version]_.
 
 
-.. _cli-sci-start:
+.. _cli-commands:
+
+Commands
+========
+
+Here're the built-in commands. If they are not enough, feel free to :ref:`add your own <dev-extension-cli>`.
+
+.. _cli-start:
 
 start
-=====
+-----
 
 Start the Sloth CI server.
 
@@ -50,10 +45,10 @@ Start the Sloth CI server.
     Starting Sloth CI on http://localhost:8080
 
 
-.. _cli-sci-stop:
+.. _cli-stop:
 
 stop
-====
+----
 
 Stop the Sloth CI server.
 
@@ -63,12 +58,12 @@ Stop the Sloth CI server.
     Stopping Sloth CI on http://localhost:8080
 
 
-.. _cli-sci-restart:
+.. _cli-restart:
 
 restart
-=======
+-------
 
-Restart, i.e. :ref:`stop <cli-sci-stop>` then :ref:`start <cli-sci-start>`, the Sloth CI server.
+Restart, i.e. :ref:`stop <cli-stop>` then :ref:`start <cli-start>`, the Sloth CI server.
 
 .. code-block:: bash
 
@@ -76,12 +71,12 @@ Restart, i.e. :ref:`stop <cli-sci-stop>` then :ref:`start <cli-sci-start>`, the 
     Restarting Sloth CI on http://localhost:8080
 
 
-.. _cli-sci-status:
+.. _cli-status:
 
 status
-======
+------
 
-*Aliases:* ``sci stat``, ``sci st``
+*Aliases:* ``stat``, ``st``
 
 Get the status—running ir not running—and version of the Sloth CI server.
 
@@ -91,12 +86,12 @@ Get the status—running ir not running—and version of the Sloth CI server.
     Sloth CI version 2.0.1 is running on http://localhost:8080
 
 
-.. _cli-sci-create:
+.. _cli-create:
 
 create
-======
+------
 
-*Alias:* ``sci add``
+*Alias:* ``add``
 
 Create a Sloth CI app from the given config file and :ref:`api-bind` them.
 
@@ -107,12 +102,12 @@ Create a Sloth CI app from the given config file and :ref:`api-bind` them.
     App "myapp" bound with config file "myapp.yml"
 
 
-.. _cli-sci-history:
+.. _cli-history:
 
 history
-=======
+-------
 
-*Aliases:* ``sci hist``, ``sci builds``
+*Aliases:* ``hist``, ``builds``
 
 View paginated app build history.
 
@@ -152,10 +147,10 @@ View paginated app build history.
     Mon Nov  2 21:47:05 2015  Triggered, actions in queue: 2
 
 
-.. _cli-sci-info:
+.. _cli-info:
 
 info
-====
+----
 
 Show the config file bound with the app and its latest build status.
 
@@ -167,12 +162,12 @@ Show the config file bound with the app and its latest build status.
     myapp.yml      Completed 2/2         Mon Nov  2 21:47:10 2015
 
 
-.. _cli-sci-list:
+.. _cli-list:
 
 list
-====
+----
 
-*Alias:* ``sci ls``
+*Alias:* ``ls``
 
 List all available apps' listen points.
 
@@ -183,12 +178,12 @@ List all available apps' listen points.
     myotherapp
 
 
-.. _cli-sci-logs:
+.. _cli-logs:
 
 logs
-====
+----
 
-*Alias:* ``sci lg``
+*Alias:* ``lg``
 
 View paginated app logs.
 
@@ -232,16 +227,16 @@ View paginated app logs.
     Mon Nov  2 21:13:32 2015  Stopped
 
 
-.. _cli-sci-reload:
+.. _cli-reload:
 
 reload
-======
+------
 
-*Aliases:* ``sci update``, ``sci up``
+*Aliases:* ``update``, ``up``
 
 Recreate the app from the bound config file. Invoke after changing the app config to apply the changes.
 
-Reload is a shortcut for :ref:`remove <cli-sci-remove>` and :ref:`create <cli-sci-create>`.
+Reload is a shortcut for :ref:`remove <cli-remove>` and :ref:`create <cli-create>`.
 
 .. code-block:: bash
 
@@ -251,12 +246,12 @@ Reload is a shortcut for :ref:`remove <cli-sci-remove>` and :ref:`create <cli-sc
     App "myapp" bound with config file "myapp.yml"
 
 
-.. _cli-sci-remove:
+.. _cli-remove:
 
 remove
-======
+------
 
-*Aliases:* ``sci del``, ``sci rm``
+*Aliases:* ``del``, ``rm``
 
 Remove an app.
 
@@ -266,12 +261,12 @@ Remove an app.
     App "myapp" removed
 
 
-.. _cli-sci-trigger:
+.. _cli-trigger:
 
 trigger
-=======
+-------
 
-*Aliases:* ``sci run``, ``sci fire``
+*Aliases:* ``run``, ``fire``
 
 Trigger the app to run its actions. If the app doesn't use a provider, this is the only way to run its actions.
 
@@ -295,4 +290,4 @@ Trigger the app to run its actions. If the app doesn't use a provider, this is t
 
 .. [#ambiguous-options] All options on this page can be safely called by a single character; no default subcommand has two options starting with the same character. However, extensions can add there own options, which can be ambiguous.
 
-.. [#local-version] ``sci -version`` shows the version of Sloth CI that is installed on your machine, not the one specified in the server config. To know the version of Sloth CI installed on a remote machine, use :ref:`sci status <cli-sci-status>`.
+.. [#local-version] ``sci -v`` shows the version of Sloth CI installed on your machine, i.e. the client, not the version of the server you're connecting to. To know the Sloth CI version on a remote machine, use :ref:`sci status <cli-status>`.
