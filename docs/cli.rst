@@ -37,9 +37,7 @@ Here're the built-in commands. If they are not enough, feel free to :ref:`add yo
 start
 -----
 
-Start the Sloth CI server.
-
-.. code-block:: bash
+Start the Sloth CI server::
 
     $ sci start
     Starting Sloth CI on http://localhost:8080
@@ -50,9 +48,7 @@ Start the Sloth CI server.
 stop
 ----
 
-Stop the Sloth CI server.
-
-.. code-block:: bash
+Stop the Sloth CI server::
 
     $ sci stop
     Stopping Sloth CI on http://localhost:8080
@@ -63,9 +59,7 @@ Stop the Sloth CI server.
 restart
 -------
 
-Restart, i.e. :ref:`stop <cli-stop>` then :ref:`start <cli-start>`, the Sloth CI server.
-
-.. code-block:: bash
+Restart, i.e. :ref:`stop <cli-stop>` then :ref:`start <cli-start>`, the Sloth CI server::
 
     $ sci restart
     Restarting Sloth CI on http://localhost:8080
@@ -78,9 +72,7 @@ status
 
 *Aliases:* ``stat``, ``st``
 
-Get the status—running ir not running—and version of the Sloth CI server.
-
-.. code-block:: bash
+Get the status—running ir not running—and version of the Sloth CI server::
 
     $ sci st
     Sloth CI version 2.0.1 is running on http://localhost:8080
@@ -93,9 +85,7 @@ create
 
 *Alias:* ``add``
 
-Create a Sloth CI app from the given config file and :ref:`api-bind` them.
-
-.. code-block:: bash
+Create a Sloth CI app from the given config file and :ref:`api-bind` them::
 
     $ sci add myapp.yml
     App "myapp" created
@@ -138,7 +128,7 @@ View paginated app build history.
 ``-verbose``
     Show the *Level* column.
 
-.. code-block:: bash
+::
 
     $ sci hist -l 10 -p 2 myapp
     Timestamp                 Status
@@ -152,9 +142,7 @@ View paginated app build history.
 info
 ----
 
-Show the config file bound with the app and its latest build status.
-
-.. code-block:: bash
+Show the config file bound with the app and its latest build status::
 
     $ sci info myapp
     Config File    Last Build Message    Last Build Timestamp
@@ -169,9 +157,7 @@ list
 
 *Alias:* ``ls``
 
-List all available apps' listen points.
-
-.. code-block:: bash
+List all available apps' listen points::
 
     $ sci ls
     myapp
@@ -217,7 +203,7 @@ View paginated app logs.
 ``-verbose``
     Show the *Level* column.
 
-.. code-block:: bash
+::
 
     $ sci lg -p 3 myapp
     Timestamp                 Message
@@ -236,9 +222,7 @@ reload
 
 Recreate the app from the bound config file. Invoke after changing the app config to apply the changes.
 
-Reload is a shortcut for :ref:`remove <cli-remove>` and :ref:`create <cli-create>`.
-
-.. code-block:: bash
+Reload is a shortcut for :ref:`remove <cli-remove>` and :ref:`create <cli-create>`::
 
     $ sci up myapp
     App "myapp" removed
@@ -253,9 +237,7 @@ remove
 
 *Aliases:* ``del``, ``rm``
 
-Remove an app.
-
-.. code-block:: bash
+Remove an app::
 
     $ sci rm myapp
     App "myapp" removed
@@ -278,7 +260,7 @@ Trigger the app to run its actions. If the app doesn't use a provider, this is t
 
     If the app's actions use params extracted from incoming payload, you must provide the necessary param replacements.
 
-.. code-block:: bash
+::
 
     $ sci run myapp -p foo=bar
     Actions triggered on test
