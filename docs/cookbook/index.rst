@@ -1,6 +1,6 @@
-*********************
-The Sloth CI Cookbook
-*********************
+********
+Cookbook
+********
 
 Useful recipes for practical tasks.
 

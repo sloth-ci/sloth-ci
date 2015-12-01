@@ -95,21 +95,22 @@ pygments_style = 'sphinx'
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
 
-html_theme = 'sphinx_rtd_theme'
+# html_theme = 'sphinx_rtd_theme'
 
 # Theme options are theme-specific and customize the look and feel of a theme
 # further.  For a list of options available for each theme, see the
 # documentation.
-# html_theme_options = {
-#    'extra_nav_links': {
-#         'Bitbucket': 'https://bitbucket.org/moigagoo/sloth-ci',
-#         'PyPI': 'https://pypi.python.org/pypi/sloth-ci'
-#        },
-#    'github_button': False,
-#    #'gratipay_user': 'moigagoo',
-#    'show_powered_by': True,
-#    'sidebar_includehidden': False
-# }
+html_theme_options = {
+    'description': 'Pure-Python Continuous Integration Tool',
+    'extra_nav_links': {
+        'Bitbucket': 'https://bitbucket.org/moigagoo/sloth-ci',
+        'PyPI': 'https://pypi.python.org/pypi/sloth-ci'
+        },
+    'github_button': False,
+    #'gratipay_user': 'moigagoo',
+    'show_powered_by': True,
+    'show_related': True
+}
 
 # Add any paths that contain custom themes here, relative to this directory.
 #html_theme_path = [alabaster.get_path()]
@@ -144,11 +145,11 @@ html_static_path = ['_static']
 #html_use_smartypants = True
 
 # Custom sidebar templates, maps document names to template names.
-# html_sidebars = {
-#    '**': [
-#        'about.html', 'navigation.html', 'searchbox.html', 'donate.html',
-#    ]
-# }
+html_sidebars = {
+   '**': [
+       'about.html', 'navigation.html', 'searchbox.html', 'donate.html',
+   ]
+}
 
 # Additional templates that should be rendered to pages, maps page names to
 # template names.
