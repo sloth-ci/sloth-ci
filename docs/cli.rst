@@ -6,7 +6,7 @@ CLI
 
 Sloth CI ships with the ``sci`` [#sci-alias]_ command line utility that lets you control the server and apps with a variety of :ref:`commands <cli-commands>`::
 
-    $ sci COMMAND [OPTIONS] [PARAMS] ...
+    $ sci COMMAND [OPTIONS] ...
 
 Some commands have options, prefixed with a dash: ``-config``, ``-level``. You can shorten option names up to a single character: ``-c``, ``-l``; just make sure your abbreviations are unambiguous [#ambiguous-options]_.
 
