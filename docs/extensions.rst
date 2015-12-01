@@ -10,7 +10,7 @@ Server-level extensions are invoked in the :doc:`server config <server-config>`.
 
 Another example of a server-level extension is the Sloth CI API: all web API methods and CLI commands apart from :ref:`cli-start` are implemented in an extension.
 
-A single extension can work on the app and server level.
+A single extension can work on both the app and server levels.
 
 Here is the list of currently available extensions. If you want to create your own extension, refer to the :doc:`developer guide <dev/extension>`.
 

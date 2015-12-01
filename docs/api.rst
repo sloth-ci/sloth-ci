@@ -7,7 +7,7 @@ API
 
 Sloth CI's API lets you stop and restart the server, create and remove apps, list app logs and view app build history.
 
-The API runs on the host and port specified in the :ref:`server config <server-config-host>`. It's protected from unauthorized access with basic auth; the access credentials are also stored in the :ref:`server config <server-config-api-auth>`.
+The API runs on the host and port specified in the :ref:`server config <server-config-host-port>`. It's protected from unauthorized access with basic auth; the access credentials are also stored in the :ref:`server config <server-config-api-auth>`.
 
 The API returned data in JSON format.
 

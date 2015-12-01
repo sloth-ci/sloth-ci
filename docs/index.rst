@@ -1,6 +1,6 @@
-**************************
-Welcome to Sloth CI' Docs!
-**************************
+***************************
+Welcome to Sloth CI's Docs!
+***************************
 
 .. image:: https://img.shields.io/pypi/v/sloth-ci.svg?style=flat-square
     :alt: Latest Version
@@ -18,13 +18,6 @@ The goal is to give you the easiest way to automatize things, with no memory ove
 
 .. sidebar:: Resources
 
-    .. toctree::
-        :hidden:
-
-        legacy
-        cookbook/index
-        dev/index
-
     -   :doc:`Cookbook <cookbook/index>`
     -   :doc:`Developer Guide <dev/index>`
     -   :doc:`legacy`
@@ -40,6 +33,12 @@ The goal is to give you the easiest way to automatize things, with no memory ove
     server-config
     app-config
 
+.. toctree::
+    :hidden:
+
+    cookbook/index
+    dev/index
+    legacy
 
 
 Contribute
