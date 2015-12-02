@@ -97,7 +97,7 @@ Extensions
 
 Server-level :doc:`extension <extensions>` declarations.
 
-A declaration has a unique name (``hide-from-robots``) and must contain the extension module name (``robots_txt``). Depending on the extension, a declaration can include additional params. For example, the mentioned :ref:`Robots.txt <ext-robots-txt>` extension has two optional params: ``file`` and ``path``.
+A declaration has a unique name (``hide-from-robots``) and must contain the extension module name (``robots_txt``). Depending on the extension, a declaration can include additional params. For example, the mentioned :py:mod:`Robots.txt <sloth_ci.ext.robots_txt>` extension has two optional params: ``file`` and ``path``.
 
 You can declare the same extension module multiple times under different names::
 
@@ -127,3 +127,4 @@ Run Sloth CI as a UNIX daemon. Default is ``false``.
 .. rubric:: Footnotes
 
 .. [#daemon] UNIX only. Sloth CI crashes on Windows if ``daemon: true`` is in the config.
+
