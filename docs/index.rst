@@ -18,8 +18,8 @@ The goal is to give you the easiest way to automatize things, with no memory ove
 
 .. sidebar:: Resources
 
-    -   :doc:`Cookbook <cookbook/index>`
-    -   :doc:`Developer Guide <dev/index>`
+    -   :doc:`cookbook/index`
+    -   :doc:`dev/index`
     -   :doc:`legacy`
 
 .. toctree::
