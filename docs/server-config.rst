@@ -12,7 +12,7 @@ Server config contains the settings for the Sloth CI server:
 - :ref:`extensions <server-config-extensions>`
 - :ref:`daemon status <server-config-daemon>` [#daemon]_
 
-.. literalinclude:: server-config-samples/sloth.yml
+.. literalinclude:: _samples/server_config_reference.yml
     :language: yaml
 
 By default, Sloth CI tries to use a file called *sloth.yml* in the current directory as a server config, but you can specify a custom one with the :doc:`-c <cli>` param:
@@ -29,7 +29,7 @@ Host, Port
 
 *required*
 
-.. literalinclude:: server-config-samples/sloth.yml
+.. literalinclude:: _samples/server_config_reference.yml
     :lines: 1-2
 
 The host and port for the Sloth CI server to run on.
@@ -44,7 +44,7 @@ API Access Credentials
 
 *required*
 
-.. literalinclude:: server-config-samples/sloth.yml
+.. literalinclude:: _samples/server_config_reference.yml
     :lines: 4-6
 
 Login and password to access the :doc:`Sloth CI API <api>`.
@@ -55,7 +55,7 @@ Login and password to access the :doc:`Sloth CI API <api>`.
 Paths
 =====
 
-.. literalinclude:: server-config-samples/sloth.yml
+.. literalinclude:: _samples/server_config_reference.yml
     :lines: 8-15
 
 .. tip:: Use absolute paths. Relative paths work too, but absolute ones are more reliable.
@@ -92,7 +92,7 @@ configs
 Extensions
 ==========
 
-.. literalinclude:: server-config-samples/sloth.yml
+.. literalinclude:: _samples/server_config_reference.yml
     :lines: 17-19
 
 Server-level :doc:`extension <extensions>` declarations.
@@ -118,7 +118,7 @@ No extensions are declared by default.
 Daemon [#daemon]_
 =================
 
-.. literalinclude:: server-config-samples/sloth.yml
+.. literalinclude:: _samples/server_config_reference.yml
     :lines: 21
 
 Run Sloth CI as a UNIX daemon. Default is ``false``.
