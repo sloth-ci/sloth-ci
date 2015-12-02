@@ -10,9 +10,9 @@ Server config contains the settings for the Sloth CI server:
 - :ref:`login and password <server-config-api-auth>` to access the :doc:`API <api>`
 - :ref:`paths <server-config-paths>` to the db, logs, and default :doc:`app configs <app-config>`
 - :ref:`extensions <server-config-extensions>`
-- :ref:`daemon status <server-config-daemon>` [#daemon]_
+- :ref:`daemon status <server-config-daemon>`
 
-.. literalinclude:: _samples/server_config_reference.yml
+.. literalinclude:: _samples/server-config-reference.yml
     :language: yaml
 
 By default, Sloth CI tries to use a file called *sloth.yml* in the current directory as a server config, but you can specify a custom one with the :doc:`-c <cli>` param:
@@ -29,7 +29,7 @@ Host, Port
 
 *required*
 
-.. literalinclude:: _samples/server_config_reference.yml
+.. literalinclude:: _samples/server-config-reference.yml
     :lines: 1-2
 
 The host and port for the Sloth CI server to run on.
@@ -44,7 +44,7 @@ API Access Credentials
 
 *required*
 
-.. literalinclude:: _samples/server_config_reference.yml
+.. literalinclude:: _samples/server-config-reference.yml
     :lines: 4-6
 
 Login and password to access the :doc:`Sloth CI API <api>`.
@@ -55,7 +55,7 @@ Login and password to access the :doc:`Sloth CI API <api>`.
 Paths
 =====
 
-.. literalinclude:: _samples/server_config_reference.yml
+.. literalinclude:: _samples/server-config-reference.yml
     :lines: 8-15
 
 .. tip:: Use absolute paths. Relative paths work too, but absolute ones are more reliable.
@@ -92,7 +92,7 @@ configs
 Extensions
 ==========
 
-.. literalinclude:: _samples/server_config_reference.yml
+.. literalinclude:: _samples/server-config-reference.yml
     :lines: 17-19
 
 Server-level :doc:`extension <extensions>` declarations.
@@ -115,16 +115,12 @@ No extensions are declared by default.
 
 .. _server-config-daemon:
 
-Daemon [#daemon]_
-=================
+Daemon
+======
 
-.. literalinclude:: _samples/server_config_reference.yml
+.. literalinclude:: _samples/server-config-reference.yml
     :lines: 21
 
-Run Sloth CI as a UNIX daemon. Default is ``false``.
+Run Sloth CI as a daemon. Default is ``false``.
 
-
-.. rubric:: Footnotes
-
-.. [#daemon] UNIX only. Sloth CI crashes on Windows if ``daemon: true`` is in the config.
-
+.. important:: This params works only in UNIX-based systems. If you launch Sloth CI with ``daemon: true`` on Windows, it
