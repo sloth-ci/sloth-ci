@@ -1,5 +1,10 @@
+.. highlight:: yaml
+
 **********
 App Config
 **********
 
-.. _app-config-placeholders:
+.. literalinclude:: _samples/app-config-reference.yml
+    :language: yaml
+
+.. _app-config-params:

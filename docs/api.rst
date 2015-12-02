@@ -137,7 +137,7 @@ Trigger app's actions and wait for them to complete::
     Wait for the actions to complete.
 
 custom params *optional*
-    Any number of params to replace :ref:`placeholders <app-config-placeholders>` in the actions.
+    Any number of params to replace :ref:`placeholders <app-config-params>` in the actions.
 
 
 .. _api-info:

@@ -1,0 +1,25 @@
+listen_point: listen/test
+
+work_dir: ~/test_project
+
+exec_timeout: 5
+
+stop_on_first_fail: true
+
+provider:
+    github:
+        repo: moigagoo/sloth-ci
+
+extensions:
+    debug_logs:
+        module: file_logs
+        path: /var/log/sloth-ci/debug_logs
+        filename: test_debug.log
+        level: DEBUG
+
+actions:
+    - touch {foo}.txt
+    - echo The branch is {branch}
+
+params:
+    foo: bar
