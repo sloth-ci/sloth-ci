@@ -1,25 +1,29 @@
-listen_point: listen/test
+listen_point: listen/myapp
 
-work_dir: ~/test_project
+provider:
+    github:
+        owner: username
+        repo: repo
+        branches:
+            - dev
+            - staging
+
+actions:
+    - touch {filename}
+    - echo "The branch is {branch}" >> {filename}
+
+params:
+    filename: myfile.txt
+
+work_dir: ~/apps/myapp
 
 exec_timeout: 5
 
 stop_on_first_fail: true
 
-provider:
-    github:
-        repo: moigagoo/sloth-ci
-
 extensions:
     debug_logs:
         module: file_logs
-        path: /var/log/sloth-ci/debug_logs
-        filename: test_debug.log
+        path: /var/log/myapp/
+        filename: myapp_debug.log
         level: DEBUG
-
-actions:
-    - touch {foo}.txt
-    - echo The branch is {branch}
-
-params:
-    foo: bar

@@ -4,7 +4,7 @@
 Server Config
 *************
 
-Server config contains the settings for the Sloth CI server:
+**Server config** contains the settings for the Sloth CI server:
 
 - :ref:`host and port <server-config-host-port>` to run on
 - :ref:`login and password <server-config-api-auth>` to access the :doc:`API <api>`
