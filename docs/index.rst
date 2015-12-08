@@ -21,6 +21,8 @@ The goal is to give you the easiest way to automatize things, with no memory ove
     -   :doc:`cookbook/index`
     -   :doc:`dev/index`
     -   :doc:`legacy`
+    -   :doc:`apidocs`
+
 
 .. toctree::
     :maxdepth: 2
@@ -39,6 +41,7 @@ The goal is to give you the easiest way to automatize things, with no memory ove
     cookbook/index
     dev/index
     legacy
+    apidocs
 
 
 Contribute

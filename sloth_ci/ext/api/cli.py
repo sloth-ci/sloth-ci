@@ -1,4 +1,12 @@
 ﻿def extend_cli(cls, extension):
+    '''Add command-line commands for the API interaction.
+
+    :param cls: base :class:`CLI <sloth_ci.cli.CLI>` class to be extended
+    :param extension: the API extension
+
+    :returns: extended :class:`CLI <sloth_ci.cli.CLI>` class
+    '''
+
     from os.path import abspath
     from glob import glob
     from collections import namedtuple

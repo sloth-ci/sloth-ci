@@ -147,7 +147,7 @@ Extensions
 
 App-level :doc:`extension <extensions>` declarations.
 
-A declaration has a unique name (``debug_logs``) and must contain the extension module name (``file_logs``). Depending on the extension, a declaration can include additional params. For example, the mentioned :py:mod:`File Logs <sloth_ci.ext.file_logs>` extension has eight params.
+A declaration has a unique name (``debug_logs``) and must contain the extension module name (``file_logs``). Depending on the extension, a declaration can include additional params. For example, the mentioned :mod:`File Logs <sloth_ci.ext.file_logs>` extension has eight params.
 
 You can declare the same extension module multiple times under different names::
 

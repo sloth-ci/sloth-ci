@@ -113,7 +113,7 @@ class Sloth:
 
         Params are taken from the ``params`` config section and extracted from the incoming payload.
 
-        :param validator_params: params exctacted from the payload
+        :param validator_params: params extracted from the payload
         '''
 
         params = dict(self.config.get('params', {}), **validator_params)
