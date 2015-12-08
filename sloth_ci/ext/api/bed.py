@@ -1,4 +1,12 @@
 ﻿def extend_bed(cls, extension):
+    '''Add routes and handlers for the API methods.
+
+    :param cls: base :class:`Bed <sloth_ci.bed.Bed>` class to be extended
+    :param extension: ``{'api': {'module': 'api.bed'}}``
+
+    :returns: extended :class:`Bed <sloth_ci.bed.Bed>` class
+    '''
+
     import cherrypy
 
     from cherrypy.lib.auth_basic import checkpassword_dict

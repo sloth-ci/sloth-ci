@@ -1,4 +1,12 @@
 ﻿def extend_sloth(cls, extension):
+    '''Add SQLite logging for build events.
+
+    :param cls: base :mod:`Sloth <sloth_ci.sloth.Sloth>` class to extend
+    :param extension: ``{'build_history': {'module': 'db.builds', 'db': self.db_path, 'table': 'build_history'}}``
+
+    :returns: extended :mod:`Sloth <sloth_ci.sloth.Sloth>` class
+    '''
+
     from .util import SqliteHandler
 
 

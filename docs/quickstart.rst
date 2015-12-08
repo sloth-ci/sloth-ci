@@ -123,7 +123,7 @@ Calling ``sci logs`` from a particular directory to get app logs is kind of sad.
 Extensions
 ----------
 
-**Extensions** add new features to Sloth CI. Some work on the server level (like :py:mod:`Robots.txt <sloth_ci.ext.robots_txt>`), some work on the app level (like :py:mod:`File Logs <sloth_ci.ext.file_logs>`, which we'll use right now), some work on both (sorry, no example yet, but there's nothing impossible about it). In fact, :doc:`Sloth CI's API <api>` is implemented as an extension.
+**Extensions** add new features to Sloth CI. Some work on the server level (like :mod:`Robots.txt <sloth_ci.ext.robots_txt>`), some work on the app level (like :mod:`File Logs <sloth_ci.ext.file_logs>`, which we'll use right now), some work on both (sorry, no example yet, but there's nothing impossible about it). In fact, :doc:`Sloth CI's API <api>` is implemented as an extension.
 
 To add text logs to an app, you need the File Logs extension. Install it with pip::
 
