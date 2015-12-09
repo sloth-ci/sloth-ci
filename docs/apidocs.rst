@@ -22,6 +22,7 @@ sloth_ci.sloth
 .. automodule:: sloth_ci.sloth
     :members:
 
+.. _apidocs-ext:
 
 sloth_ci.ext
 ============
