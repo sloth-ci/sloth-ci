@@ -2,7 +2,7 @@
     '''Add routes and handlers for the API methods.
 
     :param cls: base :class:`Bed <sloth_ci.bed.Bed>` class to be extended
-    :param extension: ``{'api': {'module': 'api.bed'}}``
+    :param extension: ``{'api': {'module': 'api'}}``
 
     :returns: extended :class:`Bed <sloth_ci.bed.Bed>` class
     '''

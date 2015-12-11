@@ -29,7 +29,8 @@ setup(
         'colorama'
     ],
     extras_require = {
-        'Logging to files':  ['sloth-ci.ext.file_logs']
+        'Logging to files':  ['sloth-ci.ext.file_logs'],
+        'Developer tools': ['sloth-ci.ext.devtools']
     },
     license='MIT',
     classifiers=[
