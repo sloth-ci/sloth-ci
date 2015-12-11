@@ -25,7 +25,7 @@ Run "sci start" to start the server.'''
 
         api_extension = {
             'api': {
-                'module': 'api.cli'
+                'module': 'api'
             }
         }
 
