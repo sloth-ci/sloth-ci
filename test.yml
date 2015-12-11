@@ -3,3 +3,7 @@ listen_point: test
 actions:
     - sleep 5
     - echo Good morning!
+
+extensions:
+    myextension:
+        module: myextension

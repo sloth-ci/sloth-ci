@@ -30,7 +30,7 @@ class Bed:
 
         api_extension = {
             'api': {
-                'module': 'api'
+                'module': 'api.bed'
             }
         }
 

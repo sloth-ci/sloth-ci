@@ -2,7 +2,7 @@
     '''Add command-line commands for the API interaction.
 
     :param cls: base :class:`CLI <sloth_ci.cli.CLI>` class to be extended
-    :param extension: the API extension
+    :param extension: ``{'api': {'module': 'api'}}``
 
     :returns: extended :class:`CLI <sloth_ci.cli.CLI>` class
     '''
