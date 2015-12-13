@@ -25,6 +25,13 @@ Build Email Notifications
     :members:
 
 
+Developer Tools
+===============
+
+.. automodule:: sloth_ci.ext.devtools
+    :members:
+
+
 Docker Exec
 ===========
 
