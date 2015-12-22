@@ -123,4 +123,4 @@ Daemon
 
 Run Sloth CI as a daemon. Default is ``false``.
 
-.. important:: This params works only in UNIX-based systems. If you launch Sloth CI with ``daemon: true`` on Windows, it
+.. important:: This params works only in UNIX-based systems. If you launch Sloth CI with ``daemon: true`` on Windows, it will crash.
