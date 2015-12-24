@@ -15,7 +15,9 @@ A single extension can work on both the app and server levels.
 Here is the list of currently available extensions. If you want to create your own extension, refer to the :doc:`developer guide <dev/extension>`.
 
 
-.. note:: Read the API docs for built-in :ref:`API <apidocs-ext-api>` and :ref:`DB <apidocs-ext-db>` extensions.
+.. seealso::
+
+    :ref:`API <apidocs-ext-api>` and :ref:`DB <apidocs-ext-db>` extensions are shipped with Sloth CI and are documented in the :doc:`API docs <apidocs>`.
 
 
 Build Email Notifications
