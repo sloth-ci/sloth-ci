@@ -42,7 +42,7 @@ class Sloth:
 
         The first extension's Sloth class inherits from the base Sloth class and becomes the base class, then the second one inherits from it, and so on.
 
-        :param extensions: list of extensions to load.
+        :param extensions: dict of extensions to load.
 
         :returns: `ExtendedSloth` is a Sloth class inherited from all extensions' Sloth classes; `errors` is the list of errors raised during extension loading.
         '''
