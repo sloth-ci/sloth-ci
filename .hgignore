@@ -9,6 +9,7 @@ syntax: glob
 *.pyproj
 .idea/*
 .DS_Store
+.vscode
 
 *.egg-info/*
 .pip
@@ -28,6 +29,8 @@ MANIFEST
 sloth_ci/validators/*.py
 
 sloth_ci/ext/build_email_notifications.py
+sloth_ci/ext/devtools.py
+sloth_ci/ext/dev_templates
 sloth_ci/ext/docker_exec.py
 sloth_ci/ext/dummy_app.py
 sloth_ci/ext/dummy_server.py
