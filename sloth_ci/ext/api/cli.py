@@ -19,76 +19,6 @@
     from requests import post, exceptions
 
 
-    def send_api_request(url, auth, data={}):
-        '''Send a POST request to a Sloth CI API server with the given data.
-
-        :param url: URL of the Sloth CI API server
-        :param auth: login and password to access the Sloth CI API
-        :param data: dict of data to be sent with the request
-        '''
-
-        APIResponse = namedtuple('APIResponse', ('status_code', 'content'))
-
-        try:
-            response = post(url, auth=auth, data=data)
-
-            if response.ok:
-                if response.content:
-                    content = response.json()
-
-                else:
-                    content = None
-
-            else:
-                content = response.text.strip()
-
-            return APIResponse(response.status_code, content)
-
-        except exceptions.ConnectionError:
-            return APIResponse(503, 'Failed to connect to Sloth CI on %s' % url)
-
-
-    def colorize(table, based_on_column, hide_level=True):
-        '''Colorize logs table according to message status.
-
-        :param table: logs table, each row is [timestamp, message, level_name]
-        :param based_on_column: number of column that holds record level names for coloring
-
-        :returns: colorized table
-        '''
-
-        colorized_table = []
-
-        from colorama import init, Fore, Back
-
-        init()
-
-        for row in table:
-            reset = Fore.RESET + Back.RESET
-
-            level_name = row[based_on_column]
-
-            if level_name == 'DEBUG':
-                color = Fore.CYAN
-            elif level_name == 'INFO':
-                color = Fore.GREEN
-            elif level_name == 'WARNING':
-                color = Fore.YELLOW
-            elif level_name == 'ERROR':
-                color = Fore.RED
-            elif level_name == 'CRITICAL':
-                color = Fore.RED + Back.WHITE
-            else:
-                color = reset
-
-            if hide_level:
-                row.pop(based_on_column)
-
-            colorized_table.append(list(map(lambda cell: color + cell + reset, row)))
-
-        return colorized_table
-
-
     class CLI(cls):
         '''Welcome to Sloth CI API CLI!
 
@@ -103,7 +33,78 @@ Run "sci -h" to see all available commands and "sci <command> -h" to get help fo
             api_url = 'http://%s:%d' % (self.config['host'], self.config['port'])
             api_auth = (self.config['api_auth']['login'], self.config['api_auth']['password'])
 
-            self.send_api_request = partial(send_api_request, api_url, api_auth)
+            self.send_api_request = partial(self.send_api_request, api_url, api_auth)
+
+        @staticmethod
+        def send_api_request(url, auth, data={}):
+            '''Send a POST request to a Sloth CI API server with the given data.
+
+            :param url: URL of the Sloth CI API server
+            :param auth: login and password to access the Sloth CI API
+            :param data: dict of data to be sent with the request
+            '''
+
+            APIResponse = namedtuple('APIResponse', ('status_code', 'content'))
+
+            try:
+                response = post(url, auth=auth, data=data)
+
+                if response.ok:
+                    if response.content:
+                        content = response.json()
+
+                    else:
+                        content = None
+
+                else:
+                    content = response.text.strip()
+
+                return APIResponse(response.status_code, content)
+
+            except exceptions.ConnectionError:
+                return APIResponse(503, 'Failed to connect to Sloth CI on %s' % url)
+
+        @staticmethod
+        def colorize(table, based_on_column, hide_level=True):
+            '''Colorize logs table according to message status.
+
+            :param table: logs table, each row is [timestamp, message, level_name]
+            :param based_on_column: number of column that holds record level names for coloring
+
+            :returns: colorized table
+            '''
+
+            colorized_table = []
+
+            from colorama import init, Fore, Back
+
+            init()
+
+            for row in table:
+                reset = Fore.RESET + Back.RESET
+
+                level_name = row[based_on_column]
+
+                if level_name == 'DEBUG':
+                    color = Fore.CYAN
+                elif level_name == 'INFO':
+                    color = Fore.GREEN
+                elif level_name == 'WARNING':
+                    color = Fore.YELLOW
+                elif level_name == 'ERROR':
+                    color = Fore.RED
+                elif level_name == 'CRITICAL':
+                    color = Fore.RED + Back.WHITE
+                else:
+                    color = reset
+
+                if hide_level:
+                    row.pop(based_on_column)
+
+                colorized_table.append(list(map(lambda cell: color + cell + reset, row)))
+
+            return colorized_table
+
 
         @add_aliases(['add'])
         def create(self, paths:tuple):
@@ -121,7 +122,7 @@ Run "sci -h" to see all available commands and "sci <command> -h" to get help fo
                         {
                             'action': 'create',
                             'config_string': open(config_file).read()
-                        }    
+                        }
                     )
 
                     if response.status_code == 201:
@@ -178,13 +179,13 @@ Run "sci -h" to see all available commands and "sci <command> -h" to get help fo
 
                 if verbose:
                     table = tabulate(
-                        colorize(rows, based_on_column=-1, hide_level=False),
+                        self.colorize(rows, based_on_column=-1, hide_level=False),
                         headers=headers
                     )
 
                 else:
                     table = tabulate(
-                        colorize(rows, based_on_column=-1),
+                        self.colorize(rows, based_on_column=-1),
                         headers=headers
                     )
 
@@ -220,7 +221,7 @@ Run "sci -h" to see all available commands and "sci <command> -h" to get help fo
                 ]
 
                 table = tabulate(
-                    colorize(rows, based_on_column=-1),
+                    self.colorize(rows, based_on_column=-1),
                     headers=headers
                 )
 
@@ -278,13 +279,13 @@ Run "sci -h" to see all available commands and "sci <command> -h" to get help fo
 
                 if verbose:
                     table = tabulate(
-                        colorize(rows, based_on_column=-1, hide_level=False),
+                        self.colorize(rows, based_on_column=-1, hide_level=False),
                         headers=headers
                     )
 
                 else:
                     table = tabulate(
-                        colorize(rows, based_on_column=-1),
+                        self.colorize(rows, based_on_column=-1),
                         headers=headers
                     )
 
