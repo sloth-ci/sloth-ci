@@ -271,7 +271,7 @@
                 raise cherrypy.HTTPError(400, 'Missing parameter "listen_point"')
 
             try:
-                if not listen_point in self.sloths:
+                if listen_point not in self.sloths:
                     raise KeyError(listen_point)
 
                 from_page = int(kwargs.get('from_page', 1))
