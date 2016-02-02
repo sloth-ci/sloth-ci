@@ -7,6 +7,7 @@
     :returns: extended :class:`Bed <sloth_ci.bed.Bed>` class
     '''
 
+
     import cherrypy
 
     from cherrypy.lib.auth_basic import checkpassword_dict
@@ -16,6 +17,7 @@
     import sqlite3
 
     from ... import __version__
+
 
     class Bed(cls):
         def __init__(self, config):
