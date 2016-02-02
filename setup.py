@@ -19,7 +19,7 @@ setup(
     author_email=sloth_ci.__author_email__,
     url='https://bitbucket.org/moigagoo/sloth-ci',
     packages=find_packages(exclude=['docs']),
-    install_requires = [
+    install_requires=[
         'CherryPy',
         'Routes',
         'PyYAML',
