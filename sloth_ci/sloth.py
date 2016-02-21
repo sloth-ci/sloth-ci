@@ -61,6 +61,9 @@ class Sloth:
                         }
                     )
 
+                except AttributeError as e:
+                    pass
+
                 except Exception as e:
                     errors.append('Could not load extension %s: %s' % (extension_name, e))
 
