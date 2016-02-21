@@ -13,11 +13,11 @@ from .sloth import Sloth
 class Bed:
     '''A container for Sloth apps.
 
-    It tracks their config files and listen points, as well as handles app adding, removing and updating.
+    It tracks their config files and listen points, as well as handles app adding, removing, and updating.
 
     If also implements the listen function for the main CherryPy app.
 
-    (This module is names "bed" because a group of sloth is actually called "bed.")
+    (This module is names "bed" because a group of sloths is actually called "bed.")
     '''
 
     def __new__(cls, config):
