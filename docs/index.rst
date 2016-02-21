@@ -21,6 +21,7 @@ The goal is to give you the easiest way to automatize things, with no memory ove
     -   :doc:`cookbook/index`
     -   :doc:`dev/index`
     -   :doc:`legacy`
+    -   :doc:`migrate`
     -   :doc:`apidocs`
 
 
@@ -41,12 +42,17 @@ The goal is to give you the easiest way to automatize things, with no memory ove
     cookbook/index
     dev/index
     legacy
+    migrate
     apidocs
 
 
 Contribute
 ==========
 
-`Report a bug <https://bitbucket.org/moigagoo/sloth-ci/issues/new>`__
+-   Improve the docs:
 
-`Fork and improve <https://bitbucket.org/moigagoo/sloth-ci/fork>`__
+    .. todolist::
+
+-   `Report bugs <https://bitbucket.org/moigagoo/sloth-ci/issues/new>`__
+
+-   `Fix issues <https://bitbucket.org/moigagoo/sloth-ci/issues>`__
