@@ -241,3 +241,8 @@
 -   CLI: Help texts improved.
 -   CLI: trigger: ``-wait`` flag added: block until the triggerred actions are completed.
 -   Setup: Built-in extensions were not properly installed. Fixed.
+
+2.0.2
+=====
+
+-   Extension would not load if any extension function was missing. Fixed.
