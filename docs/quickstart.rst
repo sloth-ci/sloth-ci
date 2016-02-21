@@ -144,7 +144,7 @@ To apply the changes in the config, reload it with :ref:`sci reload timestamper 
     App "timestamper" created
     App "timestamper" bound with config file "~/timestamper.yml"
 
-Now initiate another push to the repo and see check the file */var/log/sloth-ci/ts_debug.log*::
+Now initiate another push to the repo and check the file */var/log/sloth-ci/ts_debug.log*::
 
     $ cat /var/log/sloth-ci/ts_debug.log
 
