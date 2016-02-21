@@ -39,4 +39,5 @@ sloth_ci/ext/openvz_exec.py
 sloth_ci/ext/robots.txt
 sloth_ci/ext/robots_txt.py
 sloth_ci/ext/ssh_exec.py
+sloth_ci/ext/stdout.py
 sloth_ci/ext/webhooks.py
