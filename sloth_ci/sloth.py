@@ -74,7 +74,7 @@ class Sloth:
 
         self.logger.debug('Payload received from %s - %s' % (
                 request.remote.ip,
-                request.headers['User-Agent']
+                request.headers.get('User-Agent', '')
             )
         )
 
