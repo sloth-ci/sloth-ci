@@ -53,6 +53,6 @@ Contribute
 
     .. todolist::
 
--   `Report bugs <https://bitbucket.org/moigagoo/sloth-ci/issues/new>`__
+-   `Report bugs <https://bitbucket.org/sloth-ci/sloth-ci/issues/new>`__
 
--   `Fix issues <https://bitbucket.org/moigagoo/sloth-ci/issues>`__
+-   `Fix issues <https://bitbucket.org/sloth-ci/sloth-ci/issues>`__
