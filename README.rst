@@ -24,6 +24,6 @@ The goal is to give you the easiest way to automatize things, with no memory ove
 Contribute
 ==========
 
-`Report a bug <https://bitbucket.org/moigagoo/sloth-ci/issues/new>`__
+`Report a bug <https://bitbucket.org/sloth-ci/sloth-ci/issues/new>`__
 
-`Fork and improve <https://bitbucket.org/moigagoo/sloth-ci/fork>`__
+`Fork and improve <https://bitbucket.org/sloth-ci/sloth-ci/fork>`__
