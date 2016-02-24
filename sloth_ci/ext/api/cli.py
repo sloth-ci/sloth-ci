@@ -73,35 +73,40 @@ Run "sci -h" to see all available commands and "sci <command> -h" to get help fo
 
             :returns: colorized table
             '''
+            try:
+                from colorama import init, Fore, Back
 
-            colorized_table = []
+                init()
+                colorized_table = []
 
-            from colorama import init, Fore, Back
+            except ImportError:
+                colorized_table = table
 
-            init()
+            if not colorized_table:
+                for row in table:
+                    reset = Fore.RESET + Back.RESET
 
-            for row in table:
-                reset = Fore.RESET + Back.RESET
+                    level_name = row[based_on_column]
 
-                level_name = row[based_on_column]
+                    if level_name == 'DEBUG':
+                        color = Fore.CYAN
+                    elif level_name == 'INFO':
+                        color = Fore.GREEN
+                    elif level_name == 'WARNING':
+                        color = Fore.YELLOW
+                    elif level_name == 'ERROR':
+                        color = Fore.RED
+                    elif level_name == 'CRITICAL':
+                        color = Fore.RED + Back.WHITE
+                    else:
+                        color = reset
 
-                if level_name == 'DEBUG':
-                    color = Fore.CYAN
-                elif level_name == 'INFO':
-                    color = Fore.GREEN
-                elif level_name == 'WARNING':
-                    color = Fore.YELLOW
-                elif level_name == 'ERROR':
-                    color = Fore.RED
-                elif level_name == 'CRITICAL':
-                    color = Fore.RED + Back.WHITE
-                else:
-                    color = reset
+                    colorized_row = [(color + cell + reset) for cell in row]
+                    colorized_table.append(colorized_row)
 
-                if hide_level:
+            if hide_level:
+                for row in colorized_table:
                     row.pop(based_on_column)
-
-                colorized_table.append(list(map(lambda cell: color + cell + reset, row)))
 
             return colorized_table
 
