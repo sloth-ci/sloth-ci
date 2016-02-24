@@ -246,3 +246,8 @@
 =====
 
 -   Extension would not load if any extension function was missing. Fixed.
+
+2.0.3
+=====
+
+-   Colorama is now an optional dependency.

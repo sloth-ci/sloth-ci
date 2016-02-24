@@ -25,10 +25,10 @@ setup(
         'PyYAML',
         'requests',
         'cliar',
-        'tabulate',
-        'colorama'
+        'tabulate'
     ],
-    extras_require = {
+    extras_require={
+        'Colored logs': ['colorama'],
         'Logging to files':  ['sloth-ci.ext.file_logs'],
         'Developer tools': ['sloth-ci.ext.devtools']
     },
