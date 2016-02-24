@@ -12,6 +12,9 @@ Welcome to Sloth CI!
     :alt: License
 
 
+.. image:: sloth.png
+
+
 **Sloth CI** builds docs, runs tests, and deploys to servers when you push to GitHub or Bitbucket.
 
 The goal is to give you the easiest way to automatize things, with no memory overhead or overcomplicated setup. Installing, configuring, and running Sloth CI takes about two minutes, then you control it remotely via protected `web API <http://sloth-ci.com/api.html>`__ or `command line interface <http://sloth-ci.com/cli.html>`__.
