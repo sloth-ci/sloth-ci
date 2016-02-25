@@ -24,6 +24,8 @@ The goal is to give you the easiest way to automatize things, with no memory ove
     -   :doc:`migrate`
     -   :doc:`apidocs`
 
+    :download:`PDF <http://sloth-ci.com/SlothCI.pdf>`
+
 
 .. toctree::
     :maxdepth: 2
