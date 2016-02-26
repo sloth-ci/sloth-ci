@@ -251,3 +251,8 @@
 =====
 
 -   Colorama is now an optional dependency.
+
+2.0.4
+=====
+
+-   Server config: An alias for ``api_auth`` added—``auth``.
