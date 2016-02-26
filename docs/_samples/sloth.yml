@@ -1,8 +1,6 @@
 host: localhost
 port: 8080
 
-daemon: true
-
-api_auth:
-    login: admin
-    password: password
+auth:
+    login: myname
+    password: mypass
