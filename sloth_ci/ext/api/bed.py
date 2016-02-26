@@ -42,7 +42,14 @@
 
             super()._setup_routing()
 
-            auth = self.config['api_auth']
+            for alias in ('auth', 'api_auth'):
+                try:
+                    auth = self.config[alias]
+                    break
+                except KeyError:
+                    pass
+            else:
+                raise KeyError('API credentials are missing in the config file.')
 
             listener = self._make_listener({auth['login']: auth['password']})
 
@@ -253,7 +260,7 @@
 
             try:
                 app_list = self.sloths.keys()
-                
+
                 cherrypy.response.status = 200
 
                 return sorted(app_list)
