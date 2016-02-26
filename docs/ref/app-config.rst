@@ -61,9 +61,9 @@ Provider
 
 Although you can :ref:`trigger <cli-trigger>` app's actions manually, Sloth CI's true strength is to run actions automatically, e.g. when you push to GitHub.
 
-A service that sends the trigger events is called a *provider*. To work with a certain provider, Sloth CI must have a matching :doc:`validator <validators>` installed. The ``provider`` param in an app config actually points to the matching *validator*.
+A service that sends the trigger events is called a *provider*. To work with a certain provider, Sloth CI must have a matching :doc:`validator <../validators>` installed. The ``provider`` param in an app config actually points to the matching *validator*.
 
-:doc:`See available validators and their params → <validators>`
+:doc:`See available validators and their params → <../validators>`
 
 .. tip:: To make the app triggerable only manually, just skip the whole ``provider`` section.
 
@@ -81,7 +81,7 @@ List of actions to run. Each action is a shell command. Commands are executed on
 Actions can contain placeholders enclosed between curly brackets: ``{filename}``, ``{branch}``. The placeholders are replaced with values in this order:
 
 #. params from the :ref:`params <app-config-params>` section
-#. params extracted by the :doc:`validator <validators>`
+#. params extracted by the :doc:`validator <../validators>`
 #. params provided with the :ref:`trigger <cli-trigger>` command or via the :ref:`trigger <api-trigger>` API method
 
 Actions can contain stream redirects with ``>`` and ``>>``. Actions can *not* contain context changes like ``cd`` or ``source``.
@@ -145,7 +145,7 @@ Extensions
 .. literalinclude:: _samples/app-config-reference.yml
     :lines: 24-29
 
-App-level :doc:`extension <extensions>` declarations.
+App-level :doc:`extension <../extensions>` declarations.
 
 A declaration has a unique name (``debug_logs``) and must contain the extension module name (``file_logs``). Depending on the extension, a declaration can include additional params. For example, the mentioned :mod:`File Logs <sloth_ci.ext.file_logs>` extension has eight params.
 

@@ -1,9 +1,7 @@
-listen_point: timestamper
+# Sloth CI app that appends the current timestamp to a file
+# when trigger it.
 
-provider:
-    github:
-        owner: YourName
-        repo: YourRepo
+listen_point: timestamper
 
 actions:
     - date >> timestamps.txt

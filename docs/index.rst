@@ -1,3 +1,5 @@
+.. highlight:: bash
+
 ***************************
 Welcome to Sloth CI's Docs!
 ***************************
@@ -12,50 +14,63 @@ Welcome to Sloth CI's Docs!
     :alt: License
 
 
-**Sloth CI** builds docs, runs tests, and deploys to servers when you push to GitHub or Bitbucket.
+**Sloth CI** is a Python-based tool that builds docs, runs tests, and deploys your code when you push to GitHub, Bitbucket, or GitLab. Just type the commands you'd normally run manually and let Sloth CI run them for you!
 
-The goal is to give you the easiest way to automatize things, with no memory overhead or overcomplicated setup. Installing, configuring, and running Sloth CI takes about two minutes, then you control it remotely via protected :doc:`web API <api>` or :doc:`command line interface <cli>`.
+Quickstart
+==========
 
-.. only:: html
+#.  Install Sloth CI with pip::
 
-    .. sidebar:: Resources
+        $ pip install sloth-ci
 
-        -   :doc:`cookbook/index`
-        -   :doc:`dev/index`
-        -   :doc:`legacy`
-        -   :doc:`migrate`
-        -   :doc:`apidocs`
+    **Sloth CI** requires Python 3.4+ and works on Linux, Windows, and Mac OS X.
 
-        `PDF version → <http://sloth-ci.com/SlothCI.pdf>`__
+    Optionally, to make logs colorful, install `colorama <https://pypi.python.org/pypi/colorama>`_::
+
+        $ pip install colorama
+
+#.  Create a file called :download:`sloth.yml <_samples/sloth.yml>` with this content:
+
+    .. literalinclude:: _samples/sloth.yml
+        :language: yaml
+
+#.  Run ``sloth-ci start`` or ``sci start``::
+
+        $ sci start &
+        Starting Sloth CI on http://localhost:8080
+
+    Go to http://localhost:8080?action=version in your browser and enter the login and password from the server config (``myname`` and ``mypass`` in the example above). You should see the Sloth CI version:
+
+    .. image:: _images/check-version.png
+
+#.  Create a file called :download:`timestamper.yml <_samples/timestamper.yml>`:
+
+    .. literalinclude:: _samples/timestamper.yml
+        :language: yaml
+
+#.  Create the app from it with ``sloth-ci create``, ``sci create``, or ``sci add``::
+
+        $ sci create timestamper.yml
+        App "timestamper" created
+        App "timestamper" bound with config file "/path/to/timestamper.yml"
+
+#.  Trigger the app with ``sloth-ci trigger``, ``sci trigger``, ``sci run``, or ``sci fire``::
+
+        $ sci run timestamper
+        Actions triggered on timestamper
+
+        $ cat timestamps.txt
+        Fri Feb 27 1:31:33 2016
+
 
 .. toctree::
     :maxdepth: 2
-
-    quickstart
-    cli
-    api
-    extensions
-    validators
-    server-config
-    app-config
-
-.. toctree::
     :hidden:
 
     cookbook/index
+    extensions
+    validators
     dev/index
-    legacy
+    contribute
     migrate
-    apidocs
-
-
-Contribute
-==========
-
--   Improve the docs:
-
-    .. todolist::
-
--   `Report bugs <https://bitbucket.org/sloth-ci/sloth-ci/issues/new>`__
-
--   `Fix issues <https://bitbucket.org/sloth-ci/sloth-ci/issues>`__
+    ref/index

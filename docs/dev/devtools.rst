@@ -14,7 +14,7 @@ Before you proceed to the :doc:`extension <extension>` and :doc:`validator <vali
         ...
         Successfully installed sloth-ci.ext.devtools-1.0.1
 
-#.  Enable it in your :doc:`server config <../server-config>`:
+#.  Enable it in your :doc:`server config <../ref/server-config>`:
 
     .. literalinclude:: _samples/sloth.yml
         :emphasize-lines: 12-14

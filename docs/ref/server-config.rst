@@ -49,6 +49,9 @@ API Access Credentials
 
 Login and password to access the :doc:`Sloth CI API <api>`.
 
+.. versionchanged:: 2.0.4
+    Alias ``auth`` for ``api_auth`` was added.
+
 
 .. _server-config-paths:
 
@@ -95,7 +98,7 @@ Extensions
 .. literalinclude:: _samples/server-config-reference.yml
     :lines: 17-19
 
-Server-level :doc:`extension <extensions>` declarations.
+Server-level :doc:`extension <../extensions>` declarations.
 
 A declaration has a unique name (``hide-from-robots``) and must contain the extension module name (``robots_txt``). Depending on the extension, a declaration can include additional params. For example, the mentioned :mod:`Robots.txt <sloth_ci.ext.robots_txt>` extension has two optional params: ``file`` and ``path``.
 
