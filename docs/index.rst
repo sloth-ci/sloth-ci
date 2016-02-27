@@ -67,6 +67,7 @@ Quickstart
     :maxdepth: 2
     :hidden:
 
+    Quickstart <self>
     cookbook/index
     extensions
     validators
