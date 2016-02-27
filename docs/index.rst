@@ -1,8 +1,8 @@
 .. highlight:: bash
 
-***************************
-Welcome to Sloth CI's Docs!
-***************************
+********
+Sloth CI
+********
 
 .. image:: https://img.shields.io/pypi/v/sloth-ci.svg?style=flat-square
     :alt: Latest Version
@@ -61,17 +61,3 @@ Quickstart
 
         $ cat timestamps.txt
         Fri Feb 27 1:31:33 2016
-
-
-.. toctree::
-    :maxdepth: 2
-    :hidden:
-
-    Quickstart <self>
-    cookbook/index
-    extensions
-    validators
-    dev/index
-    contribute
-    migrate
-    ref/index

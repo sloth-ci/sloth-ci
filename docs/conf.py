@@ -28,8 +28,7 @@ import sys, os
 extensions = [
     'sphinx.ext.autodoc',
     'sphinx.ext.viewcode',
-    'sphinx.ext.todo',
-    'alabaster'
+    'sphinx.ext.todo'
 ]
 
 # Add any paths that contain templates here, relative to this directory.
@@ -42,7 +41,7 @@ source_suffix = '.rst'
 #source_encoding = 'utf-8-sig'
 
 # The master toctree document.
-master_doc = 'index'
+# master_doc = 'index'
 
 # General information about the project.
 project = 'Sloth CI'
@@ -54,8 +53,6 @@ copyright = '2015, Konstantin Molchanov'
 #
 # The short X.Y version.
 from sloth_ci import __version__
-
-import alabaster
 
 version = __version__
 
@@ -103,7 +100,6 @@ pygments_style = 'sphinx'
 # a list of builtin themes.
 
 # html_theme = 'sphinx_rtd_theme'
-html_theme = 'alabaster'
 
 # Theme options are theme-specific and customize the look and feel of a theme
 # further.  For a list of options available for each theme, see the
@@ -114,16 +110,17 @@ html_theme_options = {
     'description': 'Lightweight Python-based CI tool',
     'extra_nav_links': {
         'Bitbucket': 'https://bitbucket.org/sloth-ci/sloth-ci',
-        'PyPI': 'https://pypi.python.org/pypi/sloth-ci'
+        'PyPI': 'https://pypi.python.org/pypi/sloth-ci',
+        'Download PDF versio': 'SlothCI.pdf'
     },
     'github_button': False,
-    'gratipay_user': 'moigagoo',
+    # 'gratipay_user': 'moigagoo',
     'show_powered_by': True,
     'show_related': True
 }
 
 # Add any paths that contain custom themes here, relative to this directory.
-html_theme_path = [alabaster.get_path()]
+# html_theme_path = [alabaster.get_path()]
 
 # The name for this set of Sphinx documents.  If None, it defaults to
 # "<project> v<release> documentation".
@@ -215,7 +212,7 @@ latex_elements = {
 # Grouping the document tree into LaTeX files. List of tuples
 # (source start file, target name, title, author, documentclass [howto/manual]).
 latex_documents = [
-  ('index', 'SlothCI.tex', 'Sloth CI Documentation',
+  ('contents', 'SlothCI.tex', 'Sloth CI Documentation',
    'Konstantin Molchanov', 'manual'),
 ]
 
