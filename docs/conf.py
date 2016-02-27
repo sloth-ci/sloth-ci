@@ -109,9 +109,9 @@ html_theme_options = {
     'logo_name': True,
     'description': 'Lightweight Python-based CI tool',
     'extra_nav_links': {
-        'Bitbucket': 'https://bitbucket.org/sloth-ci/sloth-ci',
-        'PyPI': 'https://pypi.python.org/pypi/sloth-ci',
-        'Download PDF versio': 'SlothCI.pdf'
+        'Code on Bitbucket': 'https://bitbucket.org/sloth-ci/sloth-ci',
+        'Package on PyPI': 'https://pypi.python.org/pypi/sloth-ci',
+        'Docs in PDF': 'SlothCI.pdf'
     },
     'github_button': False,
     # 'gratipay_user': 'moigagoo',
