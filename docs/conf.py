@@ -25,7 +25,12 @@ import sys, os
 
 # Add any Sphinx extension module names here, as strings. They can be extensions
 # coming with Sphinx (named 'sphinx.ext.*') or your custom ones.
-extensions = ['sphinx.ext.autodoc', 'sphinx.ext.viewcode', 'sphinx.ext.todo']
+extensions = [
+    'sphinx.ext.autodoc',
+    'sphinx.ext.viewcode',
+    'sphinx.ext.todo',
+    'alabaster'
+]
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
@@ -49,6 +54,8 @@ copyright = '2015, Konstantin Molchanov'
 #
 # The short X.Y version.
 from sloth_ci import __version__
+
+import alabaster
 
 version = __version__
 
@@ -95,25 +102,28 @@ pygments_style = 'sphinx'
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
 
-html_theme = 'sphinx_rtd_theme'
+# html_theme = 'sphinx_rtd_theme'
+html_theme = 'alabaster'
 
 # Theme options are theme-specific and customize the look and feel of a theme
 # further.  For a list of options available for each theme, see the
 # documentation.
-# html_theme_options = {
-#     'description': 'Pure-Python Continuous Integration Tool',
-#     'extra_nav_links': {
-#         'Bitbucket': 'https://bitbucket.org/moigagoo/sloth-ci',
-#         'PyPI': 'https://pypi.python.org/pypi/sloth-ci'
-#         },
-#     'github_button': False,
-#     #'gratipay_user': 'moigagoo',
-#     'show_powered_by': True,
-#     'show_related': True
-# }
+html_theme_options = {
+    'logo': 'sloth.png',
+    'logo_name': True,
+    'description': 'Lightweight Python-based CI tool',
+    'extra_nav_links': {
+        'Bitbucket': 'https://bitbucket.org/sloth-ci/sloth-ci',
+        'PyPI': 'https://pypi.python.org/pypi/sloth-ci'
+    },
+    'github_button': False,
+    'gratipay_user': 'moigagoo',
+    'show_powered_by': True,
+    'show_related': True
+}
 
 # Add any paths that contain custom themes here, relative to this directory.
-#html_theme_path = [alabaster.get_path()]
+html_theme_path = [alabaster.get_path()]
 
 # The name for this set of Sphinx documents.  If None, it defaults to
 # "<project> v<release> documentation".
@@ -124,12 +134,12 @@ html_theme = 'sphinx_rtd_theme'
 
 # The name of an image file (relative to this directory) to place at the top
 # of the sidebar.
-html_logo = '_images/sloth.png'
+# html_logo = '_static/sloth.png'
 
 # The name of an image file (within the static path) to use as favicon of the
 # docs.  This file should be a Windows icon file (.ico) being 16x16 or 32x32
 # pixels large.
-html_favicon = 'favicon.ico'
+html_favicon = '_static/favicon.ico'
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
@@ -146,9 +156,13 @@ html_static_path = ['_static']
 
 # Custom sidebar templates, maps document names to template names.
 html_sidebars = {
-   '**': [
-       'about.html', 'navigation.html', 'searchbox.html', 'donate.html',
-   ]
+    '**': [
+        'about.html',
+        'navigation.html',
+        'relations.html',
+        'searchbox.html',
+        'donate.html'
+    ]
 }
 
 # Additional templates that should be rendered to pages, maps page names to
@@ -207,7 +221,7 @@ latex_documents = [
 
 # The name of an image file (relative to this directory) to place at the top of
 # the title page.
-latex_logo = '_images/sloth.png'
+latex_logo = '_static/sloth.png'
 
 # For "manual" documents, if this is true, then toplevel headings are parts,
 # not chapters.
@@ -246,7 +260,7 @@ man_pages = [
 #  dir menu entry, description, category)
 texinfo_documents = [
   ('index', 'SlothCI', 'Sloth CI Documentation',
-   'Konstantin Molchanov', 'SlothCI', 'CI for Humans.',
+   'Konstantin Molchanov', 'SlothCI', 'Lightweight Python-based CI tool',
    'Miscellaneous'),
 ]
 
