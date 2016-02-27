@@ -1,7 +1,5 @@
 sphinx
 
-alabaster
-
 sloth-ci
 
 sloth-ci.ext.build_email_notifications
