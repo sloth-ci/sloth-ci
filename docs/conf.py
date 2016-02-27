@@ -115,8 +115,7 @@ html_theme_options = {
     },
     'github_button': False,
     # 'gratipay_user': 'moigagoo',
-    'show_powered_by': True,
-    'show_related': True
+    'show_powered_by': True
 }
 
 # Add any paths that contain custom themes here, relative to this directory.
@@ -156,7 +155,6 @@ html_sidebars = {
     '**': [
         'about.html',
         'navigation.html',
-        'relations.html',
         'searchbox.html',
         'donate.html'
     ]
