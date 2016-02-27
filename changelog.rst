@@ -256,3 +256,8 @@
 =====
 
 -   Server config: An alias for ``api_auth`` added—``auth``.
+
+2.0.5
+=====
+
+-   CLI: Failed actions now return non-zero exit code.
