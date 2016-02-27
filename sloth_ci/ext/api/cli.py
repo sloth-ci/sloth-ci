@@ -7,6 +7,7 @@
     :returns: extended :class:`CLI <sloth_ci.cli.CLI>` class
     '''
 
+    from sys import exit
     from os.path import abspath
     from glob import glob
     from collections import namedtuple
@@ -15,7 +16,7 @@
 
     from tabulate import tabulate
     from cliar import add_aliases
-    
+
     from requests import post, exceptions
 
 
@@ -24,7 +25,9 @@
 
 Run "sci start" to start the server.
 
-Run "sci -h" to see all available commands and "sci <command> -h" to get help for a specific command.
+Run "sci -h" to see all available commands.
+
+Run "sci <command> -h" to get help for a specific command.
 '''
 
         def __init__(self):
@@ -197,7 +200,7 @@ Run "sci -h" to see all available commands and "sci <command> -h" to get help fo
                 print(table)
 
             else:
-                print('Failed to get app build history: %s' % response.content)
+                exit('Failed to get app build history: %s' % response.content)
 
         def info(self, app):
             '''get information about APP'''
@@ -233,7 +236,7 @@ Run "sci -h" to see all available commands and "sci <command> -h" to get help fo
                 print(table)
 
             else:
-                print('Failed to get app info: %s' % response.content)
+                exit('Failed to get app info: %s' % response.content)
 
         @add_aliases(['ls'])
         def list(self):
@@ -250,12 +253,12 @@ Run "sci -h" to see all available commands and "sci <command> -h" to get help fo
                     print(app)
 
             else:
-                print('Failed to get app list: %s' % response.content)
+                exit('Failed to get app list: %s' % response.content)
 
         @add_aliases(['lg'])
         def logs(self, app, from_page:int=1, to_page:int=1, per_page:int=10, level:int=20, verbose=False):
             '''get logs for APP'''
-            
+
             response = self.send_api_request(
                 {
                     'action': 'logs',
@@ -297,7 +300,7 @@ Run "sci -h" to see all available commands and "sci <command> -h" to get help fo
                 print(table)
 
             else:
-                print('Failed to get app logs: %s' % response.content)
+                exit('Failed to get app logs: %s' % response.content)
 
         @add_aliases(['update', 'up'])
         def reload(self, app):
@@ -315,12 +318,12 @@ Run "sci -h" to see all available commands and "sci <command> -h" to get help fo
                 self.create([response.content['config_file']])
 
             else:
-                print('Failed to get app info: %s' % response.content)
+                exit('Failed to get app info: %s' % response.content)
 
         @add_aliases(['del', 'rm'])
         def remove(self, app):
             '''remove APP'''
-            
+
             response = self.send_api_request(
                 {
                     'action': 'remove',
@@ -332,7 +335,7 @@ Run "sci -h" to see all available commands and "sci <command> -h" to get help fo
                 print('App "%s" removed' % app)
 
             else:
-                print('Failed to remove app: %s' % response.content)
+                exit('Failed to remove app: %s' % response.content)
 
         def restart(self):
             '''restart server'''
@@ -345,9 +348,9 @@ Run "sci -h" to see all available commands and "sci <command> -h" to get help fo
 
             if response.status_code == 202:
                 print('Restarting Sloth CI on http://%s:%d' % (self.config['host'], self.config['port']))
-            
+
             else:
-                print('Failed to restart Sloth CI: %s' % response.content)
+                exit('Failed to restart Sloth CI: %s' % response.content)
 
         @add_aliases(['stat', 'st'])
         def status(self):
@@ -379,9 +382,9 @@ Run "sci -h" to see all available commands and "sci <command> -h" to get help fo
 
             if response.status_code == 202:
                 print('Stopping Sloth CI on http://%s:%d' % (self.config['host'], self.config['port']))
-            
+
             else:
-                print('Failed to stop Sloth CI: %s' % response.content)
+                exit('Failed to stop Sloth CI: %s' % response.content)
 
 
         @add_aliases(['run', 'fire'])
@@ -410,7 +413,7 @@ PARAMS are specified as "param1=value1 param2=value ..."
                 print(response.content)
 
             else:
-                print('Failed to trigger actions: %s' % response.content)
+                exit('Failed to trigger actions: %s' % response.content)
 
 
     return CLI
