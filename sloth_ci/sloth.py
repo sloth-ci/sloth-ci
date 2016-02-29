@@ -20,7 +20,14 @@ class Sloth:
     def __init__(self, config):
         self.config = config
 
-        self.listen_point = self.config['listen_point']
+        for alias in ('id', 'name', 'listen_point'):
+            listen_point = self.config.get(alias)
+            if listen_point:
+                break
+        else:
+            raise KeyError('id')
+
+        self.listen_point = listen_point
 
         self.logger = logging.getLogger(self.listen_point)
         self.logger.setLevel(logging.DEBUG)
@@ -112,7 +119,7 @@ class Sloth:
             self.process(params)
 
     def process(self, validator_params):
-        '''Queue execution of actions with certain params. 
+        '''Queue execution of actions with certain params.
 
         Params are taken from the ``params`` config section and extracted from the incoming payload.
 
