@@ -17,7 +17,7 @@ setup(
     description=sloth_ci.__description__,
     long_description=long_description,
     author_email=sloth_ci.__author_email__,
-    url='https://bitbucket.org/moigagoo/sloth-ci',
+    url='https://sloth-ci.com',
     packages=find_packages(exclude=['docs']),
     install_requires=[
         'CherryPy',
