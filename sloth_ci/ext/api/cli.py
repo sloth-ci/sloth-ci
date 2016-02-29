@@ -34,7 +34,15 @@ Run "sci <command> -h" to get help for a specific command.
             super().__init__()
 
             api_url = 'http://%s:%d' % (self.config['host'], self.config['port'])
-            api_auth = (self.config['api_auth']['login'], self.config['api_auth']['password'])
+
+            for alias in ('auth', 'api_auth'):
+                auth = self.config.get(alias)
+                if auth:
+                    break
+            else:
+                raise KeyError('auth')
+
+            api_auth = auth['login'], auth['password']
 
             self.send_api_request = partial(self.send_api_request, api_url, api_auth)
 
