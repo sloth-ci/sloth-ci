@@ -261,3 +261,4 @@
 =====
 
 -   CLI: Failed actions now return non-zero exit code.
+-   App config: Aliases for ``listen_point`` added: ``id`` and ``name``.
