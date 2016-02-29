@@ -1,7 +1,7 @@
-# Sloth CI app that appends the current timestamp to a file
-# when trigger it.
+# Sloth CI app that appends the current timestamp
+# to a file when triggered.
 
-listen_point: timestamper
+id: timestamper
 
 actions:
     - date >> timestamps.txt
