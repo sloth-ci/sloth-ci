@@ -222,18 +222,20 @@ class Bed:
         '''
 
         try:
-            listen_point = config['listen_point']
+            for alias in ('id', 'name', 'listen_point'):
+                listen_point = config.get(alias)
+                if listen_point:
+                    break
+            else:
+                cherrypy.log.error('Failed to create app: listen point undefined')
+                raise KeyError('id')
 
-        except TypeError:
-            cherrypy.log.error('Failed to create app: invalid config string')
-            raise
-
-        except KeyError as e:
-            cherrypy.log.error('Failed to create app: the listen_point param is missing' % e)
+        except Exception as e:
+            cherrypy.log.error('Failed to create app: invalid config: %s' % e)
             raise
 
         if listen_point in self.sloths:
-            cherrypy.log.error('Failed to create app: the listen point %s is already taken' % listen_point)
+            cherrypy.log.error('Failed to create app: listen point %s already taken' % listen_point)
             raise ValueError(listen_point)
 
         try:
