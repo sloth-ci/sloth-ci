@@ -1,9 +1,5 @@
-listen_point: test
+id: test
 
 actions:
     - sleep 5
     - echo Good morning!
-
-extensions:
-    myextension:
-        module: myextension
