@@ -262,4 +262,7 @@
 
 -   CLI: Failed actions now return non-zero exit code.
 -   App config: Aliases for ``listen_point`` added: ``id`` and ``name``.
+
+2.0.6
+=====
 -   Fixed an issue with incorrectly handled ``auth`` alias.
