@@ -43,11 +43,9 @@
             super()._setup_routing()
 
             for alias in ('auth', 'api_auth'):
-                try:
-                    auth = self.config[alias]
+                auth = self.config.get(alias)
+                if auth:
                     break
-                except KeyError:
-                    pass
             else:
                 raise KeyError('API credentials are missing in the config file.')
 
