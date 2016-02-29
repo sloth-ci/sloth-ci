@@ -1,4 +1,4 @@
-listen_point: listen/myapp
+id: listen/myapp # or name: listen/myapp, or listen_point: listen/myapp
 
 provider:
     github:
