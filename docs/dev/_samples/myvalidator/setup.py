@@ -12,7 +12,7 @@ setup(
     description=validator.__description__,
     long_description=validator.__doc__,
     author_email=validator.__author_email__,
-    url='https://bitbucket.org/moigagoo/sloth-ci-validators',
+    url='https://bitbucket.org/sloth-ci/sloth-ci-validators',
     py_modules=['%s.%s' % (package, validator.__name__)],
     packages=[package],
     package_dir={package: '.'},
