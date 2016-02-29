@@ -50,6 +50,9 @@ Every app has a unique URI called its *listen point*. If the server is running o
 
 Listen point can contain slashes. Listen point should *not* start or end with a slash.
 
+.. versionchanged:: 2.0.5
+    Aliases ``id`` and ``name`` for ``listen_point`` were added.
+
 
 .. _app-config-provider:
 
