@@ -107,6 +107,7 @@ pygments_style = 'sphinx'
 html_theme_options = {
     'logo': 'sloth.png',
     'logo_name': True,
+    'touch_icon': 'sloth-touch.png',
     'description': 'Lightweight Python-based CI tool',
     'extra_nav_links': {
         'Code on Bitbucket': 'https://bitbucket.org/sloth-ci/sloth-ci',
