@@ -3,6 +3,7 @@ sphinx
 sloth-ci
 
 sloth-ci.ext.build_email_notifications
+sloth-ci.ext.devtools
 sloth-ci.ext.docker_exec
 sloth-ci.ext.file_logs
 sloth-ci.ext.openvz_exec
