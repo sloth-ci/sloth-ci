@@ -266,3 +266,8 @@
 2.0.6
 =====
 -   Fixed an issue with incorrectly handled ``auth`` alias.
+
+2.0.7
+=====
+
+-   App config: Actions can be marked critical with the ``!critical`` tag.
