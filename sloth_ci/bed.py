@@ -5,7 +5,7 @@ from importlib import import_module
 
 import cherrypy
 
-from yaml import load
+from yaml import load, add_constructor
 
 from .sloth import Sloth
 
@@ -58,6 +58,29 @@ class Bed:
         self._setup_routing()
         self._configure()
         self._prepopulate()
+
+
+    @staticmethod
+    def _critical_constructor(loader, node):
+        '''Custom PyYAML constructor for the ``!critical`` tag.
+
+        :param loader: PyYAML ``Loader`` instance
+        :param node: PyYAML ``Node`` instance
+
+        :returns: :class:`Action` instance
+        '''
+
+        class Action(str):
+            '''Thin wrapper around ``str`` to enable custom attributes.
+
+            Used to declare actions as *critical*.
+            '''
+            pass
+
+        action = Action(node.value)
+        action.critical = True
+
+        return action
 
     def _configure(self):
         '''Configure CherryPy server.'''
@@ -134,6 +157,8 @@ class Bed:
 
             for config_file in config_files:
                 try:
+                    add_constructor('!critical', self._critical_constructor)
+
                     config = load(open(config_file))
 
                     listen_point = self.create_from_config(config)
