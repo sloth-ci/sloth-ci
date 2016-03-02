@@ -49,7 +49,7 @@ API Access Credentials
 
 Login and password to access the :doc:`Sloth CI API <api>`.
 
-.. versionchanged:: 2.0.4
+.. versionadded:: 2.0.4
     Alias ``auth`` for ``api_auth`` was added.
 
 
