@@ -50,7 +50,7 @@ Every app has a unique URI called its *listen point*. If the server is running o
 
 Listen point can contain slashes. Listen point should *not* start or end with a slash.
 
-.. versionchanged:: 2.0.5
+.. versionadded:: 2.0.5
     Aliases ``id`` and ``name`` for ``listen_point`` were added.
 
 
@@ -81,13 +81,18 @@ Actions
 
 List of actions to run. Each action is a shell command. Commands are executed one by one top to bottom.
 
-Actions can contain placeholders enclosed between curly brackets: ``{filename}``, ``{branch}``. The placeholders are replaced with values in this order:
+Actions can contain placeholders enclosed between curly brackets: ``{filename}``, ``{branch}``. The placeholders are overriden with values in this order:
 
 #. params from the :ref:`params <app-config-params>` section
 #. params extracted by the :doc:`validator <../validators>`
 #. params provided with the :ref:`trigger <cli-trigger>` command or via the :ref:`trigger <api-trigger>` API method
 
 Actions can contain stream redirects with ``>`` and ``>>``. Actions can *not* contain context changes like ``cd`` or ``source``.
+
+If you want the whole build to fail when a particular action fails, mark the action with the ``!critical`` tag.
+
+.. versionadded:: 2.0.7
+    Actions can be marked critical with the ``!critical`` tag.
 
 
 .. _app-config-params:
@@ -131,6 +136,9 @@ By default, there's no timeout.
 
 Stop on First Fail
 ==================
+
+.. deprecated:: 2.0.7
+    Use :ref:`!critical <app-config-actions>` instead.
 
 .. literalinclude:: _samples/app-config-reference.yml
     :lines: 22
