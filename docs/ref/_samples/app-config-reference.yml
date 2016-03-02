@@ -1,4 +1,4 @@
-id: listen/myapp # or name: listen/myapp, or listen_point: listen/myapp
+id: myapp # or "name: myapp", or "listen_point: myapp"
 
 provider:
     github:
@@ -9,7 +9,7 @@ provider:
             - staging
 
 actions:
-    - touch {filename}
+    - !critical touch {filename}
     - echo "The branch is {branch}" >> {filename}
 
 params:
