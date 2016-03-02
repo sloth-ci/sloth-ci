@@ -181,19 +181,24 @@ class Sloth:
                 self.exec_logger.info('Executing action: %s' % action_with_params)
 
                 self.execute(action_with_params)
+                last_error = None
 
             except KeyError as e:
                 self.exec_logger.error('Missing param: %s' % e)
+
                 errors.append(e)
+                last_error = errors[-1]
 
             except Exception as e:
                 self.exec_logger.error('Execution failed: %s' % e)
+
                 errors.append(e)
+                last_error = errors[-1]
 
             finally:
-                if errors and self.config.get('stop_on_first_fail'):
-                    self.build_logger.error('Failed on action "%s": %s' % (action, errors[0]))
-                    raise errors[0]
+                if last_error and (hasattr(action, 'critical') or self.config.get('stop_on_first_fail')):
+                    self.build_logger.error('Build failed on action "%s": %s' % (action, errors[0]))
+                    raise last_error
 
         if not errors:
             self.build_logger.info('Completed %d/%d' % (len(actions), len(actions)))
