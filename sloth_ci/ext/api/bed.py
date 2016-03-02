@@ -9,7 +9,6 @@
 
 
     import cherrypy
-
     from cherrypy.lib.auth_basic import checkpassword_dict
 
     from yaml import load
