@@ -271,3 +271,8 @@
 =====
 
 -   App config: Actions can be marked critical with the ``!critical`` tag.
+
+2.0.8
+=====
+
+-   API: Trigger: When invoking ``trigger`` directly via web API with ``wait=1``, you can now define the ``success_url`` and ``fail_url`` params to be redirected to after the build completes or fails.
