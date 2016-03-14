@@ -389,10 +389,25 @@
 
                 else:
                     sloth.queue_processor.join()
-                    return self.info({'listen_point': listen_point})['last_build_status_message']
+                    info = self.info({'listen_point': listen_point})
+                    build_successful = info['last_build_status_level'] == 'INFO'
+
+                    success_url, fail_url = kwargs.get('success_url'), kwargs.get('fail_url')
+
+                    if build_successful and success_url:
+                        raise cherrypy.HTTPRedirect(success_url)
+
+                    elif not build_successful and fail_url:
+                        raise cherrypy.HTTPRedirect(fail_url)
+
+                    else:
+                        return self.info({'listen_point': listen_point})['last_build_status_message']
 
             except KeyError as e:
                 raise cherrypy.HTTPError(404, 'Listen point %s not found' % e)
+
+            except cherrypy.HTTPRedirect as e:
+                raise e
 
             except Exception as e:
                 raise cherrypy.HTTPError(500, 'Failed to trigger app actions: %s' % e)
