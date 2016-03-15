@@ -282,3 +282,8 @@
 =====
 
 -   CLI: Fixed a critical issue with not working CLI if API auth was provided.
+
+2.1.0
+=====
+
+-   Server config: Auth section can now contain multiple login:password pairs.
