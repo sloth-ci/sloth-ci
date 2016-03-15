@@ -2,8 +2,10 @@ host: localhost
 port: 8080
 
 api_auth:
-    login: admin
-    password: password
+    -   login: admin
+        password: password
+    -   login: badmin
+        password: bpassword
 
 paths:
     configs:
