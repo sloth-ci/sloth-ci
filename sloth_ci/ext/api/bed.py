@@ -7,7 +7,6 @@
     :returns: extended :class:`Bed <sloth_ci.bed.Bed>` class
     '''
 
-
     import cherrypy
     from cherrypy.lib.auth_basic import checkpassword_dict
 
@@ -44,18 +43,20 @@
             for alias in ('auth', 'api_auth'):
                 auth = self.config.get(alias)
                 if auth:
+                    auth_dict = {auth['login']: auth['password']}
                     break
             else:
-                raise KeyError('API credentials are missing in the config file.')
+                cherrypy.log.error('Warning: Unprotected API access')
+                auth_dict = {}
 
-            listener = self._make_listener({auth['login']: auth['password']})
+            listener = self._make_listener(auth_dict)
 
             self._dispatcher.connect('api', '/', listener)
 
         def _handle_error(self, status, message, traceback, version):
             return message
 
-        def _make_listener(self, auth_dict, realm='sloth-ci'):
+        def _make_listener(self, auth_dict, *, realm='sloth-ci'):
             '''Get a basic-auth-protected listener function for the API endpoint.
 
             :param auth_dict: {user: password} dict for authentication
@@ -65,8 +66,6 @@
             '''
 
             @cherrypy.expose
-            @cherrypy.tools.auth_basic(checkpassword=checkpassword_dict(auth_dict), realm=realm)
-            @cherrypy.tools.json_out()
             def listener(action, **kwargs):
                 '''Listen to and route API requests.
 
@@ -86,6 +85,17 @@
 
                 except KeyError as e:
                     raise cherrypy.HTTPError(404, 'Action %s not found' % e)
+
+            listener._cp_config = {
+                'tools.json_out.on': True
+            }
+
+            if auth_dict:
+                listener._cp_config.update({
+                    'tools.auth_basic.on': True,
+                    'tools.auth_basic.realm': realm,
+                    'tools.auth_basic.checkpassword': checkpassword_dict(auth_dict),
+                })
 
             return listener
 
