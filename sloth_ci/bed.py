@@ -55,7 +55,6 @@ class Bed:
         self.sloths = {}
         self.config_files = {}
 
-        self._setup_routing()
         self._configure()
         self._prepopulate()
 
@@ -127,6 +126,8 @@ class Bed:
                 'log.error_file': error_log_path
             }
         )
+
+        self._setup_routing()
 
         cherrypy.tree.mount(None, config={'/': {'request.dispatch': self._dispatcher}})
 
