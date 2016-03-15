@@ -120,7 +120,9 @@ Trigger app's actions and wait for them to complete::
     $ http -f -a login:password localhost:8080 \
             action=trigger \
             listen_point=test \
-            wait=true \
+            wait=1 \
+            success_url=http://example.com/success \
+            fail_url=http://example.com/fail \
             foo=bar
     HTTP/1.1 200 OK
     Content-Length: 15
@@ -136,9 +138,17 @@ Trigger app's actions and wait for them to complete::
 ``wait`` *optional*
     Wait for the actions to complete.
 
+    ``success_url`` *optional*
+        URL to redirect to after a successful build run. Used only with ``wait``.
+
+    ``fail_url`` *optional*
+        URL to redirect to after a failed or incomplete build run. Used only with ``wait``.
+
 custom params *optional*
     Any number of params to replace :ref:`placeholders <app-config-params>` in the actions.
 
+.. versionadded:: 2.0.8
+    Params ``success_url`` and ``fail_url`` were added.
 
 .. _api-info:
 
