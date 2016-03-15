@@ -43,8 +43,14 @@
             for alias in ('auth', 'api_auth'):
                 auth = self.config.get(alias)
                 if auth:
-                    auth_dict = {auth['login']: auth['password']}
-                    break
+                    try:
+                        auth_dict = {entry['login']:entry['password'] for entry in auth}
+
+                    except TypeError:
+                        auth_dict = {auth['login']: auth['password']}
+
+                    finally:
+                        break
             else:
                 cherrypy.log.error('Warning: Unprotected API access')
                 auth_dict = {}
