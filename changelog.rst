@@ -276,3 +276,4 @@
 =====
 
 -   API: Trigger: When invoking ``trigger`` directly via web API with ``wait=1``, you can now define the ``success_url`` and ``fail_url`` params to be redirected to after the build completes or fails.
+-   API: Auth is now optional.
