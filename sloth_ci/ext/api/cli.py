@@ -38,8 +38,14 @@ Run "sci <command> -h" to get help for a specific command.
             for alias in ('auth', 'api_auth'):
                 auth = self.config.get(alias)
                 if auth:
-                    api_auth = (auth['login'], auth['password'])
-                    break
+                    try:
+                        api_auth = (auth[0]['login'], auth[0]['password'])
+
+                    except KeyError:
+                        api_auth = (auth['login'], auth['password'])
+
+                    finally:
+                        break
             else:
                 api_auth = None
 
