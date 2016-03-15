@@ -43,15 +43,24 @@ API Access Credentials
 ======================
 
 .. literalinclude:: _samples/server-config-reference.yml
-    :lines: 4-6
+    :lines: 4-8
 
-Login and password to access the :doc:`Sloth CI API <api>`.
+List of logins and passwords to access the :doc:`Sloth CI API <api>`. Skipping this section lets anyone use your API without authentication (so be careful with it!).
+
+If there's only one pair, you may omit putting it in a list::
+
+    auth:
+        login: john
+        password: secret
 
 .. versionadded:: 2.0.4
     Alias ``auth`` for ``api_auth`` was added.
 
 .. versionchanged:: 2.0.8
     Auth is now optional.
+
+.. versionadded:: 2.1.0
+    Auth section can hold multiple login:password pairs.
 
 
 .. _server-config-paths:
@@ -60,7 +69,7 @@ Paths
 =====
 
 .. literalinclude:: _samples/server-config-reference.yml
-    :lines: 8-15
+    :lines: 10-17
 
 .. tip:: Use absolute paths. Relative paths work too, but absolute ones are more reliable.
 
@@ -97,7 +106,7 @@ Extensions
 ==========
 
 .. literalinclude:: _samples/server-config-reference.yml
-    :lines: 17-19
+    :lines: 19-21
 
 Server-level :doc:`extension <../extensions>` declarations.
 
@@ -123,7 +132,7 @@ Daemon
 ======
 
 .. literalinclude:: _samples/server-config-reference.yml
-    :lines: 21
+    :lines: 23
 
 Run Sloth CI as a daemon. Default is ``false``.
 
