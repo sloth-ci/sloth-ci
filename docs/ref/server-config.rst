@@ -42,8 +42,6 @@ The host and port for the Sloth CI server to run on.
 API Access Credentials
 ======================
 
-*required*
-
 .. literalinclude:: _samples/server-config-reference.yml
     :lines: 4-6
 
@@ -51,6 +49,9 @@ Login and password to access the :doc:`Sloth CI API <api>`.
 
 .. versionadded:: 2.0.4
     Alias ``auth`` for ``api_auth`` was added.
+
+.. versionchanged:: 2.0.8
+    Auth is now optional.
 
 
 .. _server-config-paths:
