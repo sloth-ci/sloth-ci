@@ -11,6 +11,9 @@ Welcome to Sloth CI!
 .. image:: https://img.shields.io/pypi/l/sloth-ci.svg?style=flat-square
     :alt: License
 
+.. image:: http://sloth-ci.com:8080/docs?action=shield&style=flat-square
+    :alt: Sloth CI Build Status
+
 
 .. image:: sloth.png
 
