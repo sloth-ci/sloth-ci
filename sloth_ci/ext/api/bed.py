@@ -55,55 +55,38 @@
                 cherrypy.log.error('Warning: Unprotected API access')
                 auth_dict = {}
 
-            listener = self._make_listener(auth_dict)
-
-            self._dispatcher.connect('api', '/', listener)
-
-        def _handle_error(self, status, message, traceback, version):
-            return message
-
-        def _make_listener(self, auth_dict, *, realm='sloth-ci'):
-            '''Get a basic-auth-protected listener function for the API endpoint.
-
-            :param auth_dict: {user: password} dict for authentication
-            :param realm: mandatory param for basic auth
-
-            :returns: a CherryPy listener function
-            '''
-
-            @cherrypy.expose
-            def listener(action, **kwargs):
-                '''Listen to and route API requests.
-
-                An API request is a GET or POST HTTP request with one mandatory param ``action`` and
-                additional params for the given action.
-
-                Params can be provided in the URL or as form data.
-
-                :param action: string corresponding to one of the available API methods.
-                :param kwargs: params for the given action.
-                '''
-
-                cherrypy.request.error_page = {'default': self._handle_error}
-
-                try:
-                    return self.actions[action](kwargs)
-
-                except KeyError as e:
-                    raise cherrypy.HTTPError(404, 'Action %s not found' % e)
-
-            listener._cp_config = {
-                'tools.json_out.on': True
-            }
+            api_listener = self._api_listener
 
             if auth_dict:
-                listener._cp_config.update({
+                api_listener._cp_config.update({
                     'tools.auth_basic.on': True,
-                    'tools.auth_basic.realm': realm,
+                    'tools.auth_basic.realm': 'sloth-ci',
                     'tools.auth_basic.checkpassword': checkpassword_dict(auth_dict),
                 })
 
-            return listener
+            self._dispatcher.connect('api', '/', api_listener)
+
+        @cherrypy.expose
+        @cherrypy.tools.json_out()
+        def _api_listener(self, action, **kwargs):
+            '''Listen to and route API requests.
+
+            An API request is a GET or POST HTTP request with one mandatory param ``action`` and
+            additional params for the given action.
+
+            Params can be provided in the URL or as form data.
+
+            :param action: string corresponding to one of the available API methods.
+            :param kwargs: params for the given action.
+            '''
+
+            cherrypy.request.error_page = {'default': lambda status, message, traceback, version: message}
+
+            try:
+                return self.actions[action](kwargs)
+
+            except KeyError as e:
+                raise cherrypy.HTTPError(404, 'Action %s not found' % e)
 
         def bind(self, kwargs):
             '''Bind an app with a config file.'''

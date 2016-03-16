@@ -141,7 +141,7 @@ class Bed:
 
         self._dispatcher = cherrypy._cpdispatch.RoutesDispatcher()
 
-        self._dispatcher.connect('apps', '/{listen_point:.+}', self.listener)
+        self._dispatcher.connect('apps', '/{listen_point:.+}', self._app_listener)
 
     def _prepopulate(self):
         '''Create apps before server start.
@@ -322,11 +322,13 @@ class Bed:
     @cherrypy.expose
     @cherrypy.tools.proxy()
     @cherrypy.tools.json_in()
-    def listener(self, listen_point, **kwargs):
+    def _app_listener(self, listen_point, **kwargs):
         '''Listens for payloads and routes them to the responsible Sloth app.
 
         :param listen_point: Sloth app listen point (part of the URL after the server host)
         '''
+
+        listen_point = listen_point.strip('/')
 
         sloth = self.sloths.get(listen_point)
 
@@ -334,4 +336,4 @@ class Bed:
             sloth.handle(cherrypy.request)
 
         else:
-            raise cherrypy.HTTPError(404, 'This listen point does not exist.')
+            raise cherrypy.HTTPError(404, 'Listen point %s not found' % listen_point)
