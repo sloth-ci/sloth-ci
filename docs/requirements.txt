@@ -8,6 +8,7 @@ sloth-ci.ext.docker_exec
 sloth-ci.ext.file_logs
 sloth-ci.ext.openvz_exec
 sloth-ci.ext.robots_txt
+sloth-ci.ext.shields_io
 sloth-ci.ext.ssh_exec
 sloth-ci.ext.webhooks
 
