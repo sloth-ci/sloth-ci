@@ -197,7 +197,7 @@ class Sloth:
 
             finally:
                 if last_error and (hasattr(action, 'critical') or self.config.get('stop_on_first_fail')):
-                    self.build_logger.error('Build failed on action "%s": %s' % (action, errors[0]))
+                    self.build_logger.error('Build failed')
                     raise last_error
 
         if not errors:
