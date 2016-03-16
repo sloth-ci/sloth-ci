@@ -62,6 +62,12 @@ Robots.txt
     :members:
 
 
+Shields.io
+==========
+
+.. automodule:: sloth_ci.ext.shields_io
+    :members:
+
 SSH Exec
 ========
 
