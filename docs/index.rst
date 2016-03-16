@@ -13,6 +13,9 @@ Sloth CI
 .. image:: https://img.shields.io/pypi/l/sloth-ci.svg?style=flat-square
     :alt: License
 
+.. image:: http://sloth-ci.com:8080/docs?action=shield&style=flat-square
+    :alt: Sloth CI Build Status
+
 
 **Sloth CI** is a Python-based tool that builds docs, runs tests, and deploys your code when you push to GitHub, Bitbucket, or GitLab. Just type the commands you'd normally run manually and let Sloth CI run them for you!
 
@@ -48,7 +51,7 @@ Quickstart
     .. literalinclude:: _samples/timestamper.yml
         :language: yaml
 
-#.  Create the app from it with ``sloth-ci create``, ``sci create``, or ``sci add``::
+#.  Create an app from it with ``sloth-ci create``, ``sci create``, or ``sci add``::
 
         $ sci create timestamper.yml
         App "timestamper" created
