@@ -287,3 +287,8 @@
 =====
 
 -   Server config: Auth section can now contain multiple login:password pairs.
+
+2.1.1
+=====
+
+-   Bed, API: Bed: Code refactored to allow extending app listener.
