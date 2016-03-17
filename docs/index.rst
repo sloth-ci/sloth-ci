@@ -15,6 +15,7 @@ Sloth CI
 
 .. image:: http://sloth-ci.com:8080/docs?action=shield&style=flat-square
     :alt: Sloth CI Build Status
+    :target: http://sloth-ci.com:8080/?action=trigger&listen_point=docs&wait=1&success_url=https://docs.sloth-ci.com
 
 
 **Sloth CI** is a Python-based tool that builds docs, runs tests, and deploys your code when you push to GitHub, Bitbucket, or GitLab. Just type the commands you'd normally run manually and let Sloth CI run them for you!
