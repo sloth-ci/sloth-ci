@@ -115,7 +115,7 @@ html_theme_options = {
         'Docs in PDF': 'SlothCI.pdf'
     },
     'github_button': False,
-    # 'gratipay_user': 'moigagoo',
+    'gratipay_user': 'moigagoo',
     'show_powered_by': True
 }
 
