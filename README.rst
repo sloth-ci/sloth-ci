@@ -13,6 +13,7 @@ Welcome to Sloth CI!
 
 .. image:: http://sloth-ci.com:8080/docs?action=shield&style=flat-square
     :alt: Sloth CI Build Status
+    :target: http://sloth-ci.com:8080/?action=trigger&listen_point=docs&wait=1&success_url=https://docs.sloth-ci.com
 
 
 .. image:: sloth.png
