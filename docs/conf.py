@@ -28,8 +28,11 @@ import sys, os
 extensions = [
     'sphinx.ext.autodoc',
     'sphinx.ext.viewcode',
-    'sphinx.ext.todo'
+    'sphinx.ext.todo',
+    'sphinxcontrib.newsfeed'
 ]
+
+disqus_shortname = 'sloth-ci'
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
@@ -107,7 +110,7 @@ pygments_style = 'sphinx'
 html_theme_options = {
     'logo': 'sloth.png',
     'logo_name': True,
-    'touch_icon': 'sloth-touch.png',
+    'touch_icon': 'sloth.png',
     'description': 'Lightweight Python-based CI tool',
     'extra_nav_links': {
         'Code on Bitbucket': 'https://bitbucket.org/sloth-ci/sloth-ci',
