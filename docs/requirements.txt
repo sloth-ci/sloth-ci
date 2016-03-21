@@ -1,4 +1,5 @@
 sphinx
+sphinxcontrib-newsfeed
 
 sloth-ci
 
