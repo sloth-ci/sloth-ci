@@ -13,3 +13,4 @@ Welcome to Sloth CI's Docs!
     contribute
     migrate
     ref/index
+    news/index
