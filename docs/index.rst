@@ -23,6 +23,7 @@ Sloth CI
 
 **Sloth CI** is a Python-based tool that builds docs, runs tests, and deploys your code when you push to GitHub, Bitbucket, or GitLab. Just type the commands you'd normally run manually and let Sloth CI run them for you!
 
+
 Quickstart
 ==========
 
