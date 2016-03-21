@@ -566,3 +566,8 @@ table.docutils.citation, table.docutils.citation td, table.docutils.citation th 
   -webkit-box-shadow: none;
   box-shadow: none;
 }
+
+.feed-meta {
+    font-size: .8em;
+    margin-left: 2em;
+}
