@@ -2,7 +2,7 @@
 News
 ****
 
-.. image:: https://img.shields.io/badge/Subscribe-to_RSS-green.svg?style=flat-square
+.. image:: https://img.shields.io/badge/Subscribe-to_RSS-green.svg
 	:alt: Subscribe to RSS
 	:target: /news.rss
 

@@ -571,3 +571,7 @@ table.docutils.citation, table.docutils.citation td, table.docutils.citation th 
     font-size: .8em;
     margin-left: 2em;
 }
+
+img {
+    margin: .1em;
+}
