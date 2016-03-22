@@ -60,7 +60,7 @@ class Bed:
 
 
     @staticmethod
-    def _critical_constructor(loader, node):
+    def _critical_yaml_constructor(loader, node):
         '''Custom PyYAML constructor for the ``!critical`` tag.
 
         :param loader: PyYAML ``Loader`` instance
@@ -158,7 +158,7 @@ class Bed:
 
             for config_file in config_files:
                 try:
-                    add_constructor('!critical', self._critical_constructor)
+                    add_constructor('!critical', self._critical_yaml_constructor)
 
                     config = load(open(config_file))
 
