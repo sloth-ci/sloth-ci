@@ -115,7 +115,8 @@ html_theme_options = {
     'extra_nav_links': {
         'Code on Bitbucket': 'https://bitbucket.org/sloth-ci/sloth-ci',
         'Package on PyPI': 'https://pypi.python.org/pypi/sloth-ci',
-        'Docs in PDF': 'SlothCI.pdf'
+        'Docs in PDF': 'SlothCI.pdf',
+        'Docs in ePub': 'SlothCI.epub'
     },
     'github_button': False,
     'gratipay_user': 'moigagoo',
