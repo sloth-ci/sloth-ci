@@ -274,3 +274,6 @@ texinfo_documents = [
 #texinfo_show_urls = 'footnote'
 
 todo_include_todos = True
+
+epub_author = 'Konstantin Molchanov'
+
