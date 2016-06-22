@@ -29,7 +29,6 @@ extensions = [
     'sphinx.ext.autodoc',
     'sphinx.ext.viewcode',
     'sphinx.ext.todo',
-    'sphinxcontrib.newsfeed'
 ]
 
 disqus_shortname = 'sloth-ci'

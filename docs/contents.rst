@@ -13,10 +13,3 @@ Welcome to Sloth CI's Docs!
     contribute
     migrate
     ref/index
-
-.. only:: html
-
-    .. toctree::
-        :maxdepth: 2
-
-        news/index
