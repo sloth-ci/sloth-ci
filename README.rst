@@ -22,7 +22,11 @@ Welcome to Sloth CI!
 .. image:: sloth.png
 
 
-**Sloth CI** builds docs, runs tests, and deploys to servers when you push to GitHub or Bitbucket.
+**Sloth CI** runs shell commands when you push to GitHub, Bitbucket, or GitLab. It may be building the docs, running tests, or deploying an app in a Docker container—you tell Sloth CI what to do.
+
+Sloth CI offers detailed logs, build status badges, email notifications, and webhooks via extensions. Unlike Jenkins, Sloth CI does not have a web interface. Instead, you control it via command line or web API.
+
+Sloth CI is also much lighter than Jenkins in terms of memory usage.
 
 The goal is to give you the easiest way to automatize things, with no memory overhead or overcomplicated setup. Installing, configuring, and running Sloth CI takes about two minutes, then you control it remotely via protected `web API <http://sloth-ci.com/api.html>`__ or `command line interface <http://sloth-ci.com/cli.html>`__.
 
