@@ -21,8 +21,9 @@ Sloth CI
     :target: https://join.skype.com/qg6XSoR9cGZ0
 
 
-**Sloth CI** is a Python-based tool that builds docs, runs tests, and deploys your code when you push to GitHub, Bitbucket, or GitLab. Just type the commands you'd normally run manually and let Sloth CI run them for you!
+**Sloth CI** is a Python-based continuous integration and delivery tool that runs shell commands when you push to GitHub, Bitbucket, or GitLab. It may be building the docs, running tests, or deploying an app in a Docker container—you tell Sloth CI what to do.
 
+Sloth CI offers detailed logs, build status badges, email notifications, and webhooks via extensions. Unlike Jenkins, Sloth CI does not have a web interface. Instead, you control it via :doc:`command line <cli>` or :doc:`web API <api>`. Sloth CI is also much lighter than Jenkins in terms of memory usage.
 
 Quickstart
 ==========
