@@ -31,39 +31,36 @@ Quickstart
 #.  Install Sloth CI with pip::
 
         $ pip install sloth-ci
+        $ pip install colorama # Optional, for colored logs output
 
     **Sloth CI** requires Python 3.4+ and works on Linux, Windows, and Mac OS X.
 
-    Optionally, to make logs colorful, install `colorama <https://pypi.python.org/pypi/colorama>`_::
-
-        $ pip install colorama
-
-#.  Create a file called :download:`sloth.yml <_samples/sloth.yml>` with this content:
+#.  Create a file :download:`sloth.yml <_samples/sloth.yml>` (called :doc:`server config <ref/server-config>`) with the following content:
 
     .. literalinclude:: _samples/sloth.yml
         :language: yaml
 
-#.  Run ``sloth-ci start`` or ``sci start``::
+#.  Run ``sci start``::
 
         $ sci start &
         Starting Sloth CI on http://localhost:8080
 
-    Go to http://localhost:8080?action=version in your browser and enter the login and password from the server config (``myname`` and ``mypass`` in the example above). You should see the Sloth CI version:
+    Go to http://localhost:8080?action=version in your browser and enter "myname" and "mypass" as login and password. You should see the Sloth CI version:
 
     .. image:: _images/check-version.png
 
-#.  Create a file called :download:`timestamper.yml <_samples/timestamper.yml>`:
+#.  Now let's create a simple app that will just append the current date and time to a particular file when triggered. Create a file :download:`timestamper.yml <_samples/timestamper.yml>` (called :doc:`app config <ref/app-config>`):
 
     .. literalinclude:: _samples/timestamper.yml
         :language: yaml
 
-#.  Create an app from it with ``sloth-ci create``, ``sci create``, or ``sci add``::
+#.  Run ``sci create timestamper.yml``::
 
         $ sci create timestamper.yml
         App "timestamper" created
         App "timestamper" bound with config file "/path/to/timestamper.yml"
 
-#.  Trigger the app with ``sloth-ci trigger``, ``sci trigger``, ``sci run``, or ``sci fire``::
+#.  Trigger the app with ``sci run timestamper``::
 
         $ sci run timestamper
         Actions triggered on timestamper
