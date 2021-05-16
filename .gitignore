@@ -1,6 +1,3 @@
-syntax: glob
-
-*~
 *.db
 .kateproject*
 *.kdev4

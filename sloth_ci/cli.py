@@ -2,9 +2,9 @@
 
 from argparse import ArgumentParser
 
-from yaml import load
+from yaml import load, FullLoader
 
-from cliar import CLI as CliarCLI
+from cliar import Cliar
 from cliar import ignore as ignore_method
 
 from .bed import Bed
@@ -12,7 +12,7 @@ from .bed import Bed
 from . import __version__
 
 
-class CLI(CliarCLI):
+class CLI(Cliar):
     '''Welcome to Sloth CI CLI!
 
 Run "sci start" to start the server.'''
@@ -36,7 +36,7 @@ Run "sci start" to start the server.'''
         config = parser.parse_known_args()[0].config
 
         try:
-            cls.config = load(open(config))
+            cls.config = load(open(config), Loader=FullLoader)
 
         except FileNotFoundError:
             print('Please run inside a dir with "sloth.yml" or specify the server config with "-c."')

@@ -13,6 +13,7 @@
     from collections import namedtuple
     from functools import partial
     from time import ctime
+    from typing import List
 
     from tabulate import tabulate
     from cliar import add_aliases
@@ -128,7 +129,7 @@ Run "sci <command> -h" to get help for a specific command.
 
 
         @add_aliases(['add'])
-        def create(self, paths:tuple):
+        def create(self, paths:List[str]):
             '''create apps from PATHS and bind them with respective configs'''
 
             for path in paths:
@@ -401,11 +402,11 @@ Run "sci <command> -h" to get help for a specific command.
 
 
         @add_aliases(['run', 'fire'])
-        def trigger(self, app, wait=False, params=()):
+        def trigger(self, app, wait=False, params: List[str]=[]):
             '''trigger APP's actions with given PARAMS
 
-PARAMS are specified as "param1=value1 param2=value ..."
-'''
+            PARAMS are specified as "param1=value1 param2=value ..."
+            '''
 
             data = {
                 'action': 'trigger',
