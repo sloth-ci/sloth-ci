@@ -5,7 +5,7 @@ from importlib import import_module
 
 import cherrypy
 
-from yaml import load, add_constructor
+from yaml import load, add_constructor, FullLoader
 
 from .sloth import Sloth
 
@@ -160,7 +160,7 @@ class Bed:
                 try:
                     add_constructor('!critical', self._critical_yaml_constructor)
 
-                    config = load(open(config_file))
+                    config = load(open(config_file), Loader=FullLoader)
 
                     listen_point = self.create_from_config(config)
 
@@ -218,7 +218,7 @@ class Bed:
         try:
             sloth = self.sloths[listen_point]
 
-            if sloth.config == load(open(config_file)):
+            if sloth.config == load(open(config_file), Loader=FullLoader):
                 self.config_files[listen_point] = config_file
                 sloth.logger.info('Bound with config file %s' % config_file)
 

@@ -10,7 +10,7 @@
     import cherrypy
     from cherrypy.lib.auth_basic import checkpassword_dict
 
-    from yaml import load
+    from yaml import load, FullLoader
 
     import sqlite3
 
@@ -128,7 +128,7 @@
                 raise cherrypy.HTTPError(400, 'Missing parameter config_string')
 
             try:
-                listen_point = self.create_from_config(load(config_string))
+                listen_point = self.create_from_config(load(config_string, Loader=FullLoader))
 
                 cherrypy.response.status = 201
 
