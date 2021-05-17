@@ -20,6 +20,11 @@ colorama = {version = "^0.4.4", extras = ["Colored logs"]}
 
 [tool.poetry.dev-dependencies]
 Sphinx = "^4.0.0"
+foliant = "^1.0.12"
+"foliantcontrib.mkdocs" = "^1.0.12"
+"foliantcontrib.init" = "^1.0.8"
+mkdocs-material = "^7.1.4"
+"foliantcontrib.includes" = "^1.1.13"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]

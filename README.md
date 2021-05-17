@@ -3,15 +3,15 @@
 [![image](https://img.shields.io/pypi/v/sloth-ci.svg)](https://pypi.org/project/sloth-ci)
 
 
-.. image:: sloth.png
+![Logo](sloth.png)
 
 
-*Sloth CI* is a lightweight, standalone CI server.
+**Sloth CI** is a lightweight, standalone CI server.
 
 Via extensions, Sloth CI offers detailed logs, build status badges, email notifications, and webhooks. 
 
 
-## Contribute
+## Run Locally
 
 Deploy the project with Poetry:
 ```
