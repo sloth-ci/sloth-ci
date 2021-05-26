@@ -1,0 +1,23 @@
+host: 0.0.0.0
+port: 8080
+
+auth: # or api_auth
+    -   login: alice
+        password: password
+    -   login: bob
+        password: secret
+
+paths:
+    access_log: /usr/log/sloth-ci/access.log
+    error_log: /usr/log/sloth-ci/error.log
+
+    db: /etc/sloth-ci/sloth.db
+
+    configs:
+        - /etc/conf.d/sloth-ci/*.yml
+
+extensions:
+    hide-from-robots:
+        module: robots_txt
+
+daemon: true

@@ -90,7 +90,8 @@ Run "sci start" to start the server.'''
     def _root(self, config='./sloth.yml', version=False):
         if version:
             print(__version__)
-            exit()
+        else:
+            return NotImplemented
 
     def start(self):
         '''start server'''

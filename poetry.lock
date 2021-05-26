@@ -132,6 +132,21 @@ prompt_toolkit = ">=2.0,<3.0"
 pyyaml = ">=5.1.1,<6.0.0"
 
 [[package]]
+name = "foliantcontrib.anchors"
+version = "1.0.6"
+description = "Arbitrary anchors for Foliant."
+category = "dev"
+optional = false
+python-versions = "*"
+
+[package.dependencies]
+foliant = ">=1.0.8"
+"foliantcontrib.utils.chapters" = ">=1.0.4"
+"foliantcontrib.utils.combined-options" = ">=1.0.1"
+"foliantcontrib.utils.header-anchors" = ">=1.0.3"
+"foliantcontrib.utils.preprocessor-ext" = ">=1.0.5"
+
+[[package]]
 name = "foliantcontrib.escapecode"
 version = "1.0.4"
 description = "Preprocessor for Foliant to escape/unescape raw content."
@@ -190,6 +205,83 @@ python-versions = "*"
 [package.dependencies]
 foliant = ">=1.0.8"
 mkdocs = ">=1.0.4"
+
+[[package]]
+name = "foliantcontrib.superlinks"
+version = "1.0.9"
+description = "Links to headings with extra magic"
+category = "dev"
+optional = false
+python-versions = "*"
+
+[package.dependencies]
+foliant = ">=1.0.8"
+"foliantcontrib.anchors" = ">=1.0.4"
+"foliantcontrib.meta" = ">=1.3.0"
+"foliantcontrib.utils" = ">=1.0.0"
+"foliantcontrib.utils.chapters" = ">=1.0.4"
+"foliantcontrib.utils.combined-options" = ">=1.0.7"
+"foliantcontrib.utils.header-anchors" = "*"
+"foliantcontrib.utils.preprocessor-ext" = ">=1.0.4"
+
+[[package]]
+name = "foliantcontrib.utils"
+version = "1.0.0"
+description = "Utils for foliant plugin developers"
+category = "dev"
+optional = false
+python-versions = "*"
+
+[package.dependencies]
+foliant = ">=1.0.8"
+
+[[package]]
+name = "foliantcontrib.utils.chapters"
+version = "1.0.4"
+description = "Utils for chapters"
+category = "dev"
+optional = false
+python-versions = "*"
+
+[package.dependencies]
+foliant = ">=1.0.8"
+PyYAML = "*"
+
+[[package]]
+name = "foliantcontrib.utils.combined-options"
+version = "1.0.10"
+description = ""
+category = "dev"
+optional = false
+python-versions = "*"
+
+[package.dependencies]
+foliant = ">=1.0.8"
+PyYAML = "*"
+
+[[package]]
+name = "foliantcontrib.utils.header-anchors"
+version = "1.0.4"
+description = "Utils for converting headers to anchors for different backends"
+category = "dev"
+optional = false
+python-versions = "*"
+
+[package.dependencies]
+foliant = ">=1.0.8"
+
+[[package]]
+name = "foliantcontrib.utils.preprocessor-ext"
+version = "1.0.5"
+description = "Extension to basic preprocessor class with useful methods and functions."
+category = "dev"
+optional = false
+python-versions = "*"
+
+[package.dependencies]
+foliant = ">=1.0.8"
+"foliantcontrib.meta" = ">=1.2.3"
+PyYAML = "*"
 
 [[package]]
 name = "future"
@@ -796,7 +888,7 @@ test = ["zope.testing"]
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.9"
-content-hash = "3382665eef87ba5802cdca47733ac6aa04f0a8641f594c8c0c35b7192616c167"
+content-hash = "628817ae6a97cae8d878caab9676258c223f0b13e130b439361fc99fee8d1c15"
 
 [metadata.files]
 alabaster = [
@@ -847,6 +939,10 @@ foliant = [
     {file = "foliant-1.0.12-py3-none-any.whl", hash = "sha256:22c98a0c4a08383092e340929a88076cdfe91e18543e64421ff047e0b2890530"},
     {file = "foliant-1.0.12.tar.gz", hash = "sha256:a2c9f3e2056e336e47bc8c2966b27a9937a09f6c33966f48d8a561c74a3f35bb"},
 ]
+"foliantcontrib.anchors" = [
+    {file = "foliantcontrib.anchors-1.0.6-py3-none-any.whl", hash = "sha256:d8b8e8e7352678ff1984b17023c06089528c7c3c1cfdd25bbbf1ca72c8fc50ce"},
+    {file = "foliantcontrib.anchors-1.0.6.tar.gz", hash = "sha256:b80b3cdef39ba595636789133ff609be2fed16ab441461440f490e62b57d620c"},
+]
 "foliantcontrib.escapecode" = [
     {file = "foliantcontrib.escapecode-1.0.4-py3-none-any.whl", hash = "sha256:6fa69632e12177c6a32feebfda72ba4e65afe1da12e009a38f9179ebda0a83e7"},
     {file = "foliantcontrib.escapecode-1.0.4.tar.gz", hash = "sha256:18879fd27ec8c700b7e8dba9b834691b32b10e43326a7ab20c923222886ceb6f"},
@@ -866,6 +962,30 @@ foliant = [
 "foliantcontrib.mkdocs" = [
     {file = "foliantcontrib.mkdocs-1.0.12-py3-none-any.whl", hash = "sha256:4b15dab5e7251646960fdfbaf5efbb5b6e32ef519310220b4a944ef8f46133ee"},
     {file = "foliantcontrib.mkdocs-1.0.12.tar.gz", hash = "sha256:7dcb11662bc601ea66ca167edd324beb920a8209c9ce824d3c9d17c9164f3f06"},
+]
+"foliantcontrib.superlinks" = [
+    {file = "foliantcontrib.superlinks-1.0.9-py3-none-any.whl", hash = "sha256:de8595f17db5e102453af163a1687baf156a6087247ba88ef10f0fb9bc6a4180"},
+    {file = "foliantcontrib.superlinks-1.0.9.tar.gz", hash = "sha256:4733f58bb36aa5fae34daecfa510f4aeb86c5cdc6d84c5c8b6581335a4f7c8d7"},
+]
+"foliantcontrib.utils" = [
+    {file = "foliantcontrib.utils-1.0.0-py3-none-any.whl", hash = "sha256:5dca84df81427b9d4b56b45b5345de17eaf79c412ea8b74574a1354e02f486f1"},
+    {file = "foliantcontrib.utils-1.0.0.tar.gz", hash = "sha256:95bd880e85daf98a94b6d80466a87ccde07e4b827177a9adc4476565f48e315b"},
+]
+"foliantcontrib.utils.chapters" = [
+    {file = "foliantcontrib.utils.chapters-1.0.4-py3-none-any.whl", hash = "sha256:568ec90123abf84a263dc94d65b27526f4d34ea0be030d9bc58eb9f41170de28"},
+    {file = "foliantcontrib.utils.chapters-1.0.4.tar.gz", hash = "sha256:9ae39b607403109b7dd96555b9114493c5cdeb119e8fac8c47b4b87918249a22"},
+]
+"foliantcontrib.utils.combined-options" = [
+    {file = "foliantcontrib.utils.combined_options-1.0.10-py3-none-any.whl", hash = "sha256:33e07427297df8c3bef5d973abfe6c261ce2bb8826bb3ac3b5e89db5e3ea087d"},
+    {file = "foliantcontrib.utils.combined_options-1.0.10.tar.gz", hash = "sha256:0e71cbcfad99229acf2d3502a74b99f4758bf7e5d4bdcc2d43a61932d25b7bd1"},
+]
+"foliantcontrib.utils.header-anchors" = [
+    {file = "foliantcontrib.utils.header_anchors-1.0.4-py3-none-any.whl", hash = "sha256:d6780c6a24431a2f2549e4788c73db7581dd87707df155778c4c75b51dcecdc6"},
+    {file = "foliantcontrib.utils.header_anchors-1.0.4.tar.gz", hash = "sha256:d9011fe57aea9070f48fcfa10a62ce7cb4ba492f0d8148000292b93e0d4ae16f"},
+]
+"foliantcontrib.utils.preprocessor-ext" = [
+    {file = "foliantcontrib.utils.preprocessor_ext-1.0.5-py3-none-any.whl", hash = "sha256:1d04dc591d96929b60dd77210c7fd5ee392d5f8f4677bb2592cb2a79809c913a"},
+    {file = "foliantcontrib.utils.preprocessor_ext-1.0.5.tar.gz", hash = "sha256:347ddef715efe29595c0d7f3794dcadaad7b9fdf32806ebc045aa3a10ca9b0df"},
 ]
 future = [
     {file = "future-0.18.2.tar.gz", hash = "sha256:b1bead90b70cf6ec3f0710ae53a525360fa360d306a86583adc6bf83a4db537d"},

@@ -21,6 +21,7 @@ lib
 logs
 *.log
 __pycache__
+*.mkdocs
 
 MANIFEST
 

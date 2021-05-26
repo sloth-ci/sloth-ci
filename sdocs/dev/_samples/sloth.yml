@@ -1,0 +1,14 @@
+host: localhost
+port: 8080
+
+api_auth:
+    login: admin
+    password: password
+
+paths:
+    configs:
+        - test.yml
+
+extensions:
+    dev:
+        module: devtools
