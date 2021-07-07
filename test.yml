@@ -1,8 +1,9 @@
+---
 id: test
 
 actions:
-    - !critical sleep {time}
-    - echo Good morning!
+  - !critical sleep {time}
+  - echo Good morning!
 
 params:
-    time: 5
+  time: 5

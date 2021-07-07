@@ -1,12 +1,13 @@
+---
 host: localhost
 port: 8080
 
 auth:
-    -   login: admin
-        password: password
-    -   login: badmin
-        password: bpassword
+  - login: admin
+    password: password
+  - login: badmin
+    password: bpassword
 
 paths:
-    configs:
-        - test.yml
+  configs:
+    - test.yml
