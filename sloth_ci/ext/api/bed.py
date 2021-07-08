@@ -1,4 +1,4 @@
-﻿def extend_bed(cls, extension):
+def extend_bed(cls, extension):
     '''Add routes and handlers for the API methods.
 
     :param cls: base :class:`Bed <sloth_ci.bed.Bed>` class to be extended

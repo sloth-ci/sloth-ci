@@ -1,4 +1,4 @@
-﻿from importlib import import_module
+from importlib import import_module
 
 from argparse import ArgumentParser
 

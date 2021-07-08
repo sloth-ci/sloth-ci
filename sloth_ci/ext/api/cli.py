@@ -1,4 +1,4 @@
-﻿def extend_cli(cls, extension):
+def extend_cli(cls, extension):
     '''Add command-line commands for the API interaction.
 
     :param cls: base :class:`CLI <sloth_ci.cli.CLI>` class to be extended

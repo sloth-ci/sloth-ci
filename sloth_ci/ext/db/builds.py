@@ -1,4 +1,4 @@
-﻿def extend_sloth(cls, extension):
+def extend_sloth(cls, extension):
     '''Add SQLite logging for build events.
 
     :param cls: base :mod:`Sloth <sloth_ci.sloth.Sloth>` class to extend

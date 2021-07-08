@@ -1,4 +1,4 @@
-﻿'''Lightweight tool that runs commands when you push to GitHub, Bitbucket, or Gitlab.
+'''Lightweight tool that runs commands when you push to GitHub, Bitbucket, or Gitlab.
 
 Just type the commands you'd run manually and let Sloth CI run them for you!
 '''
