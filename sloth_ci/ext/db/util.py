@@ -4,7 +4,7 @@ import sqlite3
 
 
 class SqliteHandler(Handler):
-    '''SQLite handler for the Python logging module.'''
+    """SQLite handler for the Python logging module."""
 
     def __init__(self, db, table):
         super().__init__()
@@ -14,15 +14,24 @@ class SqliteHandler(Handler):
 
         self.table = table
 
-        query = 'CREATE TABLE IF NOT EXISTS %s (timestamp, logger_name, level_name, level_number, message)' % self.table
+        query = (
+            "CREATE TABLE IF NOT EXISTS %s (timestamp, logger_name, level_name, level_number, message)"
+            % self.table
+        )
 
         self.cursor.execute(query)
         self.connection.commit()
 
     def emit(self, record):
         try:
-            query = 'INSERT INTO %s VALUES (?, ?, ?, ?, ?)' % self.table
-            query_params = (record.created, record.name, record.levelname, record.levelno, record.msg)
+            query = "INSERT INTO %s VALUES (?, ?, ?, ?, ?)" % self.table
+            query_params = (
+                record.created,
+                record.name,
+                record.levelname,
+                record.levelno,
+                record.msg,
+            )
 
             self.cursor.execute(query, query_params)
             self.connection.commit()

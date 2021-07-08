@@ -1,11 +1,11 @@
 def extend_cli(cls, extension):
-    '''Add command-line commands for the API interaction.
+    """Add command-line commands for the API interaction.
 
     :param cls: base :class:`CLI <sloth_ci.cli.CLI>` class to be extended
     :param extension: ``{'api': {'module': 'api'}}``
 
     :returns: extended :class:`CLI <sloth_ci.cli.CLI>` class
-    '''
+    """
 
     from sys import exit
     from os.path import abspath
@@ -20,30 +20,28 @@ def extend_cli(cls, extension):
 
     from requests import post, exceptions
 
-
     class CLI(cls):
-        '''Welcome to Sloth CI API CLI!
+        """Welcome to Sloth CI API CLI!
 
-Run "sci start" to start the server.
+        Run "sci start" to start the server.
 
-Run "sci -h" to see all available commands.
+        Run "sci -h" to see all available commands.
 
-Run "sci <command> -h" to get help for a specific command.
-'''
+        Run "sci <command> -h" to get help for a specific command."""
 
         def __init__(self):
             super().__init__()
 
-            api_url = 'http://%s:%d' % (self.config['host'], self.config['port'])
+            api_url = "http://%s:%d" % (self.config["host"], self.config["port"])
 
-            for alias in ('auth', 'api_auth'):
+            for alias in ("auth", "api_auth"):
                 auth = self.config.get(alias)
                 if auth:
                     try:
-                        api_auth = (auth[0]['login'], auth[0]['password'])
+                        api_auth = (auth[0]["login"], auth[0]["password"])
 
                     except KeyError:
-                        api_auth = (auth['login'], auth['password'])
+                        api_auth = (auth["login"], auth["password"])
 
                     finally:
                         break
@@ -54,14 +52,14 @@ Run "sci <command> -h" to get help for a specific command.
 
         @staticmethod
         def send_api_request(url, auth, data={}):
-            '''Send a POST request to a Sloth CI API server with the given data.
+            """Send a POST request to a Sloth CI API server with the given data.
 
             :param url: URL of the Sloth CI API server
             :param auth: login and password to access the Sloth CI API
             :param data: dict of data to be sent with the request
-            '''
+            """
 
-            APIResponse = namedtuple('APIResponse', ('status_code', 'content'))
+            APIResponse = namedtuple("APIResponse", ("status_code", "content"))
 
             try:
                 response = post(url, auth=auth, data=data)
@@ -79,17 +77,17 @@ Run "sci <command> -h" to get help for a specific command.
                 return APIResponse(response.status_code, content)
 
             except exceptions.ConnectionError:
-                return APIResponse(503, 'Failed to connect to Sloth CI on %s' % url)
+                return APIResponse(503, "Failed to connect to Sloth CI on %s" % url)
 
         @staticmethod
         def colorize(table, based_on_column, hide_level=True):
-            '''Colorize logs table according to message status.
+            """Colorize logs table according to message status.
 
             :param table: logs table, each row is [timestamp, message, level_name]
             :param based_on_column: number of column that holds record level names for coloring
 
             :returns: colorized table
-            '''
+            """
             try:
                 from colorama import init, Fore, Back
 
@@ -105,15 +103,15 @@ Run "sci <command> -h" to get help for a specific command.
 
                     level_name = row[based_on_column]
 
-                    if level_name == 'DEBUG':
+                    if level_name == "DEBUG":
                         color = Fore.CYAN
-                    elif level_name == 'INFO':
+                    elif level_name == "INFO":
                         color = Fore.GREEN
-                    elif level_name == 'WARNING':
+                    elif level_name == "WARNING":
                         color = Fore.YELLOW
-                    elif level_name == 'ERROR':
+                    elif level_name == "ERROR":
                         color = Fore.RED
-                    elif level_name == 'CRITICAL':
+                    elif level_name == "CRITICAL":
                         color = Fore.RED + Back.WHITE
                     else:
                         color = reset
@@ -127,24 +125,20 @@ Run "sci <command> -h" to get help for a specific command.
 
             return colorized_table
 
-
-        @add_aliases(['add'])
-        def create(self, paths:List[str]):
-            '''create apps from PATHS and bind them with respective configs'''
+        @add_aliases(["add"])
+        def create(self, paths: List[str]):
+            """create apps from PATHS and bind them with respective configs"""
 
             for path in paths:
                 config_files = glob(path)
 
                 if not config_files:
-                    print('Path %s not found' % path)
+                    print("Path %s not found" % path)
                     continue
 
                 for config_file in config_files:
                     response = self.send_api_request(
-                        {
-                            'action': 'create',
-                            'config_string': open(config_file).read()
-                        }
+                        {"action": "create", "config_string": open(config_file).read()}
                     )
 
                     if response.status_code == 201:
@@ -152,282 +146,264 @@ Run "sci <command> -h" to get help for a specific command.
                         print('App "%s" created' % listen_point)
 
                     else:
-                        print('Failed to create app: %s' % response.content)
+                        print("Failed to create app: %s" % response.content)
                         continue
 
                     response = self.send_api_request(
                         {
-                            'action': 'bind',
-                            'listen_point': listen_point,
-                            'config_file': abspath(config_file)
+                            "action": "bind",
+                            "listen_point": listen_point,
+                            "config_file": abspath(config_file),
                         }
                     )
 
                     if response.status_code == 200:
-                        print('App "%s" bound with config file "%s"' % (listen_point, config_file))
+                        print(
+                            'App "%s" bound with config file "%s"'
+                            % (listen_point, config_file)
+                        )
 
                     else:
-                        print('Failed to bind app with config file: %s' % response.content)
+                        print(
+                            "Failed to bind app with config file: %s" % response.content
+                        )
 
-        @add_aliases(['hist', 'builds'])
-        def history(self, app, from_page:int=1, to_page:int=1, per_page:int=10, level:int=20, verbose=False):
-            '''get build history for APP'''
+        @add_aliases(["hist", "builds"])
+        def history(
+            self,
+            app,
+            from_page: int = 1,
+            to_page: int = 1,
+            per_page: int = 10,
+            level: int = 20,
+            verbose=False,
+        ):
+            """get build history for APP"""
 
             response = self.send_api_request(
                 {
-                    'action': 'history',
-                    'listen_point': app,
-                    'from_page': from_page,
-                    'to_page': to_page,
-                    'per_page': per_page,
-                    'level': level
+                    "action": "history",
+                    "listen_point": app,
+                    "from_page": from_page,
+                    "to_page": to_page,
+                    "per_page": per_page,
+                    "level": level,
                 }
             )
 
             if response.status_code == 200:
                 rows = [
                     [
-                        ctime(record['timestamp']),
-                        record['message'],
-                        record['level_name']
-                    ] for record in response.content
+                        ctime(record["timestamp"]),
+                        record["message"],
+                        record["level_name"],
+                    ]
+                    for record in response.content
                 ]
 
-                headers = [
-                    'Timestamp',
-                    'Status',
-                    'Level'
-                ]
+                headers = ["Timestamp", "Status", "Level"]
 
                 if verbose:
                     table = tabulate(
                         self.colorize(rows, based_on_column=-1, hide_level=False),
-                        headers=headers
+                        headers=headers,
                     )
 
                 else:
                     table = tabulate(
-                        self.colorize(rows, based_on_column=-1),
-                        headers=headers
+                        self.colorize(rows, based_on_column=-1), headers=headers
                     )
 
                 print(table)
 
             else:
-                exit('Failed to get app build history: %s' % response.content)
+                exit("Failed to get app build history: %s" % response.content)
 
         def info(self, app):
-            '''get information about APP'''
+            """get information about APP"""
 
-            response = self.send_api_request(
-                {
-                    'action': 'info',
-                    'listen_point': app
-                }
-            )
+            response = self.send_api_request({"action": "info", "listen_point": app})
 
             if response.status_code == 200:
                 info = response.content
 
-                rows = [[
-                    info['config_file'],
-                    info['last_build_status_message'],
-                    ctime(info['last_build_timestamp']),
-                    info['last_build_status_level']
-                ]]
-
-                headers = [
-                    'Config File',
-                    'Last Build Message',
-                    'Last Build Timestamp'
+                rows = [
+                    [
+                        info["config_file"],
+                        info["last_build_status_message"],
+                        ctime(info["last_build_timestamp"]),
+                        info["last_build_status_level"],
+                    ]
                 ]
 
+                headers = ["Config File", "Last Build Message", "Last Build Timestamp"]
+
                 table = tabulate(
-                    self.colorize(rows, based_on_column=-1),
-                    headers=headers
+                    self.colorize(rows, based_on_column=-1), headers=headers
                 )
 
                 print(table)
 
             else:
-                exit('Failed to get app info: %s' % response.content)
+                exit("Failed to get app info: %s" % response.content)
 
-        @add_aliases(['ls'])
+        @add_aliases(["ls"])
         def list(self):
-            '''list all available apps'''
+            """list all available apps"""
 
-            response = self.send_api_request(
-                {
-                    'action': 'list'
-                }
-            )
+            response = self.send_api_request({"action": "list"})
 
             if response.status_code == 200:
                 for app in response.content:
                     print(app)
 
             else:
-                exit('Failed to get app list: %s' % response.content)
+                exit("Failed to get app list: %s" % response.content)
 
-        @add_aliases(['lg'])
-        def logs(self, app, from_page:int=1, to_page:int=1, per_page:int=10, level:int=20, verbose=False):
-            '''get logs for APP'''
+        @add_aliases(["lg"])
+        def logs(
+            self,
+            app,
+            from_page: int = 1,
+            to_page: int = 1,
+            per_page: int = 10,
+            level: int = 20,
+            verbose=False,
+        ):
+            """get logs for APP"""
 
             response = self.send_api_request(
                 {
-                    'action': 'logs',
-                    'listen_point': app,
-                    'from_page': from_page,
-                    'to_page': to_page,
-                    'per_page': per_page,
-                    'level': level
+                    "action": "logs",
+                    "listen_point": app,
+                    "from_page": from_page,
+                    "to_page": to_page,
+                    "per_page": per_page,
+                    "level": level,
                 }
             )
 
             if response.status_code == 200:
                 rows = [
                     [
-                        ctime(record['timestamp']),
-                        record['message'],
-                        record['level_name']
-                    ] for record in response.content
+                        ctime(record["timestamp"]),
+                        record["message"],
+                        record["level_name"],
+                    ]
+                    for record in response.content
                 ]
 
-                headers = [
-                    'Timestamp',
-                    'Message',
-                    'Level'
-                ]
+                headers = ["Timestamp", "Message", "Level"]
 
                 if verbose:
                     table = tabulate(
                         self.colorize(rows, based_on_column=-1, hide_level=False),
-                        headers=headers
+                        headers=headers,
                     )
 
                 else:
                     table = tabulate(
-                        self.colorize(rows, based_on_column=-1),
-                        headers=headers
+                        self.colorize(rows, based_on_column=-1), headers=headers
                     )
 
                 print(table)
 
             else:
-                exit('Failed to get app logs: %s' % response.content)
+                exit("Failed to get app logs: %s" % response.content)
 
-        @add_aliases(['update', 'up'])
+        @add_aliases(["update", "up"])
         def reload(self, app):
-            '''recreate APP to apply config changes'''
+            """recreate APP to apply config changes"""
 
-            response = self.send_api_request(
-                {
-                    'action': 'info',
-                    'listen_point': app
-                }
-            )
+            response = self.send_api_request({"action": "info", "listen_point": app})
 
             if response.status_code == 200:
                 self.remove(app)
-                self.create([response.content['config_file']])
+                self.create([response.content["config_file"]])
 
             else:
-                exit('Failed to get app info: %s' % response.content)
+                exit("Failed to get app info: %s" % response.content)
 
-        @add_aliases(['del', 'rm'])
+        @add_aliases(["del", "rm"])
         def remove(self, app):
-            '''remove APP'''
+            """remove APP"""
 
-            response = self.send_api_request(
-                {
-                    'action': 'remove',
-                    'listen_point': app
-                }
-            )
+            response = self.send_api_request({"action": "remove", "listen_point": app})
 
             if response.status_code == 204:
                 print('App "%s" removed' % app)
 
             else:
-                exit('Failed to remove app: %s' % response.content)
+                exit("Failed to remove app: %s" % response.content)
 
         def restart(self):
-            '''restart server'''
+            """restart server"""
 
-            response = self.send_api_request(
-                {
-                    'action': 'restart'
-                }
-            )
+            response = self.send_api_request({"action": "restart"})
 
             if response.status_code == 202:
-                print('Restarting Sloth CI on http://%s:%d' % (self.config['host'], self.config['port']))
-
-            else:
-                exit('Failed to restart Sloth CI: %s' % response.content)
-
-        @add_aliases(['stat', 'st'])
-        def status(self):
-            '''check server status'''
-
-            response = self.send_api_request(
-                {
-                    'action': 'version'
-                }
-            )
-
-            if response.status_code == 200:
                 print(
-                    'Sloth CI version %s is running on http://%s:%d'
-                     % (response.content, self.config['host'], self.config['port'])
+                    "Restarting Sloth CI on http://%s:%d"
+                    % (self.config["host"], self.config["port"])
                 )
 
             else:
-                print('Sloth CI is not running on http://%s:%d' % (self.config['host'], self.config['port']))
+                exit("Failed to restart Sloth CI: %s" % response.content)
 
-        def stop(self):
-            '''stop server'''
+        @add_aliases(["stat", "st"])
+        def status(self):
+            """check server status"""
 
-            response = self.send_api_request(
-                {
-                    'action': 'stop'
-                }
-            )
+            response = self.send_api_request({"action": "version"})
 
-            if response.status_code == 202:
-                print('Stopping Sloth CI on http://%s:%d' % (self.config['host'], self.config['port']))
+            if response.status_code == 200:
+                print(
+                    "Sloth CI version %s is running on http://%s:%d"
+                    % (response.content, self.config["host"], self.config["port"])
+                )
 
             else:
-                exit('Failed to stop Sloth CI: %s' % response.content)
+                print(
+                    "Sloth CI is not running on http://%s:%d"
+                    % (self.config["host"], self.config["port"])
+                )
 
+        def stop(self):
+            """stop server"""
 
-        @add_aliases(['run', 'fire'])
-        def trigger(self, app, wait=False, params: List[str]=[]):
-            '''trigger APP's actions with given PARAMS
+            response = self.send_api_request({"action": "stop"})
+
+            if response.status_code == 202:
+                print(
+                    "Stopping Sloth CI on http://%s:%d"
+                    % (self.config["host"], self.config["port"])
+                )
+
+            else:
+                exit("Failed to stop Sloth CI: %s" % response.content)
+
+        @add_aliases(["run", "fire"])
+        def trigger(self, app, wait=False, params: List[str] = []):
+            """trigger APP's actions with given PARAMS
 
             PARAMS are specified as "param1=value1 param2=value ..."
-            '''
+            """
 
-            data = {
-                'action': 'trigger',
-                'listen_point': app,
-                'wait': wait or ''
-            }
+            data = {"action": "trigger", "listen_point": app, "wait": wait or ""}
 
             for param in params:
-                key, value = param.split('=')
+                key, value = param.split("=")
                 data[key] = value
 
             response = self.send_api_request(data)
 
             if response.status_code == 202:
-                print('Actions triggered on %s' % app)
+                print("Actions triggered on %s" % app)
 
             elif response.status_code == 200:
                 print(response.content)
 
             else:
-                exit('Failed to trigger actions: %s' % response.content)
-
+                exit("Failed to trigger actions: %s" % response.content)
 
     return CLI
