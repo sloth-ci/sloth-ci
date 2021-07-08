@@ -11,3 +11,7 @@ auth:
 paths:
   configs:
     - test.yml
+
+extensions:
+  dev:
+    module: devtools

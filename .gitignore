@@ -40,3 +40,9 @@ sloth_ci/ext/robots_txt.py
 sloth_ci/ext/ssh_exec.py
 sloth_ci/ext/stdout.py
 sloth_ci/ext/webhooks.py
+
+# apps
+timestamper.yml
+timestamps.txt
+TODO.md
+

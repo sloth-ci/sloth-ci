@@ -36,5 +36,6 @@ Build the docs:
 $ poetry run sphinx-build sdocs docs/_build/html
 ```
 
-And open ``docs/_build/html/index.html``.
+Open the file ``docs/_build/html/index.html`` directly,
+or run a server from the ``html`` directory: ``python3 -m http.server --bind 127.0.0.1``
 
