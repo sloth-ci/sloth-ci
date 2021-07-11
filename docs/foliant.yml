@@ -7,6 +7,8 @@ chapters:
   - cli.md
   - server_config.md
   - app_config.md
+  - validators.md
+  - extensions.md
   - changelog.md
 
 backend_config:

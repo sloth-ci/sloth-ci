@@ -30,5 +30,5 @@ $ poetry run sci status
 
 Build the docs:
 ```
-$ poetry run sphinx-build docs docs/_build/html
+$ poetry run foliant make site -p docs
 ```
