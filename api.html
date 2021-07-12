@@ -1,0 +1,867 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+      <link rel="icon" href="assets/favicon.ico">
+      <meta name="generator" content="mkdocs-1.2.1, mkdocs-material-7.1.10">
+    
+    
+      
+        <title>API - Sloth CI</title>
+      
+    
+    
+      <link rel="stylesheet" href="assets/stylesheets/main.1fe995fd.min.css">
+      
+        
+        <link rel="stylesheet" href="assets/stylesheets/palette.f1a3b89f.min.css">
+        
+          
+          
+          <meta name="theme-color" content="#ef5552">
+        
+      
+    
+    
+    
+      
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=PT+Sans:300,400,400i,700%7CPT+Mono&display=fallback">
+        <style>:root{--md-text-font-family:"PT Sans";--md-code-font-family:"PT Mono"}</style>
+      
+    
+    
+    
+    
+      
+
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="red" data-md-color-accent="green">
+  
+    
+    <script>function __prefix(e){return new URL(".",location).pathname+"."+e}function __get(e,t=localStorage){return JSON.parse(t.getItem(__prefix(e)))}</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#api" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      <header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="index.html" title="Sloth CI" class="md-header__button md-logo" aria-label="Sloth CI" data-md-component="logo">
+      
+  <img src="assets/sloth.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Sloth CI
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              API
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+      </label>
+      
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" data-md-state="active" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </label>
+      <button type="reset" class="md-search__icon md-icon" aria-label="Clear" tabindex="-1">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+      </button>
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        
+<a href="https://github.com/sloth-ci/sloth-ci/" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="index.html" title="Sloth CI" class="md-nav__button md-logo" aria-label="Sloth CI" data-md-component="logo">
+      
+  <img src="assets/sloth.png" alt="logo">
+
+    </a>
+    Sloth CI
+  </label>
+  
+    <div class="md-nav__source">
+      
+<a href="https://github.com/sloth-ci/sloth-ci/" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="index.html" class="md-nav__link">
+        Welcome to Sloth CI!
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          API
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="api.html" class="md-nav__link md-nav__link--active">
+        API
+      </a>
+      
+        
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#methods" class="md-nav__link">
+    Methods
+  </a>
+  
+    <nav class="md-nav" aria-label="Methods">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#create" class="md-nav__link">
+    create
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bind" class="md-nav__link">
+    bind
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#trigger" class="md-nav__link">
+    trigger
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#info" class="md-nav__link">
+    info
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#history" class="md-nav__link">
+    history
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#logs" class="md-nav__link">
+    logs
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#list" class="md-nav__link">
+    list
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#remove" class="md-nav__link">
+    remove
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#version" class="md-nav__link">
+    version
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#restart" class="md-nav__link">
+    restart
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#stop" class="md-nav__link">
+    stop
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="cli.html" class="md-nav__link">
+        CLI
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="server_config.html" class="md-nav__link">
+        Server Config
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="app_config.html" class="md-nav__link">
+        App Config
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="validators.html" class="md-nav__link">
+        Validators
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="extensions.html" class="md-nav__link">
+        Extensions
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="changelog.html" class="md-nav__link">
+        Changelog
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#methods" class="md-nav__link">
+    Methods
+  </a>
+  
+    <nav class="md-nav" aria-label="Methods">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#create" class="md-nav__link">
+    create
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bind" class="md-nav__link">
+    bind
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#trigger" class="md-nav__link">
+    trigger
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#info" class="md-nav__link">
+    info
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#history" class="md-nav__link">
+    history
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#logs" class="md-nav__link">
+    logs
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#list" class="md-nav__link">
+    list
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#remove" class="md-nav__link">
+    remove
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#version" class="md-nav__link">
+    version
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#restart" class="md-nav__link">
+    restart
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#stop" class="md-nav__link">
+    stop
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content" data-md-component="content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                  <a href="https://github.com/sloth-ci/sloth-ci/edit/develop/docs/src/api.md" title="Edit this page" class="md-content__button md-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25z"/></svg>
+                  </a>
+                
+                
+                <h1 id="api">API<a class="headerlink" href="#api" title="Permanent link">&para;</a></h1>
+<p>Sloth CI's API lets you restart and stop a running server, create and remove apps, list app logs and view app build history.</p>
+<p>The API runs on the host and port specified in the <a href="server_config.html">server config</a>. It's protected from unauthorized access with basic auth; the access credentials are also stored in the server config.</p>
+<p>The API returns data in JSON format.</p>
+<p>There're three ways to call an API method:</p>
+<ul>
+<li>
+<p>Use Sloth CI's <a href="cli.html">CLI</a>:</p>
+<div class="codehilite"><pre><span></span><code>$ sci info <span class="nb">test</span>
+Config File        Last Build Message   Last Build Timestamp
+-----------------  -------------------  ------------------------
+/path/to/test.yml  Completed <span class="m">2</span>/2        Thu Nov  <span class="m">5</span> <span class="m">00</span>:47:52 <span class="m">2015</span>
+</code></pre></div>
+
+</li>
+<li>
+<p>Visit <code>http://mydomain.com:8080/?action=info&amp;listen_point=test</code>.</p>
+</li>
+<li>
+<p>Send POST requests with form parameters:</p>
+<div class="codehilite"><pre><span></span><code>$ curl -u login:password -F <span class="nv">action</span><span class="o">=</span>info -F <span class="nv">listen_point</span><span class="o">=</span><span class="nb">test</span> http://mydomain.com:8080 
+<span class="o">{</span><span class="s2">&quot;config_file&quot;</span>: <span class="s2">&quot;/path/to/test.yml&quot;</span>, <span class="s2">&quot;last_build_status_message&quot;</span>: <span class="s2">&quot;Completed 2/2&quot;</span>, <span class="s2">&quot;last_build_status_level&quot;</span>: <span class="s2">&quot;INFO&quot;</span>, <span class="s2">&quot;last_build_timestamp&quot;</span>: <span class="m">1621191160</span>.9056282<span class="o">}</span>
+</code></pre></div>
+
+</li>
+</ul>
+<h2 id="methods">Methods<a class="headerlink" href="#methods" title="Permanent link">&para;</a></h2>
+<h3 id="create">create<a class="headerlink" href="#create" title="Permanent link">&para;</a></h3>
+<p>Create an app from the given config string:</p>
+<div class="codehilite"><pre><span></span><code>$ curl -u login:password -F <span class="nv">action</span><span class="o">=</span>create -F <span class="nv">config_string</span><span class="o">=</span><span class="k">$(</span>cat test.yml<span class="k">)</span> http://mydomain:8080
+<span class="s2">&quot;test&quot;</span>
+</code></pre></div>
+
+<dl>
+<dt><code>config_string</code></dt>
+<dd>URL-encoded <a href="app_config.html">app config</a>.</dd>
+</dl>
+<h3 id="bind">bind<a class="headerlink" href="#bind" title="Permanent link">&para;</a></h3>
+<p>If the app is <a href="#create">created</a> from a config file, bind them together, so Sloth CI would know where to read the config from when you <a href="cli.html#reload">reload</a> the app:</p>
+<div class="codehilite"><pre><span></span><code>$ curl -u login:password  -F <span class="nv">action</span><span class="o">=</span><span class="nb">bind</span> -F <span class="nv">listen_point</span><span class="o">=</span><span class="nb">test</span> -F <span class="nv">config_file</span><span class="o">=</span>/path/to/test.yml http://mydomain:8080
+null
+</code></pre></div>
+
+<dl>
+<dt><code>listen_point</code></dt>
+<dd>App listen point.</dd>
+<dt><code>config_file</code></dt>
+<dd>Path to the config file ti bind with the app.</dd>
+</dl>
+<p>The <a href="cli.html#create">create</a> CLI command runs the <a href="#create">create</a> and <a href="#bind">bind</a> API methods.</p>
+<h3 id="trigger">trigger<a class="headerlink" href="#trigger" title="Permanent link">&para;</a></h3>
+<p>Trigger app's actions:</p>
+<div class="codehilite"><pre><span></span><code>$ curl -u login:password -F <span class="nv">action</span><span class="o">=</span>trigger -F <span class="nv">listen_point</span><span class="o">=</span><span class="nb">test</span> -F <span class="nv">foo</span><span class="o">=</span>bar http://mydomain:8080
+null
+</code></pre></div>
+
+<p>Trigger app's actions and wait for them to complete:</p>
+<div class="codehilite"><pre><span></span><code>$ curl -u login:password -F <span class="nv">action</span><span class="o">=</span>trigger -F <span class="nv">listen_point</span><span class="o">=</span><span class="nb">test</span> -F <span class="nv">wait</span><span class="o">=</span><span class="m">1</span> -F <span class="nv">success_url</span><span class="o">=</span>http://example.com/success -F <span class="nv">fail_url</span><span class="o">=</span>http://example.com/fail -F <span class="nv">foo</span><span class="o">=</span>bar http://mydomain:8080
+<span class="s2">&quot;Completed 2/2&quot;</span>
+</code></pre></div>
+
+<dl>
+<dt><code>listen_point</code></dt>
+<dd>App listen point.</dd>
+<dt><code>wait</code> <em>optional</em></dt>
+<dd>Wait for the actions to complete.</dd>
+<dt><code>success_url</code> <em>optional</em></dt>
+<dd>URL to redirect to after a successful build run. Used only with <code>wait</code>.</dd>
+<dt><code>fail_url</code> <em>optional</em></dt>
+<dd>URL to redirect to after a failed or incomplete build run. Used only with <code>wait</code>.</dd>
+<dt>custom params <em>optional</em></dt>
+<dd>Any number of params to replace <a href="app_config.html#params">placeholders</a> in the actions.</dd>
+</dl>
+<h3 id="info">info<a class="headerlink" href="#info" title="Permanent link">&para;</a></h3>
+<p>Get app config file path and last build status:</p>
+<div class="codehilite"><pre><span></span><code>$ curl -u login:password -F <span class="nv">action</span><span class="o">=</span>info -F <span class="nv">listen_point</span><span class="o">=</span><span class="nb">test</span> -s http://mydomain:8080 <span class="p">|</span> jq
+<span class="o">{</span>
+    <span class="s2">&quot;config_file&quot;</span>: <span class="s2">&quot;C:\\Users\\moigagoo\\Projects\\sloth-ci\\test.yml&quot;</span>,
+    <span class="s2">&quot;last_build_status_level&quot;</span>: <span class="s2">&quot;INFO&quot;</span>,
+    <span class="s2">&quot;last_build_status_message&quot;</span>: <span class="s2">&quot;Completed 2/2&quot;</span>,
+    <span class="s2">&quot;last_build_timestamp&quot;</span>: <span class="m">1448695186</span>.978541
+<span class="o">}</span>
+</code></pre></div>
+
+<h3 id="history">history<a class="headerlink" href="#history" title="Permanent link">&para;</a></h3>
+<p>Get app build history:</p>
+<div class="codehilite"><pre><span></span><code>$ curl -u login:password -F <span class="nv">action</span><span class="o">=</span><span class="nb">history</span> -F <span class="nv">listen_point</span><span class="o">=</span><span class="nb">test</span> -s http://mydomain:8080 <span class="p">|</span> jq
+<span class="o">[</span>
+    <span class="o">{</span>
+        <span class="s2">&quot;level_name&quot;</span>: <span class="s2">&quot;INFO&quot;</span>,
+        <span class="s2">&quot;level_number&quot;</span>: <span class="m">20</span>,
+        <span class="s2">&quot;logger_name&quot;</span>: <span class="s2">&quot;test.build&quot;</span>,
+        <span class="s2">&quot;message&quot;</span>: <span class="s2">&quot;Completed 2/2&quot;</span>,
+        <span class="s2">&quot;timestamp&quot;</span>: <span class="m">1448695186</span>.978541
+    <span class="o">}</span>,
+    ...
+</code></pre></div>
+
+<p>Paginate and filter by status:</p>
+<div class="codehilite"><pre><span></span><code>$ curl -u login:password -F <span class="nv">action</span><span class="o">=</span><span class="nb">history</span> -F <span class="nv">listen_point</span><span class="o">=</span><span class="nb">test</span> -F <span class="nv">from_page</span><span class="o">=</span><span class="m">3</span> -F <span class="nv">per_page</span><span class="o">=</span><span class="m">2</span> -F <span class="nv">level</span><span class="o">=</span><span class="m">10</span> -s http://mydomain:8080 <span class="p">|</span> jq
+<span class="o">[</span>
+    <span class="o">{</span>
+        <span class="s2">&quot;level_name&quot;</span>: <span class="s2">&quot;INFO&quot;</span>,
+        <span class="s2">&quot;level_number&quot;</span>: <span class="m">20</span>,
+        <span class="s2">&quot;logger_name&quot;</span>: <span class="s2">&quot;test.exec&quot;</span>,
+        <span class="s2">&quot;message&quot;</span>: <span class="s2">&quot;Executing action: PowerShell echo Good morning!&quot;</span>,
+        <span class="s2">&quot;timestamp&quot;</span>: <span class="m">1448695185</span>.3463366
+    <span class="o">}</span>,
+    ...
+</code></pre></div>
+
+<dl>
+<dt><code>listen_point</code></dt>
+<dd>App listen point.</dd>
+<dt><code>from_page</code>, <code>to_page</code>, <code>per_page</code></dt>
+<dd>
+<p>Pagination params.</p>
+<p>By default, <code>from_page</code> = 1, <code>to_page</code> = <code>from_page</code>, <code>per_page</code> = 10.</p>
+</dd>
+<dt><code>level</code></dt>
+<dd>
+<p>Minimal log level to show:</p>
+<dl>
+<dt>40</dt>
+<dd>ERROR, failed builds.</dd>
+<dt>30</dt>
+<dd>WARNING, partially completed builds.</dd>
+<dt>20 (default)</dt>
+<dd>INFO, completed builds.</dd>
+<dt>10</dt>
+<dd>DEBUG, trigger events.</dd>
+</dl>
+</dd>
+</dl>
+<h3 id="logs">logs<a class="headerlink" href="#logs" title="Permanent link">&para;</a></h3>
+<p>Get app logs:</p>
+<div class="codehilite"><pre><span></span><code>$ curl -u login:password -F <span class="nv">action</span><span class="o">=</span>logs -F <span class="nv">listen_point</span><span class="o">=</span><span class="nb">test</span> -s http://mydomain:8080 <span class="p">|</span> jq
+<span class="o">[</span>
+    <span class="o">{</span>
+        <span class="s2">&quot;level_name&quot;</span>: <span class="s2">&quot;INFO&quot;</span>,
+        <span class="s2">&quot;level_number&quot;</span>: <span class="m">20</span>,
+        <span class="s2">&quot;logger_name&quot;</span>: <span class="s2">&quot;test.build&quot;</span>,
+        <span class="s2">&quot;message&quot;</span>: <span class="s2">&quot;Completed 2/2&quot;</span>,
+        <span class="s2">&quot;timestamp&quot;</span>: <span class="m">1448695186</span>.978541
+    <span class="o">}</span>,
+    ...
+</code></pre></div>
+
+<p>Paginate and filter by log level:</p>
+<div class="codehilite"><pre><span></span><code>$ curl -u login:password -F <span class="nv">action</span><span class="o">=</span>logs -F <span class="nv">listen_point</span><span class="o">=</span><span class="nb">test</span> -F <span class="nv">from_page</span><span class="o">=</span><span class="m">3</span> <span class="nv">per_page</span><span class="o">=</span><span class="m">2</span> <span class="nv">level</span><span class="o">=</span><span class="m">10</span> -s http://mydomain:8080 <span class="p">|</span> jq
+<span class="o">[</span>
+    <span class="o">{</span>
+        <span class="s2">&quot;level_name&quot;</span>: <span class="s2">&quot;INFO&quot;</span>,
+        <span class="s2">&quot;level_number&quot;</span>: <span class="m">20</span>,
+        <span class="s2">&quot;logger_name&quot;</span>: <span class="s2">&quot;test.exec&quot;</span>,
+        <span class="s2">&quot;message&quot;</span>: <span class="s2">&quot;Executing action: PowerShell echo Good morning!&quot;</span>,
+        <span class="s2">&quot;timestamp&quot;</span>: <span class="m">1448695185</span>.3463366
+    <span class="o">}</span>,
+    ...
+</code></pre></div>
+
+<dl>
+<dt><code>listen_point</code></dt>
+<dd>App listen point.</dd>
+<dt><code>from_page</code>, <code>to_page</code>, <code>per_page</code></dt>
+<dd>
+<p>Pagination params.</p>
+<p>By default, <code>from_page</code> = 1, <code>to_page</code> = <code>from_page</code>, <code>per_page</code> = 10.</p>
+</dd>
+<dt><code>level</code></dt>
+<dd>
+<p>Minimal log level to show:</p>
+<dl>
+<dt>50</dt>
+<dd>CRITICAL, errors that don't allow apps to be created, e.g missing validator.</dd>
+<dt>40</dt>
+<dd>ERROR, missing extension and failed builds.</dd>
+<dt>30</dt>
+<dd>WARNING, partially completed builds.</dd>
+<dt>20 (default)</dt>
+<dd>INFO, completed builds.</dd>
+<dt>10</dt>
+<dd>DEBUG, stdout and stderr.</dd>
+</dl>
+</dd>
+</dl>
+<h3 id="list">list<a class="headerlink" href="#list" title="Permanent link">&para;</a></h3>
+<p>List existing app listen points:</p>
+<div class="codehilite"><pre><span></span><code>$ curl -u login:password -F <span class="nv">action</span><span class="o">=</span>list -s http://mydomain:8080 <span class="p">|</span> jq
+<span class="o">[</span>
+    <span class="s2">&quot;test&quot;</span>
+<span class="o">]</span>
+</code></pre></div>
+
+<h3 id="remove">remove<a class="headerlink" href="#remove" title="Permanent link">&para;</a></h3>
+<p>Remove the app:</p>
+<div class="codehilite"><pre><span></span><code>$ curl -u login:password -F <span class="nv">action</span><span class="o">=</span>remove -F <span class="nv">listen_point</span><span class="o">=</span><span class="nb">test</span> http://mydomain:8080
+</code></pre></div>
+
+<h3 id="version">version<a class="headerlink" href="#version" title="Permanent link">&para;</a></h3>
+<p>Get the version of the Sloth CI server:</p>
+<div class="codehilite"><pre><span></span><code>$ curl -u login:password -F <span class="nv">action</span><span class="o">=</span>version http://mydomain:8080
+<span class="s2">&quot;2.0.1&quot;</span>
+</code></pre></div>
+
+<h3 id="restart">restart<a class="headerlink" href="#restart" title="Permanent link">&para;</a></h3>
+<p>Restart the Sloth CI server:</p>
+<div class="codehilite"><pre><span></span><code>$ curl -u login:password -F <span class="nv">action</span><span class="o">=</span>restart http://mydomain:8080
+null
+</code></pre></div>
+
+<h3 id="stop">stop<a class="headerlink" href="#stop" title="Permanent link">&para;</a></h3>
+<p>Stop the Sloth CI server:</p>
+<div class="codehilite"><pre><span></span><code>$ curl -u login:password -F <span class="nv">action</span><span class="o">=</span>stop http://mydomain:8080
+null
+</code></pre></div>
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+        
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <nav class="md-footer__inner md-grid" aria-label="Footer">
+      
+        
+        <a href="index.html" class="md-footer__link md-footer__link--prev" aria-label="Previous: Welcome to Sloth CI!" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              Welcome to Sloth CI!
+            </div>
+          </div>
+        </a>
+      
+      
+        
+        <a href="cli.html" class="md-footer__link md-footer__link--next" aria-label="Next: CLI" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              CLI
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
+          </div>
+        </a>
+      
+    </nav>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+          <div class="md-footer-copyright__highlight">
+            <p>Created by <a href="https://github.com/moigagoo/">Constantine Molchanov</a> using <a href="https://foliant.rocks">Foliant</a>.</p>
+
+          </div>
+        
+        Made with
+        <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+          Material for MkDocs
+        </a>
+        
+      </div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    <script id="__config" type="application/json">{"base": ".", "features": [], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "assets/javascripts/workers/search.477d984a.min.js", "version": null}</script>
+    
+    
+      <script src="assets/javascripts/bundle.ddd52ceb.min.js"></script>
+      
+    
+  </body>
+</html>

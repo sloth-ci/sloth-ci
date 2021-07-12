@@ -1,0 +1,1312 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+      <link rel="icon" href="assets/favicon.ico">
+      <meta name="generator" content="mkdocs-1.2.1, mkdocs-material-7.1.10">
+    
+    
+      
+        <title>Changelog - Sloth CI</title>
+      
+    
+    
+      <link rel="stylesheet" href="assets/stylesheets/main.1fe995fd.min.css">
+      
+        
+        <link rel="stylesheet" href="assets/stylesheets/palette.f1a3b89f.min.css">
+        
+          
+          
+          <meta name="theme-color" content="#ef5552">
+        
+      
+    
+    
+    
+      
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=PT+Sans:300,400,400i,700%7CPT+Mono&display=fallback">
+        <style>:root{--md-text-font-family:"PT Sans";--md-code-font-family:"PT Mono"}</style>
+      
+    
+    
+    
+    
+      
+
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="red" data-md-color-accent="green">
+  
+    
+    <script>function __prefix(e){return new URL(".",location).pathname+"."+e}function __get(e,t=localStorage){return JSON.parse(t.getItem(__prefix(e)))}</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#changelog" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      <header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="index.html" title="Sloth CI" class="md-header__button md-logo" aria-label="Sloth CI" data-md-component="logo">
+      
+  <img src="assets/sloth.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Sloth CI
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Changelog
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+      </label>
+      
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" data-md-state="active" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </label>
+      <button type="reset" class="md-search__icon md-icon" aria-label="Clear" tabindex="-1">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+      </button>
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        
+<a href="https://github.com/sloth-ci/sloth-ci/" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="index.html" title="Sloth CI" class="md-nav__button md-logo" aria-label="Sloth CI" data-md-component="logo">
+      
+  <img src="assets/sloth.png" alt="logo">
+
+    </a>
+    Sloth CI
+  </label>
+  
+    <div class="md-nav__source">
+      
+<a href="https://github.com/sloth-ci/sloth-ci/" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="index.html" class="md-nav__link">
+        Welcome to Sloth CI!
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="api.html" class="md-nav__link">
+        API
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="cli.html" class="md-nav__link">
+        CLI
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="server_config.html" class="md-nav__link">
+        Server Config
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="app_config.html" class="md-nav__link">
+        App Config
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="validators.html" class="md-nav__link">
+        Validators
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="extensions.html" class="md-nav__link">
+        Extensions
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Changelog
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="changelog.html" class="md-nav__link md-nav__link--active">
+        Changelog
+      </a>
+      
+        
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#211" class="md-nav__link">
+    2.1.1
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#210" class="md-nav__link">
+    2.1.0
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#209" class="md-nav__link">
+    2.0.9
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#208" class="md-nav__link">
+    2.0.8
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#207" class="md-nav__link">
+    2.0.7
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#206" class="md-nav__link">
+    2.0.6
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#205" class="md-nav__link">
+    2.0.5
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#204" class="md-nav__link">
+    2.0.4
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#203" class="md-nav__link">
+    2.0.3
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#202" class="md-nav__link">
+    2.0.2
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#201" class="md-nav__link">
+    2.0.1
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#200" class="md-nav__link">
+    2.0.0
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#130" class="md-nav__link">
+    1.3.0
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#129" class="md-nav__link">
+    1.2.9
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#128" class="md-nav__link">
+    1.2.8
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#127" class="md-nav__link">
+    1.2.7
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#126" class="md-nav__link">
+    1.2.6
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#125" class="md-nav__link">
+    1.2.5
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#124" class="md-nav__link">
+    1.2.4
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#123" class="md-nav__link">
+    1.2.3
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#122" class="md-nav__link">
+    1.2.2
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#121" class="md-nav__link">
+    1.2.1
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#120" class="md-nav__link">
+    1.2.0
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#119" class="md-nav__link">
+    1.1.9
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#118" class="md-nav__link">
+    1.1.8
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#117" class="md-nav__link">
+    1.1.7
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#116" class="md-nav__link">
+    1.1.6
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#115" class="md-nav__link">
+    1.1.5
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#114" class="md-nav__link">
+    1.1.4
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#113" class="md-nav__link">
+    1.1.3
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#112" class="md-nav__link">
+    1.1.2
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#111" class="md-nav__link">
+    1.1.1
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#110" class="md-nav__link">
+    1.1.0
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#109" class="md-nav__link">
+    1.0.9
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#108" class="md-nav__link">
+    1.0.8
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#107" class="md-nav__link">
+    1.0.7
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#106" class="md-nav__link">
+    1.0.6
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#105" class="md-nav__link">
+    1.0.5
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#104" class="md-nav__link">
+    1.0.4
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#103" class="md-nav__link">
+    1.0.3
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#102" class="md-nav__link">
+    1.0.2
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#101" class="md-nav__link">
+    1.0.1
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#100" class="md-nav__link">
+    1.0.0
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#211" class="md-nav__link">
+    2.1.1
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#210" class="md-nav__link">
+    2.1.0
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#209" class="md-nav__link">
+    2.0.9
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#208" class="md-nav__link">
+    2.0.8
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#207" class="md-nav__link">
+    2.0.7
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#206" class="md-nav__link">
+    2.0.6
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#205" class="md-nav__link">
+    2.0.5
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#204" class="md-nav__link">
+    2.0.4
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#203" class="md-nav__link">
+    2.0.3
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#202" class="md-nav__link">
+    2.0.2
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#201" class="md-nav__link">
+    2.0.1
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#200" class="md-nav__link">
+    2.0.0
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#130" class="md-nav__link">
+    1.3.0
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#129" class="md-nav__link">
+    1.2.9
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#128" class="md-nav__link">
+    1.2.8
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#127" class="md-nav__link">
+    1.2.7
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#126" class="md-nav__link">
+    1.2.6
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#125" class="md-nav__link">
+    1.2.5
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#124" class="md-nav__link">
+    1.2.4
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#123" class="md-nav__link">
+    1.2.3
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#122" class="md-nav__link">
+    1.2.2
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#121" class="md-nav__link">
+    1.2.1
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#120" class="md-nav__link">
+    1.2.0
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#119" class="md-nav__link">
+    1.1.9
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#118" class="md-nav__link">
+    1.1.8
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#117" class="md-nav__link">
+    1.1.7
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#116" class="md-nav__link">
+    1.1.6
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#115" class="md-nav__link">
+    1.1.5
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#114" class="md-nav__link">
+    1.1.4
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#113" class="md-nav__link">
+    1.1.3
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#112" class="md-nav__link">
+    1.1.2
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#111" class="md-nav__link">
+    1.1.1
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#110" class="md-nav__link">
+    1.1.0
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#109" class="md-nav__link">
+    1.0.9
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#108" class="md-nav__link">
+    1.0.8
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#107" class="md-nav__link">
+    1.0.7
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#106" class="md-nav__link">
+    1.0.6
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#105" class="md-nav__link">
+    1.0.5
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#104" class="md-nav__link">
+    1.0.4
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#103" class="md-nav__link">
+    1.0.3
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#102" class="md-nav__link">
+    1.0.2
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#101" class="md-nav__link">
+    1.0.1
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#100" class="md-nav__link">
+    1.0.0
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content" data-md-component="content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                  <a href="https://github.com/sloth-ci/sloth-ci/edit/develop/docs/src/changelog.md" title="Edit this page" class="md-content__button md-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25z"/></svg>
+                  </a>
+                
+                
+                <h1 id="changelog">Changelog<a class="headerlink" href="#changelog" title="Permanent link">&para;</a></h1>
+<h2 id="211">2.1.1<a class="headerlink" href="#211" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Bed, API: Bed: Code refactored to allow extending app listener.</li>
+</ul>
+<h2 id="210">2.1.0<a class="headerlink" href="#210" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Server config: Auth section can now contain multiple login:password pairs.</li>
+</ul>
+<h2 id="209">2.0.9<a class="headerlink" href="#209" title="Permanent link">&para;</a></h2>
+<ul>
+<li>CLI: Fixed a critical issue with not working CLI if API auth was provided.</li>
+</ul>
+<h2 id="208">2.0.8<a class="headerlink" href="#208" title="Permanent link">&para;</a></h2>
+<ul>
+<li>API: Trigger: When invoking <code>trigger</code> directly via web API with <code>wait=1</code>, you can now define the <code>success_url</code> and <code>fail_url</code> params to be redirected to after the build completes or fails.</li>
+<li>API: Auth is now optional.</li>
+</ul>
+<h2 id="207">2.0.7<a class="headerlink" href="#207" title="Permanent link">&para;</a></h2>
+<ul>
+<li>App config: Actions can be marked critical with the <code>!critical</code> tag.</li>
+</ul>
+<h2 id="206">2.0.6<a class="headerlink" href="#206" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Fixed an issue with incorrectly handled <code>auth</code> alias.</li>
+</ul>
+<h2 id="205">2.0.5<a class="headerlink" href="#205" title="Permanent link">&para;</a></h2>
+<ul>
+<li>CLI: Failed actions now return non-zero exit code.</li>
+<li>App config: Aliases for <code>listen_point</code> added: <code>id</code> and <code>name</code>.</li>
+</ul>
+<h2 id="204">2.0.4<a class="headerlink" href="#204" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Server config: An alias for <code>api_auth</code> added—<code>auth</code>.</li>
+</ul>
+<h2 id="203">2.0.3<a class="headerlink" href="#203" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Colorama is now an optional dependency.</li>
+</ul>
+<h2 id="202">2.0.2<a class="headerlink" href="#202" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Extension would not load if any extension function was missing. Fixed.</li>
+</ul>
+<h2 id="201">2.0.1<a class="headerlink" href="#201" title="Permanent link">&para;</a></h2>
+<ul>
+<li>API: trigger: <code>wait</code> param added: block until the triggerred actions are completed.</li>
+<li>Bed: Payload json is now parsed before the request is passed to a validator.</li>
+<li>CLI: Help texts improved.</li>
+<li>CLI: trigger: <code>-wait</code> flag added: block until the triggerred actions are completed.</li>
+<li>Setup: Built-in extensions were not properly installed. Fixed.</li>
+</ul>
+<h2 id="200">2.0.0<a class="headerlink" href="#200" title="Permanent link">&para;</a></h2>
+<ul>
+<li>API CLI vocabulary changed.</li>
+<li>API reimplemented as a built-in extension.</li>
+<li>A single extension can now extend apps, server, and CLI with <code>extend_sloth</code>, <code>extend_bed</code>, and <code>extend_cli</code> functions.</li>
+<li>CLI: Cliar is now used instead of docopt.</li>
+<li>Tons of small changes.</li>
+</ul>
+<h2 id="130">1.3.0<a class="headerlink" href="#130" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Bed: Server extensions now can override all Bed methods.</li>
+</ul>
+<h2 id="129">1.2.9<a class="headerlink" href="#129" title="Permanent link">&para;</a></h2>
+<ul>
+<li>API: Server: Bind: Config file binding didn't work. Fixed.</li>
+<li>CLI: Info: Info didn't work. Fixed.</li>
+</ul>
+<h2 id="128">1.2.8<a class="headerlink" href="#128" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Code cleanup.</li>
+<li>Bed: Server extension support added.</li>
+</ul>
+<h2 id="127">1.2.7<a class="headerlink" href="#127" title="Permanent link">&para;</a></h2>
+<ul>
+<li>CLI: history output is now colorized.</li>
+<li>CLI: Level column hidden from history and info output.</li>
+</ul>
+<h2 id="126">1.2.6<a class="headerlink" href="#126" title="Permanent link">&para;</a></h2>
+<ul>
+<li>API: Server: info now returns build status levels too.</li>
+<li>CLI: Colorization is now possible based on any column.</li>
+<li>CLI: info output is now colorized.</li>
+</ul>
+<h2 id="125">1.2.5<a class="headerlink" href="#125" title="Permanent link">&para;</a></h2>
+<ul>
+<li>API: info: If the database is unavailable, only build statuses are not returned.</li>
+<li>API: info: The info method didn't work if the database was unavailable. Fixed.</li>
+<li>API: Web: Alias for info added: list.</li>
+<li>API: Web: history, logs: If the database is unavailable, the history and logs methods are still accessible but explicitly return errors.</li>
+<li>Server config: DB path can only point to a file. Previous decision to allow directories led to ambiguity.</li>
+<li>Server config: If the DB path was null (or false, or 0), no apps could be created. Fixed.</li>
+</ul>
+<h2 id="124">1.2.4<a class="headerlink" href="#124" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Build: Exec: Support for stream redirection and shell commands added.</li>
+<li>Server config: DB path can now point to a directory; sloth.db will be created automatically.</li>
+<li>Build logging: Trigger events are now logged with level DEBUG, not INFO.</li>
+<li>Util: SqliteHandler: Exception handling on event emitting added.</li>
+</ul>
+<h2 id="123">1.2.3<a class="headerlink" href="#123" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Apps with listen points  "_"  and "x/y" were not logged. Fixed.</li>
+<li>Listen points are used to refer to apps instead of names (i.e. slugs).</li>
+<li>Removed dependency awesome-slugify.</li>
+<li>Sloth: The "name" attribute replaced with "listen_point".</li>
+</ul>
+<h2 id="122">1.2.2<a class="headerlink" href="#122" title="Permanent link">&para;</a></h2>
+<ul>
+<li>CLI: info: Alias added: list.</li>
+</ul>
+<h2 id="121">1.2.1<a class="headerlink" href="#121" title="Permanent link">&para;</a></h2>
+<ul>
+<li>CLI, API: Logs: If a listen point did not exist, an empty list was returned instead of an error. Fixed.</li>
+<li>Build: Exec: All failed executions were logged with the same "<strong>init</strong> missing cmd" error. Fixed.</li>
+<li>Build: Exec: Failed actions are logged as error, not critical.</li>
+<li>Build: Exec: If an action failed, its stdout and stderr were not logged. Fixed.</li>
+<li>Build: Exec: In an action fails, its exit code is logged as error. The stdout and stderr are logged as debug, as usual.</li>
+</ul>
+<h2 id="120">1.2.0<a class="headerlink" href="#120" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Build: Logging: Params are now stored by the exec logger, not the build logger. This keeps build history clean.</li>
+</ul>
+<h2 id="119">1.1.9<a class="headerlink" href="#119" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Build: Action execution: If stderr is not empty, the action is considered failed.</li>
+<li>CLI: Logs: Tables are now colorized.</li>
+<li>Logging: Minor improvements in build logging.</li>
+<li>New dependency: colorama.</li>
+<li>Payload handling: Single payload can now trigger multiple builds. Useful for combined pushes with commits from multiple branches.</li>
+</ul>
+<h2 id="118">1.1.8<a class="headerlink" href="#118" title="Permanent link">&para;</a></h2>
+<ul>
+<li>API: Server: info: Info was broken if at least one app was never triggered. The default timestamp is now 0. Fixed.</li>
+</ul>
+<h2 id="117">1.1.7<a class="headerlink" href="#117" title="Permanent link">&para;</a></h2>
+<ul>
+<li>API: Server: bind: Local variable e was called before assignment. Fixed.</li>
+<li>Bed: Create app: Listen point conflict: Wrong variable was referenced in the error message. Fixed.</li>
+</ul>
+<h2 id="116">1.1.6<a class="headerlink" href="#116" title="Permanent link">&para;</a></h2>
+<ul>
+<li>API: Server: logs: Log level filtering didn't work. Fixed.</li>
+<li>API: Server: info: The records are now sorted by the last build timestamp.</li>
+</ul>
+<h2 id="115">1.1.5<a class="headerlink" href="#115" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Ext: Build history: The "Failed" status indicates the failed action and the exception raised.</li>
+<li>Ext: Build history: The "Triggered" status indicates params.</li>
+<li>Logging: The build logger added to Sloth.</li>
+<li>Logging: The "processing" logger renamed to "exec."</li>
+<li>Sloth: Exec params persisted between builds, resulting in false successes. Fixed.</li>
+<li>Sloth: Build trigger is now logged with level DEBUG.</li>
+</ul>
+<h2 id="114">1.1.4<a class="headerlink" href="#114" title="Permanent link">&para;</a></h2>
+<ul>
+<li>CLI: The "version" command removed.</li>
+<li>CLI: Remote server version is now shown in the "status" command output.</li>
+</ul>
+<h2 id="113">1.1.3<a class="headerlink" href="#113" title="Permanent link">&para;</a></h2>
+<ul>
+<li>API: Client: The "version" API method support added.</li>
+<li>API: Server: The "version" method added to get the server version.</li>
+<li>CLI: The "version" command added.</li>
+</ul>
+<h2 id="112">1.1.2<a class="headerlink" href="#112" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Ext: Build history: The "Triggered" status is added before action queue execution.</li>
+</ul>
+<h2 id="111">1.1.1<a class="headerlink" href="#111" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Ext: Build history: Build status was set to 'Never triggered' on every app creation. Fixed.</li>
+</ul>
+<h2 id="110">1.1.0<a class="headerlink" href="#110" title="Permanent link">&para;</a></h2>
+<ul>
+<li>API: Server: info: The "last_build_timestamp" field added to the output.</li>
+<li>CLI: info: The "Last Build Timestamp" column added.</li>
+</ul>
+<h2 id="109">1.0.9<a class="headerlink" href="#109" title="Permanent link">&para;</a></h2>
+<ul>
+<li>API: Client: The "history" API method support added.</li>
+<li>API: Client: The "logs" API method support added.</li>
+<li>API: Server: info: The "last_build_status" field added to the output.</li>
+<li>API: Server: The "history" method added to get paginated app build history.</li>
+<li>CLI: info: The "Last Build Status" column added.</li>
+<li>CLI: The "history" command added.</li>
+<li>CLI: The "logs" command added.</li>
+<li>DB logging moved to a separate built-in extension.</li>
+<li>DB build history tracking added as a separate built-in extension.</li>
+<li>Sloth: Extensions: The "extend" function now accepts the extension name + its config instead of just name.</li>
+</ul>
+<h2 id="108">1.0.8<a class="headerlink" href="#108" title="Permanent link">&para;</a></h2>
+<ul>
+<li>API: The "logs" method added to get app logs.</li>
+<li>Bed: Database logging added by default.</li>
+<li>Bed: Unbound apps could not be removed on server stop. Fixed.</li>
+<li>Server config: New section "paths" added with params "access_log", "error_log", and "db" point to the access log, error log, and database files respectively.</li>
+<li>Server config: The "config_paths" section moved to the "paths: configs" subsection.</li>
+<li>Server config: The "log_dir" param replaced with the "paths: access_log" and "paths: error_log" params.</li>
+</ul>
+<h2 id="107">1.0.7<a class="headerlink" href="#107" title="Permanent link">&para;</a></h2>
+<ul>
+<li>CLI: reload: ConnectionError is now properly handled.</li>
+<li>CLI: reload: If an app's listen point was changed in the bound config file, the newly created app failed to bind to it after being created. Fixed.</li>
+</ul>
+<h2 id="106">1.0.6<a class="headerlink" href="#106" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Sloth: The "provider" section is now optional (some apps should only be triggered manualy).</li>
+<li>CLI: Glob support added to the "create" command. You can now specify glob paths like "/path/to/configs/*.yml."</li>
+<li>Server config: New section "config_paths" added. Apps will be created from the given config files. You can now specify glob paths like "/path/to/configs/*.yml."</li>
+</ul>
+<h2 id="105">1.0.5<a class="headerlink" href="#105" title="Permanent link">&para;</a></h2>
+<ul>
+<li>API: info: If multiple listen points were passed, an error occured. Fixed.</li>
+<li>API: info: The listen_point param is now called listen_points (since there can be many of them).</li>
+<li>CLI: info: Table rows are now always arranged in the same order.</li>
+<li>CLI: Output messages are now saner.</li>
+<li>CLI: The status command added to check the Sloth CI server status (running/not running).</li>
+<li>Core: A new api package with the API server and client parts added.</li>
+<li>Setup: New dependency added: tabulate.</li>
+<li>Setup: New optional dependency added: sloth-ci.ext.logs.</li>
+</ul>
+<h2 id="104">1.0.4<a class="headerlink" href="#104" title="Permanent link">&para;</a></h2>
+<ul>
+<li>API: bind method added.</li>
+<li>API: create: The config_source param renamed to config_string and can now be only a config string.</li>
+<li>API: info method added to get the config file bound with an app.</li>
+<li>Bed: Ability to bind an app with a config file added.</li>
+<li>CLI: create: The config_source param renamed to config_file and can now be only a filepath.</li>
+<li>CLI: create command now can accept multiple files.</li>
+<li>CLI: If connection to the API server failed, the exception is properly handled.</li>
+<li>CLI: info command added.</li>
+<li>CLI: reload command added to reload an app or all apps. Useful when the bound config file has updated.</li>
+<li>CLI: remove command now can accept multiple listen points.</li>
+</ul>
+<h2 id="103">1.0.3<a class="headerlink" href="#103" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Sloth: Validation: The provider dict was emptied on first payload check, so all the following ones did not work. Fixed.</li>
+</ul>
+<h2 id="102">1.0.2<a class="headerlink" href="#102" title="Permanent link">&para;</a></h2>
+<ul>
+<li>CLI: trigger: if no params were passed, an error would occur. Fixed.</li>
+<li>Bed: add_sloth: TypeError is now handled, interpeted as config source is not a file path or a valid config string.</li>
+<li>API: create: TypeError is now handled, interpeted as config source is not a file path or a valid config string. Using absolute path is advised.</li>
+<li>CLI: Message on Sloth CI start added.</li>
+</ul>
+<h2 id="101">1.0.1<a class="headerlink" href="#101" title="Permanent link">&para;</a></h2>
+<ul>
+<li>The "-d" ("--daemon") CLI flag removed (it was not working anyway).</li>
+</ul>
+<h2 id="100">1.0.0<a class="headerlink" href="#100" title="Permanent link">&para;</a></h2>
+<ul>
+<li>First major version. Changelog started.</li>
+</ul>
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+        
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <nav class="md-footer__inner md-grid" aria-label="Footer">
+      
+        
+        <a href="extensions.html" class="md-footer__link md-footer__link--prev" aria-label="Previous: Extensions" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              Extensions
+            </div>
+          </div>
+        </a>
+      
+      
+    </nav>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+          <div class="md-footer-copyright__highlight">
+            <p>Created by <a href="https://github.com/moigagoo/">Constantine Molchanov</a> using <a href="https://foliant.rocks">Foliant</a>.</p>
+
+          </div>
+        
+        Made with
+        <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+          Material for MkDocs
+        </a>
+        
+      </div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    <script id="__config" type="application/json">{"base": ".", "features": [], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "assets/javascripts/workers/search.477d984a.min.js", "version": null}</script>
+    
+    
+      <script src="assets/javascripts/bundle.ddd52ceb.min.js"></script>
+      
+    
+  </body>
+</html>
