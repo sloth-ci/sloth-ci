@@ -34,4 +34,3 @@ build-backend = "poetry.core.masonry.api"
 [tool.poetry.scripts]
 sloth-ci = 'sloth_ci.cli:main'
 sci = 'sloth_ci.cli:main'
-
