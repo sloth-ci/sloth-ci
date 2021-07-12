@@ -2,6 +2,7 @@
 
 [![image](https://img.shields.io/pypi/v/sloth-ci.svg)](https://pypi.org/project/sloth-ci)
 
+[![Build Status](https://travis-ci.com/Sloth-CI/sloth-ci.svg?branch=develop)](https://travis-ci.com/Sloth-CI/sloth-ci)
 
 ![Logo](sloth.png)
 

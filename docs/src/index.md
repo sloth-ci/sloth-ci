@@ -1,2 +1,1 @@
-<include>../../README.md</include>
-
+<include src="../../README.md"></include>

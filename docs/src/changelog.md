@@ -1,4 +1,3 @@
 # Changelog
 
-<include sethead="2">../../changelog.md</include>
-
+<include src="../../changelog.md" sethead="2"></include>

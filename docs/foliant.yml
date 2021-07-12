@@ -16,8 +16,5 @@ backend_config:
     mkdocs.yml: !include mkdocs.yml
 
 preprocessors:
-  - includes:
-      aliases:
-        sloth-ci: https://github.com/sloth-ci/sloth-ci.git
+  - includes
   - superlinks
-

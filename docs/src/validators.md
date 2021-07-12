@@ -6,11 +6,8 @@ In Sloth  CI, a source of trigger requests is called *provider*; e.g., GitHub, B
 
 **Validator** implements request checking and data extraction for a particular provider. To add support of a new provider to Sloth CI, we just create a corresponding validator.
 
+<include repo_url="https://github.com/Sloth-CI/sloth-ci.validators.github.git" path="README.md" sethead="2"></include>
 
 ## Bitbucket
-
-
-## GitHub
-
 
 ## GitLab
