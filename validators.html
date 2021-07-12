@@ -214,36 +214,6 @@
   
   
     <li class="md-nav__item">
-      <a href="api.html" class="md-nav__link">
-        API
-      </a>
-    </li>
-  
-
-    
-      
-      
-      
-
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="cli.html" class="md-nav__link">
-        CLI
-      </a>
-    </li>
-  
-
-    
-      
-      
-      
-
-  
-  
-  
-    <li class="md-nav__item">
       <a href="server_config.html" class="md-nav__link">
         Server Config
       </a>
@@ -307,11 +277,11 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#sloth-civalidatorsgithub" class="md-nav__link">
-    sloth-ci.validators.github
+  <a href="#github" class="md-nav__link">
+    Github
   </a>
   
-    <nav class="md-nav" aria-label="sloth-ci.validators.github">
+    <nav class="md-nav" aria-label="Github">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -334,11 +304,11 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#sloth-civalidatorsbitbucket" class="md-nav__link">
-    sloth-ci.validators.bitbucket
+  <a href="#bitbucket" class="md-nav__link">
+    Bitbucket
   </a>
   
-    <nav class="md-nav" aria-label="sloth-ci.validators.bitbucket">
+    <nav class="md-nav" aria-label="Bitbucket">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -361,11 +331,11 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#sloth-civalidatorsgitlab" class="md-nav__link">
-    sloth-ci.validators.gitlab
+  <a href="#gitlab" class="md-nav__link">
+    GitLab
   </a>
   
-    <nav class="md-nav" aria-label="sloth-ci.validators.gitlab">
+    <nav class="md-nav" aria-label="GitLab">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -418,6 +388,36 @@
   
   
     <li class="md-nav__item">
+      <a href="cli.html" class="md-nav__link">
+        Commands
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="api.html" class="md-nav__link">
+        API Reference
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
       <a href="changelog.html" class="md-nav__link">
         Changelog
       </a>
@@ -451,11 +451,11 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#sloth-civalidatorsgithub" class="md-nav__link">
-    sloth-ci.validators.github
+  <a href="#github" class="md-nav__link">
+    Github
   </a>
   
-    <nav class="md-nav" aria-label="sloth-ci.validators.github">
+    <nav class="md-nav" aria-label="Github">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -478,11 +478,11 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#sloth-civalidatorsbitbucket" class="md-nav__link">
-    sloth-ci.validators.bitbucket
+  <a href="#bitbucket" class="md-nav__link">
+    Bitbucket
   </a>
   
-    <nav class="md-nav" aria-label="sloth-ci.validators.bitbucket">
+    <nav class="md-nav" aria-label="Bitbucket">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -505,11 +505,11 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#sloth-civalidatorsgitlab" class="md-nav__link">
-    sloth-ci.validators.gitlab
+  <a href="#gitlab" class="md-nav__link">
+    GitLab
   </a>
   
-    <nav class="md-nav" aria-label="sloth-ci.validators.gitlab">
+    <nav class="md-nav" aria-label="GitLab">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -552,7 +552,7 @@
 <p>To run actions, the app must receive some sort of trigger request, e.g., a push notification from GitHub. The app checks all incoming requests, and only the ones that pass the check trigger actions. The requests usually contain data that should be passed to the actions, i.e., branch name, so the app must extract the data after the check.</p>
 <p>In Sloth  CI, a source of trigger requests is called <em>provider</em>; e.g., GitHub, Bitbucket, and GitLab are providers. Each provider uses its own request format and thus requires its own validation and data extraction routine.</p>
 <p><strong>Validator</strong> implements request checking and data extraction for a particular provider. To add support of a new provider to Sloth CI, we just create a corresponding validator.</p>
-<h2 id="sloth-civalidatorsgithub">sloth-ci.validators.github<a class="headerlink" href="#sloth-civalidatorsgithub" title="Permanent link">&para;</a></h2>
+<h2 id="github">Github<a class="headerlink" href="#github" title="Permanent link">&para;</a></h2>
 <p>Sloth CI validator for <a href="https://github.com/">GitHub</a> push events.</p>
 <h3 id="installation">Installation<a class="headerlink" href="#installation" title="Permanent link">&para;</a></h3>
 <div class="codehilite"><pre><span></span><code>$ pip install sloth-ci.validators.github
@@ -575,7 +575,7 @@
             <span class="o">-</span> <span class="n">staging</span>
 </code></pre></div>
 
-<h2 id="sloth-civalidatorsbitbucket">sloth-ci.validators.bitbucket<a class="headerlink" href="#sloth-civalidatorsbitbucket" title="Permanent link">&para;</a></h2>
+<h2 id="bitbucket">Bitbucket<a class="headerlink" href="#bitbucket" title="Permanent link">&para;</a></h2>
 <p>Sloth CI validator for <a href="https://bitbucket.org/">Bitbucket</a> push events.</p>
 <h3 id="installation_1">Installation<a class="headerlink" href="#installation_1" title="Permanent link">&para;</a></h3>
 <div class="codehilite"><pre><span></span><code>$ pip install sloth-ci.validators.bitbucket
@@ -598,7 +598,7 @@
             <span class="o">-</span> <span class="n">staging</span>
 </code></pre></div>
 
-<h2 id="sloth-civalidatorsgitlab">sloth-ci.validators.gitlab<a class="headerlink" href="#sloth-civalidatorsgitlab" title="Permanent link">&para;</a></h2>
+<h2 id="gitlab">GitLab<a class="headerlink" href="#gitlab" title="Permanent link">&para;</a></h2>
 <p>Sloth CI validator for <a href="https://about.gitlab.com/">GitLab</a> push events.</p>
 <h3 id="installation_2">Installation<a class="headerlink" href="#installation_2" title="Permanent link">&para;</a></h3>
 <div class="codehilite"><pre><span></span><code>$ pip install sloth-ci.validators.gitlab
