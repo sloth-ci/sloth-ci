@@ -334,9 +334,29 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#bitbucket" class="md-nav__link">
-    Bitbucket
+  <a href="#sloth-civalidatorsbitbucket" class="md-nav__link">
+    sloth-ci.validators.bitbucket
   </a>
+  
+    <nav class="md-nav" aria-label="sloth-ci.validators.bitbucket">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#installation_1" class="md-nav__link">
+    Installation
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#usage_1" class="md-nav__link">
+    Usage
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -438,9 +458,29 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#bitbucket" class="md-nav__link">
-    Bitbucket
+  <a href="#sloth-civalidatorsbitbucket" class="md-nav__link">
+    sloth-ci.validators.bitbucket
   </a>
+  
+    <nav class="md-nav" aria-label="sloth-ci.validators.bitbucket">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#installation_1" class="md-nav__link">
+    Installation
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#usage_1" class="md-nav__link">
+    Usage
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -495,7 +535,29 @@
             <span class="o">-</span> <span class="n">staging</span>
 </code></pre></div>
 
-<h2 id="bitbucket">Bitbucket<a class="headerlink" href="#bitbucket" title="Permanent link">&para;</a></h2>
+<h2 id="sloth-civalidatorsbitbucket">sloth-ci.validators.bitbucket<a class="headerlink" href="#sloth-civalidatorsbitbucket" title="Permanent link">&para;</a></h2>
+<p>Sloth CI validator for <a href="https://bitbucket.org/">Bitbucket</a> push events.</p>
+<h3 id="installation_1">Installation<a class="headerlink" href="#installation_1" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><code>$ pip install sloth-ci.validators.bitbucket
+</code></pre></div>
+
+<h3 id="usage_1">Usage<a class="headerlink" href="#usage_1" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><code><span class="n">provider</span><span class="o">:</span>
+    <span class="n">bitbucket</span><span class="o">:</span>
+        <span class="err">#</span> <span class="n">Repository</span> <span class="n">owner</span><span class="o">.</span> <span class="n">Mandatory</span> <span class="n">parameter</span><span class="o">.</span>
+        <span class="n">owner</span><span class="o">:</span> <span class="n">moigagoo</span>
+
+        <span class="err">#</span> <span class="n">Repository</span> <span class="n">title</span> <span class="k">as</span> <span class="n">it</span> <span class="n">appears</span> <span class="k">in</span> <span class="n">the</span> <span class="n">URL</span><span class="o">,</span> <span class="n">i</span><span class="o">.</span><span class="na">e</span><span class="o">.</span> <span class="n">slug</span><span class="o">.</span>
+        <span class="err">#</span> <span class="n">Mandatory</span> <span class="n">parameter</span><span class="o">.</span>
+        <span class="n">repo</span><span class="o">:</span> <span class="n">sloth</span><span class="o">-</span><span class="n">ci</span>
+
+        <span class="err">#</span> <span class="n">Only</span> <span class="n">pushes</span> <span class="n">to</span> <span class="n">these</span> <span class="n">branches</span> <span class="n">will</span> <span class="n">initiate</span> <span class="n">a</span> <span class="n">build</span><span class="o">.</span>
+        <span class="err">#</span> <span class="n">Skip</span> <span class="k">this</span> <span class="n">parameter</span> <span class="n">to</span> <span class="n">allow</span> <span class="n">all</span> <span class="n">branches</span> <span class="n">to</span> <span class="n">fire</span> <span class="n">builds</span><span class="o">.</span>
+        <span class="n">branches</span><span class="o">:</span>
+            <span class="o">-</span> <span class="n">master</span>
+            <span class="o">-</span> <span class="n">staging</span>
+</code></pre></div>
+
 <h2 id="gitlab">GitLab<a class="headerlink" href="#gitlab" title="Permanent link">&para;</a></h2>
                 
               
