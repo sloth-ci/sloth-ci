@@ -14,21 +14,17 @@ Via extensions, Sloth CI offers detailed logs, build status badges, email notifi
 ## Run Locally
 
 Deploy the project with Poetry:
-```
-$ poetry install
-```
+
+    $ poetry install
 
 Run locally with:
-```
-$ poetry run sci start
-```
+
+    $ poetry run sci start
 
 Check that the instance is running:
-```
-$ poetry run sci status
-```
+
+    $ poetry run sci status
 
 Build the docs:
-```
-$ poetry run foliant make site -p docs
-```
+
+    $ poetry run foliant make site -p docs
