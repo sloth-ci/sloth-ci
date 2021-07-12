@@ -23,4 +23,3 @@ deploy:
     keep-history: true
     on:
       branch: develop
-
