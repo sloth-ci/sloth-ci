@@ -361,9 +361,29 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#gitlab" class="md-nav__link">
-    GitLab
+  <a href="#sloth-civalidatorsgitlab" class="md-nav__link">
+    sloth-ci.validators.gitlab
   </a>
+  
+    <nav class="md-nav" aria-label="sloth-ci.validators.gitlab">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#installation_2" class="md-nav__link">
+    Installation
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#usage_2" class="md-nav__link">
+    Usage
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -485,9 +505,29 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#gitlab" class="md-nav__link">
-    GitLab
+  <a href="#sloth-civalidatorsgitlab" class="md-nav__link">
+    sloth-ci.validators.gitlab
   </a>
+  
+    <nav class="md-nav" aria-label="sloth-ci.validators.gitlab">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#installation_2" class="md-nav__link">
+    Installation
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#usage_2" class="md-nav__link">
+    Usage
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -558,7 +598,31 @@
             <span class="o">-</span> <span class="n">staging</span>
 </code></pre></div>
 
-<h2 id="gitlab">GitLab<a class="headerlink" href="#gitlab" title="Permanent link">&para;</a></h2>
+<h2 id="sloth-civalidatorsgitlab">sloth-ci.validators.gitlab<a class="headerlink" href="#sloth-civalidatorsgitlab" title="Permanent link">&para;</a></h2>
+<p>Sloth CI validator for <a href="https://about.gitlab.com/">GitLab</a> push events.</p>
+<h3 id="installation_2">Installation<a class="headerlink" href="#installation_2" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><code>$ pip install sloth-ci.validators.gitlab
+</code></pre></div>
+
+<h3 id="usage_2">Usage<a class="headerlink" href="#usage_2" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><code><span class="n">provider</span><span class="o">:</span>
+    <span class="n">gitlab</span><span class="o">:</span>
+        <span class="err">#</span> <span class="n">Whitelisted</span> <span class="n">GitLab</span> <span class="n">server</span> <span class="n">IPs</span><span class="o">.</span>
+        <span class="err">#</span> <span class="n">Mandatory</span> <span class="n">parameter</span><span class="o">.</span>
+        <span class="n">trusted_ips</span><span class="o">:</span>
+            <span class="o">-</span> <span class="mf">123.45</span><span class="o">.</span><span class="mf">67.89</span>
+            <span class="o">-</span> <span class="mf">111.22</span><span class="o">.</span><span class="mf">33.44</span>
+
+        <span class="err">#</span> <span class="n">Repository</span> <span class="n">title</span> <span class="k">as</span> <span class="n">it</span> <span class="n">appears</span> <span class="k">in</span> <span class="n">the</span> <span class="n">URL</span><span class="o">,</span> <span class="n">i</span><span class="o">.</span><span class="na">e</span><span class="o">.</span> <span class="n">slug</span><span class="o">.</span>
+        <span class="err">#</span> <span class="n">Mandatory</span> <span class="n">parameter</span><span class="o">.</span>
+        <span class="n">repo</span><span class="o">:</span> <span class="n">sloth</span><span class="o">-</span><span class="n">ci</span>
+
+        <span class="err">#</span> <span class="n">Only</span> <span class="n">pushes</span> <span class="n">to</span> <span class="n">these</span> <span class="n">branches</span> <span class="n">will</span> <span class="n">initiate</span> <span class="n">a</span> <span class="n">build</span><span class="o">.</span>
+        <span class="err">#</span> <span class="n">Skip</span> <span class="k">this</span> <span class="n">parameter</span> <span class="n">to</span> <span class="n">allow</span> <span class="n">all</span> <span class="n">branches</span> <span class="n">to</span> <span class="n">fire</span> <span class="n">builds</span><span class="o">.</span>
+        <span class="n">branches</span><span class="o">:</span>
+            <span class="o">-</span> <span class="n">master</span>
+            <span class="o">-</span> <span class="n">staging</span>
+</code></pre></div>
                 
               
               
