@@ -1,4 +1,4 @@
-# API
+# API Reference
 
 Sloth CI's API lets you restart and stop a running server, create and remove apps, list app logs and view app build history.
 

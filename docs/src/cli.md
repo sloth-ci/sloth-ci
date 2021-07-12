@@ -1,4 +1,4 @@
-# CLI
+# Commands
 
 Sloth CI ships with the `sci`[^1] command line utility that lets you control the server and apps with a variety of <link title="Commands">commands</link>:
 

@@ -3,12 +3,12 @@ slug: sloth-ci-docs
 
 chapters:
   - index.md
-  - api.md
-  - cli.md
   - server_config.md
   - app_config.md
   - validators.md
   - extensions.md
+  - cli.md
+  - api.md
   - changelog.md
 
 backend_config:
