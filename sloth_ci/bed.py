@@ -186,7 +186,7 @@ class Bed:
         if extensions:
             for extension_name, extension_config in extensions.items():
                 try:
-                    ext = import_module('.ext.%s' % extension_config['module'], package=__package__)
+                    ext = import_module('sloth_ci_ext_%s' % extension_config['module'])
 
                     ExtendedBed = ext.extend_bed(ExtendedBed, {
                             'name': extension_name,
