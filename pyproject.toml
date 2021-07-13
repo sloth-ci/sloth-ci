@@ -19,7 +19,6 @@ tabulate = "^0.8.9"
 colorama = {version = "^0.4.4", extras = ["Colored logs"]}
 
 [tool.poetry.dev-dependencies]
-Sphinx = "^4.0.0"
 foliant = "^1.0.12"
 "foliantcontrib.mkdocs" = "^1.0.12"
 "foliantcontrib.init" = "^1.0.8"
