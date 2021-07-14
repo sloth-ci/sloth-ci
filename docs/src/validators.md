@@ -8,7 +8,7 @@ In Sloth  CI, a source of trigger requests is called *provider*; e.g., GitHub, B
 
 ## Github
 
-<include repo_url="https://github.com/sloth-ci/sloth-ci.validators.github.git" path="README.md" sethead="2" nohead="true"></include>
+<include repo_url="https://github.com/sloth-ci/sloth-ci-val-github.git" path="README.md" sethead="2" nohead="true"></include>
 
 
 ## Bitbucket

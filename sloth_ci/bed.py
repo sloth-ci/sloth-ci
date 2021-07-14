@@ -11,22 +11,22 @@ from .sloth import Sloth
 
 
 class Bed:
-    '''A container for Sloth apps.
+    """A container for Sloth apps.
 
     It tracks their config files and listen points, as well as handles app adding, removing, and updating.
 
     If also implements the listen function for the main CherryPy app.
 
     (This module is names "bed" because a group of sloths is actually called "bed.")
-    '''
+    """
 
     def __new__(cls, config):
-        '''Apply extenions before creating a Bed instance.
+        """Apply extenions before creating a Bed instance.
 
         The built-in API extension is always applied before any custom ones.
 
         :param config: bed config dict
-        '''
+        """
 
         api_extension = {
             'api': {
@@ -44,10 +44,10 @@ class Bed:
         return super().__new__(ExtendedBed)
 
     def __init__(self, config):
-        '''Configure CherryPy loop to listen for payload.
+        """Configure CherryPy loop to listen for payload.
 
         :param config: bed config dict
-        '''
+        """
 
         self.config = config
         self.bus = cherrypy.engine
@@ -61,13 +61,13 @@ class Bed:
 
     @staticmethod
     def _critical_yaml_constructor(loader, node):
-        '''Custom PyYAML constructor for the ``!critical`` tag.
+        """Custom PyYAML constructor for the ``!critical`` tag.
 
         :param loader: PyYAML ``Loader`` instance
         :param node: PyYAML ``Node`` instance
 
         :returns: :class:`Action` instance
-        '''
+        """
 
         class Action(str):
             '''Thin wrapper around ``str`` to enable custom attributes.
@@ -82,7 +82,7 @@ class Bed:
         return action
 
     def _configure(self):
-        '''Configure CherryPy server.'''
+        """Configure CherryPy server."""
 
         self.db_path = self.config.get('paths', {}).get('db', 'sloth.db')
 
@@ -137,17 +137,17 @@ class Bed:
         self.bus.subscribe('stop', self.remove_all)
 
     def _setup_routing(self):
-        '''Add routes for app listener.'''
+        """Add routes for app listener."""
 
         self._dispatcher = cherrypy._cpdispatch.RoutesDispatcher()
 
         self._dispatcher.connect('apps', '/{listen_point:.+}', self._app_listener)
 
     def _prepopulate(self):
-        '''Create apps before server start.
+        """Create apps before server start.
 
         The app configs are extracted from the files defined in the config_paths section of the server config.
-        '''
+        """
 
         for config_path in self.config.get('paths', {}).get('configs', []):
             config_files = glob(config_path)
@@ -171,14 +171,14 @@ class Bed:
 
     @classmethod
     def extend(cls, extensions):
-        '''Sequentially chain-inherit Bed classes from extensions.
+        """Sequentially chain-inherit Bed classes from extensions.
 
         The first extension's Bed class inherits from the base Bed class and becomes the base class, then the second one inherits from it, and so on.
 
         :param extensions: list of extensions to load.
 
         :returns: `ExtendedBed` is a Bed class inherited from all extensions' Bed classes; `errors` is the list of errors raised during extension loading.
-        '''
+        """
 
         ExtendedBed = cls
         errors = []
@@ -203,17 +203,17 @@ class Bed:
         return ExtendedBed, errors
 
     def start(self):
-        '''Start CherryPy loop to listen for payload.'''
+        """Start CherryPy loop to listen for payload."""
 
         self.bus.start()
         self.bus.block()
 
     def bind_to_file(self, listen_point, config_file):
-        '''Bind a Sloth app with a config file.
+        """Bind a Sloth app with a config file.
 
         :param listen_point: app's listen point
         :param config_file: absolute path to the config file
-        '''
+        """
 
         try:
             sloth = self.sloths[listen_point]
@@ -240,12 +240,12 @@ class Bed:
             raise
 
     def create_from_config(self, config):
-        '''Create a Sloth app from a config source and add it to the bed.
+        """Create a Sloth app from a config source and add it to the bed.
 
         :param config: a dict parsed from YAML
 
         :returns: new app's listen point
-        '''
+        """
 
         try:
             for alias in ('id', 'name', 'listen_point'):
@@ -290,10 +290,10 @@ class Bed:
             raise
 
     def remove(self, listen_point):
-        '''Stop Sloth app and remove it from the bed.
+        """Stop Sloth app and remove it from the bed.
 
         :param listen_point: Sloth app listen point
-        '''
+        """
 
         try:
             self.sloths.pop(listen_point).stop()
@@ -310,7 +310,7 @@ class Bed:
             cherrypy.log.error('Failed to remove app on %s: %s' % (listen_point, e))
 
     def remove_all(self):
-        '''Stop all active Sloth apps and remove them from the bed.'''
+        """Stop all active Sloth apps and remove them from the bed."""
 
         while self.sloths:
             listen_point, sloth = self.sloths.popitem()
@@ -323,10 +323,10 @@ class Bed:
     @cherrypy.tools.proxy()
     @cherrypy.tools.json_in()
     def _app_listener(self, listen_point, **kwargs):
-        '''Listens for payloads and routes them to the responsible Sloth app.
+        """Listens for payloads and routes them to the responsible Sloth app.
 
         :param listen_point: Sloth app listen point (part of the URL after the server host)
-        '''
+        """
 
         listen_point = listen_point.strip('/')
 
