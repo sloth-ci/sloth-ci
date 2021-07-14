@@ -71,7 +71,7 @@ Run "sci start" to start the server.'''
         if extensions:
             for extension_name, extension_config in extensions.items():
                 try:
-                    ext = import_module('.ext.%s' % extension_config['module'], package=__package__)
+                    ext = import_module('sloth_ci_ext_%s' % extension_config['module'])
 
                     ExtendedCLI = ext.extend_cli(ExtendedCLI, {
                             'name': extension_name,

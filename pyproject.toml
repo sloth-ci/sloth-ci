@@ -7,7 +7,11 @@ license = "MIT"
 readme = "README.md"
 repository = "https://github.com/sloth-ci/sloth-ci/"
 keywords = ["ci"]
-
+packages = [
+    { include = "sloth_ci" },
+    { include = "sloth_ci_ext_api" },
+    { include = "sloth_ci_ext_db" },
+]
 
 [tool.poetry.dependencies]
 python = "^3.9"
@@ -17,6 +21,7 @@ PyYAML = "^5.4.1"
 Routes = "^2.5.1"
 tabulate = "^0.8.9"
 colorama = {version = "^0.4.4", extras = ["Colored logs"]}
+requests = "^2.26.0"
 
 [tool.poetry.dev-dependencies]
 foliant = "^1.0.12"

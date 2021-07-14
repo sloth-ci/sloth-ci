@@ -21,7 +21,7 @@ class Bed:
     """
 
     def __new__(cls, config):
-        """Apply extenions before creating a Bed instance.
+        """Apply extensions before creating a Bed instance.
 
         The built-in API extension is always applied before any custom ones.
 
