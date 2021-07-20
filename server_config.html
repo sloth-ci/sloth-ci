@@ -223,9 +223,67 @@
         
       
       
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Server Config
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <a href="server_config.html" class="md-nav__link md-nav__link--active">
         Server Config
       </a>
+      
+        
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#host-port" class="md-nav__link">
+    Host, Port
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#api-access-credentials" class="md-nav__link">
+    API Access Credentials
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#paths" class="md-nav__link">
+    Paths
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#extensions" class="md-nav__link">
+    Extensions
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#daemon" class="md-nav__link">
+    Daemon
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -340,6 +398,49 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#host-port" class="md-nav__link">
+    Host, Port
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#api-access-credentials" class="md-nav__link">
+    API Access Credentials
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#paths" class="md-nav__link">
+    Paths
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#extensions" class="md-nav__link">
+    Extensions
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#daemon" class="md-nav__link">
+    Daemon
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -356,6 +457,108 @@
                 
                 
                 <h1 id="server-config">Server Config<a class="headerlink" href="#server-config" title="Permanent link">&para;</a></h1>
+<p><strong>Server config</strong> contains the settings for the Sloth CI server:</p>
+<ul>
+<li><a href="#host-port">host and port</a> to run on</li>
+<li><a href="#api-access-credentials">login and password to access the <link src="api.md">API</a></li>
+<li><a href="#paths">paths to the db, logs, and default <link src="app_condig.md">app configs</a></li>
+<li><a href="#extensions">extensions</a></li>
+<li><a href="#daemon">daemon status</a></li>
+</ul>
+<p>Sample server config:</p>
+<div class="codehilite"><pre><span></span><code><span class="n">host</span><span class="o">:</span> <span class="mf">0.0</span><span class="o">.</span><span class="mf">0.0</span>
+<span class="n">port</span><span class="o">:</span> <span class="mi">8080</span>
+
+<span class="n">auth</span><span class="o">:</span> <span class="err">#</span> <span class="n">or</span> <span class="n">api_auth</span>
+    <span class="o">-</span>   <span class="n">login</span><span class="o">:</span> <span class="n">alice</span>
+        <span class="n">password</span><span class="o">:</span> <span class="n">password</span>
+    <span class="o">-</span>   <span class="n">login</span><span class="o">:</span> <span class="n">bob</span>
+        <span class="n">password</span><span class="o">:</span> <span class="n">secret</span>
+
+<span class="n">paths</span><span class="o">:</span>
+    <span class="n">access_log</span><span class="o">:</span> <span class="sr">/usr/log/sloth-ci/</span><span class="n">access</span><span class="o">.</span><span class="na">log</span>
+    <span class="n">error_log</span><span class="o">:</span> <span class="sr">/usr/log/sloth-ci/</span><span class="n">error</span><span class="o">.</span><span class="na">log</span>
+
+    <span class="n">db</span><span class="o">:</span> <span class="sr">/etc/sloth-ci/s</span><span class="n">loth</span><span class="o">.</span><span class="na">db</span>
+
+    <span class="n">configs</span><span class="o">:</span>
+        <span class="o">-</span> <span class="sr">/etc/conf.d/sloth-ci/</span><span class="o">*.</span><span class="n">yml</span>
+
+<span class="n">extensions</span><span class="o">:</span>
+    <span class="n">hide</span><span class="o">-</span><span class="n">from</span><span class="o">-</span><span class="n">robots</span><span class="o">:</span>
+        <span class="n">module</span><span class="o">:</span> <span class="n">robots_txt</span>
+
+<span class="n">daemon</span><span class="o">:</span> <span class="kc">true</span>
+</code></pre></div>
+
+<p>By default, Sloth CI tries to use a file called <em>sloth.yml</em> in the current directory as a server config, but you can specify a custom one with the <a href="cli.html"><code>--config, -c</code></a> param:</p>
+<div class="codehilite"><pre><span></span><code>$ sci -c /path/to/myconfig.yml start
+</code></pre></div>
+
+<h2 id="host-port">Host, Port<a class="headerlink" href="#host-port" title="Permanent link">&para;</a></h2>
+<p><em>required</em></p>
+<p>The host and port for the Sloth CI server to run on.</p>
+<p>To make the server accessible from the Internet, set <code>host</code> to <code>0.0.0.0</code>.</p>
+<h2 id="api-access-credentials">API Access Credentials<a class="headerlink" href="#api-access-credentials" title="Permanent link">&para;</a></h2>
+<p>List of logins and passwords to access the <a href="api.html">Sloth CI API</a>. Skipping this section lets anyone use your API without authentication (so be careful with it!).</p>
+<p>If there's only one pair, you may omit putting it in a list:</p>
+<div class="codehilite"><pre><span></span><code><span class="n">auth</span><span class="o">:</span>
+    <span class="n">login</span><span class="o">:</span> <span class="n">john</span>
+    <span class="n">password</span><span class="o">:</span> <span class="n">secret</span>
+</code></pre></div>
+
+<h2 id="paths">Paths<a class="headerlink" href="#paths" title="Permanent link">&para;</a></h2>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>Use absolute paths. Relative paths work too, but absolute ones are more reliable.</p>
+</div>
+<dl>
+<dt>access_log</dt>
+<dd>
+<p>Path to the log that records all incoming requests.</p>
+<p>Default value: <code>sloth_access.log</code></p>
+</dd>
+<dt>error_log</dt>
+<dd>
+<p>Path to the log that records app creation and extension loading errors, server startup and tier down info.</p>
+<p>Default value: <code>sloth_error.log</code></p>
+</dd>
+<dt>db</dt>
+<dd>
+<p>Path to the SQLite DB file to store the app logs in.</p>
+<p>Default value: <code>sloth.db</code></p>
+</dd>
+<dt>configs</dt>
+<dd>
+<p>List of paths to the <a href="app_config.html">app configs</a> to load on server startup.</p>
+<p>Items can be file paths or glob patterns:</p>
+<div class="codehilite"><pre><span></span><code>configs:
+    - /path/to/app.yaml
+    - /path/to/configs/*.yml
+</code></pre></div>
+
+<p>No app configs are loaded by default.</p>
+</dd>
+</dl>
+<h2 id="extensions">Extensions<a class="headerlink" href="#extensions" title="Permanent link">&para;</a></h2>
+<p>Server-level <a href="extensions.html">extension</a> declarations.</p>
+<p>A declaration has a unique name (<code>hide-from-robots</code>) and must contain the extension module name (<code>robots_txt</code>). Depending on the extension, a declaration can include additional params. For example, the mentioned <a href="extensions.html#robotstxt">Robots.txt</a> extension has two optional params: <code>file</code> and <code>path</code>.</p>
+<p>You can declare the same extension module multiple times under different names:</p>
+<div class="codehilite"><pre><span></span><code><span class="n">extensions</span><span class="o">:</span>
+    <span class="n">hide</span><span class="o">-</span><span class="n">from</span><span class="o">-</span><span class="n">robots</span><span class="o">:</span>
+        <span class="n">module</span><span class="o">:</span> <span class="n">robots_txt</span>
+    <span class="n">robots</span><span class="o">-</span><span class="n">txt</span><span class="o">-</span><span class="n">on</span><span class="o">-</span><span class="n">a</span><span class="o">-</span><span class="n">different</span><span class="o">-</span><span class="n">path</span><span class="o">:</span>
+        <span class="n">module</span><span class="o">:</span> <span class="n">robots_txt</span>
+        <span class="n">path</span><span class="o">:</span> <span class="sr">/static/</span><span class="n">robots</span><span class="o">.</span><span class="na">txt</span>
+</code></pre></div>
+
+<p>No extensions are declared by default.</p>
+<h2 id="daemon">Daemon<a class="headerlink" href="#daemon" title="Permanent link">&para;</a></h2>
+<p>Run Sloth CI as a daemon. Default is <code>false</code>.</p>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>This params works only in UNIX-based systems. If you launch Sloth CI with <code>daemon: true</code> on Windows, it will crash.</p>
+</div>
                 
               
               
