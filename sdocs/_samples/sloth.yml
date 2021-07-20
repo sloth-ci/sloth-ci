@@ -1,7 +1,0 @@
-host: localhost
-port: 8080
-
-auth:
-    login: myname
-    password: mypass
-
