@@ -1,7 +1,7 @@
 # 2.2.0 (WIP)
 
 -   Change the convention for naming extension and validator modules to `sloth_ci_ext_name` and `sloth_ci_val_name` respectively.
--   Update code for the latest Python. 
+-   Update code for the latest Python and Cliar.
 -   Update dependencies.    
 -   Switch from Sphinx to Foliant.
 
