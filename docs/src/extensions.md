@@ -15,8 +15,6 @@ The same extension can work on both app and server levels.
 
 ## Build Email Notifications
 
-<include repo_url="https://github.com/sloth-ci/sloth-ci.ext.build_email_notifications.git" path="README.md" sethead="2" nohead="true"></include>
-
 
 ## Dev Tools
 
