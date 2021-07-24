@@ -20,8 +20,11 @@ cliar = "^1.3.4"
 PyYAML = "^5.4.1"
 Routes = "^2.5.1"
 tabulate = "^0.8.9"
-colorama = {version = "^0.4.4", extras = ["Colored logs"]}
 requests = "^2.26.0"
+colorama = {version = "^0.4.4", optional = true, extras = ["colored_logs"]}
+
+[tool.poetry.extras]
+colored_logs = ["colorama"]
 
 [tool.poetry.dev-dependencies]
 foliant = "^1.0.12"

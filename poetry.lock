@@ -8,7 +8,7 @@ python-versions = "*"
 
 [[package]]
 name = "charset-normalizer"
-version = "2.0.1"
+version = "2.0.3"
 description = "The Real First Universal Charset Detector. Open, modern and actively maintained alternative to Chardet."
 category = "main"
 optional = false
@@ -109,7 +109,7 @@ pyyaml = ">=5.1.1,<6.0.0"
 
 [[package]]
 name = "foliantcontrib.anchors"
-version = "1.0.6"
+version = "1.0.7"
 description = "Arbitrary anchors for Foliant."
 category = "dev"
 optional = false
@@ -117,10 +117,7 @@ python-versions = "*"
 
 [package.dependencies]
 foliant = ">=1.0.8"
-"foliantcontrib.utils.chapters" = ">=1.0.4"
-"foliantcontrib.utils.combined-options" = ">=1.0.1"
-"foliantcontrib.utils.header-anchors" = ">=1.0.3"
-"foliantcontrib.utils.preprocessor-ext" = ">=1.0.5"
+"foliantcontrib.utils" = ">=1.0.2"
 
 [[package]]
 name = "foliantcontrib.escapecode"
@@ -160,7 +157,7 @@ python-slugify = "*"
 
 [[package]]
 name = "foliantcontrib.meta"
-version = "1.3.2"
+version = "1.3.3"
 description = "Metadata for Foliant."
 category = "dev"
 optional = false
@@ -168,6 +165,7 @@ python-versions = "*"
 
 [package.dependencies]
 foliant = ">=1.0.4"
+"foliantcontrib.utils" = ">=1.0.2"
 schema = ">=0.7.0"
 
 [[package]]
@@ -184,7 +182,7 @@ mkdocs = ">=1.0.4"
 
 [[package]]
 name = "foliantcontrib.superlinks"
-version = "1.0.9"
+version = "1.0.10"
 description = "Links to headings with extra magic"
 category = "dev"
 optional = false
@@ -194,62 +192,12 @@ python-versions = "*"
 foliant = ">=1.0.8"
 "foliantcontrib.anchors" = ">=1.0.4"
 "foliantcontrib.meta" = ">=1.3.0"
-"foliantcontrib.utils" = ">=1.0.0"
-"foliantcontrib.utils.chapters" = ">=1.0.4"
-"foliantcontrib.utils.combined-options" = ">=1.0.7"
-"foliantcontrib.utils.header-anchors" = "*"
-"foliantcontrib.utils.preprocessor-ext" = ">=1.0.4"
+"foliantcontrib.utils" = ">=1.0.2"
 
 [[package]]
 name = "foliantcontrib.utils"
-version = "1.0.0"
+version = "1.0.2"
 description = "Utils for foliant plugin developers"
-category = "dev"
-optional = false
-python-versions = "*"
-
-[package.dependencies]
-foliant = ">=1.0.8"
-
-[[package]]
-name = "foliantcontrib.utils.chapters"
-version = "1.0.4"
-description = "Utils for chapters"
-category = "dev"
-optional = false
-python-versions = "*"
-
-[package.dependencies]
-foliant = ">=1.0.8"
-PyYAML = "*"
-
-[[package]]
-name = "foliantcontrib.utils.combined-options"
-version = "1.0.10"
-description = ""
-category = "dev"
-optional = false
-python-versions = "*"
-
-[package.dependencies]
-foliant = ">=1.0.8"
-PyYAML = "*"
-
-[[package]]
-name = "foliantcontrib.utils.header-anchors"
-version = "1.0.4"
-description = "Utils for converting headers to anchors for different backends"
-category = "dev"
-optional = false
-python-versions = "*"
-
-[package.dependencies]
-foliant = ">=1.0.8"
-
-[[package]]
-name = "foliantcontrib.utils.preprocessor-ext"
-version = "1.0.5"
-description = "Extension to basic preprocessor class with useful methods and functions."
 category = "dev"
 optional = false
 python-versions = "*"
@@ -345,7 +293,7 @@ testing = ["pytest (>=4.6)", "pytest-checkdocs (>=2.4)", "pytest-flake8", "pytes
 
 [[package]]
 name = "jaraco.text"
-version = "3.5.0"
+version = "3.5.1"
 description = "Module for text manipulation"
 category = "main"
 optional = false
@@ -356,7 +304,7 @@ python-versions = ">=3.6"
 
 [package.extras]
 docs = ["sphinx", "jaraco.packaging (>=8.2)", "rst.linker (>=1.9)"]
-testing = ["pytest (>=3.5,!=3.7.3)", "pytest-checkdocs (>=1.2.3)", "pytest-flake8", "pytest-cov", "pytest-enabler", "pytest-black (>=0.3.7)", "pytest-mypy"]
+testing = ["pytest (>=4.6)", "pytest-checkdocs (>=2.4)", "pytest-flake8", "pytest-cov", "pytest-enabler (>=1.0.1)", "pytest-black (>=0.3.7)", "pytest-mypy"]
 
 [[package]]
 name = "jinja2"
@@ -401,7 +349,7 @@ python-versions = ">=3.6"
 
 [[package]]
 name = "mkdocs"
-version = "1.2.1"
+version = "1.2.2"
 description = "Project documentation with Markdown."
 category = "dev"
 optional = false
@@ -424,7 +372,7 @@ i18n = ["babel (>=2.9.0)"]
 
 [[package]]
 name = "mkdocs-material"
-version = "7.1.10"
+version = "7.2.0"
 description = "A Material Design theme for MkDocs"
 category = "dev"
 optional = false
@@ -640,14 +588,14 @@ contextlib2 = ">=0.5.5"
 
 [[package]]
 name = "setuptools"
-version = "57.1.0"
+version = "57.4.0"
 description = "Easily download, build, install, upgrade, and uninstall Python packages"
 category = "main"
 optional = false
 python-versions = ">=3.6"
 
 [package.extras]
-docs = ["sphinx", "jaraco.packaging (>=8.2)", "rst.linker (>=1.9)", "pygments-github-lexers (==0.0.5)", "sphinx-inline-tabs", "sphinxcontrib-towncrier"]
+docs = ["sphinx", "jaraco.packaging (>=8.2)", "rst.linker (>=1.9)", "jaraco.tidelift (>=1.4)", "pygments-github-lexers (==0.0.5)", "sphinx-inline-tabs", "sphinxcontrib-towncrier", "furo"]
 testing = ["pytest (>=4.6)", "pytest-checkdocs (>=2.4)", "pytest-flake8", "pytest-cov", "pytest-enabler (>=1.0.1)", "mock", "flake8-2020", "virtualenv (>=13.0.0)", "pytest-virtualenv (>=1.2.7)", "wheel", "paver", "pip (>=19.1)", "jaraco.envs", "pytest-xdist", "sphinx", "jaraco.path (>=3.2.0)", "pytest-black (>=0.3.7)", "pytest-mypy"]
 
 [[package]]
@@ -751,10 +699,13 @@ python-versions = ">=3.6"
 docs = ["sphinx", "jaraco.packaging (>=8.2)", "rst.linker (>=1.9)"]
 testing = ["pytest (>=4.6)", "pytest-checkdocs (>=2.4)", "pytest-flake8", "pytest-cov", "pytest-enabler (>=1.0.1)", "jaraco.itertools", "func-timeout", "pytest-black (>=0.3.7)", "pytest-mypy"]
 
+[extras]
+colored_logs = ["colorama"]
+
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.9"
-content-hash = "f68daab55a9c19fec003b4b04e5db9ba38242540239a6373a767f1f7ff3f7129"
+content-hash = "4d70ef01149330180a2bfa2a95335460c8d10358b72e9e7c0a45bd5dde7c0658"
 
 [metadata.files]
 certifi = [
@@ -762,8 +713,8 @@ certifi = [
     {file = "certifi-2021.5.30.tar.gz", hash = "sha256:2bbf76fd432960138b3ef6dda3dde0544f27cbf8546c458e60baf371917ba9ee"},
 ]
 charset-normalizer = [
-    {file = "charset-normalizer-2.0.1.tar.gz", hash = "sha256:ad0da505736fc7e716a8da15bf19a985db21ac6415c26b34d2fafd3beb3d927e"},
-    {file = "charset_normalizer-2.0.1-py3-none-any.whl", hash = "sha256:b68b38179052975093d71c1b5361bf64afd80484697c1f27056e50593e695ceb"},
+    {file = "charset-normalizer-2.0.3.tar.gz", hash = "sha256:c46c3ace2d744cfbdebceaa3c19ae691f53ae621b39fd7570f59d14fb7f2fd12"},
+    {file = "charset_normalizer-2.0.3-py3-none-any.whl", hash = "sha256:88fce3fa5b1a84fdcb3f603d889f723d1dd89b26059d0123ca435570e848d5e1"},
 ]
 cheroot = [
     {file = "cheroot-8.5.2-py2.py3-none-any.whl", hash = "sha256:7ba11294a83468a27be6f06066df8a0f17d954ad05945f28d228aa3f4cd1b03c"},
@@ -794,8 +745,8 @@ foliant = [
     {file = "foliant-1.0.12.tar.gz", hash = "sha256:a2c9f3e2056e336e47bc8c2966b27a9937a09f6c33966f48d8a561c74a3f35bb"},
 ]
 "foliantcontrib.anchors" = [
-    {file = "foliantcontrib.anchors-1.0.6-py3-none-any.whl", hash = "sha256:d8b8e8e7352678ff1984b17023c06089528c7c3c1cfdd25bbbf1ca72c8fc50ce"},
-    {file = "foliantcontrib.anchors-1.0.6.tar.gz", hash = "sha256:b80b3cdef39ba595636789133ff609be2fed16ab441461440f490e62b57d620c"},
+    {file = "foliantcontrib.anchors-1.0.7-py3-none-any.whl", hash = "sha256:9cd4f2240d65123d24696dc07be1ec68d87d13861a59fd3ffb9a43b88bdff10f"},
+    {file = "foliantcontrib.anchors-1.0.7.tar.gz", hash = "sha256:74427adaa1c3e40d68594ccc42e2cd088b646372b6050a714eabe4a2fb6fe9b0"},
 ]
 "foliantcontrib.escapecode" = [
     {file = "foliantcontrib.escapecode-1.0.4-py3-none-any.whl", hash = "sha256:6fa69632e12177c6a32feebfda72ba4e65afe1da12e009a38f9179ebda0a83e7"},
@@ -810,36 +761,20 @@ foliant = [
     {file = "foliantcontrib.init-1.0.8.tar.gz", hash = "sha256:a4fc4aad768ec4bb6b2b1d179f228b1b8e6f03ae102c5c47cd3ca240ed712151"},
 ]
 "foliantcontrib.meta" = [
-    {file = "foliantcontrib.meta-1.3.2-py3-none-any.whl", hash = "sha256:8c68fbefa50194e95440ebf7ad4a5e316bcd297b9202175f8bbe3cf0e3e8c1d7"},
-    {file = "foliantcontrib.meta-1.3.2.tar.gz", hash = "sha256:403c14527fed7eed98de285ec0e76f53ed4f3b8161e44aa2ecd238636ad8daf9"},
+    {file = "foliantcontrib.meta-1.3.3-py3-none-any.whl", hash = "sha256:1aa9565af2207eb523fc63f7c147265cd47b334c6a7a3f5b35208a108f84cd87"},
+    {file = "foliantcontrib.meta-1.3.3.tar.gz", hash = "sha256:9d033dc95ef7beefb401a4382f021fa9c278d6c2630969e121ce88b86543e3fc"},
 ]
 "foliantcontrib.mkdocs" = [
     {file = "foliantcontrib.mkdocs-1.0.12-py3-none-any.whl", hash = "sha256:4b15dab5e7251646960fdfbaf5efbb5b6e32ef519310220b4a944ef8f46133ee"},
     {file = "foliantcontrib.mkdocs-1.0.12.tar.gz", hash = "sha256:7dcb11662bc601ea66ca167edd324beb920a8209c9ce824d3c9d17c9164f3f06"},
 ]
 "foliantcontrib.superlinks" = [
-    {file = "foliantcontrib.superlinks-1.0.9-py3-none-any.whl", hash = "sha256:de8595f17db5e102453af163a1687baf156a6087247ba88ef10f0fb9bc6a4180"},
-    {file = "foliantcontrib.superlinks-1.0.9.tar.gz", hash = "sha256:4733f58bb36aa5fae34daecfa510f4aeb86c5cdc6d84c5c8b6581335a4f7c8d7"},
+    {file = "foliantcontrib.superlinks-1.0.10-py3-none-any.whl", hash = "sha256:f65e5b6fd77b106a70affac83b32f20c96f465ebdee92e69849b74ebd5a431b9"},
+    {file = "foliantcontrib.superlinks-1.0.10.tar.gz", hash = "sha256:c91bb36c1b14b44c3dbfa73f5e4bede497b7d8e4f09b7a31f54a9e0e078a7d2d"},
 ]
 "foliantcontrib.utils" = [
-    {file = "foliantcontrib.utils-1.0.0-py3-none-any.whl", hash = "sha256:5dca84df81427b9d4b56b45b5345de17eaf79c412ea8b74574a1354e02f486f1"},
-    {file = "foliantcontrib.utils-1.0.0.tar.gz", hash = "sha256:95bd880e85daf98a94b6d80466a87ccde07e4b827177a9adc4476565f48e315b"},
-]
-"foliantcontrib.utils.chapters" = [
-    {file = "foliantcontrib.utils.chapters-1.0.4-py3-none-any.whl", hash = "sha256:568ec90123abf84a263dc94d65b27526f4d34ea0be030d9bc58eb9f41170de28"},
-    {file = "foliantcontrib.utils.chapters-1.0.4.tar.gz", hash = "sha256:9ae39b607403109b7dd96555b9114493c5cdeb119e8fac8c47b4b87918249a22"},
-]
-"foliantcontrib.utils.combined-options" = [
-    {file = "foliantcontrib.utils.combined_options-1.0.10-py3-none-any.whl", hash = "sha256:33e07427297df8c3bef5d973abfe6c261ce2bb8826bb3ac3b5e89db5e3ea087d"},
-    {file = "foliantcontrib.utils.combined_options-1.0.10.tar.gz", hash = "sha256:0e71cbcfad99229acf2d3502a74b99f4758bf7e5d4bdcc2d43a61932d25b7bd1"},
-]
-"foliantcontrib.utils.header-anchors" = [
-    {file = "foliantcontrib.utils.header_anchors-1.0.4-py3-none-any.whl", hash = "sha256:d6780c6a24431a2f2549e4788c73db7581dd87707df155778c4c75b51dcecdc6"},
-    {file = "foliantcontrib.utils.header_anchors-1.0.4.tar.gz", hash = "sha256:d9011fe57aea9070f48fcfa10a62ce7cb4ba492f0d8148000292b93e0d4ae16f"},
-]
-"foliantcontrib.utils.preprocessor-ext" = [
-    {file = "foliantcontrib.utils.preprocessor_ext-1.0.5-py3-none-any.whl", hash = "sha256:1d04dc591d96929b60dd77210c7fd5ee392d5f8f4677bb2592cb2a79809c913a"},
-    {file = "foliantcontrib.utils.preprocessor_ext-1.0.5.tar.gz", hash = "sha256:347ddef715efe29595c0d7f3794dcadaad7b9fdf32806ebc045aa3a10ca9b0df"},
+    {file = "foliantcontrib.utils-1.0.2-py3-none-any.whl", hash = "sha256:676351cf7fd7fb90046a6707ce50fa19b7675988b98265a252273181470f16f6"},
+    {file = "foliantcontrib.utils-1.0.2.tar.gz", hash = "sha256:16e39282ae153942df7e430091cf8906b1ca979636a4f3af86a3280370f6e266"},
 ]
 ghp-import = [
     {file = "ghp-import-2.0.1.tar.gz", hash = "sha256:753de2eace6e0f7d4edfb3cce5e3c3b98cd52aadb80163303d1d036bda7b4483"},
@@ -865,8 +800,8 @@ importlib-metadata = [
     {file = "jaraco.functools-3.3.0.tar.gz", hash = "sha256:bfcf7da71e2a0e980189b0744b59dba6c1dcf66dcd7a30f8a4413e478046b314"},
 ]
 "jaraco.text" = [
-    {file = "jaraco.text-3.5.0-py3-none-any.whl", hash = "sha256:b647f2bf912e201bfefd01d691bf5d603a94f2b3f998129e4fea595873a25613"},
-    {file = "jaraco.text-3.5.0.tar.gz", hash = "sha256:f07f1076814a17a98eb915948b9a0dc71b1891c833588066ec1feb04ea4389b1"},
+    {file = "jaraco.text-3.5.1-py3-none-any.whl", hash = "sha256:dc900b7916cefdaf943fbd43870abc8b0a6ff68f2c8c33e212fd51139219f68d"},
+    {file = "jaraco.text-3.5.1.tar.gz", hash = "sha256:ede4e9103443b62b3d1d193257dfb85aab7c69a6cef78a0887d64bb307a03bc3"},
 ]
 jinja2 = [
     {file = "Jinja2-3.0.1-py3-none-any.whl", hash = "sha256:1f06f2da51e7b56b8f238affdd6b4e2c61e39598a378cc49345bc1bd42a978a4"},
@@ -917,12 +852,12 @@ mergedeep = [
     {file = "mergedeep-1.3.4.tar.gz", hash = "sha256:0096d52e9dad9939c3d975a774666af186eda617e6ca84df4c94dec30004f2a8"},
 ]
 mkdocs = [
-    {file = "mkdocs-1.2.1-py3-none-any.whl", hash = "sha256:11141126e5896dd9d279b3e4814eb488e409a0990fb638856255020406a8e2e7"},
-    {file = "mkdocs-1.2.1.tar.gz", hash = "sha256:6e0ea175366e3a50d334597b0bc042b8cebd512398cdd3f6f34842d0ef524905"},
+    {file = "mkdocs-1.2.2-py3-none-any.whl", hash = "sha256:d019ff8e17ec746afeb54eb9eb4112b5e959597aebc971da46a5c9486137f0ff"},
+    {file = "mkdocs-1.2.2.tar.gz", hash = "sha256:a334f5bd98ec960638511366eb8c5abc9c99b9083a0ed2401d8791b112d6b078"},
 ]
 mkdocs-material = [
-    {file = "mkdocs-material-7.1.10.tar.gz", hash = "sha256:890e9be00bfbe4d22ccccbcde1bf9bad67a3ba495f2a7d2422ea4acb5099f014"},
-    {file = "mkdocs_material-7.1.10-py2.py3-none-any.whl", hash = "sha256:92ff8c4a8e78555ef7b7ed0ba3043421d18971b48d066ea2cefb50e889fc66db"},
+    {file = "mkdocs-material-7.2.0.tar.gz", hash = "sha256:9f43c5874e119b312a6f369ef363815c11f182b5cdeff4a3426615ebc4664ace"},
+    {file = "mkdocs_material-7.2.0-py2.py3-none-any.whl", hash = "sha256:8b3750857e168a9ca20be34890791817090b016248a39be45069fab5343f1dc0"},
 ]
 mkdocs-material-extensions = [
     {file = "mkdocs-material-extensions-1.0.1.tar.gz", hash = "sha256:6947fb7f5e4291e3c61405bad3539d81e0b3cd62ae0d66ced018128af509c68f"},
@@ -1033,8 +968,8 @@ schema = [
     {file = "schema-0.7.4.tar.gz", hash = "sha256:fbb6a52eb2d9facf292f233adcc6008cffd94343c63ccac9a1cb1f3e6de1db17"},
 ]
 setuptools = [
-    {file = "setuptools-57.1.0-py3-none-any.whl", hash = "sha256:ddae4c1b9220daf1e32ba9d4e3714df6019c5b583755559be84ff8199f7e1fe3"},
-    {file = "setuptools-57.1.0.tar.gz", hash = "sha256:cfca9c97e7eebbc8abe18d5e5e962a08dcad55bb63afddd82d681de4d22a597b"},
+    {file = "setuptools-57.4.0-py3-none-any.whl", hash = "sha256:a49230977aa6cfb9d933614d2f7b79036e9945c4cdd7583163f4e920b83418d6"},
+    {file = "setuptools-57.4.0.tar.gz", hash = "sha256:6bac238ffdf24e8806c61440e755192470352850f3419a52f26ffe0a1a64f465"},
 ]
 six = [
     {file = "six-1.16.0-py2.py3-none-any.whl", hash = "sha256:8abb2f1d86890a2dfb989f9a77cfcfd3e47c2a354b01111771326f8aa26e0254"},
