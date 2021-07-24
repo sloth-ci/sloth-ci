@@ -71,7 +71,7 @@ Run "sci start" to start the server.'''
         if extensions:
             for extension_name, extension_config in extensions.items():
                 try:
-                    ext = import_module('.ext.%s' % extension_config['module'], package=__package__)
+                    ext = import_module('sloth_ci_ext_%s' % extension_config['module'])
 
                     ExtendedCLI = ext.extend_cli(ExtendedCLI, {
                             'name': extension_name,
@@ -90,7 +90,8 @@ Run "sci start" to start the server.'''
     def _root(self, config='./sloth.yml', version=False):
         if version:
             print(__version__)
-            exit()
+        else:
+            return NotImplemented
 
     def start(self):
         '''start server'''
@@ -108,3 +109,4 @@ Run "sci start" to start the server.'''
 
 def main():
     CLI().parse()
+

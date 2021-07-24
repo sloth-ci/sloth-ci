@@ -9,13 +9,13 @@ import logging
 
 
 class Sloth:
-    '''Base Sloth class.
+    """Base Sloth class.
 
     Each instance represents a separate Sloth app,
     with its own config, log, action queue, and queue processor.
 
     Each app listens for incoming requests on its own URL path.
-    '''
+    """
 
     def __init__(self, config):
         self.config = config
@@ -45,14 +45,14 @@ class Sloth:
 
     @classmethod
     def extend(cls, extensions):
-        '''Sequentially chain-inherit Sloth classes from extensions.
+        """Sequentially chain-inherit Sloth classes from extensions.
 
         The first extension's Sloth class inherits from the base Sloth class and becomes the base class, then the second one inherits from it, and so on.
 
         :param extensions: dict of extensions to load.
 
         :returns: `ExtendedSloth` is a Sloth class inherited from all extensions' Sloth classes; `errors` is the list of errors raised during extension loading.
-        '''
+        """
 
         ExtendedSloth = cls
         errors = []
@@ -60,7 +60,7 @@ class Sloth:
         if extensions:
             for extension_name, extension_config in extensions.items():
                 try:
-                    ext = import_module('.ext.%s' % extension_config['module'], package=__package__)
+                    ext = import_module('sloth_ci_ext_%s' % extension_config['module'])
 
                     ExtendedSloth = ext.extend_sloth(ExtendedSloth, {
                             'name': extension_name,
@@ -77,10 +77,10 @@ class Sloth:
         return ExtendedSloth, errors
 
     def handle(self, request):
-        '''Validate, extract, and process incoming payload.
+        """Validate, extract, and process incoming payload.
 
         :param request: a cherrypy.request instance
-        '''
+        """
 
         self.logger.debug('Payload received from %s - %s' % (
                 request.remote.ip,
@@ -97,7 +97,7 @@ class Sloth:
             else:
                 raise HTTPError(400, 'No provider set, declining all payloads')
 
-            validator = import_module('.validators.%s' % provider, package=__package__)
+            validator = import_module('sloth_ci_val_%s' % provider)
 
         except ImportError as e:
             self.logger.critical('No matching validator found: %s' % e)
@@ -119,12 +119,12 @@ class Sloth:
             self.process(params)
 
     def process(self, validator_params):
-        '''Queue execution of actions with certain params.
+        """Queue execution of actions with certain params.
 
         Params are taken from the ``params`` config section and extracted from the incoming payload.
 
         :param validator_params: params extracted from the payload
-        '''
+        """
 
         params = dict(self.config.get('params', {}), **validator_params)
 
@@ -136,10 +136,10 @@ class Sloth:
             self.queue_processor.start()
 
     def process_queue(self):
-        '''Processes execution queue in a separate thread.
+        """Processes execution queue in a separate thread.
 
         :returns: True if successful, exception otherwise
-        '''
+        """
 
         actions = self.config.get('actions')
 
@@ -160,13 +160,13 @@ class Sloth:
         return True
 
     def run_build(self, actions, params):
-        '''Run a build with the given params.
+        """Run a build with the given params.
 
         :param actions: actions in this build
         :param params: params used by the actions
 
         :returns: True if successful, exception otherwise
-        '''
+        """
 
         errors = []
 
@@ -210,12 +210,12 @@ class Sloth:
             self.build_logger.warning('Partially completed: %d/%d' % (len(actions) - len(errors), len(actions)))
 
     def execute(self, action):
-        '''Executes an action in an ordinary Popen.
+        """Executes an action in an ordinary Popen.
 
         :param action: action to be executed
 
         :returns: True if successful, exception otherwise
-        '''
+        """
 
         try:
             process = Popen(
@@ -252,16 +252,16 @@ class Sloth:
             raise
 
     def stop(self):
-        '''Gracefully stop the queue processor.
+        """Gracefully stop the queue processor.
 
         New payloads are not added to the queue, existing actions will be finished.
-        '''
+        """
 
         self._queue_lock = True
         self.logger.info('Stopped')
 
     def kill(self):
-        '''Immediately stop processing the queue.'''
+        """Immediately stop processing the queue."""
 
         self.stop()
 

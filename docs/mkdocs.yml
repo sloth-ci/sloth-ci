@@ -1,0 +1,26 @@
+repo_url: https://github.com/sloth-ci/sloth-ci
+edit_uri: edit/develop/docs/src/
+
+theme:
+  name: material
+  palette:
+    primary: red
+    accent: green
+  font:
+    text: PT Sans
+    code: PT Mono
+  logo: assets/sloth.png
+  favicon: "data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2280%22>🦥</text></svg>"
+
+markdown_extensions:
+  - codehilite
+  - toc:
+      permalink: true
+  - admonition
+  - def_list
+  - footnotes
+
+copyright: >
+  <p>Created by <a href="https://github.com/moigagoo/">Constantine Molchanov</a>
+  using <a href="https://foliant.rocks">Foliant</a>.</p>
+
