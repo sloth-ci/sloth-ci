@@ -307,6 +307,26 @@
     Dev Tools
   </a>
   
+    <nav class="md-nav" aria-label="Dev Tools">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#installation" class="md-nav__link">
+    Installation
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#usage" class="md-nav__link">
+    Usage
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -434,6 +454,26 @@
     Dev Tools
   </a>
   
+    <nav class="md-nav" aria-label="Dev Tools">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#installation" class="md-nav__link">
+    Installation
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#usage" class="md-nav__link">
+    Usage
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -497,6 +537,25 @@
 <p>The same extension can work on both app and server levels.</p>
 <h2 id="build-email-notifications">Build Email Notifications<a class="headerlink" href="#build-email-notifications" title="Permanent link">&para;</a></h2>
 <h2 id="dev-tools">Dev Tools<a class="headerlink" href="#dev-tools" title="Permanent link">&para;</a></h2>
+<h3 id="installation">Installation<a class="headerlink" href="#installation" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><code>$ pip install sloth-ci-ext-devtools
+</code></pre></div>
+
+<h3 id="usage">Usage<a class="headerlink" href="#usage" title="Permanent link">&para;</a></h3>
+<p>Enable the extension in the server config:</p>
+<div class="codehilite"><pre><span></span><code><span class="n">extensions</span><span class="o">:</span>
+    <span class="n">dev</span><span class="o">:</span>
+        <span class="err">#</span> <span class="n">Use</span> <span class="n">the</span> <span class="n">module</span> <span class="n">sloth_ci</span><span class="o">.</span><span class="na">ext</span><span class="o">.</span><span class="na">devtools</span><span class="o">.</span>
+        <span class="n">module</span><span class="o">:</span> <span class="n">devtools</span>
+</code></pre></div>
+
+<p>Call <code>sci dev</code> with <code>-e</code> or <code>-v</code> to create an extensions or a validator template:</p>
+<div class="codehilite"><pre><span></span><code>$ sci dev -e spam
+Extension <span class="s2">&quot;spam&quot;</span> created.
+$ sci dev -v eggs
+Validator <span class="s2">&quot;eggs&quot;</span> created.
+</code></pre></div>
+
 <h2 id="file-logs">File Logs<a class="headerlink" href="#file-logs" title="Permanent link">&para;</a></h2>
 <h2 id="robotstxt">Robots.txt<a class="headerlink" href="#robotstxt" title="Permanent link">&para;</a></h2>
 <h2 id="shieldsio">Shields.io<a class="headerlink" href="#shieldsio" title="Permanent link">&para;</a></h2>
