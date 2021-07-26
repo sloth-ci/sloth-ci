@@ -296,11 +296,11 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#build-email-notifications" class="md-nav__link">
-    Build Email Notifications
+  <a href="#notifications" class="md-nav__link">
+    Notifications
   </a>
   
-    <nav class="md-nav" aria-label="Build Email Notifications">
+    <nav class="md-nav" aria-label="Notifications">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -323,11 +323,11 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#dev-tools" class="md-nav__link">
-    Dev Tools
+  <a href="#devtools" class="md-nav__link">
+    Devtools
   </a>
   
-    <nav class="md-nav" aria-label="Dev Tools">
+    <nav class="md-nav" aria-label="Devtools">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -350,8 +350,8 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#file-logs" class="md-nav__link">
-    File Logs
+  <a href="#logs" class="md-nav__link">
+    Logs
   </a>
   
 </li>
@@ -463,11 +463,11 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#build-email-notifications" class="md-nav__link">
-    Build Email Notifications
+  <a href="#notifications" class="md-nav__link">
+    Notifications
   </a>
   
-    <nav class="md-nav" aria-label="Build Email Notifications">
+    <nav class="md-nav" aria-label="Notifications">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -490,11 +490,11 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#dev-tools" class="md-nav__link">
-    Dev Tools
+  <a href="#devtools" class="md-nav__link">
+    Devtools
   </a>
   
-    <nav class="md-nav" aria-label="Dev Tools">
+    <nav class="md-nav" aria-label="Devtools">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -517,8 +517,8 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#file-logs" class="md-nav__link">
-    File Logs
+  <a href="#logs" class="md-nav__link">
+    Logs
   </a>
   
 </li>
@@ -575,7 +575,7 @@
 <p>Server extensions are invoked in the <link src="server_config.md">server config</link>. These extensions change the way Sloth CI server works. For example, Robots.txt extension protects the server from bots; this doesn't affect any particular app but affects the whole server.</p>
 <p>Another example of a server extension is the Sloth CI API: all web API methods and CLI commands except for <link src="cli.md" title="start">cli-start</link> are implemented in an extension.</p>
 <p>The same extension can work on both app and server levels.</p>
-<h2 id="build-email-notifications">Build Email Notifications<a class="headerlink" href="#build-email-notifications" title="Permanent link">&para;</a></h2>
+<h2 id="notifications">Notifications<a class="headerlink" href="#notifications" title="Permanent link">&para;</a></h2>
 <p>Send email notifications when builds complete or fail.</p>
 <p>Executing actions of an app is called <em>build</em>. A build is considered <em>completed</em> if all its actions were completed. If some actions were completed and some failed, it's a <em>partially completed</em>; if all actions fail, the build <em>failed</em>.</p>
 <p>This extension sends you emails via SMTP when your builds complete (fully or partially) or fail; just pick the desired notification level, list the recipient emails, and enter your SMTP credentials. Optionally, you can set the subject for each notification level.</p>
@@ -639,7 +639,7 @@
         <span class="err">#</span>    <span class="o">-</span>   <span class="n">cerfile</span>
 </code></pre></div>
 
-<h2 id="dev-tools">Dev Tools<a class="headerlink" href="#dev-tools" title="Permanent link">&para;</a></h2>
+<h2 id="devtools">Devtools<a class="headerlink" href="#devtools" title="Permanent link">&para;</a></h2>
 <h3 id="installation_1">Installation<a class="headerlink" href="#installation_1" title="Permanent link">&para;</a></h3>
 <div class="codehilite"><pre><span></span><code>$ pip install sloth-ci-ext-devtools
 </code></pre></div>
@@ -659,7 +659,7 @@ $ sci dev -v eggs
 Validator <span class="s2">&quot;eggs&quot;</span> created.
 </code></pre></div>
 
-<h2 id="file-logs">File Logs<a class="headerlink" href="#file-logs" title="Permanent link">&para;</a></h2>
+<h2 id="logs">Logs<a class="headerlink" href="#logs" title="Permanent link">&para;</a></h2>
 <h2 id="robotstxt">Robots.txt<a class="headerlink" href="#robotstxt" title="Permanent link">&para;</a></h2>
 <h2 id="shieldsio">Shields.io<a class="headerlink" href="#shieldsio" title="Permanent link">&para;</a></h2>
 <h2 id="ssh-exec">SSH Exec<a class="headerlink" href="#ssh-exec" title="Permanent link">&para;</a></h2>
