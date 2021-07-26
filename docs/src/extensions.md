@@ -25,6 +25,8 @@ The same extension can work on both app and server levels.
 
 ## Logs
 
+<include repo_url="https://github.com/sloth-ci/sloth-ci-ext-logs.git" path="README.md" sethead="2" nohead="true"></include>
+
 
 ## Robots.txt
 
