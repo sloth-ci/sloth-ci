@@ -354,6 +354,26 @@
     Logs
   </a>
   
+    <nav class="md-nav" aria-label="Logs">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#installation_2" class="md-nav__link">
+    Installation
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#usage_2" class="md-nav__link">
+    Usage
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -521,6 +541,26 @@
     Logs
   </a>
   
+    <nav class="md-nav" aria-label="Logs">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#installation_2" class="md-nav__link">
+    Installation
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#usage_2" class="md-nav__link">
+    Usage
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -660,6 +700,40 @@ Validator <span class="s2">&quot;eggs&quot;</span> created.
 </code></pre></div>
 
 <h2 id="logs">Logs<a class="headerlink" href="#logs" title="Permanent link">&para;</a></h2>
+<p>You can customize your logging in a number of ways: set the output dir and filename, set log level and format, toggle and configure log rotation.</p>
+<h3 id="installation_2">Installation<a class="headerlink" href="#installation_2" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><code>$ pip install sloth-ci-ext-logs
+</code></pre></div>
+
+<h3 id="usage_2">Usage<a class="headerlink" href="#usage_2" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><code><span class="n">extensions</span><span class="o">:</span>
+    <span class="n">logs</span><span class="o">:</span>
+        <span class="err">#</span> <span class="n">Use</span> <span class="n">the</span> <span class="n">module</span> <span class="n">sloth_ci_ext_logs</span><span class="o">.</span>
+        <span class="n">module</span><span class="o">:</span> <span class="n">logs</span>
+
+        <span class="err">#</span> <span class="n">Set</span> <span class="n">the</span> <span class="n">log</span> <span class="n">path</span><span class="o">.</span> <span class="n">Default</span> <span class="k">is</span> <span class="n">the</span> <span class="n">current</span> <span class="n">dir</span><span class="o">.</span>
+        <span class="n">path</span><span class="o">:</span> <span class="n">debug_logs</span>
+
+        <span class="err">#</span> <span class="n">Log</span> <span class="n">filename</span><span class="o">.</span> <span class="n">If</span> <span class="n">not</span> <span class="n">given</span><span class="o">,</span> <span class="n">the</span> <span class="n">app</span><span class="s1">&#39;s listen point is used.</span>
+<span class="s1">        filename: test_debug.log</span>
+
+<span class="s1">        # Log level (number or valid Python logging level name).</span>
+<span class="s1">        level: DEBUG</span>
+
+<span class="s1">        # Log format (refer to the https://docs.python.org/3/library/logging.html#logrecord-attributes).</span>
+<span class="s1">        # By default, this format is used: </span>
+<span class="s1">        # format: &#39;</span><span class="o">%(</span><span class="n">asctime</span><span class="o">)</span><span class="n">s</span> <span class="o">|</span> <span class="o">%(</span><span class="n">name</span><span class="o">)</span><span class="mi">30</span><span class="n">s</span> <span class="o">|</span> <span class="o">%(</span><span class="n">levelname</span><span class="o">)</span><span class="mi">10</span><span class="n">s</span> <span class="o">|</span> <span class="o">%(</span><span class="n">message</span><span class="o">)</span><span class="n">s</span><span class="err">&#39;</span>
+
+        <span class="err">#</span> <span class="n">Make</span> <span class="n">logs</span> <span class="n">rotating</span><span class="o">.</span> <span class="n">Default</span> <span class="k">is</span> <span class="kc">false</span><span class="o">.</span>
+        <span class="err">#</span> <span class="n">rotating</span><span class="o">:</span> <span class="kc">true</span>
+
+        <span class="err">#</span> <span class="n">If</span> <span class="n">rotating</span><span class="o">,</span> <span class="n">maximum</span> <span class="n">size</span> <span class="n">of</span> <span class="n">a</span> <span class="n">log</span> <span class="n">file</span> <span class="k">in</span> <span class="n">bytes</span><span class="o">.</span>
+        <span class="err">#</span> <span class="n">max_bytes</span><span class="o">:</span> <span class="mi">500</span>
+
+        <span class="err">#</span> <span class="n">If</span> <span class="n">rotating</span><span class="o">,</span> <span class="n">maximum</span> <span class="n">number</span> <span class="n">or</span> <span class="n">log</span> <span class="n">files</span> <span class="n">to</span> <span class="n">keep</span><span class="o">.</span>
+        <span class="err">#</span> <span class="n">backup_count</span><span class="o">:</span> <span class="mi">10</span>
+</code></pre></div>
+
 <h2 id="robotstxt">Robots.txt<a class="headerlink" href="#robotstxt" title="Permanent link">&para;</a></h2>
 <h2 id="shieldsio">Shields.io<a class="headerlink" href="#shieldsio" title="Permanent link">&para;</a></h2>
 <h2 id="ssh-exec">SSH Exec<a class="headerlink" href="#ssh-exec" title="Permanent link">&para;</a></h2>
