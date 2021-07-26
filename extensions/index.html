@@ -300,14 +300,7 @@
     Build Email Notifications
   </a>
   
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#dev-tools" class="md-nav__link">
-    Dev Tools
-  </a>
-  
-    <nav class="md-nav" aria-label="Dev Tools">
+    <nav class="md-nav" aria-label="Build Email Notifications">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -319,6 +312,33 @@
         
           <li class="md-nav__item">
   <a href="#usage" class="md-nav__link">
+    Usage
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dev-tools" class="md-nav__link">
+    Dev Tools
+  </a>
+  
+    <nav class="md-nav" aria-label="Dev Tools">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#installation_1" class="md-nav__link">
+    Installation
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#usage_1" class="md-nav__link">
     Usage
   </a>
   
@@ -447,14 +467,7 @@
     Build Email Notifications
   </a>
   
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#dev-tools" class="md-nav__link">
-    Dev Tools
-  </a>
-  
-    <nav class="md-nav" aria-label="Dev Tools">
+    <nav class="md-nav" aria-label="Build Email Notifications">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -466,6 +479,33 @@
         
           <li class="md-nav__item">
   <a href="#usage" class="md-nav__link">
+    Usage
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dev-tools" class="md-nav__link">
+    Dev Tools
+  </a>
+  
+    <nav class="md-nav" aria-label="Dev Tools">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#installation_1" class="md-nav__link">
+    Installation
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#usage_1" class="md-nav__link">
     Usage
   </a>
   
@@ -536,16 +576,79 @@
 <p>Another example of a server extension is the Sloth CI API: all web API methods and CLI commands except for <link src="cli.md" title="start">cli-start</link> are implemented in an extension.</p>
 <p>The same extension can work on both app and server levels.</p>
 <h2 id="build-email-notifications">Build Email Notifications<a class="headerlink" href="#build-email-notifications" title="Permanent link">&para;</a></h2>
-<h2 id="dev-tools">Dev Tools<a class="headerlink" href="#dev-tools" title="Permanent link">&para;</a></h2>
+<p>Send email notifications when builds complete or fail.</p>
+<p>Executing actions of an app is called <em>build</em>. A build is considered <em>completed</em> if all its actions were completed. If some actions were completed and some failed, it's a <em>partially completed</em>; if all actions fail, the build <em>failed</em>.</p>
+<p>This extension sends you emails via SMTP when your builds complete (fully or partially) or fail; just pick the desired notification level, list the recipient emails, and enter your SMTP credentials. Optionally, you can set the subject for each notification level.</p>
 <h3 id="installation">Installation<a class="headerlink" href="#installation" title="Permanent link">&para;</a></h3>
-<div class="codehilite"><pre><span></span><code>$ pip install sloth-ci-ext-devtools
+<div class="codehilite"><pre><span></span><code>$ pip install sloth-ci-ext-notifications
 </code></pre></div>
 
 <h3 id="usage">Usage<a class="headerlink" href="#usage" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><code><span class="n">extensions</span><span class="o">:</span>
+    <span class="n">notifications</span><span class="o">:</span>
+        <span class="err">#</span> <span class="n">Use</span> <span class="n">the</span> <span class="n">module</span> <span class="n">sloth_ci_ext_notifications</span><span class="o">.</span>
+        <span class="n">module</span><span class="o">:</span> <span class="n">notifications</span>
+
+        <span class="err">#</span> <span class="n">Emails</span> <span class="n">to</span> <span class="n">send</span> <span class="n">the</span> <span class="n">notifications</span> <span class="n">to</span><span class="o">.</span>
+        <span class="n">emails</span><span class="o">:</span>
+            <span class="o">-</span> <span class="n">foo</span><span class="err">@</span><span class="n">bar</span><span class="o">.</span><span class="na">com</span>
+            <span class="o">-</span> <span class="n">admin</span><span class="err">@</span><span class="n">example</span><span class="o">.</span><span class="na">com</span>
+
+        <span class="err">#</span> <span class="n">Log</span> <span class="n">level</span> <span class="o">(</span><span class="n">number</span> <span class="n">or</span> <span class="n">valid</span> <span class="n">Python</span> <span class="n">logging</span> <span class="n">level</span> <span class="n">name</span><span class="o">).</span>
+        <span class="err">#</span> <span class="n">ERROR</span> <span class="n">includes</span> <span class="n">only</span> <span class="n">build</span> <span class="n">fails</span><span class="o">,</span> <span class="n">WARNING</span> <span class="n">adds</span> <span class="n">partial</span> <span class="n">completions</span><span class="o">,</span>
+        <span class="err">#</span> <span class="n">INFO</span> <span class="n">adds</span> <span class="n">completion</span><span class="o">,</span> <span class="n">and</span> <span class="n">DEBUG</span> <span class="n">adds</span> <span class="n">trigger</span> <span class="n">notifications</span><span class="o">.</span>
+        <span class="err">#</span> <span class="n">Default</span> <span class="k">is</span> <span class="n">WARNING</span><span class="o">.</span>
+        <span class="n">level</span><span class="o">:</span> <span class="n">INFO</span>
+
+        <span class="err">#</span> <span class="n">The</span> <span class="s2">&quot;from&quot;</span> <span class="n">address</span> <span class="k">in</span> <span class="n">the</span> <span class="n">emails</span><span class="o">.</span> <span class="n">Default</span> <span class="k">is</span> <span class="s2">&quot;build@sloth.ci.&quot;</span>
+        <span class="n">from</span><span class="o">:</span> <span class="n">notify</span><span class="err">@</span><span class="n">example</span><span class="o">.</span><span class="na">com</span>
+
+        <span class="err">#</span> <span class="n">The</span> <span class="n">email</span> <span class="n">subject</span> <span class="n">on</span> <span class="n">build</span> <span class="n">trigger</span><span class="o">.</span> <span class="n">You</span> <span class="n">can</span> <span class="n">use</span> <span class="n">the</span> <span class="o">{</span><span class="n">listen_point</span><span class="o">}</span> <span class="n">placeholder</span><span class="o">.</span>
+        <span class="err">#</span> <span class="n">Default</span> <span class="k">is</span> <span class="s2">&quot;{listen_point}: Build Triggered.&quot;</span>
+        <span class="n">subject_triggered</span><span class="o">:</span> <span class="s1">&#39;Triggered build on {listen_point}!&#39;</span>
+
+        <span class="err">#</span> <span class="n">The</span> <span class="n">email</span> <span class="n">subject</span> <span class="n">on</span> <span class="n">build</span> <span class="n">completion</span><span class="o">.</span><span class="na">You</span> <span class="n">can</span> <span class="n">use</span> <span class="n">the</span> <span class="o">{</span><span class="n">listen_point</span><span class="o">}</span> <span class="n">placeholder</span><span class="o">.</span>
+        <span class="err">#</span> <span class="n">Default</span> <span class="k">is</span> <span class="s2">&quot;{listen_point}: Build Completed.&quot;</span>
+        <span class="n">subject_completed</span><span class="o">:</span> <span class="s1">&#39;Hooray! {listen_point} works!&#39;</span>
+
+        <span class="err">#</span> <span class="n">The</span> <span class="n">email</span> <span class="n">subject</span> <span class="n">on</span> <span class="n">build</span> <span class="n">partial</span> <span class="n">completion</span><span class="o">.</span> <span class="n">You</span> <span class="n">can</span> <span class="n">use</span> <span class="n">the</span> <span class="o">{</span><span class="n">listen_point</span><span class="o">}</span> <span class="n">placeholder</span><span class="o">.</span>
+        <span class="err">#</span> <span class="n">Default</span> <span class="k">is</span> <span class="s2">&quot;{listen_point}: Build Partially Completed.&quot;</span>
+        <span class="n">subject_partially_completed</span><span class="o">:</span> <span class="s1">&#39;Better than nothing on {listen_point}&#39;</span>
+
+        <span class="err">#</span> <span class="n">The</span> <span class="n">email</span> <span class="n">subject</span> <span class="n">on</span> <span class="n">build</span> <span class="n">fail</span><span class="o">.</span> <span class="n">You</span> <span class="n">can</span> <span class="n">use</span> <span class="n">the</span> <span class="o">{</span><span class="n">listen_point</span><span class="o">}</span> <span class="n">placeholder</span><span class="o">.</span>
+        <span class="err">#</span> <span class="n">Default</span> <span class="k">is</span> <span class="s2">&quot;{listen_point}: Build Failed.&quot;</span>
+        <span class="n">subject_failed</span><span class="o">:</span> <span class="s1">&#39;Fail on {listen_point}&#39;</span>
+
+        <span class="err">#</span> <span class="n">SMTP</span> <span class="n">settings</span><span class="o">.</span>
+        <span class="err">#</span> <span class="n">SMTP</span> <span class="n">mail</span> <span class="n">host</span> <span class="n">and</span> <span class="o">(</span><span class="k">if</span> <span class="n">not</span> <span class="k">default</span><span class="o">)</span> <span class="n">port</span><span class="o">.</span>
+        <span class="err">#</span> <span class="n">Mandatory</span> <span class="n">parameter</span><span class="o">.</span>
+        <span class="n">mailhost</span><span class="o">:</span> <span class="s1">&#39;smtp-mail.outlook.com:25&#39;</span>
+
+        <span class="err">#</span> <span class="n">SMTP</span> <span class="n">login</span><span class="o">.</span>
+        <span class="n">login</span><span class="o">:</span> <span class="n">foo</span><span class="err">@</span><span class="n">bar</span><span class="o">.</span><span class="na">baz</span>
+
+        <span class="err">#</span> <span class="n">SMTP</span> <span class="n">password</span><span class="o">.</span>
+        <span class="n">password</span><span class="o">:</span> <span class="n">bar</span>
+
+        <span class="err">#</span> <span class="n">If</span> <span class="n">the</span> <span class="n">SMTP</span> <span class="n">server</span> <span class="n">requires</span> <span class="n">TLS</span><span class="o">,</span> <span class="kd">set</span> <span class="k">this</span> <span class="n">to</span> <span class="kc">true</span><span class="o">.</span> <span class="n">Default</span> <span class="k">is</span> <span class="kc">false</span><span class="o">.</span>
+        <span class="err">#</span> <span class="n">If</span> <span class="n">necessary</span><span class="o">,</span> <span class="n">you</span> <span class="n">can</span> <span class="n">provide</span> <span class="n">a</span> <span class="n">keyfile</span> <span class="n">name</span> <span class="n">or</span> <span class="n">a</span> <span class="n">keyfile</span> <span class="n">and</span> <span class="n">a</span> <span class="n">certificate</span> <span class="n">file</span> <span class="n">names</span><span class="o">.</span>
+        <span class="err">#</span> <span class="n">This</span> <span class="n">param</span> <span class="k">is</span> <span class="n">used</span> <span class="n">only</span> <span class="k">if</span> <span class="n">the</span> <span class="n">login</span> <span class="n">and</span> <span class="n">password</span> <span class="n">params</span> <span class="n">are</span> <span class="n">supplied</span><span class="o">.</span>
+        <span class="n">secure</span><span class="o">:</span> <span class="kc">true</span>
+        <span class="err">#</span> <span class="n">secure</span><span class="o">:</span>
+        <span class="err">#</span>    <span class="o">-</span>   <span class="n">keyfile</span>
+        <span class="err">#</span>    <span class="o">-</span>   <span class="n">cerfile</span>
+</code></pre></div>
+
+<h2 id="dev-tools">Dev Tools<a class="headerlink" href="#dev-tools" title="Permanent link">&para;</a></h2>
+<h3 id="installation_1">Installation<a class="headerlink" href="#installation_1" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><code>$ pip install sloth-ci-ext-devtools
+</code></pre></div>
+
+<h3 id="usage_1">Usage<a class="headerlink" href="#usage_1" title="Permanent link">&para;</a></h3>
 <p>Enable the extension in the server config:</p>
 <div class="codehilite"><pre><span></span><code><span class="n">extensions</span><span class="o">:</span>
     <span class="n">dev</span><span class="o">:</span>
-        <span class="err">#</span> <span class="n">Use</span> <span class="n">the</span> <span class="n">module</span> <span class="n">sloth_ci</span><span class="o">.</span><span class="na">ext</span><span class="o">.</span><span class="na">devtools</span><span class="o">.</span>
+        <span class="err">#</span> <span class="n">Use</span> <span class="n">the</span> <span class="n">module</span> <span class="n">sloth_ci_ext_devtools</span><span class="o">.</span>
         <span class="n">module</span><span class="o">:</span> <span class="n">devtools</span>
 </code></pre></div>
 
