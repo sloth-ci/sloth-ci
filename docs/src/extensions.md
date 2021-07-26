@@ -13,17 +13,17 @@ Another example of a server extension is the Sloth CI API: all web API methods a
 The same extension can work on both app and server levels.
 
 
-## Build Email Notifications
+## Notifications
 
 <include repo_url="https://github.com/sloth-ci/sloth-ci-ext-notifications.git" path="README.md" sethead="2" nohead="true"></include>
 
 
-## Dev Tools
+## Devtools
 
 <include repo_url="https://github.com/sloth-ci/sloth-ci-ext-devtools.git" path="README.md" sethead="2" nohead="true"></include>
 
 
-## File Logs
+## Logs
 
 
 ## Robots.txt
