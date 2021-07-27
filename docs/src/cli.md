@@ -210,7 +210,7 @@ Trigger the app to run its actions. If the app doesn't use a provider, this is t
     $ sci run myapp -p foo=bar
     Actions triggered on test
 
-`-w, -wait`
+`-w, --wait`
 :   Block and wait for the build to finish.
 
 `-p, --params param1=value1 param2=value2 ...`
