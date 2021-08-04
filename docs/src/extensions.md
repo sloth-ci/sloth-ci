@@ -28,6 +28,11 @@ The same extension can work on both app and server levels.
 <include repo_url="https://github.com/sloth-ci/sloth-ci-ext-logs.git" path="README.md" sethead="2" nohead="true"></include>
 
 
+## Docker
+
+<include repo_url="https://github.com/sloth-ci/sloth-ci-ext-docker.git" path="README.md" sethead="2" nohead="true"></include>
+
+
 ## Robots.txt
 
 
