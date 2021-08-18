@@ -33,6 +33,7 @@ foliant = "^1.0.12"
 mkdocs-material = "^7.1.4"
 "foliantcontrib.includes" = "^1.1.13"
 "foliantcontrib.superlinks" = "^1.0.9"
+pylint = "^2.9.6"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
