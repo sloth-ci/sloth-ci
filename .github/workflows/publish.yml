@@ -1,12 +1,12 @@
-name: Deploy Docs
+name: Publish Package
 
 on:
   push:
-    branches:
-      - develop
+    tags:
+      - '*'
 
 jobs:
-  Docs:
+  Publish:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -23,12 +23,9 @@ jobs:
       - name: Install Package
         run: poetry install
 
-      - name: Build Docs
-        run: poetry run foliant make site -p docs
-
-      - name: Deploy Docs
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./sloth-ci-docs.mkdocs
+      - name: Publish Package
+        env:
+          PYPI_USERNAME: ${{ secrets.PYPI_USERNAME }}
+          PYPI_PASSWORD: ${{ secrets.PYPI_PASSWORD }}
+        run: poetry publish --build --username="$PYPI_USERNAME" --password="$PYPI_PASSWORD"
 
