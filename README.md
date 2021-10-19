@@ -26,3 +26,4 @@ Check that the instance is running:
 Build the docs:
 
     $ poetry run foliant make site -p docs
+
