@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "sloth-ci"
-version = "2.2.0"
+version = "2.2.1"
 description = "Lightweight, standalone CI server."
 authors = ["Constantine Molchanov <moigagoo@live.com>"]
 license = "MIT"
