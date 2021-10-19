@@ -11,12 +11,14 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Install
-        run:
-          - curl -OsSL https://raw.githubusercontent.com/python-poetry/poetry/master/install-poetry.py
-          - python install-poetry.py --preview -y
-          - export PATH=$PATH:~/.poetry/bin
-          - poetry install
+      - name: Download Poetry
+        run: curl -OsSL https://raw.githubusercontent.com/python-poetry/poetry/master/install-poetry.py
+
+      - name: Install Poetry
+        run: python install-poetry.py --preview -y && export PATH=$PATH:~/.poetry/bin
+
+      - name: Install Package
+        run: poetry install
 
       - name: Docs
         run: poetry run foliant make site -p docs
