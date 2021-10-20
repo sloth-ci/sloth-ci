@@ -13,7 +13,7 @@ Via extensions, Sloth CI offers detailed logs, build status badges, email notifi
 
 Requirements:
 
- - ``poetry >= 1.2`` (pre-releases can be installed via [get-poetry](https://python-poetry.org/docs/#osx--linux--bashonwindows-install-instructions) and the ``--preview`` flag)
+ - `poetry >= 1.2` (pre-releases can be installed via [get-poetry](https://python-poetry.org/docs/#osx--linux--bashonwindows-install-instructions) and the `--preview` flag)
 
 Deploy the project:
 
