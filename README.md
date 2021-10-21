@@ -1,8 +1,8 @@
 # Welcome to Sloth CI!
 
 [![image](https://img.shields.io/pypi/v/sloth-ci.svg)](https://pypi.org/project/sloth-ci)
-[![Build Status](https://travis-ci.com/Sloth-CI/sloth-ci.svg?branch=develop)](https://travis-ci.com/Sloth-CI/sloth-ci)
-
+[![Deploy Docs](https://github.com/sloth-ci/sloth-ci/actions/workflows/docs.yml/badge.svg)](https://github.com/sloth-ci/sloth-ci/actions/workflows/docs.yml)
+[![Publish Package](https://github.com/sloth-ci/sloth-ci/actions/workflows/publish.yml/badge.svg)](https://github.com/sloth-ci/sloth-ci/actions/workflows/publish.yml)
 
 **Sloth CI** is a lightweight, standalone CI server.
 
