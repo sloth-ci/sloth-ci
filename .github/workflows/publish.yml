@@ -1,9 +1,13 @@
 name: Publish Package
 
 on:
-  push:
+  workflow_run:
+    workflows:
+      - "Deploy Docs"
     tags:
       - '*'
+    types: 
+      - completed
 
 jobs:
   Publish:
